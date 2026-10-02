@@ -19,31 +19,41 @@
 </head>
 <body>
 
-  <!-- Cinta Superior Institucional ANFA Biobío -->
-  <div class="official-top-ribbon">
-    <div>
-      <span>🇨🇱 <strong>ANFA Región del Biobío</strong> • Asociación de Fútbol Amateur de Arauco (10 Clubes Afiliados) • Sede: Julio Montt Nº 386, Población 10 de Julio</span>
+  <!-- Tira Superior Oficial Web Clubes (Estilo LaLiga EA Sports) -->
+  <div class="laliga-clubes-strip">
+    <div class="laliga-clubes-label">
+      <span>🛡️</span> <span>Web Clubes AFA:</span>
     </div>
-    <div style="display: flex; gap: 1rem;">
-      <span>Reglamento Oficial ANFA 2026</span>
-      <a href="#business-view" onclick="document.querySelector('[data-target=\'business-view\']').click()">💼 Presentación para Directivas</a>
+    <div id="laliga-clubes-list" class="laliga-clubes-list">
+      <!-- Llenado dinámico con los 10 clubes oficiales de Arauco -->
     </div>
   </div>
 
-  <!-- Encabezado Principal -->
+  <!-- Cinta Superior Institucional ANFA Biobío & Historia -->
+  <div class="official-top-ribbon">
+    <div>
+      <span>🇨🇱 <strong>Asociación de Fútbol de Arauco</strong> • Fundada el 1 de Octubre de 1940 (86 Años • 10ª más antigua del Biobío) • Presidente: <strong>Sr. Claudio Pampaloni Altamirano</strong> • Sede: Julio Montt Nº 386</span>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <span>📺 Voz Deportiva (Transmisión Oficial)</span>
+      <a href="#business-view" onclick="document.querySelector('[data-target=\'business-view\']').click()">💼 Presentación Directivas</a>
+    </div>
+  </div>
+
+  <!-- Encabezado Principal Estilo LaLiga EA Sports -->
   <header class="app-header">
     <div class="header-container">
-      <!-- Marca y Subtítulo de Asociación Dinámica (Estilo FIFA EA Sports FC) -->
+      <!-- Marca LigaMaster con emblema rojo oficial estilo EA Sports FC -->
       <a href="#" class="brand">
-        <div class="brand-icon">
-          <span style="filter: drop-shadow(0 0 8px rgba(0, 255, 133, 0.8)); font-size: 1.6rem;">⚽</span>
+        <div class="brand-icon" style="background: linear-gradient(135deg, #e51b24 0%, #ff2b44 100%); border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(255, 43, 68, 0.4);">
+          <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));">⚽</span>
         </div>
         <div class="brand-info">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <h1 id="header-league-title" style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; color: #ffffff; margin: 0;">
-              LIGA<span style="color: var(--accent-pitch); text-shadow: 0 0 12px rgba(0, 255, 133, 0.6);">MASTER</span>
+            <h1 id="header-league-title" style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; letter-spacing: -0.03em; color: #ffffff; margin: 0;">
+              LIGA<span style="color: #ff2b44; text-shadow: 0 0 14px rgba(255, 43, 68, 0.7);">MASTER</span>
             </h1>
-            <span class="status-badge habilitado" style="font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(0, 255, 133, 0.15); border: 1px solid var(--accent-pitch); color: var(--accent-pitch); font-weight: 800;">OFICIAL 2026</span>
+            <span class="status-badge habilitado" style="font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(255, 43, 68, 0.15); border: 1px solid #ff2b44; color: #ff4d6d; font-weight: 800;">EA SPORTS FC ED.</span>
           </div>
           <span id="header-league-subtitle" style="font-size: 0.7rem; color: #94a3b8; font-weight: 600; letter-spacing: 0.04em;">ASOCIACIÓN DE FÚTBOL ARAUCO • BIOBÍO CHILE</span>
         </div>
@@ -51,9 +61,9 @@
 
       <!-- Selector Rápido de Asociación (Multi-Tenant Demo) -->
       <div class="assoc-switcher-box" title="Cambiar Asociación para demostración o presentación a otras comunas">
-        <span style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">📍 Asociación:</span>
+        <span style="font-size: 0.72rem; color: #ff4d6d; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">📍 Torneo:</span>
         <select id="select-active-association" class="assoc-select">
-          <option value="arauco">⚓ ANFA Arauco (10 Clubes)</option>
+          <option value="arauco">⚓ AFA Arauco (10 Clubes)</option>
           <option value="lebu">🌊 ANFA Lebu (Capital Provincial)</option>
           <option value="canete">🌲 ANFA Cañete (Histórica)</option>
           <option value="curanilahue">⛏️ ANFA Curanilahue (Minera)</option>
@@ -73,9 +83,9 @@
           📢 Compartir
         </button>
 
-        <!-- Botón Selector de Experiencia / Rol (Visita vs Árbitro vs Directiva) -->
-        <button class="btn btn-sm btn-login btn-fifa-glow" id="btn-header-login" title="Cambiar perfil de acceso (Visita / Árbitro / Directiva)">
-          <span>⚡</span> <span id="current-role-label">Perfil: Visita</span>
+        <!-- Botón Estilo LaLiga "ENTRA EN MILIGA" -->
+        <button class="btn-entrar-miliga" id="btn-header-login" title="Acceso a Turno de Cancha, Árbitros y Directivas">
+          <span>👤</span> <span id="current-role-label">ENTRA EN MILIGA</span>
         </button>
       </div>
     </div>
@@ -410,65 +420,95 @@
          ==================================================================== -->
     <section id="standings-view" class="tab-view">
       
-      <!-- Selector de Series Oficiales de ANFA Arauco -->
-      <div class="content-card" style="margin-bottom: 1.25rem; padding: 1rem 1.25rem;">
-        <div style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">
-          Seleccionar Serie Oficial de Competición:
+      <!-- Banner Héroe Rojo Oficial LaLiga EA Sports (LIGAMASTER) -->
+      <div class="laliga-hero-banner">
+        <div class="laliga-breadcrumb">
+          <span>Inicio</span> <span>&gt;</span> <span>Estadísticas Oficiales AFA Arauco</span> <span>&gt;</span> <span>Temporada 2026/27</span>
         </div>
-        <div id="standings-series-selector" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <!-- Llenado dinámico desde standings.js -->
+        <h2 class="laliga-hero-title">
+          ESTADÍSTICAS LIGAMASTER 2026/27
+        </h2>
+        <div class="laliga-selectors-row">
+          <select id="laliga-series-dropdown" class="laliga-select" onchange="window.ligaproChangeSeries(this.value)">
+            <option value="honor">🏆 LIGAMASTER SERIE DE HONOR</option>
+            <option value="senior_35">⭐ SERIE SENIOR (35+ AÑOS)</option>
+            <option value="juvenil">🌱 SERIE JUVENIL (SUB-17)</option>
+            <option value="general">📊 TABLA GENERAL ACUMULADA</option>
+          </select>
+          <select id="laliga-club-filter-dropdown" class="laliga-select">
+            <option value="all">Todos los 10 clubes de Arauco</option>
+            <option value="club-pelantaro">Pelantaro (1929)</option>
+            <option value="club-arauco">C.D. Arauco (1939)</option>
+            <option value="club-colo-colo">Colo-Colo Arauco (1948)</option>
+            <option value="club-arturo-prat">Arturo Prat (1952)</option>
+            <option value="club-jorge-robledo">Jorge Robledo (1954)</option>
+            <option value="club-gente-de-mar">Gente de Mar (1960)</option>
+            <option value="club-caupolican">Caupolicán (1965)</option>
+            <option value="club-celulosa-arauco">Celulosa Arauco (1972)</option>
+            <option value="club-brisas-del-mar">Brisas del Mar (1978)</option>
+            <option value="club-real-jose-maria">Real José María (2026)</option>
+          </select>
         </div>
       </div>
 
-      <div class="standings-grid-layout">
-        
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4 id="standings-series-title">🏆 Serie de Honor (Primera Adulta) - Clasificatoria Copa de Campeones</h4>
-            <span style="font-size: 0.72rem; color: var(--accent-pitch); font-weight: 700;">Calculada en Tiempo Real</span>
-          </div>
-          <table class="standings-table">
-            <thead>
-              <tr>
-                <th style="width: 35px;">Pos</th>
-                <th class="th-team">Club</th>
-                <th title="Partidos Jugados">PJ</th>
-                <th title="Partidos Ganados">PG</th>
-                <th title="Partidos Empatados">PE</th>
-                <th title="Partidos Perdidos">PP</th>
-                <th title="Goles a Favor">GF</th>
-                <th title="Goles en Contra">GC</th>
-                <th title="Diferencia de Goles">DG</th>
-                <th title="Puntos Oficiales">PTS</th>
-              </tr>
-            </thead>
-            <tbody id="standings-table-body">
-              <!-- Renderizado dinámico desde standings.js -->
-            </tbody>
-          </table>
-        </div>
+      <!-- Barra de Filtros en Pastillas (Pills) estilo LaLiga EA Sports -->
+      <div class="laliga-pills-nav">
+        <button class="laliga-pill active" data-stat="goleadores">Goleadores</button>
+        <button class="laliga-pill" data-stat="asistencias">Asistencias</button>
+        <button class="laliga-pill" data-stat="amarillas">Tarjetas amarillas</button>
+        <button class="laliga-pill" data-stat="rojas">Tarjetas rojas</button>
+        <button class="laliga-pill" data-stat="paradas">Paradas / Arqueros</button>
+        <button class="laliga-pill" data-stat="equipo">Tabla de Posiciones (Equipos)</button>
+      </div>
 
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4>👟 Goleadores de la Comuna</h4>
-            <span style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700;">Bota de Oro Arauco</span>
-          </div>
-          <div id="top-scorers-list">
+      <!-- Tabla 1: Estadísticas de Jugadores (LaLiga EA Sports Style) -->
+      <div id="laliga-players-table-wrapper" class="laliga-stats-card">
+        <table class="laliga-stats-table">
+          <thead>
+            <tr>
+              <th style="width: 45px;">#</th>
+              <th>NOMBRE</th>
+              <th>EQUIPO</th>
+              <th id="laliga-metric-header" style="text-align: center;">GOLES</th>
+              <th style="text-align: center;">PARTIDOS JUGADOS</th>
+              <th id="laliga-avg-header" style="text-align: center;">PROMEDIO POR PARTIDO</th>
+            </tr>
+          </thead>
+          <tbody id="laliga-stats-body">
             <!-- Renderizado dinámico desde standings.js -->
-          </div>
-
-          <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 255, 133,0.08); border: 1px solid rgba(0, 255, 133,0.2); border-radius: var(--radius-md);">
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
-              <span style="font-size: 1.2rem;">🤝</span>
-              <strong style="font-size: 0.85rem; color: var(--accent-pitch);">Premio Fair Play ANFA Biobío</strong>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary);">
-              El sistema contabiliza automáticamente amonestaciones y expulsiones para premiar al club con mejor conducta deportiva de la temporada.
-            </p>
-          </div>
-        </div>
-
+          </tbody>
+        </table>
       </div>
+
+      <!-- Tabla 2: Tabla de Posiciones de Clubes (Se activa al elegir 'Equipo') -->
+      <div id="laliga-clubs-table-wrapper" class="laliga-stats-card" style="display: none; padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h4 id="standings-series-title" style="margin: 0; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: #0f172a;">
+            🏆 Tabla de Posiciones Oficial ANFA Arauco
+          </h4>
+          <span style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 700;">EN VIVO</span>
+        </div>
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th style="width: 35px;">Pos</th>
+              <th class="th-team">Club</th>
+              <th title="Partidos Jugados">PJ</th>
+              <th title="Partidos Ganados">PG</th>
+              <th title="Partidos Empatados">PE</th>
+              <th title="Partidos Perdidos">PP</th>
+              <th title="Goles a Favor">GF</th>
+              <th title="Goles en Contra">GC</th>
+              <th title="Diferencia de Goles">DG</th>
+              <th title="Puntos Oficiales">PTS</th>
+            </tr>
+          </thead>
+          <tbody id="standings-table-body">
+            <!-- Renderizado dinámico desde standings.js -->
+          </tbody>
+        </table>
+      </div>
+
     </section>
 
     <!-- ====================================================================
@@ -954,6 +994,264 @@
           <button class="btn btn-danger" id="btn-reset-full-db" style="padding: 0.75rem 1.5rem;">
             🧹 Restablecer Datos de Demostración
           </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MURO DE PATROCINADORES Y FOOTER OFICIAL ESTILO LALIGA EA SPORTS
+         ==================================================================== -->
+    <section class="laliga-sponsors-section">
+      <div class="laliga-sponsors-header">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #fee2e2; color: #dc2626; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.75rem;">
+          <span>⭐</span> <span>Partners & Auspiciadores Oficiales</span>
+        </div>
+        <h3>Patrocinadores Oficiales • Temporada 2026/27</h3>
+        <p>Instituciones y marcas que apoyan el desarrollo del fútbol amateur en la Asociación de Arauco</p>
+      </div>
+
+      <!-- Fila 1: Main Global & Institutional Partners -->
+      <div class="laliga-sponsors-grid">
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🐆</span>
+          </div>
+          <strong>PUMA</strong>
+          <small>Balón Oficial ANFA</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🖥️</span>
+          </div>
+          <strong>Microsoft</strong>
+          <small>Partner Tecnológico Cloud</small>
+        </div>
+
+        <div class="laliga-sponsor-item" style="border: 1px solid #fed7aa; background: #fff7ed;">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🎙️</span>
+          </div>
+          <strong style="color: #c2410c;">Voz Deportiva</strong>
+          <small style="color: #ea580c; font-weight: 700;">Media Partner Oficial (20:00)</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🌲</span>
+          </div>
+          <strong>Celulosa Arauco</strong>
+          <small>Patrocinador Histórico</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🏛️</span>
+          </div>
+          <strong>I. Municipalidad</strong>
+          <small>Auspicio Comunal Arauco</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🔋</span>
+          </div>
+          <strong>DURACELL</strong>
+          <small>Tiempo Añadido Oficial</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🛞</span>
+          </div>
+          <strong>BKT TIRES</strong>
+          <small>Neumático Oficial</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 2rem;">🚗</span>
+          </div>
+          <strong>Volkswagen</strong>
+          <small>Vehículo Oficial</small>
+        </div>
+      </div>
+
+      <!-- Fila 2: Regional & Comunal Collaborators -->
+      <div class="laliga-sponsors-grid" style="padding-top: 2rem; border-bottom: none;">
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">🍔</span>
+          </div>
+          <strong>Uber Eats</strong>
+          <small>Delivery Oficial Tercer Tiempo</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">🏡</span>
+          </div>
+          <strong>Airbnb</strong>
+          <small>Alojamientos Biobío</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">🔧</span>
+          </div>
+          <strong>Ferretería Arauco</strong>
+          <small>Infraestructura & Recintos</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">💧</span>
+          </div>
+          <strong>Aguas de Arauco</strong>
+          <small>Hidratación Oficial</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">📻</span>
+          </div>
+          <strong>Radio Indómita</strong>
+          <small>Transmisión Radial 90.9 FM</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">🥖</span>
+          </div>
+          <strong>Panadería San Pedro</strong>
+          <small>Colaborador Comunal</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">🎴</span>
+          </div>
+          <strong>Panini ANFA</strong>
+          <small>Álbum Oficial de Clubes</small>
+        </div>
+
+        <div class="laliga-sponsor-item">
+          <div class="laliga-sponsor-logo-box">
+            <span style="font-size: 1.8rem;">⚽</span>
+          </div>
+          <strong>Sorare Amateur</strong>
+          <small>Fantasy Oficial</small>
+        </div>
+      </div>
+
+      <!-- Barra Roja Oficial de Marca & Miliga (LaLiga EA Sports Style) -->
+      <div class="laliga-red-footer">
+        <div class="laliga-footer-brand">
+          <div style="background: linear-gradient(135deg, #e51b24 0%, #ff2b44 100%); width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(229, 27, 36, 0.4);">
+            <span style="font-size: 1.4rem;">⚽</span>
+          </div>
+          <div>
+            <h2 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: #ff2b44; letter-spacing: -0.04em; margin: 0; line-height: 1;">
+              LIGA<span style="color: #0f172a;">MASTER</span>
+            </h2>
+            <small style="font-size: 0.65rem; color: #64748b; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
+              ASOCIACIÓN DE FÚTBOL DE ARAUCO
+            </small>
+          </div>
+        </div>
+
+        <!-- Redes Sociales Oficiales -->
+        <div class="laliga-footer-socials">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="laliga-social-icon" title="Facebook Oficial Voz Deportiva & AFA Arauco">
+            <span>📘</span>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="laliga-social-icon" title="Instagram Oficial">
+            <span>📸</span>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="laliga-social-icon" title="YouTube Voz Deportiva Transmisiones">
+            <span>▶️</span>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="laliga-social-icon" title="X / Twitter">
+            <span>✖️</span>
+          </a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="laliga-social-icon" title="TikTok Oficial">
+            <span>🎵</span>
+          </a>
+        </div>
+
+        <!-- Botón Oficial Estilo LaLiga 'ENTRA EN MILIGA' -->
+        <div>
+          <button class="btn-entrar-miliga" onclick="window.ligaproOpenWelcomePortal()">
+            <span>👤</span> ENTRA EN MILIGA
+          </button>
+        </div>
+      </div>
+
+      <!-- Columnas de Navegación Oficial e Información -->
+      <div class="laliga-footer-cols">
+        <div class="laliga-footer-col">
+          <h5>LIGAMASTER SERIES</h5>
+          <ul>
+            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('honor')">Serie de Honor</a></li>
+            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('senior_35')">Serie Senior (35+ Años)</a></li>
+            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('juvenil')">Serie Juvenil (Sub-17)</a></li>
+            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('general')">Tabla General Acumulada</a></li>
+            <li><a href="#fixture-view" onclick="document.querySelector('[data-target=\'fixture-view\']').click()">Calendario & Programación</a></li>
+          </ul>
+        </div>
+
+        <div class="laliga-footer-col">
+          <h5>CLUBES ASOCIADOS</h5>
+          <ul>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Pelantaro (1929)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">C.D. Arauco (1939)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Colo-Colo Arauco (1948)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Arturo Prat (1952)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Jorge Robledo (1954)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Gente de Mar (1960)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Caupolicán (1965)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Celulosa Arauco (1972)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Brisas del Mar (1978)</a></li>
+            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Real José María (2026)</a></li>
+          </ul>
+        </div>
+
+        <div class="laliga-footer-col">
+          <h5>TRANSMISIONES & PRENSA</h5>
+          <ul>
+            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Voz Deportiva (Lun-Mié-Vie 20:00)</a></li>
+            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Sala de Prensa Comunal</a></li>
+            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Alertas de Gol al Celular</a></li>
+            <li><a href="#business-view" onclick="document.querySelector('[data-target=\'business-view\']').click()">Kit de Difusión Redes</a></li>
+            <li><a href="#" onclick="document.getElementById('modal-blank-sheet-backdrop').classList.add('active')">Planilla Oficial en Blanco A4</a></li>
+          </ul>
+        </div>
+
+        <div class="laliga-footer-col">
+          <h5>INSTITUCIONAL AFA</h5>
+          <ul>
+            <li><span>Asociación de Fútbol de Arauco</span></li>
+            <li><span>Fundada el 1 de Octubre de 1940</span></li>
+            <li><span>86 Años de Historia (10ª más antigua)</span></li>
+            <li><span>Presidente: Sr. Claudio Pampaloni A.</span></li>
+            <li><span>Colegio de Árbitros Arauco (CAPA)</span></li>
+            <li><span>Sede Oficial: Julio Montt Nº 386</span></li>
+            <li><a href="#regulations-view" onclick="document.querySelector('[data-target=\'regulations-view\']').click()">Reglamento ANFA 2026</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Legal & Copyright -->
+      <div class="laliga-bottom-legal">
+        <div>
+          © 2026-2027 <strong>LigaMaster</strong> • Desarrollado para la <strong>Asociación de Fútbol de Arauco (AFA)</strong>. Afiliada a ANFA Región del Biobío.
+        </div>
+        <div style="display: flex; gap: 1rem;">
+          <a href="#" style="color: #94a3b8; text-decoration: none;">Política de Privacidad</a>
+          <span>•</span>
+          <a href="#" style="color: #94a3b8; text-decoration: none;">Términos y Condiciones ANFA</a>
+          <span>•</span>
+          <a href="#" style="color: #94a3b8; text-decoration: none;">Contacto Directiva</a>
         </div>
       </div>
     </section>

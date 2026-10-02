@@ -6,7 +6,8 @@
 import { getDb, resetDb, exportDbAsJson, importDbFromJson, AVAILABLE_ASSOCIATIONS, getActiveAssociation, switchAssociation } from './data.js';
 import { initAuth, getCurrentRole } from './auth.js';
 import { initPapeleta, renderPapeletaHeader, renderPapeletaRoster, renderPapeletaTimeline, renderMulticanchaBar, saveEventFromModal } from './papeleta.js';
-import { renderStandingsView, renderTopScorersView } from './standings.js';
+import { renderStandingsView, renderTopScorersView, initLaLigaStats, renderLaLigaStatsTable } from './standings.js';
+import { getClubBadgeSvg } from './badges.js';
 import { initPlayersModule, renderPlayersView, renderSanctionsView, renderClubsHistoryView, renderRegulationsView } from './players.js';
 import { initVenuesModule, renderVenuesView } from './venues.js';
 import { initSeleccionModule, renderSeleccionView } from './seleccion.js';
@@ -52,10 +53,11 @@ function initApp() {
   initNewsModule();
   setupNavigationTabs();
   setupAssociationSwitcher();
-  setupCommercialAndSocialModals();
+  renderWebClubesStrip();
   initPapeleta();
   renderStandingsView();
   renderTopScorersView();
+  initLaLigaStats();
   initPlayersModule();
   renderFixtureView();
   initVenuesModule();
@@ -115,6 +117,7 @@ export function switchTab(targetViewId) {
   } else if (targetViewId === 'standings-view') {
     renderStandingsView();
     renderTopScorersView();
+    renderLaLigaStatsTable();
   } else if (targetViewId === 'players-view') {
     renderPlayersView();
   } else if (targetViewId === 'clubs-view') {
@@ -581,4 +584,25 @@ function setupGoalCelebration() {
     }
   });
 }
+
+/**
+ * Tira Superior Web Clubes (Estilo LaLiga EA Sports)
+ * Muestra los 10 clubes oficiales en miniatura circular interactiva
+ */
+export function renderWebClubesStrip() {
+  const container = document.getElementById('laliga-clubes-list');
+  if (!container) return;
+  const db = getDb();
+  let html = '';
+  db.clubs.forEach(c => {
+    html += `
+      <button class="laliga-club-item" onclick="window.ligaproSelectClub('${c.id}'); document.querySelector('[data-target=\\'players-view\\']')?.click();" title="${c.name} • Fundado: ${c.exactFoundationDate}">
+        <span style="display: inline-flex; align-items: center;">${getClubBadgeSvg(c.id, 28)}</span>
+        <span class="club-mini-name">${c.shortName}</span>
+      </button>
+    `;
+  });
+  container.innerHTML = html;
+}
+
 

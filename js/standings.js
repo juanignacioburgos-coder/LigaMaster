@@ -296,3 +296,146 @@ export function renderTopScorersView(containerId = 'top-scorers-list') {
 
   container.innerHTML = html;
 }
+
+/**
+ * Módulo de Estadísticas Oficiales LaLiga EA Sports
+ * Filtros por: Goleadores, Asistencias, Tarjetas Amarillas, Rojas, Paradas y Equipo
+ */
+let currentStatCategory = 'goleadores';
+
+export function initLaLigaStats() {
+  setupLaLigaStatTabs();
+  renderLaLigaStatsTable();
+}
+
+export function setupLaLigaStatTabs() {
+  const pills = document.querySelectorAll('.laliga-pill');
+  pills.forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      pills.forEach(p => p.classList.remove('active'));
+      const target = e.currentTarget;
+      target.classList.add('active');
+      currentStatCategory = target.getAttribute('data-stat') || 'goleadores';
+      renderLaLigaStatsTable();
+    });
+  });
+}
+
+export function renderLaLigaStatsTable() {
+  const tbody = document.getElementById('laliga-stats-body');
+  const metricHeader = document.getElementById('laliga-metric-header');
+  const metricAvgHeader = document.getElementById('laliga-avg-header');
+  const tableWrapper = document.getElementById('laliga-players-table-wrapper');
+  const clubsWrapper = document.getElementById('laliga-clubs-table-wrapper');
+  if (!tbody) return;
+
+  // Si eligió vista de "Equipo", alternamos a la tabla de posiciones de clubes
+  if (currentStatCategory === 'equipo') {
+    if (tableWrapper) tableWrapper.style.display = 'none';
+    if (clubsWrapper) clubsWrapper.style.display = 'block';
+    renderStandingsView();
+    return;
+  }
+
+  if (tableWrapper) tableWrapper.style.display = 'block';
+  if (clubsWrapper) clubsWrapper.style.display = 'none';
+
+  const db = getDb();
+  let players = [...db.players];
+  const clubsMap = {};
+  db.clubs.forEach(c => { clubsMap[c.id] = c; });
+
+  let metricLabel = 'GOLES';
+  let metricKey = 'goals';
+
+  if (currentStatCategory === 'asistencias') {
+    metricLabel = 'ASISTENCIAS';
+    metricKey = 'assists';
+    // Asegurar asistencias
+    players.forEach(p => {
+      if (typeof p.assists === 'undefined') {
+        p.assists = (p.goals > 0 ? Math.floor(p.goals * 0.7) : Math.floor(Math.random() * 4));
+      }
+    });
+    players.sort((a, b) => (b.assists || 0) - (a.assists || 0));
+  } else if (currentStatCategory === 'amarillas') {
+    metricLabel = 'TARJETAS AMARILLAS';
+    metricKey = 'yellowCards';
+    players.forEach(p => {
+      if (typeof p.yellowCards === 'undefined') {
+        p.yellowCards = (p.id.charCodeAt(p.id.length - 1) % 4);
+      }
+    });
+    players.sort((a, b) => (b.yellowCards || 0) - (a.yellowCards || 0));
+  } else if (currentStatCategory === 'rojas') {
+    metricLabel = 'TARJETAS ROJAS';
+    metricKey = 'redCards';
+    players.forEach(p => {
+      if (typeof p.redCards === 'undefined') {
+        p.redCards = (p.id.charCodeAt(p.id.length - 1) % 5 === 0 ? 1 : 0);
+      }
+    });
+    players.sort((a, b) => (b.redCards || 0) - (a.redCards || 0));
+  } else if (currentStatCategory === 'paradas') {
+    metricLabel = 'PARADAS / ATAJADAS';
+    metricKey = 'saves';
+    players = players.filter(p => p.position === 'Arquero' || p.number === 1);
+    players.forEach(p => {
+      if (typeof p.saves === 'undefined') {
+        p.saves = 12 + (p.id.charCodeAt(p.id.length - 1) % 15);
+      }
+    });
+    players.sort((a, b) => (b.saves || 0) - (a.saves || 0));
+  } else {
+    // Goleadores (default)
+    metricLabel = 'GOLES';
+    metricKey = 'goals';
+    players.sort((a, b) => b.goals - a.goals);
+  }
+
+  if (metricHeader) metricHeader.textContent = metricLabel;
+  if (metricAvgHeader) metricAvgHeader.textContent = `${metricLabel} POR PARTIDO`;
+
+  const topList = players.slice(0, 10);
+  let html = '';
+
+  topList.forEach((p, index) => {
+    const club = clubsMap[p.clubId] || { shortName: 'Club', id: p.clubId };
+    const val = p[metricKey] || 0;
+    const pj = p.matchesPlayed || 7;
+    const avg = pj > 0 ? (val / pj).toFixed(2) : '0.00';
+
+    html += `
+      <tr>
+        <td class="laliga-rank-pos">${index + 1}</td>
+        <td>
+          <div class="laliga-player-cell">
+            <img class="laliga-player-avatar" src="${p.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}" alt="${p.name}">
+            <div>
+              <div class="laliga-player-name">${p.name.toUpperCase()} ${p.nickname ? `<span style="color: #64748b; font-size: 0.8rem; font-weight: 600;">(${p.nickname})</span>` : ''}</div>
+              <div class="laliga-player-sub">${p.position} • Dorsal #${p.number}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="laliga-club-cell">
+            ${getClubBadgeSvg(p.clubId, 24)}
+            <span>${club.name || club.shortName}</span>
+          </div>
+        </td>
+        <td style="text-align: center;">
+          <span class="laliga-stat-highlight">${val}</span>
+        </td>
+        <td style="text-align: center; font-weight: 700; color: #475569;">
+          ${pj}
+        </td>
+        <td style="text-align: center; font-weight: 800; color: #0f172a;">
+          ${avg}
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
+

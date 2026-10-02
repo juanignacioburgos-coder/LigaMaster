@@ -1,416 +1,412 @@
 /**
- * LigaPro Amateur - Catálogo Oficial de Escudos Vectoriales (SVG)
+ * LigaMaster - Catálogo Oficial de Escudos Vectoriales (SVG)
  * Asociación de Fútbol Amateur de Arauco (ANFA Arauco / ANFA Biobío)
  * 
- * Diseños heráldicos vectoriales optimizados para alta definición,
- * preservando la identidad patrimonial de cada institución.
+ * Diseños heráldicos vectoriales fieles a los escudos oficiales de los 10 clubes
+ * y de la Asociación de Fútbol de Arauco (AFA).
  */
 
 export const CLUB_BADGES_SVG = {
-  // 1. Club Deportivo Arauco (Fundado el 01/01/1939 - Tradición Marina y Decana)
-  'club-arauco': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-arauco" xmlns="http://www.w3.org/2000/svg">
+  // 1. ASOCIACIÓN DE FÚTBOL ARAUCO (AFA) / SELECCIÓN COMUNAL
+  // Corona mural dorada de 5 almenas, borde verde y rojo, cabeza de toqui mapuche con trarilonco azul/blanco, letras AFA y Arauco
+  'asociacion-arauco': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-afa" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="grad-cda-navy" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0f172a" />
-          <stop offset="100%" stop-color="#1e3a8a" />
-        </linearGradient>
-        <linearGradient id="grad-cda-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fbbf24" />
-          <stop offset="100%" stop-color="#d97706" />
+        <linearGradient id="afa-gold-wall" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde047" />
+          <stop offset="50%" stop-color="#eab308" />
+          <stop offset="100%" stop-color="#ca8a04" />
         </linearGradient>
       </defs>
-      <!-- Escudo base -->
-      <path d="M 60 10 C 95 10 110 20 110 55 C 110 92 60 114 60 114 C 60 114 10 92 10 55 C 10 20 25 10 60 10 Z" fill="url(#grad-cda-navy)" stroke="url(#grad-cda-gold)" stroke-width="4" />
-      <path d="M 60 16 C 90 16 102 24 102 54 C 102 86 60 106 60 106 C 60 106 18 86 18 54 C 18 24 30 16 60 16 Z" fill="none" stroke="rgba(251,191,36,0.3)" stroke-width="1.5" />
-      <!-- Barra Superior Dorada -->
-      <path d="M 22 28 Q 60 32 98 28 L 102 38 Q 60 43 18 38 Z" fill="url(#grad-cda-gold)" />
-      <text x="60" y="37" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="10" fill="#0f172a" text-anchor="middle" letter-spacing="1">C. D. ARAUCO</text>
-      <!-- Ancla Histórica Marina -->
-      <g transform="translate(60, 68) scale(0.65)" stroke="url(#grad-cda-gold)" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="0" cy="-28" r="8" fill="url(#grad-cda-gold)" />
-        <line x1="0" y1="-20" x2="0" y2="28" />
-        <line x1="-16" y1="-8" x2="16" y2="-8" />
-        <path d="M -26 12 C -20 32 20 32 26 12" />
-        <polygon points="-28,12 -23,12 -26,6" fill="url(#grad-cda-gold)" />
-        <polygon points="28,12 23,12 26,6" fill="url(#grad-cda-gold)" />
+      <!-- Corona Mural de 5 Almenas (Castillo Dorado Comunal) -->
+      <path d="M 32 30 L 32 20 L 40 20 L 40 24 L 48 20 L 56 24 L 64 20 L 72 24 L 80 20 L 88 20 L 88 30 Z" fill="url(#afa-gold-wall)" stroke="#a16207" stroke-width="1.5" />
+      <line x1="32" y1="28" x2="88" y2="28" stroke="#713f12" stroke-width="1" />
+      
+      <!-- Escudo Base con borde verde y rojo -->
+      <path d="M 34 32 L 86 32 C 86 70 60 88 60 88 C 60 88 34 70 34 32 Z" fill="#ffffff" stroke="#16a34a" stroke-width="3.5" />
+      <path d="M 37 34 L 83 34 C 83 68 60 84 60 84 C 60 84 37 68 37 34 Z" fill="#ffffff" stroke="#dc2626" stroke-width="1.8" />
+      
+      <!-- Texto Superior: Asociación de Fútbol -->
+      <text x="60" y="42" font-family="'Inter', sans-serif" font-weight="900" font-size="5" fill="#15803d" text-anchor="middle" letter-spacing="0.2">ASOCIACIÓN DE FÚTBOL</text>
+      
+      <!-- Cabeza de Guerrero Mapuche de Perfil con Trarilonco Azul y Blanco -->
+      <g transform="translate(42, 45) scale(0.38)">
+        <!-- Perfil y trarilonco -->
+        <path d="M 12 12 Q 22 2 34 10 Q 42 16 45 28 C 45 36 38 42 36 50 C 35 55 28 62 20 64 C 14 62 10 52 14 44 C 18 36 12 28 8 20 Z" fill="#1e3a8a" />
+        <path d="M 16 16 Q 25 10 33 16 Q 38 20 40 30 C 40 38 34 42 32 48 Q 28 55 22 57 C 18 55 15 48 18 40 C 22 32 17 24 14 18 Z" fill="#ffffff" />
+        <path d="M 22 22 Q 28 18 33 22 Q 36 26 37 34 C 36 40 32 44 30 48 Q 26 52 22 53 Z" fill="#1e3a8a" />
       </g>
-      <!-- Año 1939 -->
-      <text x="60" y="100" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="9" fill="#fbbf24" text-anchor="middle">1939</text>
+      
+      <!-- Siglas AFA en azul estilizado a la derecha -->
+      <text x="74" y="55" font-family="'Outfit', sans-serif" font-weight="900" font-size="8.5" fill="#1d4ed8" text-anchor="middle" font-style="italic">A</text>
+      <text x="74" y="63" font-family="'Outfit', sans-serif" font-weight="900" font-size="8.5" fill="#1d4ed8" text-anchor="middle" font-style="italic">F</text>
+      <text x="74" y="71" font-family="'Outfit', sans-serif" font-weight="900" font-size="8.5" fill="#1d4ed8" text-anchor="middle" font-style="italic">A</text>
+      
+      <!-- Nombre Arauco abajo en rojo -->
+      <text x="60" y="80" font-family="'Inter', sans-serif" font-weight="900" font-size="6.5" fill="#dc2626" text-anchor="middle" letter-spacing="0.5">Arauco</text>
     </svg>
   `,
 
-  // 2. Club Deportivo Pelantaro (Fundado el 20/08/1929 - Los Guerreros Toqui)
+  'seleccion-arauco': (size = 36) => CLUB_BADGES_SVG['asociacion-arauco'](size),
+
+  // 2. CLUB DEPORTIVO PELANTARO (Fundado: 20 de agosto de 1929 - El Decano)
+  // Escudo blanco con borde azul marino, jinete Toqui Pelantaro a caballo con lanza
   'club-pelantaro': (size = 36) => `
     <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-pelantaro" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="pelantaro-clip">
-          <path d="M 60 10 C 95 10 108 22 108 55 C 108 92 60 114 60 114 C 60 114 12 92 12 55 C 12 22 25 10 60 10 Z" />
-        </clipPath>
-      </defs>
-      <!-- Fondo y Franjas Verdes y Blancas -->
-      <g clip-path="url(#pelantaro-clip)">
-        <rect x="0" y="0" width="120" height="120" fill="#ffffff" />
-        <rect x="12" y="0" width="24" height="120" fill="#15803d" />
-        <rect x="48" y="0" width="24" height="120" fill="#15803d" />
-        <rect x="84" y="0" width="24" height="120" fill="#15803d" />
-        <!-- Franja Roja Superior -->
-        <rect x="0" y="0" width="120" height="42" fill="#dc2626" />
-        <text x="60" y="24" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle" letter-spacing="1">PELANTARO</text>
-        <text x="60" y="36" font-family="'Inter', system-ui, sans-serif" font-weight="700" font-size="8" fill="#fecaca" text-anchor="middle">FUNDADO 1929</text>
+      <!-- Escudo base blanco con borde azul -->
+      <path d="M 60 12 C 92 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 28 12 60 12 Z" fill="#ffffff" stroke="#1d4ed8" stroke-width="4.5" />
+      <path d="M 60 17 C 88 17 100 28 100 56 C 100 85 60 105 60 105 C 60 105 20 85 20 56 C 20 28 32 17 60 17 Z" fill="none" stroke="#93c5fd" stroke-width="1.5" />
+      
+      <!-- Encabezado PELANTARO -->
+      <text x="60" y="32" font-family="'Inter', sans-serif" font-weight="900" font-size="9" fill="#1e3a8a" text-anchor="middle" letter-spacing="0.5">PELANTARO</text>
+      
+      <!-- Silueta del Guerrero Toqui Pelantaro a caballo con lanza -->
+      <g transform="translate(60, 58) scale(0.65)">
+        <!-- Caballo al galope en azul -->
+        <path d="M -22 14 C -28 10 -30 2 -24 -6 C -18 -12 -8 -10 2 -8 C 12 -6 22 -14 30 -6 C 36 0 32 12 24 16 C 18 20 8 16 0 18 C -8 20 -16 18 -22 14 Z" fill="#1d4ed8" />
+        <!-- Patas delanteras y traseras -->
+        <path d="M 18 14 L 32 30 L 26 32 L 14 18 Z" fill="#1d4ed8" />
+        <path d="M -16 14 L -24 32 L -29 30 L -20 12 Z" fill="#1d4ed8" />
+        <!-- Jinete con lanza -->
+        <circle cx="2" cy="-14" r="5" fill="#1d4ed8" />
+        <path d="M -4 -8 L 8 -6 L 2 6 L -6 4 Z" fill="#1d4ed8" />
+        <!-- Lanza inclinada -->
+        <line x1="-28" y1="-26" x2="34" y2="12" stroke="#1e3a8a" stroke-width="3" stroke-linecap="round" />
       </g>
-      <!-- Silueta Lanza / Flecha Toqui y Balón -->
-      <circle cx="60" cy="68" r="18" fill="#1e293b" stroke="#ffffff" stroke-width="2.5" />
-      <path d="M 50 68 L 70 68 M 60 58 L 60 78" stroke="#ffffff" stroke-width="2" />
-      <polygon points="60,46 54,58 66,58" fill="#facc15" stroke="#ca8a04" stroke-width="1.5" />
-      <!-- Borde general -->
-      <path d="M 60 10 C 95 10 108 22 108 55 C 108 92 60 114 60 114 C 60 114 12 92 12 55 C 12 22 25 10 60 10 Z" fill="none" stroke="#dc2626" stroke-width="4" />
+      
+      <!-- Subtítulo ARAUCO 1929 -->
+      <text x="60" y="90" font-family="'Inter', sans-serif" font-weight="800" font-size="7.5" fill="#1e3a8a" text-anchor="middle">ARAUCO</text>
+      <text x="60" y="100" font-family="'Inter', sans-serif" font-weight="800" font-size="7" fill="#64748b" text-anchor="middle">• 1929 •</text>
     </svg>
   `,
 
-  // 3. Club Deportivo Arturo Prat (Fundado el 21/05/1952 - Sector California)
+  // 3. CLUB DEPORTIVO ARAUCO (Fundado: 1 de enero de 1939)
+  // Escudo blanco con borde rojo, 2 leones rampantes rojos sosteniendo balón central
+  'club-arauco': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-arauco" xmlns="http://www.w3.org/2000/svg">
+      <!-- Escudo base blanco con borde rojo carmesí -->
+      <path d="M 60 12 C 92 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 28 12 60 12 Z" fill="#ffffff" stroke="#dc2626" stroke-width="4.5" />
+      
+      <!-- Cinta Superior: CLUB DEPORTIVO -->
+      <path d="M 28 26 Q 60 30 92 26 L 90 35 Q 60 38 30 35 Z" fill="#dc2626" />
+      <text x="60" y="33" font-family="'Inter', sans-serif" font-weight="900" font-size="6" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">CLUB DEPORTIVO</text>
+      
+      <!-- Dos Leones Rampantes Rojos -->
+      <!-- León Izquierdo -->
+      <g transform="translate(38, 62) scale(0.48)">
+        <path d="M -8 -20 C -2 -24 6 -20 4 -12 C 2 -6 8 0 10 8 C 12 16 6 24 2 30 C -2 36 -10 32 -14 26 C -18 20 -16 12 -12 6 C -8 0 -12 -14 -8 -20 Z" fill="#dc2626" />
+        <path d="M 2 -4 L 14 -10 L 12 -4 Z" fill="#dc2626" />
+        <path d="M 4 8 L 18 8 L 14 14 Z" fill="#dc2626" />
+        <path d="M -6 24 L -16 36 L -10 38 Z" fill="#dc2626" />
+      </g>
+      <!-- León Derecho -->
+      <g transform="translate(82, 62) scale(-0.48, 0.48)">
+        <path d="M -8 -20 C -2 -24 6 -20 4 -12 C 2 -6 8 0 10 8 C 12 16 6 24 2 30 C -2 36 -10 32 -14 26 C -18 20 -16 12 -12 6 C -8 0 -12 -14 -8 -20 Z" fill="#dc2626" />
+        <path d="M 2 -4 L 14 -10 L 12 -4 Z" fill="#dc2626" />
+        <path d="M 4 8 L 18 8 L 14 14 Z" fill="#dc2626" />
+        <path d="M -6 24 L -16 36 L -10 38 Z" fill="#dc2626" />
+      </g>
+      
+      <!-- Balón de Fútbol Clásico en el Centro -->
+      <circle cx="60" cy="62" r="9" fill="#ffffff" stroke="#000000" stroke-width="1.2" />
+      <polygon points="60,57 64,60 62,64 58,64 56,60" fill="#000000" />
+      
+      <!-- Texto Inferior ARAUCO -->
+      <text x="60" y="88" font-family="'Inter', sans-serif" font-weight="900" font-size="9" fill="#dc2626" text-anchor="middle" letter-spacing="1">ARAUCO</text>
+      <text x="60" y="98" font-family="'Inter', sans-serif" font-weight="700" font-size="6.5" fill="#475569" text-anchor="middle">1939</text>
+    </svg>
+  `,
+
+  // 4. CLUB DEPORTIVO ARTURO PRAT (Fundado: 22 de septiembre de 1952)
+  // Escudo circular negro y amarillo/dorado con gran ancla, estrella arriba y balón
   'club-arturo-prat': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-prat" xmlns="http://www.w3.org/2000/svg">
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-arturo-prat" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="grad-prat-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#1e3a8a" />
-          <stop offset="100%" stop-color="#091e42" />
+        <linearGradient id="prat-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fef08a" />
+          <stop offset="50%" stop-color="#eab308" />
+          <stop offset="100%" stop-color="#a16207" />
         </linearGradient>
       </defs>
-      <!-- Blasón Francés Azul Marino -->
-      <path d="M 20 15 L 100 15 L 100 65 C 100 95 60 112 60 112 C 60 112 20 95 20 65 Z" fill="url(#grad-prat-blue)" stroke="#38bdf8" stroke-width="3.5" />
-      <path d="M 26 21 L 94 21 L 94 64 C 94 88 60 104 60 104 C 60 104 26 88 26 64 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
-      <!-- Texto Superior -->
-      <rect x="22" y="16" width="76" height="18" fill="#ffffff" />
-      <text x="60" y="29" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="9.5" fill="#1e3a8a" text-anchor="middle" letter-spacing="0.5">ARTURO PRAT</text>
-      <!-- Timón y Ancla de la Marina -->
-      <circle cx="60" cy="62" r="20" fill="none" stroke="#38bdf8" stroke-width="3" />
-      <line x1="60" y1="38" x2="60" y2="86" stroke="#38bdf8" stroke-width="2.5" />
-      <line x1="36" y1="62" x2="84" y2="62" stroke="#38bdf8" stroke-width="2.5" />
-      <line x1="43" y1="45" x2="77" y2="79" stroke="#38bdf8" stroke-width="2" />
-      <line x1="43" y1="79" x2="77" y2="45" stroke="#38bdf8" stroke-width="2" />
-      <circle cx="60" cy="62" r="7" fill="#ffffff" stroke="#1e3a8a" stroke-width="2" />
-      <!-- Año y Sector -->
-      <text x="60" y="98" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="8.5" fill="#e0f2fe" text-anchor="middle">1952 • CALIFORNIA</text>
-    </svg>
-  `,
-
-  // 4. Club Deportivo Jorge Robledo (Fundado el 14/06/1954 - Plazoleta Fresia / Estación)
-  'club-jorge-robledo': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-robledo" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad-robledo-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f59e0b" />
-          <stop offset="100%" stop-color="#b45309" />
-        </linearGradient>
-      </defs>
-      <!-- Escudo Azul Real y Oro -->
-      <path d="M 60 10 L 105 22 L 105 65 C 105 96 60 114 60 114 C 60 114 15 96 15 65 L 15 22 Z" fill="#1d4ed8" stroke="url(#grad-robledo-gold)" stroke-width="4" />
-      <!-- Mitad izquierda con rayas doradas -->
-      <path d="M 60 10 L 15 22 L 15 65 C 15 96 60 114 60 114 Z" fill="#1e40af" />
-      <line x1="28" y1="26" x2="28" y2="82" stroke="rgba(245,158,11,0.4)" stroke-width="5" />
-      <line x1="44" y1="20" x2="44" y2="98" stroke="rgba(245,158,11,0.4)" stroke-width="5" />
-      <!-- Gran Estrella Dorada (Homenaje a George Robledo Campeón FA Cup) -->
-      <polygon points="60,26 64,38 77,38 67,46 71,58 60,50 49,58 53,46 43,38 56,38" fill="url(#grad-robledo-gold)" stroke="#ffffff" stroke-width="1" />
-      <!-- Balón de Cuero de época -->
-      <circle cx="60" cy="74" r="14" fill="#ffffff" stroke="#1d4ed8" stroke-width="2" />
-      <circle cx="60" cy="74" r="5" fill="#f59e0b" />
-      <!-- Nombre de la Institución -->
-      <rect x="20" y="92" width="80" height="15" rx="3" fill="#0f172a" stroke="url(#grad-robledo-gold)" stroke-width="1" />
-      <text x="60" y="103" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="8" fill="#f59e0b" text-anchor="middle" letter-spacing="0.5">JORGE ROBLEDO</text>
-    </svg>
-  `,
-
-  // 5. Club Deportivo Caupolicán (Fundado el 03/08/1965 - 'Un Solo Corazón')
-  'club-caupolican': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-caupolican" xmlns="http://www.w3.org/2000/svg">
-      <!-- Escudo Verde Esmeralda y Dorado -->
-      <path d="M 60 12 C 96 12 108 26 108 58 C 108 92 60 114 60 114 C 60 114 12 92 12 58 C 12 26 24 12 60 12 Z" fill="#166534" stroke="#eab308" stroke-width="4" />
-      <!-- Triángulo / Araucaria Nativa -->
-      <polygon points="60,34 40,78 80,78" fill="#14532d" stroke="#facc15" stroke-width="2" />
-      <polygon points="60,42 46,74 74,74" fill="#15803d" />
-      <rect x="57" y="78" width="6" height="10" fill="#78350f" />
-      <!-- Estrella Mapuche de 8 puntas (Guñelve) -->
-      <g transform="translate(60, 32) scale(0.6)">
-        <polygon points="0,-12 4,-4 12,0 4,4 0,12 -4,4 -12,0 -4,-4" fill="#facc15" />
-        <polygon points="-8,-8 0,-4 8,-8 4,0 8,8 0,4 -8,8 -4,0" fill="#facc15" />
+      <!-- Círculo Base Negro con Borde Dorado -->
+      <circle cx="60" cy="60" r="50" fill="#090d16" stroke="url(#prat-gold)" stroke-width="5" />
+      <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(234,179,8,0.4)" stroke-width="1" />
+      
+      <!-- Texto Superior Circular: CLUB DEPORTIVO -->
+      <text x="60" y="27" font-family="'Inter', sans-serif" font-weight="800" font-size="6.5" fill="#eab308" text-anchor="middle" letter-spacing="0.5">CLUB DEPORTIVO</text>
+      
+      <!-- Estrella Dorada Superior -->
+      <polygon points="60,32 62,37 67,37 63,40 65,45 60,42 55,45 57,40 53,37 58,37" fill="url(#prat-gold)" />
+      
+      <!-- Gran Ancla Naval Dorada -->
+      <g transform="translate(60, 60) scale(0.65)" stroke="url(#prat-gold)" fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="0" cy="-22" r="6" fill="url(#prat-gold)" />
+        <line x1="0" y1="-16" x2="0" y2="24" />
+        <line x1="-14" y1="-8" x2="14" y2="-8" />
+        <path d="M -22 10 C -16 26 16 26 22 10" />
+        <polygon points="-24,10 -20,10 -22,4" fill="url(#prat-gold)" />
+        <polygon points="24,10 20,10 22,4" fill="url(#prat-gold)" />
       </g>
-      <!-- Texto -->
-      <text x="60" y="24" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="9" fill="#fef08a" text-anchor="middle" letter-spacing="1">CAUPOLICÁN</text>
-      <text x="60" y="102" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="8.5" fill="#fef08a" text-anchor="middle">1965 • ARAUCO</text>
+      
+      <!-- Balón de Fútbol en el ancla -->
+      <circle cx="60" cy="62" r="5" fill="#ffffff" stroke="#000000" stroke-width="0.8" />
+      
+      <!-- Texto Inferior: ARTURO PRAT 1952 -->
+      <text x="60" y="93" font-family="'Inter', sans-serif" font-weight="900" font-size="7.5" fill="#eab308" text-anchor="middle" letter-spacing="0.5">ARTURO PRAT</text>
+      <text x="60" y="101" font-family="'Inter', sans-serif" font-weight="700" font-size="6" fill="#cbd5e1" text-anchor="middle">1952</text>
     </svg>
   `,
 
-  // 6. Club Deportivo Colo-Colo Arauco (Fundado el 19/04/1961 - Población 10 de Julio)
-  'club-colo-colo': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-colocolo" xmlns="http://www.w3.org/2000/svg">
-      <!-- Escudo Albo con cabecera tricolor -->
-      <path d="M 60 12 L 104 22 L 104 68 C 104 96 60 114 60 114 C 60 114 16 96 16 68 L 16 22 Z" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
-      <!-- Franja Superior Negra y Roja -->
-      <path d="M 16 22 L 104 22 L 104 38 L 16 38 Z" fill="#0f172a" />
-      <rect x="16" y="38" width="88" height="4" fill="#dc2626" />
-      <text x="60" y="33" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="8.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">COLO-COLO ARAUCO</text>
-      <!-- Perfil del Cacique Mapuche con Pluma -->
-      <circle cx="60" cy="66" r="18" fill="#0f172a" />
-      <polygon points="60,40 56,54 64,54" fill="#dc2626" />
-      <circle cx="60" cy="66" r="15" fill="#ffffff" />
-      <path d="M 52 64 C 55 58 65 58 68 64 C 68 74 52 74 52 64 Z" fill="#0f172a" />
-      <!-- Año 1961 -->
-      <text x="60" y="102" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="9" fill="#0f172a" text-anchor="middle">1961</text>
-    </svg>
-  `,
-
-  // 7. Club Deportivo Brisas del Mar (Fundado el 18/09/1965 - Caleta de Tubul)
+  // 5. CLUB DEPORTIVO BRISAS DEL MAR (Fundado: 25 de diciembre de 1978)
+  // Escudo ondulado marino en amarillo y azul real, barco navegando y balón arriba a la izquierda
   'club-brisas-del-mar': (size = 36) => `
     <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-brisas" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad-brisas-sea" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#0284c7" />
-          <stop offset="50%" stop-color="#0369a1" />
-          <stop offset="100%" stop-color="#075985" />
-        </linearGradient>
-      </defs>
-      <!-- Escudo Verde/Azul Marino de Caleta Tubul -->
-      <path d="M 60 10 C 96 10 108 24 108 58 C 108 92 60 114 60 114 C 60 114 12 92 12 58 C 12 24 24 10 60 10 Z" fill="url(#grad-brisas-sea)" stroke="#38bdf8" stroke-width="4" />
-      <!-- Sol Naciente del Golfo de Arauco -->
-      <circle cx="60" cy="46" r="14" fill="#facc15" />
-      <!-- Olas del Pacífico / Caleta Tubul -->
-      <path d="M 16 66 Q 38 52 60 66 Q 82 80 104 66 L 104 90 C 104 90 60 112 60 112 C 60 112 16 90 16 90 Z" fill="#059669" />
-      <path d="M 16 66 Q 38 52 60 66 Q 82 80 104 66" fill="none" stroke="#ffffff" stroke-width="3" />
-      <path d="M 22 76 Q 44 64 66 76 Q 88 88 100 78" fill="none" stroke="#e0f2fe" stroke-width="2" />
-      <!-- Pelícano o Gaviota Costera -->
-      <path d="M 44 38 Q 50 32 60 38 Q 70 32 76 38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-      <!-- Rótulo Tubul -->
-      <text x="60" y="24" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">BRISAS DEL MAR</text>
-      <text x="60" y="103" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="8.5" fill="#fef08a" text-anchor="middle">TUBUL • 1965</text>
+      <!-- Escudo con forma de cresta ondulada -->
+      <path d="M 20 28 Q 60 16 100 28 Q 106 65 60 110 Q 14 65 20 28 Z" fill="#2563eb" stroke="#fbbf24" stroke-width="4.5" />
+      
+      <!-- Mitad Superior Amarilla -->
+      <path d="M 21 29 Q 60 17 99 29 Q 102 52 80 55 Q 60 58 40 55 Q 21 52 21 29 Z" fill="#facc15" />
+      
+      <!-- Texto Superior: C. D. BRISAS DEL MAR -->
+      <text x="60" y="38" font-family="'Inter', sans-serif" font-weight="900" font-size="7" fill="#1e3a8a" text-anchor="middle">C. D.</text>
+      <text x="60" y="47" font-family="'Inter', sans-serif" font-weight="900" font-size="6" fill="#1e3a8a" text-anchor="middle" letter-spacing="0.3">BRISAS DEL MAR</text>
+      
+      <!-- Balón arriba a la izquierda -->
+      <circle cx="34" cy="42" r="5" fill="#ffffff" stroke="#000000" stroke-width="0.8" />
+      
+      <!-- Barco Pesquero Tradicional con casco rojo y velas sobre olas -->
+      <g transform="translate(60, 72) scale(0.65)">
+        <!-- Casco del barco -->
+        <path d="M -22 4 L 22 4 L 16 16 L -16 16 Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.5" />
+        <!-- Cabina y mástil -->
+        <rect x="-8" y="-6" width="16" height="10" fill="#ffffff" stroke="#1e3a8a" stroke-width="1" />
+        <line x1="0" y1="-16" x2="0" y2="4" stroke="#713f12" stroke-width="2" />
+        <!-- Olas marinas en azul -->
+        <path d="M -30 18 Q -15 14 0 18 Q 15 22 30 18" stroke="#60a5fa" stroke-width="3" fill="none" stroke-linecap="round" />
+      </g>
+      
+      <!-- Año 1978 -->
+      <text x="60" y="98" font-family="'Inter', sans-serif" font-weight="800" font-size="7" fill="#fef08a" text-anchor="middle">1978</text>
     </svg>
   `,
 
-  // 8. Club Deportivo Celulosa Arauco (Fundado el 26/08/1972 - Complejo Forestal)
-  'club-celulosa-arauco': (size = 36) => `
+  // 6. CLUB DEPORTIVO CAUPOLICÁN (Fundado: 3 de agosto de 1965)
+  // Escudo circular con franjas verticales rojas y blancas, medallón plateado con relieve del Toqui Caupolicán
+  'club-caupolican': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-caupolican" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="caupolican-inner-circle">
+          <circle cx="60" cy="60" r="48" />
+        </clipPath>
+      </defs>
+      <!-- Borde exterior rojo -->
+      <circle cx="60" cy="60" r="50" fill="#ffffff" stroke="#dc2626" stroke-width="5" />
+      
+      <!-- Franjas verticales rojas y blancas -->
+      <g clip-path="url(#caupolican-inner-circle)">
+        <rect x="0" y="0" width="120" height="120" fill="#ffffff" />
+        <rect x="20" y="0" width="16" height="120" fill="#dc2626" />
+        <rect x="52" y="0" width="16" height="120" fill="#dc2626" />
+        <rect x="84" y="0" width="16" height="120" fill="#dc2626" />
+      </g>
+      
+      <!-- Medallón Central Plateado con el Perfil de Caupolicán -->
+      <circle cx="60" cy="60" r="28" fill="#e2e8f0" stroke="#475569" stroke-width="2.5" />
+      <circle cx="60" cy="60" r="25" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" />
+      
+      <!-- Perfil de Caupolicán con Pluma Mapuche -->
+      <g transform="translate(48, 46) scale(0.42)">
+        <path d="M 12 8 Q 18 2 26 4 C 34 6 38 14 36 24 C 34 32 36 38 32 46 C 28 54 20 58 14 56 C 8 50 12 40 14 32 C 16 26 12 18 10 14 Z" fill="#334155" />
+        <!-- Pluma guerrera superior -->
+        <path d="M 22 6 Q 30 -10 34 -16 Q 36 -6 28 4 Z" fill="#dc2626" />
+      </g>
+      
+      <!-- Texto Circular Superior e Inferior -->
+      <path id="caupo-curve-top" d="M 22 60 A 38 38 0 0 1 98 60" fill="none" />
+      <path id="caupo-curve-bot" d="M 98 60 A 38 38 0 0 1 22 60" fill="none" />
+      <text font-family="'Inter', sans-serif" font-weight="900" font-size="6" fill="#1e293b">
+        <textPath href="#caupo-curve-top" startOffset="50%" text-anchor="middle">C.D. CAUPOLICAN</textPath>
+      </text>
+      <text font-family="'Inter', sans-serif" font-weight="800" font-size="6.5" fill="#dc2626">
+        <textPath href="#caupo-curve-bot" startOffset="50%" text-anchor="middle">ARAUCO • 1965</textPath>
+      </text>
+    </svg>
+  `,
+
+  // 7. CLUB DEPORTIVO CELULOSA (Fundado: 16 de agosto de 1972)
+  // Escudo circular con franjas verticales verdes y blancas, aro verde exterior con texto completo
+  'club-celulosa': (size = 36) => `
     <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-celulosa" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="grad-celulosa" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#b91c1c" />
-          <stop offset="100%" stop-color="#7f1d1d" />
-        </linearGradient>
+        <clipPath id="celulosa-inner">
+          <circle cx="60" cy="60" r="34" />
+        </clipPath>
       </defs>
-      <!-- Escudo Rojo Forestal con Oro -->
-      <path d="M 60 10 L 105 20 L 105 68 C 105 98 60 114 60 114 C 60 114 15 98 15 68 L 15 20 Z" fill="url(#grad-celulosa)" stroke="#facc15" stroke-width="3.5" />
-      <!-- Engranaje Industrial / Pino Insigne -->
-      <circle cx="60" cy="62" r="22" fill="#991b1b" stroke="#facc15" stroke-width="2" />
-      <g fill="#facc15">
-        <!-- Dientes de engranaje -->
-        <rect x="57" y="37" width="6" height="5" />
-        <rect x="57" y="82" width="6" height="5" />
-        <rect x="35" y="59" width="5" height="6" />
-        <rect x="80" y="59" width="5" height="6" />
+      <!-- Aro Verde Exterior -->
+      <circle cx="60" cy="60" r="50" fill="#ffffff" stroke="#15803d" stroke-width="5" />
+      <circle cx="60" cy="60" r="48" fill="#15803d" />
+      <circle cx="60" cy="60" r="35" fill="#ffffff" stroke="#166534" stroke-width="2" />
+      
+      <!-- Franjas Verdes y Blancas en el Centro -->
+      <g clip-path="url(#celulosa-inner)">
+        <rect x="20" y="20" width="80" height="80" fill="#ffffff" />
+        <rect x="30" y="20" width="12" height="80" fill="#15803d" />
+        <rect x="54" y="20" width="12" height="80" fill="#15803d" />
+        <rect x="78" y="20" width="12" height="80" fill="#15803d" />
       </g>
-      <!-- Pino Forestal Central Verde -->
-      <polygon points="60,45 48,68 72,68" fill="#15803d" stroke="#ffffff" stroke-width="1.5" />
-      <polygon points="60,55 45,74 75,74" fill="#166534" stroke="#ffffff" stroke-width="1" />
-      <!-- Letras -->
-      <text x="60" y="27" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">CELULOSA ARAUCO</text>
-      <text x="60" y="102" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="9" fill="#facc15" text-anchor="middle">1972</text>
+      
+      <!-- Textos en el Aro Verde Oficial -->
+      <text x="60" y="21" font-family="'Inter', sans-serif" font-weight="900" font-size="5" fill="#ffffff" text-anchor="middle" letter-spacing="0.2">CLUB DEPORTIVO CELULOSA</text>
+      <text x="60" y="104" font-family="'Inter', sans-serif" font-weight="800" font-size="4.8" fill="#facc15" text-anchor="middle" letter-spacing="0.2">ARAUCO • FUND. 16-AGOSTO-1972</text>
+      
+      <!-- Balón en el corazón -->
+      <circle cx="60" cy="60" r="8" fill="#ffffff" stroke="#15803d" stroke-width="1.2" />
+      <polygon points="60,56 63,58 62,62 58,62 57,58" fill="#15803d" />
     </svg>
   `,
 
-  // 9. Club Deportivo Gente de Mar (Fundado el 08/10/1976 - Calle O'Higgins / Pescadores)
+  // 8. CLUB DEPORTIVO COLO-COLO DE ARAUCO (Fundado: 16 de febrero de 1948)
+  // Escudo con borde ajedrezado/dentado, franjas verde/blanca/roja, cacique Colo-Colo arriba y cinta roja
+  'club-colo-colo': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-colo-colo" xmlns="http://www.w3.org/2000/svg">
+      <!-- Borde Dentado / Ajedrezado tradicional Mapuche -->
+      <path d="M 60 10 L 105 24 L 105 68 C 105 98 60 114 60 114 C 60 114 15 98 15 68 L 15 24 Z" fill="#000000" stroke="#ffffff" stroke-width="2" />
+      <path d="M 60 14 L 101 26 L 101 66 C 101 94 60 108 60 108 C 60 108 19 94 19 66 L 19 26 Z" fill="#ffffff" />
+      
+      <!-- Franjas Horizontales: Verde, Blanco y Rojo -->
+      <path d="M 20 45 L 100 45 L 100 60 L 20 60 Z" fill="#15803d" />
+      <path d="M 20 60 L 100 60 L 100 75 L 20 75 Z" fill="#ffffff" />
+      <path d="M 20 75 L 100 75 L 100 88 C 90 98 60 106 60 106 C 60 106 30 98 20 88 Z" fill="#dc2626" />
+      
+      <!-- Busto del Cacique Colo-Colo en Perfil -->
+      <g transform="translate(48, 20) scale(0.42)">
+        <path d="M 12 12 Q 20 4 28 6 Q 36 10 38 20 C 38 28 34 34 32 40 C 28 46 22 50 16 48 C 10 44 12 36 14 28 Z" fill="#1e293b" />
+        <!-- Pluma blanca en la nuca -->
+        <path d="M 16 10 Q 10 -4 6 -12 Q 12 -4 18 8 Z" fill="#ffffff" stroke="#000000" stroke-width="1" />
+        <rect x="18" y="16" width="14" height="4" fill="#dc2626" />
+      </g>
+      
+      <!-- Cinta Roja Inferior: COLO COLO ARAUCO -->
+      <rect x="24" y="80" width="72" height="13" rx="3" fill="#b91c1c" stroke="#ffffff" stroke-width="0.8" />
+      <text x="60" y="89" font-family="'Inter', sans-serif" font-weight="900" font-size="6.2" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">COLO COLO</text>
+      <text x="60" y="99" font-family="'Inter', sans-serif" font-weight="800" font-size="6" fill="#facc15" text-anchor="middle">ARAUCO • 1948</text>
+    </svg>
+  `,
+
+  // 9. CLUB DEPORTIVO GENTE DE MAR (Fundado: 10 de enero de 1960)
+  // Escudo circular blanco con borde azul marino, gran ancla azul marina con soga entrelazada
   'club-gente-de-mar': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-gentedemar" xmlns="http://www.w3.org/2000/svg">
-      <!-- Escudo Azul Pacífico -->
-      <path d="M 60 10 C 95 10 108 24 108 56 C 108 92 60 114 60 114 C 60 114 12 92 12 56 C 12 24 25 10 60 10 Z" fill="#0369a1" stroke="#38bdf8" stroke-width="3.5" />
-      <!-- Franja Ondulada -->
-      <path d="M 12 56 Q 36 46 60 56 Q 84 66 108 56 L 108 100 C 108 100 60 114 60 114 C 60 114 12 100 12 100 Z" fill="#0c4a6e" />
-      <!-- Embarcación Pesquera Tradicional -->
-      <path d="M 36 72 Q 60 84 84 72 L 78 80 Q 60 88 42 80 Z" fill="#f97316" stroke="#ffffff" stroke-width="1.5" />
-      <!-- Vela de Navegación -->
-      <polygon points="60,40 60,68 44,68" fill="#ffffff" />
-      <polygon points="62,44 62,68 76,68" fill="#e0f2fe" />
-      <line x1="61" y1="36" x2="61" y2="72" stroke="#ffffff" stroke-width="2" />
-      <!-- Texto -->
-      <text x="60" y="24" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="8.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">GENTE DE MAR</text>
-      <text x="60" y="103" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="8.5" fill="#7dd3fc" text-anchor="middle">1976</text>
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-gente-de-mar" xmlns="http://www.w3.org/2000/svg">
+      <!-- Círculo Base Blanco con Borde Azul Marino Grueso -->
+      <circle cx="60" cy="60" r="50" fill="#ffffff" stroke="#1e3a8a" stroke-width="5" />
+      <circle cx="60" cy="60" r="44" fill="none" stroke="#93c5fd" stroke-width="1.5" />
+      
+      <!-- Siglas C. D. arriba -->
+      <text x="38" y="32" font-family="'Inter', sans-serif" font-weight="900" font-size="8" fill="#1e3a8a" text-anchor="middle">C.</text>
+      <text x="82" y="32" font-family="'Inter', sans-serif" font-weight="900" font-size="8" fill="#1e3a8a" text-anchor="middle">D.</text>
+      
+      <!-- Gran Ancla Naval Azul Marino con Cuerda Enrollada -->
+      <g transform="translate(60, 56) scale(0.72)" stroke="#1e3a8a" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="0" cy="-24" r="7" fill="#ffffff" stroke-width="4" />
+        <line x1="0" y1="-17" x2="0" y2="28" />
+        <line x1="-16" y1="-8" x2="16" y2="-8" />
+        <!-- Uñas del ancla -->
+        <path d="M -26 12 C -20 34 20 34 26 12" />
+        <polygon points="-28,12 -23,12 -26,5" fill="#1e3a8a" />
+        <polygon points="28,12 23,12 26,5" fill="#1e3a8a" />
+        <!-- Soga marina enrollada en dorado -->
+        <path d="M -6 -18 Q 8 -12 -4 -6 Q 8 0 -2 8 Q 8 16 0 24" stroke="#ca8a04" stroke-width="2.5" fill="none" />
+      </g>
+      
+      <!-- Cinta Inferior: Gente de Mar -->
+      <path d="M 28 88 Q 60 96 92 88 L 88 98 Q 60 106 32 98 Z" fill="#1e3a8a" />
+      <text x="60" y="96" font-family="'Inter', sans-serif" font-weight="900" font-size="6.8" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">Gente de Mar</text>
+      <text x="60" y="104" font-family="'Inter', sans-serif" font-weight="700" font-size="5.5" fill="#64748b" text-anchor="middle">1960</text>
     </svg>
   `,
 
-  // 10. Club Deportivo Real José María (Fundado el 30/01/2026 - Oficial Instagram @realjosemaria)
+  // 10. CLUB DEPORTIVO JORGE ROBLEDO (Fundado: 26 de febrero de 1954)
+  // Escudo azul celeste apuntado, silueta de futbolista chilena/remate en blanco, estrellas
+  'club-jorge-robledo': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-jorge-robledo" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="robledo-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" />
+          <stop offset="60%" stop-color="#0284c7" />
+          <stop offset="100%" stop-color="#0369a1" />
+        </linearGradient>
+      </defs>
+      <!-- Escudo apuntado en degradé celeste/azul con borde blanco -->
+      <path d="M 60 12 L 104 26 L 104 68 C 104 94 60 112 60 112 C 60 112 16 94 16 68 L 16 26 Z" fill="url(#robledo-blue)" stroke="#ffffff" stroke-width="4" />
+      <path d="M 60 17 L 98 29 L 98 66 C 98 89 60 105 60 105 C 60 105 22 89 22 66 L 22 29 Z" fill="none" stroke="#bae6fd" stroke-width="1.2" />
+      
+      <!-- Iniciales J y R estilizadas -->
+      <text x="32" y="58" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#ffffff" opacity="0.85">J</text>
+      <text x="88" y="58" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#ffffff" opacity="0.85" text-anchor="end">R</text>
+      
+      <!-- Silueta del jugador en tijera / chilena acrobática al centro -->
+      <g transform="translate(60, 52) scale(0.65)">
+        <!-- Cabeza y cuerpo horizontal -->
+        <circle cx="12" cy="10" r="5" fill="#ffffff" />
+        <path d="M 8 10 L -4 2 L 6 -10 L 14 -4 Z" fill="#ffffff" />
+        <!-- Pierna que remata arriba -->
+        <path d="M -4 2 L -14 -16 L -8 -18 L 0 -4 Z" fill="#ffffff" />
+        <!-- Pierna de apoyo -->
+        <path d="M 4 -10 L 16 -18 L 22 -14 L 10 -4 Z" fill="#ffffff" />
+        <!-- Balón en el aire -->
+        <circle cx="-18" cy="-22" r="5.5" fill="#facc15" stroke="#ffffff" stroke-width="1" />
+      </g>
+      
+      <!-- Cinta Inferior: JORGE ROBLEDO 1954 -->
+      <rect x="22" y="82" width="76" height="13" rx="2" fill="#ffffff" />
+      <text x="60" y="91" font-family="'Inter', sans-serif" font-weight="900" font-size="6.2" fill="#0369a1" text-anchor="middle" letter-spacing="0.3">JORGE ROBLEDO</text>
+      <text x="60" y="103" font-family="'Inter', sans-serif" font-weight="800" font-size="6.5" fill="#facc15" text-anchor="middle">ARAUCO • 1954</text>
+    </svg>
+  `,
+
+  // 11. CLUB DEPORTIVO REAL JOSÉ MARÍA (Fundado: 30 de enero de 2026)
+  // Escudo tipo realeza español azulgrana con gran corona real dorada y balón al centro
   'club-real-jose-maria': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-realjosemaria" xmlns="http://www.w3.org/2000/svg">
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-real-jose-maria" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="grad-rjm-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fffbeb" />
-          <stop offset="25%" stop-color="#fde047" />
-          <stop offset="60%" stop-color="#d97706" />
-          <stop offset="100%" stop-color="#92400e" />
-        </linearGradient>
-        <linearGradient id="grad-rjm-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#1e3a8a" />
-          <stop offset="100%" stop-color="#0f172a" />
-        </linearGradient>
-        <clipPath id="rjm-shield-clip">
-          <path d="M 60 22 C 96 22 106 32 106 66 C 106 95 60 115 60 115 C 60 115 14 95 14 66 C 14 32 24 22 60 22 Z" />
-        </clipPath>
-      </defs>
-
-      <!-- Escudo Base con Rayas Verticales Oficiales Azul Marino y Rojo (❤️💙) -->
-      <g clip-path="url(#rjm-shield-clip)">
-        <rect x="0" y="0" width="120" height="120" fill="url(#grad-rjm-blue)" />
-        <!-- Rayas Rojas Oficiales con ribetes finos blancos -->
-        <rect x="25" y="0" width="14" height="120" fill="#dc2626" stroke="#ffffff" stroke-width="0.8" />
-        <rect x="53" y="0" width="14" height="120" fill="#dc2626" stroke="#ffffff" stroke-width="0.8" />
-        <rect x="81" y="0" width="14" height="120" fill="#dc2626" stroke="#ffffff" stroke-width="0.8" />
-        <rect x="0" y="0" width="120" height="120" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" />
-      </g>
-
-      <!-- Borde de Escudo Oro Imperial -->
-      <path d="M 60 22 C 96 22 106 32 106 66 C 106 95 60 115 60 115 C 60 115 14 95 14 66 C 14 32 24 22 60 22 Z" fill="none" stroke="url(#grad-rjm-gold)" stroke-width="4.5" />
-      <path d="M 60 25 C 93 25 102 34 102 65 C 102 92 60 110 60 110 C 60 110 18 92 18 65 C 18 34 27 25 60 25 Z" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6" />
-
-      <!-- Corona Imperial de Oro con Pedrería Fina Superior -->
-      <g transform="translate(60, 16) scale(0.62)">
-        <!-- Base de la corona -->
-        <path d="M -36 8 L -30 -14 L -15 0 L 0 -22 L 15 0 L 30 -14 L 36 8 Z" fill="url(#grad-rjm-gold)" stroke="#78350f" stroke-width="1.8" />
-        <ellipse cx="0" cy="-22" rx="4" ry="4" fill="#ffffff" stroke="#d97706" stroke-width="1" />
-        <ellipse cx="-30" cy="-14" rx="3.5" ry="3.5" fill="#ef4444" stroke="#991b1b" stroke-width="0.8" />
-        <ellipse cx="30" cy="-14" rx="3.5" ry="3.5" fill="#ef4444" stroke="#991b1b" stroke-width="0.8" />
-        <ellipse cx="-15" cy="0" rx="3" ry="3" fill="#2563eb" stroke="#1e3a8a" stroke-width="0.8" />
-        <ellipse cx="15" cy="0" rx="3" ry="3" fill="#2563eb" stroke="#1e3a8a" stroke-width="0.8" />
-        <!-- Cintillo con gemas -->
-        <rect x="-34" y="8" width="68" height="6" rx="2" fill="url(#grad-rjm-gold)" stroke="#78350f" stroke-width="1" />
-        <circle cx="-24" cy="11" r="1.5" fill="#ef4444" />
-        <circle cx="-12" cy="11" r="1.5" fill="#ffffff" />
-        <circle cx="0" cy="11" r="1.5" fill="#3b82f6" />
-        <circle cx="12" cy="11" r="1.5" fill="#ffffff" />
-        <circle cx="24" cy="11" r="1.5" fill="#ef4444" />
-      </g>
-
-      <!-- Cinta Superior Negra con Borde Dorado: "REAL JOSÉ MARÍA" -->
-      <path d="M 20 32 Q 60 27 100 32 L 96 44 Q 60 39 24 44 Z" fill="#0f172a" stroke="url(#grad-rjm-gold)" stroke-width="1.8" />
-      <text x="60" y="40.5" font-family="'Inter', 'Montserrat', sans-serif" font-weight="900" font-size="7.5" fill="url(#grad-rjm-gold)" text-anchor="middle" letter-spacing="0.8">REAL JOSÉ MARÍA</text>
-
-      <!-- Corona de Laureles Dorados Central -->
-      <g stroke="url(#grad-rjm-gold)" fill="none" stroke-width="2" stroke-linecap="round">
-        <path d="M 38 76 C 33 66 33 54 44 48" />
-        <path d="M 82 76 C 87 66 87 54 76 48" />
-        <!-- Hojas de laurel -->
-        <ellipse cx="36" cy="62" rx="3" ry="1.5" fill="url(#grad-rjm-gold)" transform="rotate(-30 36 62)" />
-        <ellipse cx="40" cy="53" rx="3" ry="1.5" fill="url(#grad-rjm-gold)" transform="rotate(-15 40 53)" />
-        <ellipse cx="84" cy="62" rx="3" ry="1.5" fill="url(#grad-rjm-gold)" transform="rotate(30 84 62)" />
-        <ellipse cx="80" cy="53" rx="3" ry="1.5" fill="url(#grad-rjm-gold)" transform="rotate(15 80 53)" />
-      </g>
-
-      <!-- Balón de Fútbol Clásico de Cuero Blanco/Negro -->
-      <g transform="translate(60, 65) scale(0.48)">
-        <circle cx="0" cy="0" r="28" fill="#ffffff" stroke="#000000" stroke-width="3" />
-        <!-- Pentágono central -->
-        <polygon points="0,-9 8,-3 5,7 -5,7 -8,-3" fill="#0f172a" />
-        <line x1="0" y1="-9" x2="0" y2="-27" stroke="#0f172a" stroke-width="2.5" />
-        <line x1="8" y1="-3" x2="25" y2="-10" stroke="#0f172a" stroke-width="2.5" />
-        <line x1="5" y1="7" x2="18" y2="21" stroke="#0f172a" stroke-width="2.5" />
-        <line x1="-5" y1="7" x2="-18" y2="21" stroke="#0f172a" stroke-width="2.5" />
-        <line x1="-8" y1="-3" x2="-25" y2="-10" stroke="#0f172a" stroke-width="2.5" />
-      </g>
-
-      <!-- F.C. y Fecha de Fundación Oficial: 30 - ENE - 2026 -->
-      <text x="60" y="87" font-family="'Inter', sans-serif" font-weight="900" font-size="7.5" fill="url(#grad-rjm-gold)" text-anchor="middle" letter-spacing="1">F. C.</text>
-      <text x="60" y="97" font-family="'Inter', sans-serif" font-weight="800" font-size="6" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">30 • ENE • 2026</text>
-    </svg>
-  `,
-
-  // 11. Escudo Oficial de la Asociación de Fútbol de Arauco (AFA) / Selección de Arauco
-  // Conforme a la enseña histórica con Corona Mural de 3 torres, Perfil de Toqui Mapuche con Trarilonco y Siglas AFA
-  'seleccion-arauco': (size = 48) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-seleccion-arauco" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad-afa-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="rjm-gold" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#fef08a" />
-          <stop offset="50%" stop-color="#f59e0b" />
-          <stop offset="100%" stop-color="#b45309" />
+          <stop offset="50%" stop-color="#eab308" />
+          <stop offset="100%" stop-color="#a16207" />
         </linearGradient>
-        <clipPath id="afa-shield-clip">
-          <path d="M 22 36 L 98 36 L 98 72 C 98 96 60 114 60 114 C 60 114 22 96 22 72 Z" />
-        </clipPath>
       </defs>
-
-      <!-- Corona Mural Histórica de Arauco (3 Almenas de Ciudad Heroica) -->
-      <g transform="translate(60, 18) scale(0.68)">
-        <!-- Muralla almenada dorada con sillares -->
-        <path d="M -48 16 L -48 -2 L -34 -2 L -34 6 L -20 6 L -20 -8 L -6 -8 L -6 6 L 6 6 L 6 -8 L 20 -8 L 20 6 L 34 6 L 34 -2 L 48 -2 L 48 16 Z" fill="url(#grad-afa-gold)" stroke="#78350f" stroke-width="2" />
-        <line x1="-46" y1="8" x2="46" y2="8" stroke="#78350f" stroke-width="1.2" opacity="0.6" />
-        <!-- Puertas arqueadas de las 3 torres -->
-        <rect x="-29" y="8" width="6" height="8" rx="3" fill="#78350f" />
-        <rect x="-3" y="2" width="6" height="14" rx="3" fill="#78350f" />
-        <rect x="23" y="8" width="6" height="8" rx="3" fill="#78350f" />
+      
+      <!-- Corona Real Imperial en la cúspide -->
+      <g transform="translate(60, 24) scale(0.65)">
+        <path d="M -30 6 L 30 6 L 24 -14 L 12 -4 L 0 -18 L -12 -4 L -24 -14 Z" fill="url(#rjm-gold)" stroke="#713f12" stroke-width="2" />
+        <circle cx="0" cy="-20" r="3.5" fill="#dc2626" />
+        <circle cx="-24" cy="-15" r="2.5" fill="#2563eb" />
+        <circle cx="24" cy="-15" r="2.5" fill="#2563eb" />
+        <!-- Joyas en la base de la corona -->
+        <rect x="-28" y="2" width="56" height="5" fill="#b91c1c" stroke="#713f12" stroke-width="1" />
       </g>
-
-      <!-- Rótulo Verde Superior: Asociación de Fútbol -->
-      <rect x="20" y="27" width="80" height="12" rx="2" fill="#15803d" stroke="#ca8a04" stroke-width="1.2" />
-      <text x="60" y="35.5" font-family="'Inter', sans-serif" font-weight="900" font-size="5.8" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">ASOCIACIÓN DE FÚTBOL</text>
-
-      <!-- Campo del Escudo Oficial en Blanco puro -->
-      <path d="M 22 38 L 98 38 L 98 72 C 98 96 60 114 60 114 C 60 114 22 96 22 72 Z" fill="#ffffff" />
-
-      <!-- Perfil del Toqui Araucano (Líneas Azules Tradicionales con Trarilonco) -->
-      <g transform="translate(46, 68) scale(0.58)" fill="none" stroke="#1d4ed8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Perfil guerrero mapuche mirando a la derecha -->
-        <path d="M -16 26 C -12 18 -10 10 -10 2 C -10 -8 -4 -16 6 -18 C 12 -19 18 -16 20 -10 C 22 -6 21 0 17 4 C 23 8 20 18 15 22 C 12 24 5 26 -2 26" fill="#eff6ff" />
-        <!-- Nariz, labios y mentón enérgico -->
-        <path d="M 6 -12 L 14 -2 L 10 2 L 13 8 L 8 12 L 4 16 L -2 26" />
-        <!-- Trarilonco (Cintillo con plumas y trenza) -->
-        <path d="M -14 -4 C -8 -8 4 -12 16 -10" stroke-width="4" stroke="#1e40af" />
-        <path d="M -16 -2 C -18 -8 -20 -18 -15 -24 C -10 -20 -12 -10 -10 -4" fill="#2563eb" />
-        <path d="M -8 -8 C -6 -16 -4 -24 3 -28 C 4 -20 0 -12 -2 -8" fill="#2563eb" />
-        <circle cx="2" cy="-4" r="1.5" fill="#1d4ed8" />
-        <!-- Ojo decidido -->
-        <path d="M 4 -4 L 8 -2" stroke-width="2" />
-      </g>
-
-      <!-- Letras A F A en Azul Profundo (Columna derecha) -->
-      <g font-family="'Inter', 'Arial Black', sans-serif" font-weight="900" font-size="12" fill="#1e40af" text-anchor="middle">
-        <text x="82" y="54">A</text>
-        <text x="82" y="68">F</text>
-        <text x="82" y="82">A</text>
-      </g>
-
-      <!-- Bordura Bicolor: Verde a la izquierda, Roja a la derecha -->
-      <path d="M 60 38 L 22 38 L 22 72 C 22 96 60 114 60 114" fill="none" stroke="#16a34a" stroke-width="3.5" />
-      <path d="M 60 38 L 98 38 L 98 72 C 98 96 60 114 60 114" fill="none" stroke="#dc2626" stroke-width="3.5" />
-      <!-- Ribete exterior dorado -->
-      <path d="M 22 38 L 98 38 L 98 72 C 98 96 60 114 60 114 C 60 114 22 96 22 72 Z" fill="none" stroke="url(#grad-afa-gold)" stroke-width="1.2" />
-
-      <!-- Lema Inferior: Arauco en letras rojas -->
-      <path d="M 36 94 Q 60 100 84 94 L 82 103 Q 60 110 38 103 Z" fill="#fee2e2" stroke="#dc2626" stroke-width="0.8" />
-      <text x="60" y="101" font-family="'Inter', sans-serif" font-weight="900" font-size="7" fill="#dc2626" text-anchor="middle" letter-spacing="0.5">ARAUCO</text>
+      
+      <!-- Escudo Español Cuartelado Azul y Rojo -->
+      <path d="M 60 28 C 88 28 102 38 102 68 C 102 96 60 114 60 114 C 60 114 18 96 18 68 C 18 38 32 28 60 28 Z" fill="#1e3a8a" stroke="url(#rjm-gold)" stroke-width="4.5" />
+      
+      <!-- Franjas Rojas en el interior -->
+      <path d="M 40 30 L 52 30 L 52 108 C 46 104 40 98 40 94 Z" fill="#dc2626" />
+      <path d="M 68 30 L 80 30 L 80 94 C 80 98 74 104 68 108 Z" fill="#dc2626" />
+      
+      <!-- Balón de Fútbol Dorado en el centro -->
+      <circle cx="60" cy="64" r="11" fill="#ffffff" stroke="url(#rjm-gold)" stroke-width="2" />
+      <polygon points="60,58 65,61 63,67 57,67 55,61" fill="#1e3a8a" />
+      
+      <!-- Cinta / Letras: REAL JOSÉ MARÍA F.C. -->
+      <rect x="22" y="84" width="76" height="12" rx="3" fill="#0f172a" stroke="url(#rjm-gold)" stroke-width="1" />
+      <text x="60" y="92.5" font-family="'Inter', sans-serif" font-weight="900" font-size="5.5" fill="#fde047" text-anchor="middle" letter-spacing="0.3">REAL JOSÉ MARÍA</text>
+      <text x="60" y="102" font-family="'Inter', sans-serif" font-weight="800" font-size="6" fill="#ffffff" text-anchor="middle">• 2026 •</text>
     </svg>
   `,
 
-  // Fallback para Lebu
-  'lebu': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-lebu" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 60 10 L 105 24 L 105 68 C 105 98 60 116 60 116 C 60 116 15 98 15 68 L 15 24 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="3" />
-      <text x="60" y="55" font-size="24" text-anchor="middle">🌊</text>
-      <text x="60" y="85" font-family="'Inter', sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle">LEBU</text>
-    </svg>
-  `,
-
-  // Fallback para Cañete
-  'canete': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-canete" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 60 10 L 105 24 L 105 68 C 105 98 60 116 60 116 C 60 116 15 98 15 68 L 15 24 Z" fill="#15803d" stroke="#facc15" stroke-width="3" />
-      <text x="60" y="55" font-size="24" text-anchor="middle">🌲</text>
-      <text x="60" y="85" font-family="'Inter', sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle">CAÑETE</text>
-    </svg>
-  `,
-
-  // Fallback para Curanilahue / Cavecur
-  'curanilahue': (size = 36) => `
-    <svg width="${size}" height="${size}" viewBox="0 0 120 120" class="club-official-badge badge-cavecur" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 60 10 L 105 24 L 105 68 C 105 98 60 116 60 116 C 60 116 15 98 15 68 L 15 24 Z" fill="#e11d48" stroke="#fb7185" stroke-width="3" />
-      <text x="60" y="55" font-size="24" text-anchor="middle">⛏️</text>
-      <text x="60" y="85" font-family="'Inter', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle">CAVECUR</text>
-    </svg>
-  `
+  'club-celulosa-arauco': (size = 36) => CLUB_BADGES_SVG['club-celulosa'](size),
+  'club-colo-colo-arauco': (size = 36) => CLUB_BADGES_SVG['club-colo-colo'](size),
+  'asociacion-futbol-arauco': (size = 36) => CLUB_BADGES_SVG['asociacion-arauco'](size)
 };
 
 /**
@@ -418,29 +414,22 @@ export const CLUB_BADGES_SVG = {
  */
 export function getClubBadgeSvg(clubId, size = 36) {
   if (!clubId) {
-    return CLUB_BADGES_SVG['seleccion-arauco'](size);
+    return CLUB_BADGES_SVG['asociacion-arauco'](size);
   }
   if (CLUB_BADGES_SVG[clubId]) {
     return CLUB_BADGES_SVG[clubId](size);
   }
-  // Fallbacks para asociaciones rivales del Regional
-  if (clubId.includes('lebu')) return CLUB_BADGES_SVG['lebu'](size);
-  if (clubId.includes('canete')) return CLUB_BADGES_SVG['canete'](size);
-  if (clubId.includes('curanilahue') || clubId.includes('cavecur')) return CLUB_BADGES_SVG['curanilahue'](size);
+  if (clubId === 'seleccion-arauco' || clubId === 'asociacion-arauco') {
+    return CLUB_BADGES_SVG['asociacion-arauco'](size);
+  }
   
-  // Escudo genérico ANFA
-  return `
-    <svg width="${size}" height="${size}" viewBox="0 0 100 100" class="club-official-badge" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 50 8 L 88 20 L 88 56 C 88 80 50 94 50 94 C 50 94 12 80 12 56 L 12 20 Z" fill="#1e293b" stroke="#64748b" stroke-width="3" />
-      <circle cx="50" cy="48" r="16" fill="#334155" />
-      <text x="50" y="54" font-size="14" text-anchor="middle" fill="#ffffff">⚽</text>
-    </svg>
-  `;
+  // Escudo genérico oficial AFA
+  return CLUB_BADGES_SVG['asociacion-arauco'](size);
 }
 
 /**
- * Retorna el escudo oficial de la Selección Comunal
+ * Retorna el escudo oficial de la Asociación / Selección Comunal
  */
 export function getSelectionBadgeSvg(size = 48) {
-  return CLUB_BADGES_SVG['seleccion-arauco'](size);
+  return CLUB_BADGES_SVG['asociacion-arauco'](size);
 }
