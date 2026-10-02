@@ -77,8 +77,37 @@ http.get('http://127.0.0.1:9224/json', (res) => {
             passed = false;
           }
 
+          if (report.cardInitialDisplay !== 'none') {
+            console.error('FAIL: Expected initial profile card to be hidden (display: none), got:', report.cardInitialDisplay);
+            passed = false;
+          }
+          if (report.initialRosterCardsCount < 20) {
+            console.error('FAIL: Expected at least 20 roster cards in padrón, got:', report.initialRosterCardsCount);
+            passed = false;
+          }
+          if (report.searchRosterCardsCount === 0) {
+            console.error('FAIL: Expected at least 1 card for "Francisco Herrera", got:', report.searchRosterCardsCount);
+            passed = false;
+          }
+          if (report.cardAfterClickDisplay !== 'flex') {
+            console.error('FAIL: Expected profile card to show (display: flex) after clicking, got:', report.cardAfterClickDisplay);
+            passed = false;
+          }
+          if (!report.playerProfileName?.includes('Francisco Herrera')) {
+            console.error('FAIL: Expected Francisco Herrera in profile card, got:', report.playerProfileName);
+            passed = false;
+          }
+          if (report.cardAfterClearDisplay !== 'none') {
+            console.error('FAIL: Expected profile card to hide after clear filter, got:', report.cardAfterClearDisplay);
+            passed = false;
+          }
+          if (report.rosterCardsAfterClear < 20) {
+            console.error('FAIL: Expected padrón to show all players again after clearing filter, got:', report.rosterCardsAfterClear);
+            passed = false;
+          }
+
           if (passed) {
-            console.log('\n🎉 ALL 4-SERIES AND 3-ROUND DEMO LEAGUE CHECKS PASSED PERFECTLY! ✅');
+            console.log('\n🎉 ALL 4-SERIES, 3-ROUND & PLAYER DIRECTORY/FILTER CHECKS PASSED PERFECTLY! ✅');
           } else {
             console.error('\n❌ SOME CHECKS FAILED!');
             chrome.kill();
@@ -128,17 +157,35 @@ http.get('http://127.0.0.1:9224/json', (res) => {
             // 7. Club View: Plantel Tab
             document.querySelector('.team-tab-btn[data-team-tab="plantel"]')?.click();
             const teamPlantelPills = document.querySelectorAll('#team-tab-content-container .series-pill-btn').length;
-            const plantelRosterCount = document.querySelectorAll('.player-roster-card').length;
+            const plantelRosterCount = document.querySelectorAll('#team-tab-content-container .player-roster-card').length;
 
             // 8. Club View: Partidos Tab
             document.querySelector('.team-tab-btn[data-team-tab="partidos"]')?.click();
             const teamFinishedMatchesCount = document.querySelectorAll('#team-tab-content-container .match-status-badge.finished').length;
 
-            // 9. Player View
+            // 9. Player View Padrón & Filtering
             window.ligamasterNavigate('player-view');
+            const cardInitialDisplay = document.getElementById('player-profile-card')?.style.display;
+            const initialRosterCardsCount = document.querySelectorAll('#player-roster-directory-container .player-roster-card').length;
+
+            // Test search for Francisco Herrera
+            const searchInput = document.getElementById('player-search-input');
+            if (searchInput) {
+              searchInput.value = 'Francisco Herrera';
+              searchInput.dispatchEvent(new Event('input'));
+            }
+            const searchRosterCardsCount = document.querySelectorAll('#player-roster-directory-container .player-roster-card').length;
+
+            // Click on the player card
+            const firstPlayerCard = document.querySelector('#player-roster-directory-container .player-roster-card');
+            firstPlayerCard?.click();
+            const cardAfterClickDisplay = document.getElementById('player-profile-card')?.style.display;
             const playerProfileName = document.getElementById('player-profile-name')?.textContent;
-            const playerProfileSeries = document.getElementById('player-profile-series')?.textContent;
-            const playerProfileDorsal = document.getElementById('player-profile-dorsal')?.textContent;
+
+            // Clear filter button
+            document.getElementById('btn-clear-player-filter')?.click();
+            const cardAfterClearDisplay = document.getElementById('player-profile-card')?.style.display;
+            const rosterCardsAfterClear = document.querySelectorAll('#player-roster-directory-container .player-roster-card').length;
 
             return {
               activeLeagueName,
@@ -156,9 +203,13 @@ http.get('http://127.0.0.1:9224/json', (res) => {
               teamPlantelPills,
               plantelRosterCount,
               teamFinishedMatchesCount,
+              cardInitialDisplay,
+              initialRosterCardsCount,
+              searchRosterCardsCount,
+              cardAfterClickDisplay,
               playerProfileName,
-              playerProfileSeries,
-              playerProfileDorsal
+              cardAfterClearDisplay,
+              rosterCardsAfterClear
             };
           })()
         `;

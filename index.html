@@ -552,32 +552,41 @@
          ================================================================ -->
     <section id="player-view" class="platform-view">
       
-      <!-- Selector / Buscador Rápido de Jugador -->
+      <!-- Barra de Filtros, Búsqueda y Padrón de Jugadores -->
       <div class="table-wrapper-card" style="margin-bottom: 2rem; padding: 1.25rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 240px;">
+          <div style="display: flex; align-items: center; gap: 0.65rem; flex: 1; min-width: 220px;">
             <label for="player-select-club" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Club:</label>
             <select id="player-select-club" class="series-select" style="flex: 1;">
+              <option value="all">Todos los Clubes (Padrón General)</option>
               <!-- Opciones de los 10 clubes -->
             </select>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 220px;">
-            <label for="player-select-series" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Serie:</label>
-            <select id="player-select-series" class="series-select" style="flex: 1;">
-              <!-- Opciones de series dinámicas -->
-            </select>
+          <div style="display: flex; align-items: center; gap: 0.65rem; flex: 1.2; min-width: 240px;">
+            <label for="player-search-input" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Buscar:</label>
+            <div style="position: relative; flex: 1;">
+              <input type="text" id="player-search-input" placeholder="Nombre, dorsal o posición..." class="series-select" style="width: 100%; padding-left: 2rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); height: 38px; font-size: 0.82rem; background: #fff;">
+              <span style="position: absolute; left: 0.65rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: var(--color-text-muted);">🔍</span>
+            </div>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 260px;">
-            <label for="player-select-individual" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Futbolista:</label>
+          <div style="display: flex; align-items: center; gap: 0.65rem; flex: 1.2; min-width: 240px;">
+            <label for="player-select-individual" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Ficha:</label>
             <select id="player-select-individual" class="series-select" style="flex: 1;">
+              <option value="">-- Ver Todos los Futbolistas (Padrón) --</option>
               <!-- Jugadores del club seleccionado -->
             </select>
           </div>
+          <button id="btn-clear-player-filter" class="btn-outline-coral" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
+            <span>✕ Anular Filtro (Ver Todos)</span>
+          </button>
         </div>
       </div>
 
-      <!-- Ficha de Perfil del Jugador -->
-      <div class="player-profile-card" id="player-profile-card">
+      <!-- Ficha de Perfil del Jugador Seleccionado (Se oculta si no hay jugador individual activo) -->
+      <div class="player-profile-card" id="player-profile-card" style="display: none; position: relative;">
+        <button class="btn-outline-coral" onclick="window.ligamasterClearPlayerSelection()" style="position: absolute; top: 1.25rem; right: 1.25rem; font-size: 0.75rem; padding: 0.3rem 0.65rem;" title="Cerrar ficha individual y ver lista completa">
+          ✕ Cerrar Ficha y Ver Todos
+        </button>
         <div class="player-profile-avatar-box">
           <img id="player-profile-img" src="" alt="Foto Jugador" class="player-profile-avatar-img">
         </div>
@@ -633,6 +642,11 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Directorio / Padrón General de Futbolistas (Grid de Todos los Jugadores) -->
+      <div id="player-roster-directory-container">
+        <!-- Renderizado dinámico desde app.js -->
       </div>
 
     </section>
