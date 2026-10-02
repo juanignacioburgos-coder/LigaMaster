@@ -1,10 +1,9 @@
-// Service Worker de LigaPro Evolution • ANFA Arauco
-const CACHE_NAME = 'ligapro-cache-v1';
+// Service Worker de LigaMaster • Fútbol Amateur Chileno
+const CACHE_NAME = 'ligamaster-cache-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './css/main.css',
-  './css/print.css',
   './manifest.json',
   './icons/icon-192.svg',
   './icons/icon-512.svg'
@@ -52,7 +51,7 @@ self.addEventListener('notificationclick', (event) => {
 
 // Evento push de servidor para producción
 self.addEventListener('push', (event) => {
-  let data = { title: '⚽ LigaPro Evolution', body: '¡Hay novedades en el campeonato de Arauco!' };
+  let data = { title: '⚽ LigaMaster • Notificaciones', body: '¡Hay novedades en el campeonato oficial!' };
   if (event.data) {
     try {
       data = event.data.json();
