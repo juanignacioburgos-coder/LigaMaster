@@ -527,6 +527,93 @@ export const CLUB_BADGES_SVG = {
       <polygon points="60,32 70,52 92,52 74,66 80,88 60,74 40,88 46,66 28,52 50,52" fill="#eab308" />
       <text x="60" y="102" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">ORIENTE</text>
     </svg>
+  `,
+
+  // 10 CLUBES OFICIALES DE LA LIGA DEMO
+  'demo-ohiggins': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#16a34a" stroke="#ffffff" stroke-width="4" />
+      <polygon points="60,32 68,48 86,48 72,59 77,76 60,65 43,76 48,59 34,48 52,48" fill="#ffffff" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">O'HIGGINS</text>
+    </svg>
+  `,
+
+  'demo-colocolo': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#ffffff" stroke="#111827" stroke-width="5" />
+      <rect x="25" y="44" width="70" height="24" fill="#111827" />
+      <text x="60" y="60" font-family="'Outfit', sans-serif" font-weight="900" font-size="9" fill="#ffffff" text-anchor="middle">COLO COLO</text>
+      <circle cx="60" cy="84" r="9" fill="#ef4444" />
+    </svg>
+  `,
+
+  'demo-playabrava': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="4" />
+      <path d="M 28 64 Q 44 48 60 64 T 92 64" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+      <circle cx="60" cy="40" r="10" fill="#facc15" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">PLAYA BRAVA</text>
+    </svg>
+  `,
+
+  'demo-arauco': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#dc2626" stroke="#16a34a" stroke-width="4.5" />
+      <circle cx="60" cy="54" r="22" fill="#ffffff" />
+      <text x="60" y="62" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#dc2626" text-anchor="middle">CDA</text>
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">ARAUCO</text>
+    </svg>
+  `,
+
+  'demo-ferroviario': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#1e293b" stroke="#eab308" stroke-width="4.5" />
+      <circle cx="60" cy="52" r="20" fill="none" stroke="#eab308" stroke-width="4" />
+      <polygon points="60,38 64,52 60,66 56,52" fill="#eab308" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">FERROVIARIO</text>
+    </svg>
+  `,
+
+  'demo-estrelladelsur': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#2563eb" stroke="#ffffff" stroke-width="4.5" />
+      <polygon points="60,26 67,46 88,46 71,59 78,79 60,66 42,79 49,59 32,46 53,46" fill="#facc15" stroke="#ffffff" stroke-width="1" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">ESTRELLA DEL SUR</text>
+    </svg>
+  `,
+
+  'demo-copihues': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#e11d48" stroke="#ffffff" stroke-width="4.5" />
+      <path d="M 52 34 Q 60 26 68 34 Q 72 50 60 68 Q 48 50 52 34 Z" fill="#ffffff" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">LOS COPIHUES</text>
+    </svg>
+  `,
+
+  'demo-realcordillera': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#7c3aed" stroke="#f59e0b" stroke-width="4.5" />
+      <polygon points="34,70 52,38 70,64 80,48 94,70" fill="#f59e0b" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">REAL CORDILLERA</text>
+    </svg>
+  `,
+
+  'demo-sanlorenzo': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#991b1b" stroke="#1e3a8a" stroke-width="5" />
+      <line x1="36" y1="42" x2="84" y2="76" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+      <line x1="84" y1="42" x2="36" y2="76" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">SAN LORENZO</text>
+    </svg>
+  `,
+
+  'demo-unionjuvenil': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 12 C 94 12 106 24 106 58 C 106 90 60 112 60 112 C 60 112 14 90 14 58 C 14 24 26 12 60 12 Z" fill="#ea580c" stroke="#ffffff" stroke-width="4.5" />
+      <circle cx="60" cy="50" r="18" fill="#ffffff" />
+      <text x="60" y="58" font-family="'Outfit', sans-serif" font-weight="900" font-size="14" fill="#ea580c" text-anchor="middle">UJ</text>
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">UNIÓN JUVENIL</text>
+    </svg>
   `
 };
 

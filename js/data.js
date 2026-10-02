@@ -10,6 +10,8 @@
  * - Registro de participaciones en Copa de Campeones ANFA Biobío y Torneo Nacional.
  */
 
+import { LIGA_DEMO_DATA } from './data_liga_demo.js';
+
 export const STORAGE_KEY = 'LIGAMASTER_ARAUCO_DB_V14';
 
 export const INITIAL_DATA = {
@@ -1672,6 +1674,19 @@ export const REGIONS_AND_LEAGUES = [
         status: "demo",
         statusLabel: "Demostración de Liga",
         isDemo: true
+      },
+      {
+        id: "liga-demo",
+        name: "Liga Demo",
+        shortName: "Liga Demo",
+        badgeId: "asociacion-arauco",
+        commune: "Comuna Modelo (800 Jugadores)",
+        founded: "Temporada Oficial 2026/27",
+        president: "Patricio Morales Vega",
+        totalClubs: 10,
+        status: "demo",
+        statusLabel: "Campeonato Demo Oficial (800 Jugadores)",
+        isDemo: true
       }
     ]
   },
@@ -1698,6 +1713,7 @@ export const REGIONS_AND_LEAGUES = [
 
 export const MULTI_LEAGUE_STORE = {
   arauco: INITIAL_DATA,
+  'liga-demo': LIGA_DEMO_DATA,
 
   lebu: {
     leagueInfo: {

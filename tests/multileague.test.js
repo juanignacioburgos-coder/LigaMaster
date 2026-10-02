@@ -16,7 +16,7 @@ console.log('   Total Leagues registered:', totalLeagues);
 if (totalLeagues < 4) throw new Error('Should have at least 4 leagues');
 
 // 3. Check each league data
-for (const lid of ['arauco', 'lebu', 'canete', 'cordillera']) {
+for (const lid of ['arauco', 'lebu', 'canete', 'cordillera', 'liga-demo']) {
   const lInfo = getLeagueById(lid);
   console.log(`3. Checking [${lid}]: "${lInfo.name}" | isDemo: ${lInfo.isDemo}`);
   if (!lInfo) throw new Error(`League ${lid} info should exist`);
@@ -25,7 +25,7 @@ for (const lid of ['arauco', 'lebu', 'canete', 'cordillera']) {
   if (!db || !db.clubs || db.clubs.length === 0) throw new Error(`League ${lid} should have clubs`);
   if (!db.matches || db.matches.length === 0) throw new Error(`League ${lid} should have matches`);
   if (!db.standings && !db.standingsBySeries) throw new Error(`League ${lid} should have standings or standingsBySeries`);
-  console.log(`   -> Clubs: ${db.clubs.length}, Matches: ${db.matches.length}, Series: ${getLeagueSeries(lid).length}`);
+  console.log(`   -> Clubs: ${db.clubs.length}, Matches: ${db.matches.length}, Series: ${getLeagueSeries(lid).length}, Players: ${db.players ? db.players.length : 0}`);
   
   // Check League Badge SVG
   const lBadge = getClubBadgeSvg(lInfo.badgeId, 32);
@@ -54,11 +54,19 @@ setActiveLeagueId('cordillera');
 const cordDb = getDb();
 console.log('6. Switch to Cordillera OK: first club is', cordDb.clubs[0].name);
 
+// Switch to Liga Demo
+setActiveLeagueId('liga-demo');
+const demoDb = getDb();
+if (demoDb.players.length !== 800) throw new Error(`Liga Demo should have 800 players, got ${demoDb.players.length}`);
+if (demoDb.clubs.length !== 10) throw new Error(`Liga Demo should have 10 clubs, got ${demoDb.clubs.length}`);
+if (demoDb.matches.length !== 180) throw new Error(`Liga Demo should have 180 matches, got ${demoDb.matches.length}`);
+console.log('7. Switch to Liga Demo OK: 10 clubs,', demoDb.players.length, 'players,', demoDb.matches.length, 'matches');
+
 // Switch back to arauco
 setActiveLeagueId('arauco');
 if (getActiveLeagueId() !== 'arauco') throw new Error('Active league should be arauco');
 const araucoDb = getDb();
 if (!araucoDb.clubs.some(c => c.id === 'club-arauco')) throw new Error('Arauco DB should contain club-arauco');
-console.log('7. Switch back to Arauco OK: contains', araucoDb.clubs[0].name);
+console.log('8. Switch back to Arauco OK: contains', araucoDb.clubs[0].name);
 
 console.log('\n🎉 ALL MULTI-LEAGUE UNIT TESTS PASSED SUCCESSFULLY! ✅');
