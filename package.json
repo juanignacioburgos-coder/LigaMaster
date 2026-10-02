@@ -1,0 +1,10 @@
+{
+  "name": "ligamaster",
+  "version": "1.0.0",
+  "description": "LigaMaster - Plataforma Oficial del Fútbol Amateur Chileno",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild js/app.js --bundle --outfile=js/bundle.js --format=iife",
+    "test": "node tests/multileague.test.js && node tests/admin.test.js && node tests/test-init.js"
+  }
+}
