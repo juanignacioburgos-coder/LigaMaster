@@ -4494,6 +4494,52 @@
         </form>
       </div>
     </div>
+
+    <!-- M\xF3dulo de Carga Masiva y Respaldo de Base de Datos -->
+    <div class="admin-card" style="max-width: 800px; margin: 1.5rem auto 0;">
+      <div class="admin-card-header">
+        <h3><span>\u{1F4BE}</span> Carga Masiva, Respaldos y Migraci\xF3n de Campeonato</h3>
+        <span class="admin-badge admin-badge-success">Base de Datos JSON</span>
+      </div>
+      <div class="admin-card-body">
+        <p style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+          Puedes exportar toda la base de datos de esta liga (clubes, jugadores, fixture de partidos, tribunal y estad\xEDsticas) para respaldarla en tu computador o cargar una base de datos completa de un nuevo torneo desde un archivo JSON.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+          <!-- Exportar -->
+          <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">\u{1F4E5}</div>
+            <h4 style="font-size: 0.9rem; margin-bottom: 0.35rem;">Exportar Campeonato</h4>
+            <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;">Descarga el archivo .json con toda la informaci\xF3n vigente.</p>
+            <button type="button" class="btn-primary-coral" onclick="window.ligamasterExportDatabase()" style="width: 100%; font-size: 0.8rem; padding: 0.5rem;">
+              Descargar Respaldo JSON
+            </button>
+          </div>
+
+          <!-- Importar -->
+          <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">\u{1F4E4}</div>
+            <h4 style="font-size: 0.9rem; margin-bottom: 0.35rem;">Cargar Base de Datos</h4>
+            <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;">Sube un archivo .json con los clubes y fixture completos.</p>
+            <label class="btn-admin-action" style="display: block; width: 100%; font-size: 0.8rem; padding: 0.5rem; cursor: pointer; text-align: center; background: #ffffff; border: 1px solid var(--color-primary); color: var(--color-primary); font-weight: 700; border-radius: var(--radius-sm);">
+              <span>Examinar Archivo...</span>
+              <input type="file" id="input-import-db" accept=".json" onchange="window.ligamasterImportDatabase(event)" style="display: none;">
+            </label>
+          </div>
+
+          <!-- Plantilla Modelo -->
+          <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">\u{1F4CB}</div>
+            <h4 style="font-size: 0.9rem; margin-bottom: 0.35rem;">Plantilla en Blanco</h4>
+            <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;">Descarga la estructura oficial vac\xEDa para armar una nueva liga.</p>
+            <button type="button" class="btn-admin-action" onclick="window.ligamasterDownloadTemplate()" style="width: 100%; font-size: 0.8rem; padding: 0.5rem; border: 1px solid var(--color-border);">
+              Descargar Plantilla
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   `;
     container.innerHTML = html;
     document.getElementById("admin-settings-form")?.addEventListener("submit", (e) => {
@@ -5009,6 +5055,135 @@
       modal.classList.add("active");
     };
   }
+  window.ligamasterExportDatabase = () => {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+    const a = document.createElement("a");
+    a.setAttribute("href", dataStr);
+    a.setAttribute("download", `ligamaster_campeonato_${activeId}_${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`);
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast("Base de datos exportada en formato JSON.", "success");
+  };
+  window.ligamasterImportDatabase = (event) => {
+    const file = event?.target?.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (!imported || typeof imported !== "object") {
+          throw new Error("Estructura de archivo inv\xE1lida.");
+        }
+        if (!imported.clubs && !imported.matches && !imported.leagueInfo) {
+          showToast("El archivo no contiene un formato de campeonato v\xE1lido de LigaMaster.", "error");
+          return;
+        }
+        const activeId = getActiveLeagueId();
+        saveDb(imported, activeId);
+        showToast("\xA1Campeonato y base de datos importados con \xE9xito!", "success");
+        window.dispatchEvent(new CustomEvent("ligamaster:league-changed", { detail: activeId }));
+        renderAdminView();
+      } catch (err) {
+        showToast("Error al importar el archivo JSON: " + err.message, "error");
+      }
+    };
+    reader.readAsText(file);
+  };
+  window.ligamasterDownloadTemplate = () => {
+    const template = {
+      leagueInfo: {
+        name: "Nombre de la Nueva Asociaci\xF3n o Liga",
+        shortName: "LIGA",
+        president: "Nombre del Presidente",
+        commune: "Comuna, Regi\xF3n",
+        season: "Temporada 2026/27",
+        headquarters: "Direcci\xF3n de la sede",
+        founded: 1980,
+        totalClubs: 8
+      },
+      seriesList: [
+        { id: "honor", name: "Serie de Honor (Primera)", shortName: "Honor" },
+        { id: "senior_35", name: "Serie Senior (35+ A\xF1os)", shortName: "Senior" },
+        { id: "juvenil", name: "Serie Juvenil (Sub-17)", shortName: "Juvenil" }
+      ],
+      clubs: [
+        {
+          id: "club-1",
+          name: "Club Deportivo Ejemplo 1",
+          shortName: "Ejemplo 1",
+          founded: 1950,
+          president: "Dirigente 1",
+          stadium: "Estadio Municipal",
+          colors: { primary: "#e62238", secondary: "#ffffff" },
+          badgeId: "asociacion-arauco",
+          description: "Club participante del torneo oficial."
+        },
+        {
+          id: "club-2",
+          name: "Club Deportivo Ejemplo 2",
+          shortName: "Ejemplo 2",
+          founded: 1962,
+          president: "Dirigente 2",
+          stadium: "Cancha Municipal",
+          colors: { primary: "#131b2e", secondary: "#f59e0b" },
+          badgeId: "asociacion-arauco",
+          description: "Club participante del torneo oficial."
+        }
+      ],
+      players: [
+        {
+          id: "p-101",
+          clubId: "club-1",
+          name: "Juan P\xE9rez Gonz\xE1lez",
+          nickname: "El Tanque",
+          rut: "18.345.678-9",
+          dorsal: 9,
+          position: "Delantero Centro",
+          series: "honor",
+          isCaptain: true,
+          stats: { matches: 5, goals: 4, assists: 1, yellowCards: 1, redCards: 0 }
+        }
+      ],
+      matches: [
+        {
+          id: "match-101",
+          round: 1,
+          series: "honor",
+          date: "2026-10-10",
+          time: "16:00",
+          venue: "Estadio Municipal",
+          homeClubId: "club-1",
+          awayClubId: "club-2",
+          homeScore: 0,
+          awayScore: 0,
+          status: "programado",
+          scorers: [],
+          cards: []
+        }
+      ],
+      standings: {
+        honor: [],
+        senior_35: [],
+        juvenil: []
+      },
+      sanctions: [],
+      treasuryLedger: [],
+      venues: [
+        { id: "v-1", name: "Estadio Municipal", address: "Av. Principal s/n", surface: "Pasto Sint\xE9tico FIFA" }
+      ]
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(template, null, 2));
+    const a = document.createElement("a");
+    a.setAttribute("href", dataStr);
+    a.setAttribute("download", `plantilla_campeonato_ligamaster.json`);
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast("Plantilla de campeonato descargada.", "success");
+  };
 
   // js/app.js
   var FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
