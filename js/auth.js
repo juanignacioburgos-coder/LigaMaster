@@ -215,6 +215,8 @@ function setupAuthFormListener() {
       if (errorEl) {
         errorEl.textContent = res.message;
         errorEl.style.display = 'block';
+      } else if (typeof window !== 'undefined' && window.showToast) {
+        window.showToast(res.message, 'error');
       } else {
         alert(res.message);
       }

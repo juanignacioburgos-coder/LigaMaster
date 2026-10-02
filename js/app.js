@@ -15,6 +15,19 @@ import {
 import { getClubBadgeSvg, getSelectionBadgeSvg } from './badges.js';
 import { initAdmin, renderAdminView } from './admin.js';
 import { initAuth, updateAuthUI, getCurrentRole, ROLES } from './auth.js';
+import { showToast } from './toast.js';
+
+// Fallback de imágenes SVG seguras y offline
+const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
+const FALLBACK_NEWS = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect width='400' height='250' fill='%230f172a'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364748b' font-family='sans-serif' font-weight='800' font-size='18'>LIGAMASTER OFICIAL</text></svg>";
+
+if (typeof window !== 'undefined') {
+  window.ligamasterImageFallback = (img, type = 'avatar') => {
+    if (!img) return;
+    img.onerror = null;
+    img.src = type === 'news' ? FALLBACK_NEWS : FALLBACK_AVATAR;
+  };
+}
 
 // Estado Global de Navegación y Filtros
 let currentActiveView = 'home-view';
@@ -79,6 +92,7 @@ function initLigaMaster() {
   setupGlobalSearch();
   setupSeriesFilters();
   setupMultiLeagueHandlers();
+  setupFooterLinks();
 
   initAuth();
   initAdmin();
@@ -444,6 +458,17 @@ function renderHomeMiniStandings() {
   const standings = (db.standings && db.standings[currentActiveSeries]) || [];
   const top5 = standings.slice(0, 5);
 
+  if (top5.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state-box" style="padding: 1.5rem 1rem;">
+        <span class="empty-state-icon">📊</span>
+        <div class="empty-state-title" style="font-size: 0.95rem;">Sin Posiciones</div>
+        <div class="empty-state-desc" style="font-size: 0.8rem;">No hay partidos computados en esta serie aún.</div>
+      </div>
+    `;
+    return;
+  }
+
   let html = `
     <table class="sports-table">
       <thead>
@@ -491,6 +516,17 @@ function renderHomeMiniScorers() {
   const db = getDb();
   const scorers = getSortedPlayersByStat('goals').slice(0, 4);
 
+  if (scorers.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state-box" style="padding: 1.5rem 1rem;">
+        <span class="empty-state-icon">⚽</span>
+        <div class="empty-state-title" style="font-size: 0.95rem;">Sin Goleadores</div>
+        <div class="empty-state-desc" style="font-size: 0.8rem;">Aún no se registran goles en las planillas de juego.</div>
+      </div>
+    `;
+    return;
+  }
+
   let html = '<div style="display: flex; flex-direction: column; gap: 0.75rem;">';
   scorers.forEach((p, idx) => {
     html += `
@@ -499,7 +535,7 @@ function renderHomeMiniScorers() {
           <span class="table-pos-badge ${idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''))}" style="width: 24px; height: 24px; font-size: 0.75rem;">
             ${idx + 1}
           </span>
-          <img src="${p.avatar}" alt="${p.name}" style="width: 32px; height: 32px; border-radius: var(--radius-xs); object-fit: cover;">
+          <img src="${p.avatar}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" style="width: 32px; height: 32px; border-radius: var(--radius-xs); object-fit: cover;">
           <div>
             <div style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 800; color: var(--color-text-main);">${p.name}</div>
             <div style="font-size: 0.72rem; color: var(--color-text-muted);">${p.clubName}</div>
@@ -521,6 +557,17 @@ function renderHomeMiniNews() {
   if (!container) return;
   const db = getDb();
   const news = (db.news || []).slice(0, 2);
+
+  if (news.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state-box" style="padding: 1.5rem 1rem;">
+        <span class="empty-state-icon">📰</span>
+        <div class="empty-state-title" style="font-size: 0.95rem;">Sin Comunicados</div>
+        <div class="empty-state-desc" style="font-size: 0.8rem;">No hay notas de prensa publicadas en esta liga.</div>
+      </div>
+    `;
+    return;
+  }
 
   let html = '<div style="display: flex; flex-direction: column; gap: 0.75rem;">';
   news.forEach(n => {
@@ -565,95 +612,127 @@ function renderLeagueView() {
   const nextContainer = document.getElementById('league-next-matches-grid');
   if (nextContainer) {
     const matches = (db.matches || []).filter(m => m.series === currentActiveSeries).slice(0, 2);
-    let html = '';
-    matches.forEach(m => {
-      const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: "Local" };
-      const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: "Visita" };
-      html += `
-        <div class="match-card">
-          <div class="match-card-header">
-            <span>${m.round}</span>
-            <span class="match-status-badge ${m.status === 'en_vivo' ? 'live' : 'scheduled'}">${m.status === 'en_vivo' ? 'EN VIVO' : 'PROGRAMADO'}</span>
-          </div>
-          <div class="match-teams-row">
-            <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.homeClubId}')">
-              <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 40)}</div>
-              <div class="match-team-name">${homeClub.name}</div>
-            </div>
-            <div class="match-score-col">
-              <div class="match-vs-box">VS</div>
-              <span style="font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-top: 0.2rem;">${m.date.split('•')[1] || '16:30'}</span>
-            </div>
-            <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.awayClubId}')">
-              <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 40)}</div>
-              <div class="match-team-name">${awayClub.name}</div>
-            </div>
-          </div>
-          <div class="match-card-footer">
-            <span style="font-size: 0.75rem; color: var(--color-text-muted);">${m.venue}</span>
-            <button class="btn-outline-coral" style="padding: 0.2rem 0.6rem; font-size: 0.72rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">Detalles</button>
-          </div>
+    if (matches.length === 0) {
+      nextContainer.innerHTML = `
+        <div class="empty-state-box" style="padding: 1.5rem 1rem;">
+          <span class="empty-state-icon">⚽</span>
+          <div class="empty-state-title" style="font-size: 0.95rem;">Sin Partidos Próximos</div>
+          <div class="empty-state-desc" style="font-size: 0.8rem;">No hay compromisos agendados para esta serie.</div>
         </div>
       `;
-    });
-    nextContainer.innerHTML = html;
+    } else {
+      let html = '';
+      matches.forEach(m => {
+        const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: "Local" };
+        const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: "Visita" };
+        html += `
+          <div class="match-card">
+            <div class="match-card-header">
+              <span>${m.round}</span>
+              <span class="match-status-badge ${m.status === 'en_vivo' ? 'live' : 'scheduled'}">${m.status === 'en_vivo' ? 'EN VIVO' : 'PROGRAMADO'}</span>
+            </div>
+            <div class="match-teams-row">
+              <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.homeClubId}')">
+                <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 40)}</div>
+                <div class="match-team-name">${homeClub.name}</div>
+              </div>
+              <div class="match-score-col">
+                <div class="match-vs-box">VS</div>
+                <span style="font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-top: 0.2rem;">${m.date.split('•')[1] || '16:30'}</span>
+              </div>
+              <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.awayClubId}')">
+                <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 40)}</div>
+                <div class="match-team-name">${awayClub.name}</div>
+              </div>
+            </div>
+            <div class="match-card-footer">
+              <span style="font-size: 0.75rem; color: var(--color-text-muted);">${m.venue}</span>
+              <button class="btn-outline-coral" style="padding: 0.2rem 0.6rem; font-size: 0.72rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">Detalles</button>
+            </div>
+          </div>
+        `;
+      });
+      nextContainer.innerHTML = html;
+    }
   }
 
   // Renderizar tabla resumida
   const summaryBox = document.getElementById('league-summary-standings-box');
   if (summaryBox) {
     const standings = (db.standings && db.standings[currentActiveSeries]) || [];
-    let html = `
-      <table class="sports-table" style="font-size: 0.8rem;">
-        <thead>
-          <tr>
-            <th>Pos</th>
-            <th>Equipo</th>
-            <th class="text-center">PJ</th>
-            <th class="text-center">PTS</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-    standings.slice(0, 6).forEach(row => {
-      const club = (db.clubs || []).find(c => c.id === row.clubId);
-      const bId = (club && club.badgeId) || row.clubId;
-      html += `
-        <tr onclick="window.ligamasterSelectTeam('${row.clubId}')" style="cursor: pointer;">
-          <td><span class="table-pos-badge" style="width: 22px; height: 22px; font-size: 0.7rem;">${row.pos}</span></td>
-          <td>
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span style="width: 18px; height: 18px; display: inline-flex;">${getClubBadgeSvg(bId, 18)}</span>
-              <strong style="font-size: 0.8rem;">${row.clubName}</strong>
-            </div>
-          </td>
-          <td class="text-center">${row.pj}</td>
-          <td class="pts-cell" style="font-size: 0.88rem;">${row.pts}</td>
-        </tr>
+    if (standings.length === 0) {
+      summaryBox.innerHTML = `
+        <div class="empty-state-box" style="padding: 1.5rem 1rem;">
+          <span class="empty-state-icon">📊</span>
+          <div class="empty-state-title" style="font-size: 0.95rem;">Tabla Pendiente</div>
+          <div class="empty-state-desc" style="font-size: 0.8rem;">Sin estadísticas calculadas aún.</div>
+        </div>
       `;
-    });
-    html += '</tbody></table>';
-    summaryBox.innerHTML = html;
+    } else {
+      let html = `
+        <table class="sports-table" style="font-size: 0.8rem;">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Equipo</th>
+              <th class="text-center">PJ</th>
+              <th class="text-center">PTS</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      standings.slice(0, 6).forEach(row => {
+        const club = (db.clubs || []).find(c => c.id === row.clubId);
+        const bId = (club && club.badgeId) || row.clubId;
+        html += `
+          <tr onclick="window.ligamasterSelectTeam('${row.clubId}')" style="cursor: pointer;">
+            <td><span class="table-pos-badge" style="width: 22px; height: 22px; font-size: 0.7rem;">${row.pos}</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <span style="width: 18px; height: 18px; display: inline-flex;">${getClubBadgeSvg(bId, 18)}</span>
+                <strong style="font-size: 0.8rem;">${row.clubName}</strong>
+              </div>
+            </td>
+            <td class="text-center">${row.pj}</td>
+            <td class="pts-cell" style="font-size: 0.88rem;">${row.pts}</td>
+          </tr>
+        `;
+      });
+      html += '</tbody></table>';
+      summaryBox.innerHTML = html;
+    }
   }
 
   // Renderizar clubes afiliados
   const clubsGrid = document.getElementById('league-clubs-grid');
   if (clubsGrid) {
-    let html = '';
-    (db.clubs || []).forEach(club => {
-      html += `
-        <div class="club-compact-card" onclick="window.ligamasterSelectTeam('${club.id}')">
-          <div class="club-compact-crest">
-            ${getClubBadgeSvg(club.badgeId || club.id, 38)}
-          </div>
-          <div class="club-compact-info">
-            <h4>${club.name}</h4>
-            <span>Fundado: ${club.exactFoundationDate || club.founded || 'Oficial'}</span>
+    if (!db.clubs || !db.clubs.length) {
+      clubsGrid.innerHTML = `
+        <div style="grid-column: 1/-1;">
+          <div class="empty-state-box">
+            <span class="empty-state-icon">🛡️</span>
+            <div class="empty-state-title">Sin Clubes Registrados</div>
+            <div class="empty-state-desc">Esta liga no cuenta con clubes registrados en su directorio.</div>
           </div>
         </div>
       `;
-    });
-    clubsGrid.innerHTML = html;
+    } else {
+      let html = '';
+      (db.clubs || []).forEach(club => {
+        html += `
+          <div class="club-compact-card" onclick="window.ligamasterSelectTeam('${club.id}')">
+            <div class="club-compact-crest">
+              ${getClubBadgeSvg(club.badgeId || club.id, 38)}
+            </div>
+            <div class="club-compact-info">
+              <h4>${club.name}</h4>
+              <span>Fundado: ${club.exactFoundationDate || club.founded || 'Oficial'}</span>
+            </div>
+          </div>
+        `;
+      });
+      clubsGrid.innerHTML = html;
+    }
   }
 }
 
@@ -678,7 +757,16 @@ function renderStandingsView() {
 
   const standings = (db.standings && db.standings[currentActiveSeries]) || [];
   if (standings.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">Actualmente no hay estadísticas de tabla disponibles para esta serie en ${league.name}.</td></tr>`;
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="11" style="padding: 3rem 1rem;">
+          <div class="empty-state-box">
+            <span class="empty-state-icon">📋</span>
+            <div class="empty-state-title">Sin Tabla Registrada</div>
+            <div class="empty-state-desc">Actualmente no hay estadísticas de tabla computadas para esta serie en ${league.name}.</div>
+          </div>
+        </td>
+      </tr>`;
     return;
   }
 
@@ -757,7 +845,15 @@ function renderCalendarView() {
   const matches = (db.matches || []).filter(m => m.series === currentActiveSeries);
 
   if (matches.length === 0) {
-    matchesContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">No hay compromisos registrados en el fixture para esta categoría.</div>`;
+    matchesContainer.innerHTML = `
+      <div style="grid-column: 1/-1;">
+        <div class="empty-state-box">
+          <span class="empty-state-icon">📅</span>
+          <div class="empty-state-title">Sin Partidos Programados</div>
+          <div class="empty-state-desc">No hay compromisos oficiales registrados en el fixture para esta categoría.</div>
+        </div>
+      </div>
+    `;
     return;
   }
 
@@ -834,7 +930,15 @@ function renderResultsView() {
   const matches = (db.matches || []).filter(m => m.series === currentActiveSeries && (m.status === 'finalizado' || m.status === 'en_vivo'));
 
   if (matches.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">Aún no se registran resultados oficiales para esta serie en la jornada.</div>`;
+    container.innerHTML = `
+      <div style="grid-column: 1/-1;">
+        <div class="empty-state-box">
+          <span class="empty-state-icon">⏱️</span>
+          <div class="empty-state-title">Sin Resultados Oficiales</div>
+          <div class="empty-state-desc">Aún no se registran resultados oficiales para esta serie en la jornada.</div>
+        </div>
+      </div>
+    `;
     return;
   }
 
@@ -974,13 +1078,21 @@ function renderTeamTabContent(club) {
   if (currentTeamTab === 'plantel') {
     let html = '<div class="roster-grid">';
     if (players.length === 0) {
-      html += `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 2rem;">No hay futbolistas inscritos para esta serie en el club.</div>`;
+      html += `
+        <div style="grid-column: 1/-1;">
+          <div class="empty-state-box">
+            <span class="empty-state-icon">👥</span>
+            <div class="empty-state-title">Sin Futbolistas Inscritos</div>
+            <div class="empty-state-desc">No hay futbolistas inscritos para esta serie en ${club.name}.</div>
+          </div>
+        </div>
+      `;
     } else {
       players.forEach(p => {
         html += `
           <div class="player-roster-card" onclick="window.ligamasterSelectPlayer('${p.id}')">
             <div class="roster-avatar-box">
-              <img src="${p.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'}" alt="${p.name}" class="roster-avatar-img">
+              <img src="${p.avatar || FALLBACK_AVATAR}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" class="roster-avatar-img">
               <span class="roster-number-badge">#${p.number}</span>
             </div>
             <div class="roster-info">
@@ -1091,7 +1203,11 @@ function renderPlayerView() {
   const club = (db.clubs || []).find(c => c.id === player.clubId) || { name: "Club Oficial" };
 
   // Renderizar Ficha
-  document.getElementById('player-profile-img').src = player.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80";
+  const pImg = document.getElementById('player-profile-img');
+  if (pImg) {
+    pImg.onerror = () => { pImg.src = FALLBACK_AVATAR; };
+    pImg.src = player.avatar || FALLBACK_AVATAR;
+  }
   document.getElementById('player-profile-dorsal').textContent = `#${player.number}`;
   document.getElementById('player-profile-name').textContent = player.name;
   document.getElementById('player-profile-crest').innerHTML = getClubBadgeSvg(club.badgeId || player.clubId, 26);
@@ -1150,7 +1266,17 @@ function renderStatsView() {
   const sortedPlayers = getSortedPlayersByStat(metricKey);
 
   if (sortedPlayers.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">Actualmente no hay estadísticas disponibles para esta selección.</td></tr>`;
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="padding: 3rem 1rem;">
+          <div class="empty-state-box">
+            <span class="empty-state-icon">📈</span>
+            <div class="empty-state-title">Sin Estadísticas Registradas</div>
+            <div class="empty-state-desc">Actualmente no hay datos individuales disponibles para esta categoría en la liga activa.</div>
+          </div>
+        </td>
+      </tr>
+    `;
     return;
   }
 
@@ -1169,7 +1295,7 @@ function renderStatsView() {
         </td>
         <td>
           <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <img src="${p.avatar}" alt="${p.name}" style="width: 38px; height: 38px; border-radius: var(--radius-xs); object-fit: cover;">
+            <img src="${p.avatar}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" style="width: 38px; height: 38px; border-radius: var(--radius-xs); object-fit: cover;">
             <div>
               <strong style="font-family: var(--font-display); font-size: 0.95rem; color: var(--color-text-main); display: block;">${p.name}</strong>
               <small style="color: var(--color-text-muted); font-size: 0.75rem;">#${p.number} • ${p.position}</small>
@@ -1221,12 +1347,25 @@ function renderNewsView() {
   const db = getDb();
   const news = db.news || [];
 
+  if (news.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1/-1;">
+        <div class="empty-state-box">
+          <span class="empty-state-icon">📰</span>
+          <div class="empty-state-title">Sin Noticias Publicadas</div>
+          <div class="empty-state-desc">No hay comunicados oficiales o notas de prensa activas en este momento.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   let html = '';
   news.forEach(n => {
     html += `
       <article class="news-card">
         <div class="news-img-box">
-          <img src="${n.image}" alt="${n.title}" class="news-img">
+          <img src="${n.image}" alt="${n.title}" onerror="window.ligamasterImageFallback(this, 'news')" class="news-img">
           <span class="news-tag">${n.category}</span>
         </div>
         <div class="news-content">
@@ -1572,4 +1711,163 @@ function renderLeaguePickerModal() {
   });
 
   container.innerHTML = html;
+}
+
+/**
+ * ==========================================================================
+ * DOCUMENTOS INSTITUCIONALES Y ENLACES FOOTER
+ * ==========================================================================
+ */
+function setupFooterLinks() {
+  const docs = {
+    reglamento: {
+      title: 'Reglamento Oficial de Competiciones ANFA 2026',
+      badge: '📜 BASES OFICIALES',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Asociación de Fútbol de Arauco • Afiliada a ANFA Biobío</strong>
+            <span>Estatutos vigentes aprobados en Asamblea General de Clubes 2026.</span>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">1. Series en Competencia</h4>
+            <p>El campeonato oficial comprende las series de <strong>Honor (Primera)</strong>, <strong>Senior (35+ Años)</strong>, <strong>Segunda Adulta</strong>, <strong>Tercera Adulta</strong>, <strong>Super Senior (45+)</strong> y <strong>Juvenil (Sub-17)</strong>. Es obligación de los clubes presentar nómina en al menos 4 series federadas.</p>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">2. Control de Fichas y Cédula de Identidad</h4>
+            <p>Todo jugador debe presentar su Cédula de Identidad física vigente previo al inicio del encuentro ante la mesa de turno. Jugador sin carnet físico o digital validado en sistema no puede ingresar al terreno de juego.</p>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">3. Régimen Disciplinario</h4>
+            <p>Acumulación de 3 tarjetas amarillas acarrea automáticamente 1 fecha de suspensión. La tarjeta roja directa implica suspensión preventiva inmediata a la espera del fallo de los días martes del Tribunal de Penas.</p>
+          </div>
+        </div>
+      `
+    },
+    arbitros: {
+      title: 'Colegio de Árbitros Profesionales & Amateur (CAPA)',
+      badge: '⚖️ CUERPO REFERIL',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Ternas y Designaciones Oficiales 2026</strong>
+            <span>Garantía de imparcialidad, cronometraje oficial y fe pública en el campo deportivo.</span>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Designación de Árbitros</h4>
+            <p>Las ternas arbitrales son sorteadas de forma autónoma cada jueves a las 20:00 hrs en la sesión de mesa ejecutiva, garantizando que ningún árbitro dirija al mismo club más de dos fechas consecutivas.</p>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Entrega de Informes</h4>
+            <p>Los jueces tienen un plazo fatal de 24 horas posteriores al pitazo final para entregar la planilla física y ratificar los incidentes en el portal digital de la Asociación.</p>
+          </div>
+        </div>
+      `
+    },
+    actas: {
+      title: 'Planillas Oficiales de Cancha y Turnos',
+      badge: '📋 PROTOCOLO DE PARTIDO',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Planilla Digital Unificada LigaMaster</strong>
+            <span>Registro digitalizado de anotaciones, tarjetas, minutos de juego y sustituciones.</span>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Firma de Capitanes</h4>
+            <p>Al término de cada compromiso, los capitanes de ambos clubes deben firmar el acta oficial junto al árbitro central. La firma certifica el resultado final y los goles registrados.</p>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Observaciones y Apelaciones</h4>
+            <p>Cualquier reclamo por suplantación o irregularidad técnica debe ser estampada en el dorso de la planilla antes de los 15 minutos de finalizado el cotejo.</p>
+          </div>
+        </div>
+      `
+    },
+    contacto: {
+      title: 'Contacto Institucional • Mesa de Ayuda',
+      badge: '📞 DIRECTORIO ANFA',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Atención a Dirigentes y Medios de Comunicación</strong>
+            <span>Sede Social: Esmeralda 450, Arauco, Región del Biobío.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="background: #fff; border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--radius-sm);">
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 800; display: block;">Correo Electrónico</span>
+              <strong style="color: var(--color-primary); font-size: 0.9rem;">contacto@ligamaster.cl</strong>
+            </div>
+            <div style="background: #fff; border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--radius-sm);">
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 800; display: block;">Turnos y Canchas</span>
+              <strong style="color: var(--color-text-main); font-size: 0.9rem;">+56 9 8452 1190</strong>
+            </div>
+          </div>
+          <p>Horario de atención presencial para trámites de pases y habilitaciones: Martes y Jueves de 19:30 a 22:00 hrs.</p>
+        </div>
+      `
+    },
+    terminos: {
+      title: 'Términos, Condiciones y Privacidad Deportiva',
+      badge: '🔒 PROTECCIÓN DE DATOS',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Uso de Datos en LigaMaster</strong>
+            <span>Conformidad con la Ley 19.628 sobre protección de la vida privada en Chile.</span>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Padrón Deportivo y Estadísticas Públicas</h4>
+            <p>Los nombres de futbolistas, números de camiseta, fotografías de campo y cómputo de goles forman parte del padrón de difusión deportiva de interés comunitario.</p>
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">Derechos de Imagen</h4>
+            <p>Las transmisiones fotográficas y audiovisuales en recintos deportivos municipales se rigen bajo los convenios comunitarios de la Asociación y sus medios asociados.</p>
+          </div>
+        </div>
+      `
+    },
+    postular: {
+      title: 'Postula tu Asociación a LigaMaster Chile',
+      badge: '🚀 EXPANSIÓN NACIONAL',
+      html: `
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Lleva tu liga al estándar profesional de LaLiga</strong>
+            <span>Tablas en vivo, padrón de jugadores, control financiero y diseño broadcast.</span>
+          </div>
+          <p>Si eres presidente de una Asociación ANFA o liga independiente en cualquier región de Chile, puedes habilitar tu propia plataforma deportiva con tu escudo, tus clubes y tus canchas.</p>
+          <div style="background: #fff; border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+            <p style="margin-bottom: 0.5rem; font-weight: 700; color: var(--color-text-main);">Escríbenos directamente para solicitar demostración personalizada:</p>
+            <a href="mailto:alianzas@ligamaster.cl" class="btn-primary-coral" style="display: inline-flex; text-decoration: none; padding: 0.5rem 1.25rem; font-size: 0.85rem; margin-top: 0.25rem;">
+              Solicitar Demostración (alianzas@ligamaster.cl)
+            </a>
+          </div>
+        </div>
+      `
+    }
+  };
+
+  const bindBtn = (id, key) => {
+    document.getElementById(id)?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const doc = docs[key];
+      if (!doc) return;
+      const modal = document.getElementById('modal-institutional-info');
+      const titleEl = document.getElementById('institutional-modal-title');
+      const bodyEl = document.getElementById('institutional-modal-body');
+      if (modal && titleEl && bodyEl) {
+        titleEl.innerHTML = `<span style="font-size: 0.72rem; color: var(--color-primary); display: block; text-transform: uppercase; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 0.15rem;">${doc.badge}</span>${doc.title}`;
+        bodyEl.innerHTML = doc.html;
+        modal.classList.add('active');
+      }
+    });
+  };
+
+  bindBtn('footer-btn-reglamento', 'reglamento');
+  bindBtn('footer-btn-arbitros', 'arbitros');
+  bindBtn('footer-btn-actas', 'actas');
+  bindBtn('footer-btn-contacto', 'contacto');
+  bindBtn('footer-btn-terminos', 'terminos');
+  bindBtn('footer-btn-postular', 'postular');
 }

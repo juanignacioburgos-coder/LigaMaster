@@ -16,6 +16,7 @@ import {
 
 import { getClubBadgeSvg } from './badges.js';
 import { getCurrentRole, getCurrentUser, logout, login, ROLES } from './auth.js';
+import { showToast } from './toast.js';
 
 // Estado Interno del Panel Administrativo
 let currentAdminTab = 'dashboard'; // 'dashboard' | 'matches' | 'clubs' | 'sanctions' | 'treasury' | 'settings'
@@ -1036,7 +1037,7 @@ function renderAdminSettings(container, db, league) {
     db.leagueInfo.mediaPartner = document.getElementById('set-media')?.value || db.leagueInfo.mediaPartner;
 
     saveDb(db, league.id);
-    alert('Configuración guardada exitosamente.');
+    showToast('Configuración guardada exitosamente.', 'success');
     renderAdminView();
   });
 }
@@ -1066,7 +1067,7 @@ window.ligamasterSaveMatchScore = (matchId) => {
   recalculateStandings(db, m.series);
   saveDb(db, activeId);
 
-  alert(`Marcador actualizado: ${hScore} - ${aScore} (${status}). Posiciones recalculadas.`);
+  showToast(`Marcador actualizado: ${hScore} - ${aScore} (${status}). Posiciones recalculadas.`, 'success');
   renderAdminView();
 };
 
@@ -1089,7 +1090,7 @@ window.ligamasterSaveFullMatchScore = (matchId) => {
   recalculateStandings(db, m.series);
   saveDb(db, activeId);
 
-  alert(`Partido guardado: ${hScore} : ${aScore} (${status}).`);
+  showToast(`Partido guardado: ${hScore} : ${aScore} (${status}).`, 'success');
   renderAdminView();
 };
 
@@ -1104,7 +1105,7 @@ window.ligamasterRatifyMatch = (matchId) => {
   m.ratificationLabel = 'Oficializado y Ratificado por Directorio ANFA';
 
   saveDb(db, activeId);
-  alert(`Planilla del partido oficializada y ratificada por la Directiva.`);
+  showToast('Planilla del partido oficializada y ratificada por la Directiva.', 'success');
   renderAdminView();
 };
 
@@ -1128,10 +1129,10 @@ window.ligamasterTogglePlayerStatus = (playerId) => {
   if (p.status === 'suspendido') {
     p.status = 'habilitado';
     p.yellowCards = 0; // Levanta sanción
-    alert(`Futbolista ${p.name} ha sido HABILITADO.`);
+    showToast(`Futbolista ${p.name} ha sido HABILITADO.`, 'success');
   } else {
     p.status = 'suspendido';
-    alert(`Futbolista ${p.name} ha sido SUSPENDIDO reglamentariamente.`);
+    showToast(`Futbolista ${p.name} ha sido SUSPENDIDO reglamentariamente.`, 'warning');
   }
 
   saveDb(db, activeId);
@@ -1163,9 +1164,9 @@ window.ligamasterServeSanctionDate = (sanctionId) => {
     // Rehabilitar futbolista si estaba en el padrón
     const p = (db.players || []).find(item => item.name.toLowerCase() === s.playerName.toLowerCase());
     if (p) p.status = 'habilitado';
-    alert(`¡Sanción cumplida en su totalidad! El jugador ${s.playerName} queda habilitado.`);
+    showToast(`¡Sanción cumplida en su totalidad! El jugador ${s.playerName} queda habilitado.`, 'success');
   } else {
-    alert(`Fecha computada. Fechas restantes de castigo: ${s.datesRemaining}.`);
+    showToast(`Fecha computada. Fechas restantes de castigo: ${s.datesRemaining}.`, 'info');
   }
 
   saveDb(db, activeId);
@@ -1186,7 +1187,7 @@ window.ligamasterDeleteTreasuryItem = (itemId) => {
 window.ligamasterResetActiveLeague = (leagueId) => {
   if (!confirm('¿Seguro que deseas restablecer esta liga a sus datos originales de fábrica? Se perderán las modificaciones locales.')) return;
   resetDb(leagueId);
-  alert('Base de datos restablecida.');
+  showToast('Base de datos restablecida a sus valores originales.', 'info');
   renderAdminView();
 };
 
@@ -1330,7 +1331,7 @@ function setupAdminModals() {
         const homeId = document.getElementById('new-match-home')?.value;
         const awayId = document.getElementById('new-match-away')?.value;
         if (homeId === awayId) {
-          alert('El equipo local y visita no pueden ser el mismo.');
+          showToast('El equipo local y visita no pueden ser el mismo.', 'error');
           return;
         }
 
@@ -1355,7 +1356,7 @@ function setupAdminModals() {
         saveDb(db, activeId);
 
         modal.classList.remove('active');
-        alert('Partido programado exitosamente.');
+        showToast('Partido programado exitosamente.', 'success');
         renderAdminView();
       });
     }
@@ -1446,7 +1447,7 @@ function setupAdminModals() {
         saveDb(db, activeId);
 
         modal.classList.remove('active');
-        alert(`Futbolista ${newPlayer.name} inscrito exitosamente en el club.`);
+        showToast(`Futbolista ${newPlayer.name} inscrito exitosamente en el club.`, 'success');
         renderAdminView();
       });
     }
@@ -1529,7 +1530,7 @@ function setupAdminModals() {
 
         saveDb(db, activeId);
         modal.classList.remove('active');
-        alert(`Sanción aplicada: ${playerName} inhabilitado por ${dates} fecha(s).`);
+        showToast(`Sanción disciplinaria aplicada: ${playerName} inhabilitado por ${dates} fecha(s).`, 'warning');
         renderAdminView();
       });
     }
@@ -1622,7 +1623,7 @@ function setupAdminModals() {
         saveDb(db, activeId);
 
         modal.classList.remove('active');
-        alert(`Movimiento de $${newMov.amount.toLocaleString('es-CL')} registrado con éxito.`);
+        showToast(`Movimiento de $${newMov.amount.toLocaleString('es-CL')} registrado con éxito.`, 'success');
         renderAdminView();
       });
     }

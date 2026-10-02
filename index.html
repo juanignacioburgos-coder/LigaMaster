@@ -722,10 +722,10 @@
             La plataforma líder de gestión y difusión digital para el fútbol amateur chileno. Diseñada para dotar a asociaciones, directivas y clubes de herramientas profesionales de visualización.
           </p>
           <div class="footer-social-row">
-            <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-link" title="Facebook Oficial" aria-label="Facebook">📘</a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-link" title="Instagram Oficial" aria-label="Instagram">📸</a>
-            <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-link" title="YouTube Transmisiones" aria-label="YouTube">▶️</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-link" title="X / Twitter" aria-label="X">✖️</a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="Facebook Oficial" aria-label="Facebook">📘</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="Instagram Oficial" aria-label="Instagram">📸</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="YouTube Transmisiones" aria-label="YouTube">▶️</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="X / Twitter" aria-label="X">✖️</a>
           </div>
         </div>
 
@@ -745,11 +745,11 @@
         <div class="footer-nav-col">
           <h5>Ligas de Chile</h5>
           <ul>
-            <li><a href="#" onclick="window.ligamasterSwitchLeague('arauco')">Liga de Arauco (Activa)</a></li>
-            <li><a href="#" onclick="window.ligamasterSwitchLeague('lebu')">Liga de Lebu (Demo)</a></li>
-            <li><a href="#" onclick="window.ligamasterSwitchLeague('canete')">Liga de Cañete (Demo)</a></li>
-            <li><a href="#" onclick="window.ligamasterSwitchLeague('cordillera')">Liga Cordillera Santiago (Demo)</a></li>
-            <li><a href="#" id="footer-btn-postular">Postular mi Asociación</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('arauco')">Liga de Arauco (Activa)</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('lebu')">Liga de Lebu (Demo)</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('canete')">Liga de Cañete (Demo)</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('cordillera')">Liga Cordillera Santiago (Demo)</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-postular">Postular mi Asociación</a></li>
           </ul>
         </div>
 
@@ -769,11 +769,11 @@
         <div class="footer-nav-col">
           <h5>Recursos & Soporte</h5>
           <ul>
-            <li><a href="#" id="footer-btn-reglamento">Reglamento ANFA 2026</a></li>
-            <li><a href="#" id="footer-btn-arbitros">Colegio de Árbitros (CAPA)</a></li>
-            <li><a href="#" id="footer-btn-actas">Planillas Oficiales de Cancha</a></li>
-            <li><a href="#" id="footer-btn-contacto">Contacto para Directivas</a></li>
-            <li><a href="#" id="footer-btn-terminos">Términos de Privacidad</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-reglamento">Reglamento ANFA 2026</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-arbitros">Colegio de Árbitros (CAPA)</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-actas">Planillas Oficiales de Cancha</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-contacto">Contacto para Directivas</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-terminos">Términos de Privacidad</a></li>
           </ul>
         </div>
 
@@ -946,6 +946,22 @@
       </div>
       <div class="modal-body">
         <!-- Renderizado dinámico desde admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Institucional / Documentación Oficial ANFA & LigaMaster -->
+  <div class="modal-overlay" id="modal-institutional-info">
+    <div class="modal-window" style="max-width: 620px;">
+      <div class="modal-header-bar">
+        <h3 id="institutional-modal-title">Documento Institucional</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body" id="institutional-modal-body" style="padding: 1.5rem; line-height: 1.6;">
+        <!-- Contenido inyectado dinámicamente -->
+      </div>
+      <div style="padding: 0.9rem 1.5rem; background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); display: flex; justify-content: flex-end;">
+        <button class="btn-primary-coral" data-close-modal style="font-size: 0.82rem; padding: 0.4rem 1.1rem;">Entendido / Cerrar</button>
       </div>
     </div>
   </div>

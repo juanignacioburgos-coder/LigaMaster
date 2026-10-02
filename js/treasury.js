@@ -192,7 +192,12 @@ export function printReceiptModal(folioId) {
   const modal = document.getElementById('modal-receipt-backdrop');
   const content = document.getElementById('modal-receipt-content');
   if (!modal || !content) {
-    alert(`Comprobante Oficial ANFA Arauco\nFolio: ${item.receiptFolio}\nConcepto: ${item.concept}\nMonto: ${formatCurrency(item.amount)}`);
+    const msg = `Comprobante ANFA Arauco • Folio: ${item.receiptFolio} • ${item.concept} • Monto: ${formatCurrency(item.amount)}`;
+    if (typeof window !== 'undefined' && window.showToast) {
+      window.showToast(msg, 'info');
+    } else {
+      alert(msg);
+    }
     return;
   }
 
