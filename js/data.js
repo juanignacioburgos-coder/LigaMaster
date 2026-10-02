@@ -31,7 +31,10 @@ export const INITIAL_DATA = {
       referees: "Colegio de Árbitros de la Provincia de Arauco (CAPA)",
       broadcast: "Voz Deportiva"
     },
-    activeMatchId: "match-arauco-01"
+    activeMatchId: "match-arauco-01",
+    leagueId: "arauco",
+    badgeId: "asociacion-arauco",
+    isDemo: false
   },
 
   /**
@@ -223,8 +226,10 @@ export const INITIAL_DATA = {
       colors: { primary: "#b91c1c", secondary: "#ffffff" },
       badgeEmoji: "⚔️",
       titlesComunalesHonor: 6,
-      regionalRecord: "Club Deportivo Pelantaro Atlético, institución decana fundada el 20 de agosto de 1929 (presidida por Eliseo Osvaldo Carril Flores). Histórica presencia en Copa de Campeones Senior 35 y Súper Senior 45 ANFA Biobío, con escuelas formativas juveniles activas.",
-      seriesParticipantes: ["Honor", "Segunda Adulta", "S    {
+      seriesParticipantes: ["Honor", "Segunda Adulta", "Senior 35", "Súper Senior 45", "Juvenil", "Infantil"],
+      statusLegal: "Personalidad Jurídica vigente Nº 208 - ANFA Arauco"
+    },
+    {
       id: "club-arturo-prat",
       name: "Club Deportivo Arturo Prat",
       shortName: "Arturo Prat",
@@ -1617,443 +1622,13 @@ export const INITIAL_DATA = {
   }
 };
 
-export function getDb() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      return JSON.parse(raw);
-    }
-  } catch (e) {
-    console.error("Error leyendo base de datos", e);
-  }
-  saveDb(INITIAL_DATA);
-  return JSON.parse(JSON.stringify(INITIAL_DATA));
-}
-
-export function saveDb(data) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {
-    console.error("Error escribiendo en localStorage", e);
-  }
-}
-
-export function resetDb() {
-  saveDb(INITIAL_DATA);
-  return JSON.parse(JSON.stringify(INITIAL_DATA));
-}
-
-/**
- * Catálogo Oficial de Asociaciones ANFA Disponibles
- * Permite presentar LigaPro a cualquier mesa directiva comunal o regional de Chile
- */
-export const AVAILABLE_ASSOCIATIONS = [
-  {
-    id: "arauco",
-    name: "Asociación de Fútbol de Arauco",
-    shortName: "AFA Arauco",
-    region: "Región del Biobío",
-    commune: "Arauco (Costa Histórica)",
-    headquarters: "Julio Montt Nº 386, Arauco",
-    badgeEmoji: "⚓",
-    accentColor: "#ff2b44",
-    stadium: "Estadio Municipal Ramón Burgos",
-    clubsCount: 10,
-    tagline: "Fundada el 1 de Octubre de 1940 • 86 Años • 10 Clubes Afiliados"
-  },
-  {
-    id: "lebu",
-    name: "Asociación de Fútbol de Lebu",
-    shortName: "ANFA Lebu",
-    region: "Región del Biobío",
-    commune: "Lebu (Capital Provincial de Arauco)",
-    headquarters: "Sector Boca Lebu / Plaza de Armas",
-    badgeEmoji: "🌊",
-    accentColor: "#00f2fe",
-    stadium: "Estadio Municipal de Lebu",
-    clubsCount: 6,
-    tagline: "Decana Provincial • 6 Clubes en Competencia"
-  },
-  {
-    id: "canete",
-    name: "Asociación de Fútbol de Cañete",
-    shortName: "ANFA Cañete",
-    region: "Región del Biobío",
-    commune: "Cañete (Tierra Histórica)",
-    headquarters: "Avenida Saavedra / Plaza Caupolicán",
-    badgeEmoji: "🌲",
-    accentColor: "#ffb703",
-    stadium: "Estadio Fiscal de Cañete",
-    clubsCount: 6,
-    tagline: "Tradición y Patrimonio • 6 Clubes Federados"
-  },
-  {
-    id: "curanilahue",
-    name: "Asociación de Fútbol de Curanilahue",
-    shortName: "ANFA Curanilahue",
-    region: "Región del Biobío",
-    commune: "Curanilahue (Zona Carbonífera)",
-    headquarters: "Avenida Arturo Prat, Curanilahue",
-    badgeEmoji: "⛏️",
-    accentColor: "#f43f5e",
-    stadium: "Estadio Municipal Raúl Erazo",
-    clubsCount: 4,
-    tagline: "Fuerza Minera • 4 Clubes Históricos"
-  },
-  {
-    id: "concepcion",
-    name: "Asociación de Fútbol de Concepción",
-    shortName: "ANFA Concepción",
-    region: "Región del Biobío",
-    commune: "Concepción (Capital Regional)",
-    headquarters: "Sector Collao, Concepción",
-    badgeEmoji: "🦁",
-    accentColor: "#8b5cf6",
-    stadium: "Campos Deportivos Bellavista / Nonguén",
-    clubsCount: 4,
-    tagline: "Fútbol Metropolitano • Decanos Regionales"
-  }
-];
-
-export function getActiveAssociation() {
-  const db = getDb();
-  const currentId = db.leagueInfo?.associationId || 'arauco';
-  return AVAILABLE_ASSOCIATIONS.find(a => a.id === currentId) || AVAILABLE_ASSOCIATIONS[0];
-}
-
-export function switchAssociation(targetId) {
-  const target = AVAILABLE_ASSOCIATIONS.find(a => a.id === targetId);
-  if (!target) return;
-
-  if (targetId === 'arauco') {
-    saveDb(INITIAL_DATA);
-    window.dispatchEvent(new CustomEvent('ligapro:association-changed', { detail: target }));
-    return;
-  }
-
-  // Generar datos contextualizados para la asociación elegida
-  const newDb = JSON.parse(JSON.stringify(INITIAL_DATA));
-  newDb.leagueInfo.associationId = target.id;
-  newDb.leagueInfo.name = target.name;
-  newDb.leagueInfo.shortName = target.shortName;
-  newDb.leagueInfo.commune = target.commune;
-  newDb.leagueInfo.headquarters = target.headquarters;
-  newDb.leagueInfo.badgeEmoji = target.badgeEmoji;
-  newDb.leagueInfo.accentColor = target.accentColor;
-  newDb.leagueInfo.totalClubs = target.clubsCount;
-
-  if (targetId === 'lebu') {
-    newDb.clubs = [
-      { id: "lebu-penarol", name: "C.D. Peñarol de Lebu", shortName: "Peñarol", badgeEmoji: "🟡", founded: "1947", stadium: "Estadio Municipal de Lebu", titles: 9, colors: "Amarillo y Negro", series: ["honor", "senior_35", "juvenil"] },
-      { id: "lebu-victoria", name: "C.D. Victoria", shortName: "Victoria", badgeEmoji: "🔴", founded: "1938", stadium: "Estadio Municipal de Lebu", titles: 8, colors: "Rojo y Blanco", series: ["honor", "senior_35", "juvenil"] },
-      { id: "lebu-esmeralda", name: "C.D. Esmeralda", shortName: "Esmeralda", badgeEmoji: "🟢", founded: "1952", stadium: "Estadio Municipal de Lebu", titles: 6, colors: "Verde Esperanza", series: ["honor", "senior_35", "juvenil"] },
-      { id: "lebu-colocolo", name: "C.D. Colo-Colo Lebu", shortName: "Colo-Colo", badgeEmoji: "⚪", founded: "1960", stadium: "Estadio Municipal de Lebu", titles: 5, colors: "Blanco y Negro", series: ["honor", "senior_35", "juvenil"] },
-      { id: "lebu-playa", name: "C.D. Playa Grande", shortName: "Playa Grande", badgeEmoji: "🌊", founded: "1974", stadium: "Estadio Municipal de Lebu", titles: 4, colors: "Azul Marino", series: ["honor", "senior_35", "juvenil"] },
-      { id: "lebu-leones", name: "C.D. Los Leones de Lebu", shortName: "Los Leones", badgeEmoji: "🦁", founded: "1982", stadium: "Estadio Municipal de Lebu", titles: 3, colors: "Naranjo y Negro", series: ["honor", "senior_35", "juvenil"] }
-    ];
-    newDb.matches = [
-      {
-        id: "match-lebu-01",
-        series: "honor",
-        round: "Fecha 6 • Clásico del Puerto de Lebu",
-        homeClubId: "lebu-penarol",
-        awayClubId: "lebu-victoria",
-        venue: "Estadio Municipal de Lebu",
-        date: "Domingo • 16:00 hrs",
-        status: "en_vivo",
-        currentMinute: 38,
-        half: 1,
-        homeScore: 2,
-        awayScore: 1,
-        referee: "Marcos Retamal (CAPA Lebu)",
-        events: [
-          { type: "gol", minute: 12, playerName: "Álvaro Riquelme", teamId: "lebu-penarol", description: "Cabezazo al segundo palo" },
-          { type: "gol", minute: 26, playerName: "Cristián Alarcón", teamId: "lebu-victoria", description: "Tiro libre directo" },
-          { type: "gol", minute: 35, playerName: "Diego Neira", teamId: "lebu-penarol", description: "Remate cruzado" }
-        ],
-        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: false }
-      }
-    ];
-    newDb.leagueInfo.activeMatchId = "match-lebu-01";
-  } else if (targetId === 'canete') {
-    newDb.clubs = [
-      { id: "canete-alianza", name: "C.D. Alianza de Cañete", shortName: "Alianza", badgeEmoji: "🔵", founded: "1945", stadium: "Estadio Fiscal de Cañete", titles: 10, colors: "Azul y Blanco", series: ["honor", "senior_35", "juvenil"] },
-      { id: "canete-juvenil", name: "C.D. Juvenil Cañete", shortName: "Juvenil", badgeEmoji: "⭐", founded: "1956", stadium: "Estadio Fiscal de Cañete", titles: 7, colors: "Verde y Blanco", series: ["honor", "senior_35", "juvenil"] },
-      { id: "canete-caupolican", name: "C.D. Caupolicán de Cañete", shortName: "Caupolicán", badgeEmoji: "🏹", founded: "1963", stadium: "Estadio Fiscal de Cañete", titles: 6, colors: "Rojo Furia", series: ["honor", "senior_35", "juvenil"] },
-      { id: "canete-lagranja", name: "C.D. La Granja", shortName: "La Granja", badgeEmoji: "🌾", founded: "1978", stadium: "Estadio Fiscal de Cañete", titles: 4, colors: "Amarillo Dorado", series: ["honor", "senior_35", "juvenil"] }
-    ];
-    newDb.matches = [
-      {
-        id: "match-canete-01",
-        series: "honor",
-        round: "Fecha 7 • Torneo Oficial ANFA Cañete",
-        homeClubId: "canete-alianza",
-        awayClubId: "canete-juvenil",
-        venue: "Estadio Fiscal de Cañete",
-        date: "Hoy • 16:30 hrs",
-        status: "en_vivo",
-        currentMinute: 55,
-        half: 2,
-        homeScore: 1,
-        awayScore: 0,
-        referee: "Javier Bastías (Árbitros ANFA)",
-        events: [
-          { type: "gol", minute: 41, playerName: "Mauricio Linco", teamId: "canete-alianza", description: "Definición mano a mano" }
-        ],
-        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: false, refereeConfirmed: false }
-      }
-    ];
-    newDb.leagueInfo.activeMatchId = "match-canete-01";
-  } else if (targetId === 'concepcion') {
-    newDb.clubs = [
-      { id: "conce-cochrane", name: "C.D. Lord Cochrane", shortName: "Lord Cochrane", badgeEmoji: "⚓", founded: "1916", stadium: "Campos Nonguén", titles: 14, colors: "Azul Marino", series: ["honor", "senior_35", "juvenil"] },
-      { id: "conce-pedro", name: "C.D. Pedro del Río", shortName: "Pedro del Río", badgeEmoji: "🌊", founded: "1948", stadium: "Cancha Zañartu", titles: 8, colors: "Celeste y Blanco", series: ["honor", "senior_35", "juvenil"] },
-      { id: "conce-kennedy", name: "C.D. Juventud Kennedy", shortName: "Juv. Kennedy", badgeEmoji: "🦅", founded: "1967", stadium: "Complejo Bellavista", titles: 6, colors: "Rojo Carmesí", series: ["honor", "senior_35", "juvenil"] }
-    ];
-    newDb.matches = [
-      {
-        id: "match-conce-01",
-        series: "honor",
-        round: "Fecha 5 • Clásico Tradicional Penquista",
-        homeClubId: "conce-cochrane",
-        awayClubId: "conce-pedro",
-        venue: "Campos Deportivos Nonguén, Concepción",
-        date: "En Directo • 17:00 hrs",
-        status: "en_vivo",
-        currentMinute: 62,
-        half: 2,
-        homeScore: 3,
-        awayScore: 2,
-        referee: "Pablo Henríquez (Asociación Concepción)",
-        events: [
-          { type: "gol", minute: 15, playerName: "Matías Soto", teamId: "conce-cochrane", description: "Golazo de volea" },
-          { type: "gol", minute: 28, playerName: "Gonzalo Riffo", teamId: "conce-pedro", description: "Tiro penal" },
-          { type: "gol", minute: 58, playerName: "Esteban Valenzuela", teamId: "conce-cochrane", description: "Cabezazo esquinado" }
-        ],
-        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: false }
-      }
-    ];
-    newDb.leagueInfo.activeMatchId = "match-conce-01";
-  }
-
-  saveDb(newDb);
-  window.dispatchEvent(new CustomEvent('ligapro:association-changed', { detail: target }));
-}
-
-/**
- * Exporta toda la base de datos comunal a un archivo JSON para respaldo
- */
-export function exportDbAsJson() {
-  const db = getDb();
-  const jsonStr = JSON.stringify(db, null, 2);
-  const blob = new Blob([jsonStr], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  const assoc = db.leagueInfo?.shortName?.replace(/\s+/g, '_') || 'ANFA';
-  a.download = `${assoc}_Respaldo_Oficial_${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/**
- * Importa y restaura una base de datos desde un archivo JSON
- */
-export function importDbFromJson(jsonString) {
-  try {
-    const parsed = JSON.parse(jsonString);
-    if (parsed.leagueInfo && parsed.clubs) {
-      saveDb(parsed);
-      return { success: true, message: "Base de datos de la Asociación restaurada con éxito." };
-    }
-    return { success: false, message: "El archivo no posee una estructura válida de ANFA." };
-  } catch (err) {
-    return { success: false, message: "Error al procesar el archivo JSON: " + err.message };
-  }
-}
-
-/**
- * Obtiene la lista de recintos y canchas oficiales
- */
-export function getVenues() {
-  const db = getDb();
-  return db.venues || INITIAL_DATA.venues;
-}
-
-/**
- * Permite a la Directiva actualizar el estado de una cancha (ej. suspender por lluvia)
- */
-export function updateVenueStatus(venueId, status, statusLabel) {
-  const db = getDb();
-  if (!db.venues) db.venues = JSON.parse(JSON.stringify(INITIAL_DATA.venues));
-  const v = db.venues.find(item => item.id === venueId);
-  if (v) {
-    v.status = status;
-    v.statusLabel = statusLabel;
-    saveDb(db);
-    return { success: true, venue: v };
-  }
-  return { success: false, message: "Cancha no encontrada" };
-}
-
-/**
- * Obtiene el partido activo actual
- */
-export function getActiveMatch() {
-  const db = getDb();
-  const matchId = db.leagueInfo?.activeMatchId || 'match-arauco-01';
-  return db.matches.find(m => m.id === matchId) || db.matches[0];
-}
-
-/**
- * Cambia el partido activo y notifica globalmente
- */
-export function setActiveMatch(matchId) {
-  const db = getDb();
-  const exists = db.matches.find(m => m.id === matchId);
-  if (!exists) return false;
-  
-  db.leagueInfo.activeMatchId = matchId;
-  saveDb(db);
-
-  // Despachar evento para sincronizar vistas
-  window.dispatchEvent(new CustomEvent('ligapro:match-changed', {
-    detail: { matchId, match: exists }
-  }));
-  return true;
-}
-
-/**
- * Retorna todos los partidos en vivo o de la jornada simultánea
- */
-export function getLiveMatches() {
-  const db = getDb();
-  return db.matches.filter(m => m.status === 'en_vivo');
-}
-
-/**
- * Retorna partidos asignados a un recinto específico
- */
-export function getMatchesByVenue(venueId) {
-  const db = getDb();
-  return db.matches.filter(m => m.venueId === venueId);
-}
-
-/**
- * Retorna la información oficial de la Selección Comunal de Arauco
- */
-export function getSelectionInfo() {
-  const db = getDb();
-  return db.selectionInfo || INITIAL_DATA.selectionInfo;
-}
-
-/**
- * Retorna las noticias oficiales vigentes (con fallback a INITIAL_DATA)
- */
-export function getNews() {
-  const db = getDb();
-  if (!db.news || !Array.isArray(db.news) || db.news.length === 0) {
-    db.news = JSON.parse(JSON.stringify(INITIAL_DATA.news));
-    saveDb(db);
-  }
-  return db.news;
-}
-
-/**
- * Agrega una nueva noticia al feed de la Sala de Prensa
- */
-export function addNews(newsItem) {
-  const db = getDb();
-  if (!db.news) db.news = JSON.parse(JSON.stringify(INITIAL_DATA.news));
-  
-  const newItem = {
-    id: `news-${Date.now()}`,
-    title: newsItem.title || "Comunicado Oficial",
-    category: newsItem.category || "Torneo Oficial",
-    categoryBadge: newsItem.categoryBadge || "📢 COMUNICADO",
-    date: "Recién publicado",
-    readTime: "2 min de lectura",
-    author: newsItem.author || "Directiva ANFA Arauco",
-    hero: false,
-    image: newsItem.image || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80",
-    excerpt: newsItem.excerpt || "",
-    content: newsItem.content || newsItem.excerpt || "",
-    tags: newsItem.tags || ["ANFA Arauco"]
-  };
-
-  db.news.unshift(newItem);
-  saveDb(db);
-
-  window.dispatchEvent(new CustomEvent('ligapro:news-updated', { detail: newItem }));
-  return newItem;
-}
-
-/**
- * Retorna la galería multimedia oficial (fotos y videos)
- */
-export function getMediaGallery() {
-  const db = getDb();
-  if (!db.mediaGallery || !db.mediaGallery.photos || !db.mediaGallery.videos) {
-    db.mediaGallery = JSON.parse(JSON.stringify(INITIAL_DATA.mediaGallery));
-    saveDb(db);
-  }
-  return db.mediaGallery;
-}
-
-/**
- * Agrega una foto a la galería multimedia
- */
-export function addMediaPhoto(photoItem) {
-  const db = getDb();
-  if (!db.mediaGallery) db.mediaGallery = JSON.parse(JSON.stringify(INITIAL_DATA.mediaGallery));
-  
-  const newPhoto = {
-    id: `photo-${Date.now()}`,
-    title: photoItem.title || "Postal de Cancha",
-    match: photoItem.match || "Jornada Oficial",
-    date: "Reciente",
-    venue: photoItem.venue || "Estadio Municipal Ramón Burgos",
-    author: photoItem.author || "Prensa Arauco",
-    url: photoItem.url
-  };
-
-  db.mediaGallery.photos.unshift(newPhoto);
-  saveDb(db);
-  window.dispatchEvent(new CustomEvent('ligapro:media-updated', { detail: { type: 'photo', item: newPhoto } }));
-  return newPhoto;
-}
-
-/**
- * Agrega un video o gol a la videoteca oficial
- */
-export function addMediaVideo(videoItem) {
-  const db = getDb();
-  if (!db.mediaGallery) db.mediaGallery = JSON.parse(JSON.stringify(INITIAL_DATA.mediaGallery));
-
-  const newVideo = {
-    id: `vid-${Date.now()}`,
-    title: videoItem.title || "Jugada Destacada",
-    category: videoItem.category || "Gol de la Fecha",
-    duration: videoItem.duration || "1:00",
-    views: "1 reproducción",
-    thumbnail: videoItem.thumbnail || "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=80",
-    videoUrl: videoItem.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    description: videoItem.description || ""
-  };
-
-  db.mediaGallery.videos.unshift(newVideo);
-  saveDb(db);
-  window.dispatchEvent(new CustomEvent('ligapro:media-updated', { detail: { type: 'video', item: newVideo } }));
-  return newVideo;
-}
 
 /**
  * ==========================================================================
  * ARQUITECTURA MULTI-LIGA DE CHILE (REGIONES, ASOCIACIONES Y LIGAS)
  * ==========================================================================
  */
+
 export const REGIONS_AND_LEAGUES = [
   {
     regionId: "biobio",
@@ -2062,24 +1637,24 @@ export const REGIONS_AND_LEAGUES = [
       {
         id: "arauco",
         name: "Asociación de Fútbol de Arauco",
-        shortName: "Liga de Arauco",
+        shortName: "AFA Arauco",
         badgeId: "asociacion-arauco",
-        commune: "Arauco",
+        commune: "Arauco (Costa Histórica)",
         founded: "01 de octubre de 1940 (86 años)",
         president: "Claudio Pampaloni Altamirano",
         totalClubs: 10,
         status: "active",
-        statusLabel: "Temporada 2026/27 en Vivo",
+        statusLabel: "Campeonato Oficial 2026/27",
         isDemo: false
       },
       {
         id: "lebu",
         name: "Asociación de Fútbol de Lebu",
-        shortName: "Liga de Lebu",
-        badgeId: "asociacion-arauco",
-        commune: "Lebu",
-        founded: "1948",
-        president: "Directiva ANFA Lebu",
+        shortName: "ANFA Lebu",
+        badgeId: "asociacion-lebu",
+        commune: "Lebu (Capital Provincial)",
+        founded: "15 de mayo de 1948 (78 años)",
+        president: "Manuel Cuevas Saavedra",
         totalClubs: 8,
         status: "demo",
         statusLabel: "Demostración de Liga",
@@ -2088,11 +1663,11 @@ export const REGIONS_AND_LEAGUES = [
       {
         id: "canete",
         name: "Asociación de Fútbol de Cañete",
-        shortName: "Liga de Cañete",
-        badgeId: "asociacion-arauco",
-        commune: "Cañete",
-        founded: "1955",
-        president: "Directiva ANFA Cañete",
+        shortName: "ANFA Cañete",
+        badgeId: "asociacion-canete",
+        commune: "Cañete (Tierra Histórica)",
+        founded: "12 de octubre de 1955 (71 años)",
+        president: "Héctor Maldonado Viveros",
         totalClubs: 8,
         status: "demo",
         statusLabel: "Demostración de Liga",
@@ -2108,11 +1683,11 @@ export const REGIONS_AND_LEAGUES = [
         id: "cordillera",
         name: "Liga Cordillera Santiago",
         shortName: "Liga Cordillera",
-        badgeId: "asociacion-arauco",
+        badgeId: "asociacion-cordillera",
         commune: "Santiago Oriente",
-        founded: "1994",
-        president: "Comité de Competición",
-        totalClubs: 12,
+        founded: "18 de marzo de 1994 (32 años)",
+        president: "Gonzalo Valdés Rivas",
+        totalClubs: 8,
         status: "demo",
         statusLabel: "Demostración de Liga",
         isDemo: true
@@ -2121,17 +1696,1191 @@ export const REGIONS_AND_LEAGUES = [
   }
 ];
 
-export function getRegionsAndLeagues() {
-  return REGIONS_AND_LEAGUES;
+export const MULTI_LEAGUE_STORE = {
+  arauco: INITIAL_DATA,
+
+  lebu: {
+    leagueInfo: {
+      name: "Asociación de Fútbol de Lebu",
+      shortName: "ANFA Lebu",
+      leagueId: "lebu",
+      badgeId: "asociacion-lebu",
+      foundationDate: "15 de mayo de 1948 (78 años)",
+      anniversary: "Fundada el 15 de mayo de 1948. Asociación decana provincial del puerto pesquero y carbonífero de Lebu.",
+      president: "Manuel Cuevas Saavedra",
+      mediaPartner: "Transmisiones Puerto Lebu & Radio Lebu Deportes",
+      commune: "Lebu (Capital Provincial de Arauco)",
+      headquarters: "Sector Boca Lebu / Calle Latorre Nº 210, Lebu",
+      season: "Campeonato Oficial 2026/27",
+      activeSeries: "honor",
+      totalClubs: 8,
+      isDemo: true,
+      demoNotice: "Entorno de demostración para incorporación de ANFA Lebu a LigaMaster",
+      governingBodies: {
+        regional: "ANFA Región del Biobío",
+        national: "Asociación Nacional de Fútbol Amateur (ANFA Chile)",
+        referees: "Cuerpo de Árbitros ANFA Lebu",
+        broadcast: "Transmisiones Puerto Lebu"
+      },
+      activeMatchId: "match-lebu-01"
+    },
+
+    venues: [
+      {
+        id: "estadio-municipal-lebu",
+        name: "Estadio Municipal de Lebu",
+        shortName: "Estadio Municipal",
+        commune: "Lebu",
+        surface: "Pasto Sintético Certificado",
+        surfaceType: "sintetico",
+        lighting: "Iluminación Artificial LED",
+        capacity: "3.000 espectadores",
+        address: "Calle Mackay s/n, Lebu",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada (Cancha Principal)",
+        usageNotes: "Principal recinto del puerto provincial. Alberga los compromisos dominicales de Honor y Senior.",
+        photo: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético", "Iluminación LED", "Graderías Techadas", "Camarines Oficiales"]
+      },
+      {
+        id: "cancha-boca-lebu",
+        name: "Cancha Boca Lebu",
+        shortName: "Cancha Boca Lebu",
+        commune: "Lebu",
+        surface: "Pasto Sintético de Alto Tráfico",
+        surfaceType: "sintetico",
+        lighting: "Torres Perimetrales",
+        capacity: "1.200 espectadores",
+        address: "Sector Puerto / Caleta Pesquera, Lebu",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada",
+        usageNotes: "Emplazada en la desembocadura del Río Lebu, tradicional sede de las series Segunda y Juvenil.",
+        photo: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético", "Entorno Costero", "Camarines"]
+      }
+    ],
+
+    regulations: {
+      code: "REGLAMENTO-ANFA-LEBU-2026",
+      disciplinaryCode: "Código de Procedimientos y Penalidades ANFA Nacional",
+      substitutionRule: "Máximo 5 sustituciones en 3 ventanas reglamentarias.",
+      cardRules: { yellowAccumulation: 5, yellowWarning: 4, doubleYellow: 1, directRed: "2 a 4 fechas" },
+      cupQualification: { regional: "Copa de Campeones ANFA Biobío" }
+    },
+
+    seriesList: [
+      { id: "honor", name: "Serie de Honor (Primera Adulta)", shortName: "Honor", ageLimit: "Todo Competidor", halfDuration: 45, active: true },
+      { id: "senior_35", name: "Serie Senior (35+ Años)", shortName: "Senior 35", ageLimit: "35 años cumplidos", halfDuration: 40, active: false },
+      { id: "juvenil", name: "Serie Juvenil (Sub-17)", shortName: "Juvenil", ageLimit: "Menores de 17 años", halfDuration: 40, active: false }
+    ],
+
+    clubs: [
+      {
+        id: "club-lebu-penarol",
+        name: "C.D. Peñarol de Lebu",
+        shortName: "Peñarol Lebu",
+        badgeId: "club-lebu-penarol",
+        founded: "12 de octubre de 1947",
+        exactFoundationDate: "12 de octubre de 1947",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Sector Cerro La Cruz, Lebu",
+        titlesComunalesHonor: 9,
+        colors: "Amarillo y Negro",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Institución aurinegra de gran arraigo popular en el puerto de Lebu. Nueve veces monarca comunal de Primera Adulta."
+      },
+      {
+        id: "club-lebu-victoria",
+        name: "C.D. Victoria de Lebu",
+        shortName: "Victoria Lebu",
+        badgeId: "club-lebu-victoria",
+        founded: "4 de mayo de 1938",
+        exactFoundationDate: "4 de mayo de 1938",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Sector Centro, Lebu",
+        titlesComunalesHonor: 8,
+        colors: "Rojo y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "El club decano de la comuna de Lebu, fundado en 1938 con rica tradición y 8 títulos comunales."
+      },
+      {
+        id: "club-lebu-pesquero",
+        name: "C.D. Pesquero Lebu",
+        shortName: "Pesquero Lebu",
+        badgeId: "club-lebu-pesquero",
+        founded: "18 de agosto de 1965",
+        exactFoundationDate: "18 de agosto de 1965",
+        stadium: "Cancha Boca Lebu",
+        neighborhood: "Caleta Pesquera, Lebu",
+        titlesComunalesHonor: 6,
+        colors: "Azul Marino y Dorado",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Nacido del gremio de pescadores artesanales del Río Lebu. Gran potencia física y localía inexpugnable."
+      },
+      {
+        id: "club-lebu-carbon",
+        name: "C.D. Carbonífero Lebu",
+        shortName: "Carbonífero",
+        badgeId: "club-lebu-carbon",
+        founded: "21 de mayo de 1942",
+        exactFoundationDate: "21 de mayo de 1942",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Sector Mina Fortuna, Lebu",
+        titlesComunalesHonor: 7,
+        colors: "Negro Carbón y Ámbar",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Heredero de la epopeya obrera minera de Lebu. Símbolo del coraje del carbón con siete campeonatos oficiales."
+      },
+      {
+        id: "club-lebu-esmeralda",
+        name: "C.D. Esmeralda",
+        shortName: "Esmeralda",
+        badgeId: "club-lebu-esmeralda",
+        founded: "19 de noviembre de 1952",
+        exactFoundationDate: "19 de noviembre de 1952",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Población Esmeralda, Lebu",
+        titlesComunalesHonor: 5,
+        colors: "Verde Esmeralda y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Representante clásico del fútbol barrial lebulense y reconocido semillero formativo de divisiones inferiores."
+      },
+      {
+        id: "club-lebu-playa",
+        name: "C.D. Playa Grande",
+        shortName: "Playa Grande",
+        badgeId: "club-lebu-playa",
+        founded: "10 de enero de 1974",
+        exactFoundationDate: "10 de enero de 1974",
+        stadium: "Cancha Boca Lebu",
+        neighborhood: "Sector Playa Grande, Lebu",
+        titlesComunalesHonor: 4,
+        colors: "Azul Celeste y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Fuerte identidad marítima ligada al extenso litoral lebulense y destacada presencia en series adultas."
+      },
+      {
+        id: "club-lebu-leones",
+        name: "C.D. Los Leones de Lebu",
+        shortName: "Los Leones",
+        badgeId: "club-lebu-leones",
+        founded: "30 de agosto de 1982",
+        exactFoundationDate: "30 de agosto de 1982",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Población Santa Fe, Lebu",
+        titlesComunalesHonor: 3,
+        colors: "Naranjo y Negro",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Elenco fundado en la década de los ochenta con gran arrastre juvenil y un tricampeonato de honor."
+      },
+      {
+        id: "club-lebu-colocolo",
+        name: "C.D. Colo-Colo Lebu",
+        shortName: "Colo-Colo Lebu",
+        badgeId: "club-lebu-colocolo",
+        founded: "14 de junio de 1960",
+        exactFoundationDate: "14 de junio de 1960",
+        stadium: "Estadio Municipal de Lebu",
+        neighborhood: "Sector Alto Lebu",
+        titlesComunalesHonor: 5,
+        colors: "Blanco y Negro",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Tradición popular en el sector alto de la ciudad, con 5 títulos comunales y constante animación de la tabla."
+      }
+    ],
+
+    players: [
+      {
+        id: "p-lebu-1",
+        name: "Álvaro Riquelme Neira",
+        clubId: "club-lebu-penarol",
+        series: "honor",
+        number: 9,
+        position: "Centrodelantero",
+        rut: "18.441.205-3",
+        age: 26,
+        goals: 7,
+        assists: 3,
+        yellowCards: 2,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 620,
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-lebu-2",
+        name: "Cristián Alarcón Peña",
+        clubId: "club-lebu-victoria",
+        series: "honor",
+        number: 10,
+        position: "Volante de Creación",
+        rut: "17.920.314-8",
+        age: 28,
+        goals: 5,
+        assists: 6,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 630,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-lebu-3",
+        name: "Diego Neira Cuevas",
+        clubId: "club-lebu-penarol",
+        series: "honor",
+        number: 7,
+        position: "Extremo Derecho",
+        rut: "19.330.112-4",
+        age: 24,
+        goals: 4,
+        assists: 5,
+        yellowCards: 3,
+        redCards: 0,
+        matchesPlayed: 6,
+        minutesPlayed: 510,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-lebu-4",
+        name: "Juan Pablo Bastías",
+        clubId: "club-lebu-pesquero",
+        series: "honor",
+        number: 11,
+        position: "Puntero Izquierdo",
+        rut: "18.882.110-1",
+        age: 25,
+        goals: 6,
+        assists: 2,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 590,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-lebu-5",
+        name: "Matías Saavedra Fierro",
+        clubId: "club-lebu-carbon",
+        series: "honor",
+        number: 8,
+        position: "Volante Mixto",
+        rut: "17.442.991-6",
+        age: 29,
+        goals: 3,
+        assists: 4,
+        yellowCards: 4,
+        redCards: 1,
+        matchesPlayed: 6,
+        minutesPlayed: 500,
+        avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-lebu-6",
+        name: "Rodrigo Parra Alvear",
+        clubId: "club-lebu-esmeralda",
+        series: "honor",
+        number: 1,
+        position: "Guardameta",
+        rut: "16.890.312-K",
+        age: 31,
+        goals: 0,
+        assists: 0,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 630,
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80"
+      }
+    ],
+
+    matches: [
+      {
+        id: "match-lebu-01",
+        series: "honor",
+        round: "Fecha 7 • Clásico del Puerto de Lebu",
+        homeClubId: "club-lebu-penarol",
+        awayClubId: "club-lebu-victoria",
+        venue: "Estadio Municipal de Lebu",
+        date: "Hoy • 16:30 hrs",
+        status: "en_vivo",
+        currentMinute: 38,
+        half: 1,
+        homeScore: 2,
+        awayScore: 1,
+        referee: "Marcos Retamal (Cuerpo ANFA Lebu)",
+        events: [
+          { type: "gol", minute: 12, playerName: "Álvaro Riquelme", teamId: "club-lebu-penarol", description: "Cabezazo al segundo palo tras tiro de esquina" },
+          { type: "gol", minute: 26, playerName: "Cristián Alarcón", teamId: "club-lebu-victoria", description: "Tiro libre directo al ángulo superior" },
+          { type: "gol", minute: 35, playerName: "Diego Neira", teamId: "club-lebu-penarol", description: "Remate cruzado tras pase filtrado" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: false }
+      },
+      {
+        id: "match-lebu-02",
+        series: "honor",
+        round: "Fecha 7 • Duelo Costero",
+        homeClubId: "club-lebu-pesquero",
+        awayClubId: "club-lebu-carbon",
+        venue: "Cancha Boca Lebu",
+        date: "Hoy • 14:00 hrs",
+        status: "finalizado",
+        currentMinute: 90,
+        half: 2,
+        homeScore: 2,
+        awayScore: 1,
+        referee: "Gonzalo Riffo (ANFA Lebu)",
+        events: [
+          { type: "gol", minute: 18, playerName: "Juan Pablo Bastías", teamId: "club-lebu-pesquero", description: "Remate colocado desde el borde del área" },
+          { type: "gol", minute: 55, playerName: "Matías Saavedra", teamId: "club-lebu-carbon", description: "Tiro penal" },
+          { type: "gol", minute: 82, playerName: "Juan Pablo Bastías", teamId: "club-lebu-pesquero", description: "Definición cruzada ante salida del arquero" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: true }
+      },
+      {
+        id: "match-lebu-03",
+        series: "honor",
+        round: "Fecha 8 • Oficial",
+        homeClubId: "club-lebu-esmeralda",
+        awayClubId: "club-lebu-playa",
+        venue: "Estadio Municipal de Lebu",
+        date: "Domingo • 15:00 hrs",
+        status: "programado",
+        currentMinute: 0,
+        half: 1,
+        homeScore: 0,
+        awayScore: 0,
+        referee: "Por designar (Colegio de Árbitros)",
+        events: [],
+        signatures: { homeCaptainConfirmed: false, awayCaptainConfirmed: false, refereeConfirmed: false }
+      },
+      {
+        id: "match-lebu-04",
+        series: "honor",
+        round: "Fecha 8 • Oficial",
+        homeClubId: "club-lebu-leones",
+        awayClubId: "club-lebu-colocolo",
+        venue: "Estadio Municipal de Lebu",
+        date: "Domingo • 17:00 hrs",
+        status: "programado",
+        currentMinute: 0,
+        half: 1,
+        homeScore: 0,
+        awayScore: 0,
+        referee: "Por designar (Colegio de Árbitros)",
+        events: [],
+        signatures: { homeCaptainConfirmed: false, awayCaptainConfirmed: false, refereeConfirmed: false }
+      }
+    ],
+
+    standings: {
+      honor: [
+        { pos: 1, clubId: "club-lebu-penarol", clubName: "C.D. Peñarol de Lebu", pj: 7, pg: 5, pe: 1, pp: 1, gf: 16, gc: 7, dg: 9, pts: 16 },
+        { pos: 2, clubId: "club-lebu-victoria", clubName: "C.D. Victoria de Lebu", pj: 7, pg: 4, pe: 2, pp: 1, gf: 14, gc: 8, dg: 6, pts: 14 },
+        { pos: 3, clubId: "club-lebu-pesquero", clubName: "C.D. Pesquero Lebu", pj: 7, pg: 4, pe: 1, pp: 2, gf: 13, gc: 9, dg: 4, pts: 13 },
+        { pos: 4, clubId: "club-lebu-carbon", clubName: "C.D. Carbonífero Lebu", pj: 7, pg: 3, pe: 2, pp: 2, gf: 11, gc: 10, dg: 1, pts: 11 },
+        { pos: 5, clubId: "club-lebu-esmeralda", clubName: "C.D. Esmeralda", pj: 7, pg: 2, pe: 3, pp: 2, gf: 9, gc: 9, dg: 0, pts: 9 },
+        { pos: 6, clubId: "club-lebu-playa", clubName: "C.D. Playa Grande", pj: 7, pg: 2, pe: 1, pp: 4, gf: 8, gc: 12, dg: -4, pts: 7 },
+        { pos: 7, clubId: "club-lebu-leones", clubName: "C.D. Los Leones de Lebu", pj: 7, pg: 1, pe: 3, pp: 3, gf: 7, gc: 12, dg: -5, pts: 6 },
+        { pos: 8, clubId: "club-lebu-colocolo", clubName: "C.D. Colo-Colo Lebu", pj: 7, pg: 1, pe: 1, pp: 5, gf: 6, gc: 17, dg: -11, pts: 4 }
+      ],
+      senior_35: [
+        { pos: 1, clubId: "club-lebu-carbon", clubName: "C.D. Carbonífero Lebu", pj: 6, pg: 5, pe: 1, pp: 0, gf: 15, gc: 4, dg: 11, pts: 16 },
+        { pos: 2, clubId: "club-lebu-victoria", clubName: "C.D. Victoria de Lebu", pj: 6, pg: 4, pe: 1, pp: 1, gf: 12, gc: 6, dg: 6, pts: 13 },
+        { pos: 3, clubId: "club-lebu-penarol", clubName: "C.D. Peñarol de Lebu", pj: 6, pg: 3, pe: 2, pp: 1, gf: 10, gc: 7, dg: 3, pts: 11 },
+        { pos: 4, clubId: "club-lebu-pesquero", clubName: "C.D. Pesquero Lebu", pj: 6, pg: 2, pe: 2, pp: 2, gf: 9, gc: 9, dg: 0, pts: 8 },
+        { pos: 5, clubId: "club-lebu-esmeralda", clubName: "C.D. Esmeralda", pj: 6, pg: 2, pe: 1, pp: 3, gf: 7, gc: 10, dg: -3, pts: 7 },
+        { pos: 6, clubId: "club-lebu-colocolo", clubName: "C.D. Colo-Colo Lebu", pj: 6, pg: 1, pe: 2, pp: 3, gf: 6, gc: 11, dg: -5, pts: 5 },
+        { pos: 7, clubId: "club-lebu-playa", clubName: "C.D. Playa Grande", pj: 6, pg: 1, pe: 1, pp: 4, gf: 5, gc: 12, dg: -7, pts: 4 },
+        { pos: 8, clubId: "club-lebu-leones", clubName: "C.D. Los Leones de Lebu", pj: 6, pg: 0, pe: 2, pp: 4, gf: 4, gc: 13, dg: -9, pts: 2 }
+      ],
+      juvenil: [
+        { pos: 1, clubId: "club-lebu-penarol", clubName: "C.D. Peñarol de Lebu", pj: 5, pg: 4, pe: 1, pp: 0, gf: 14, gc: 3, dg: 11, pts: 13 },
+        { pos: 2, clubId: "club-lebu-esmeralda", clubName: "C.D. Esmeralda", pj: 5, pg: 3, pe: 2, pp: 0, gf: 11, gc: 4, dg: 7, pts: 11 },
+        { pos: 3, clubId: "club-lebu-pesquero", clubName: "C.D. Pesquero Lebu", pj: 5, pg: 3, pe: 0, pp: 2, gf: 9, gc: 7, dg: 2, pts: 9 },
+        { pos: 4, clubId: "club-lebu-victoria", clubName: "C.D. Victoria de Lebu", pj: 5, pg: 2, pe: 1, pp: 2, gf: 8, gc: 8, dg: 0, pts: 7 },
+        { pos: 5, clubId: "club-lebu-carbon", clubName: "C.D. Carbonífero Lebu", pj: 5, pg: 2, pe: 0, pp: 3, gf: 7, gc: 9, dg: -2, pts: 6 },
+        { pos: 6, clubId: "club-lebu-playa", clubName: "C.D. Playa Grande", pj: 5, pg: 1, pe: 1, pp: 3, gf: 5, gc: 10, dg: -5, pts: 4 },
+        { pos: 7, clubId: "club-lebu-colocolo", clubName: "C.D. Colo-Colo Lebu", pj: 5, pg: 1, pe: 0, pp: 4, gf: 4, gc: 12, dg: -8, pts: 3 },
+        { pos: 8, clubId: "club-lebu-leones", clubName: "C.D. Los Leones de Lebu", pj: 5, pg: 0, pe: 1, pp: 4, gf: 3, gc: 13, dg: -10, pts: 1 }
+      ]
+    },
+
+    news: [
+      {
+        id: "news-lebu-01",
+        title: "Vibrante Clásico del Puerto: Peñarol y Victoria disputan la cima de Honor",
+        category: "Torneo Oficial",
+        categoryBadge: "⚽ CLÁSICO PORTUARIO",
+        date: "02 de Octubre, 2026",
+        readTime: "3 min de lectura",
+        author: "Prensa ANFA Lebu",
+        hero: true,
+        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80",
+        excerpt: "Con lleno absoluto en las graderías del Estadio Municipal de Lebu, el choque aurinegro y albirrojo enciende la séptima fecha oficial.",
+        content: "El clásico más esperado del fútbol lebulense convocó a más de 1.800 fanáticos en el Estadio Municipal. Peñarol se puso en ventaja temprana, pero Victoria contestó con un golazo de tiro libre antes del descanso.",
+        tags: ["ANFA Lebu", "Clásico del Puerto", "Serie de Honor"]
+      },
+      {
+        id: "news-lebu-02",
+        title: "ANFA Lebu proyecta modernización de camarines y luminarias en Cancha Boca Lebu",
+        category: "Infraestructura",
+        categoryBadge: "🏗️ OBRAS Y MEJORAS",
+        date: "28 de Septiembre, 2026",
+        readTime: "2 min de lectura",
+        author: "Directiva Comunal",
+        hero: false,
+        image: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1000&q=80",
+        excerpt: "Comité directivo comunal gestiona recursos para optimizar las instalaciones del tradicional recinto pesquero costero.",
+        content: "Con miras a la temporada 2027, la Asociación de Fútbol de Lebu presentó el expediente técnico para la renovación integral del sistema de iluminación de la Cancha Boca Lebu.",
+        tags: ["Lebu", "Cancha Boca Lebu", "Infraestructura"]
+      }
+    ],
+
+    mediaGallery: {
+      photos: [
+        {
+          id: "photo-lebu-01",
+          title: "Postal del Clásico en el Municipal de Lebu",
+          match: "Peñarol vs Victoria",
+          date: "Hoy",
+          venue: "Estadio Municipal de Lebu",
+          author: "Prensa Puerto Lebu",
+          url: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      videos: []
+    }
+  },
+
+  canete: {
+    leagueInfo: {
+      name: "Asociación de Fútbol de Cañete",
+      shortName: "ANFA Cañete",
+      leagueId: "canete",
+      badgeId: "asociacion-canete",
+      foundationDate: "12 de octubre de 1955 (71 años)",
+      anniversary: "Fundada el 12 de octubre de 1955. Asociación histórica de la Provincia de Arauco en el cono sur del Biobío.",
+      president: "Héctor Maldonado Viveros",
+      mediaPartner: "Cañete Deportes Digital",
+      commune: "Cañete (Tierra Histórica)",
+      headquarters: "Avenida Saavedra / Pasaje Los Notros, Cañete",
+      season: "Campeonato Oficial 2026/27",
+      activeSeries: "honor",
+      totalClubs: 8,
+      isDemo: true,
+      demoNotice: "Entorno de demostración para incorporación de ANFA Cañete a LigaMaster",
+      governingBodies: {
+        regional: "ANFA Región del Biobío",
+        national: "Asociación Nacional de Fútbol Amateur (ANFA Chile)",
+        referees: "Cuerpo Arbitral Comunal de Cañete",
+        broadcast: "Cañete Deportes Digital"
+      },
+      activeMatchId: "match-canete-01"
+    },
+
+    venues: [
+      {
+        id: "estadio-fiscal-canete",
+        name: "Estadio Fiscal de Cañete",
+        shortName: "Estadio Fiscal",
+        commune: "Cañete",
+        surface: "Pasto Sintético FIFA Quality",
+        surfaceType: "sintetico",
+        lighting: "Iluminación Artificial LED",
+        capacity: "2.800 espectadores",
+        address: "Calle Saavedra s/n, Cañete",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada (Cancha Principal)",
+        usageNotes: "Principal reducto comunal con certificación de pasto sintético de alto rendimiento.",
+        photo: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético FIFA", "Iluminación LED", "Graderías Techadas"]
+      },
+      {
+        id: "cancha-caupolican",
+        name: "Cancha Complejo Deportivo Caupolicán",
+        shortName: "Cancha Caupolicán",
+        commune: "Cañete",
+        surface: "Pasto Sintético",
+        surfaceType: "sintetico",
+        lighting: "Torres Perimetrales",
+        capacity: "1.000 espectadores",
+        address: "Sector Barrio Norte, Cañete",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada",
+        usageNotes: "Sede de campeonatos infantiles y series senior comunales.",
+        photo: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético", "Camarines"]
+      }
+    ],
+
+    regulations: {
+      code: "REGLAMENTO-ANFA-CANETE-2026",
+      disciplinaryCode: "Código de Procedimientos y Penalidades ANFA",
+      substitutionRule: "5 sustituciones por elenco en 3 ventanas reglamentarias.",
+      cardRules: { yellowAccumulation: 5, yellowWarning: 4, doubleYellow: 1, directRed: "2 a 4 fechas" },
+      cupQualification: { regional: "Copa de Campeones ANFA Biobío" }
+    },
+
+    seriesList: [
+      { id: "honor", name: "Serie de Honor (Primera Adulta)", shortName: "Honor", ageLimit: "Todo Competidor", halfDuration: 45, active: true },
+      { id: "senior_35", name: "Serie Senior (35+ Años)", shortName: "Senior 35", ageLimit: "35 años cumplidos", halfDuration: 40, active: false },
+      { id: "juvenil", name: "Serie Juvenil (Sub-17)", shortName: "Juvenil", ageLimit: "Menores de 17 años", halfDuration: 40, active: false }
+    ],
+
+    clubs: [
+      {
+        id: "club-canete-alianza",
+        name: "C.D. Alianza de Cañete",
+        shortName: "Alianza Cañete",
+        badgeId: "club-canete-alianza",
+        founded: "18 de septiembre de 1945",
+        exactFoundationDate: "18 de septiembre de 1945",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Sector Centro, Cañete",
+        titlesComunalesHonor: 11,
+        colors: "Azul y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "El club más laureado en la historia de ANFA Cañete con 11 estrellas de Primera Adulta."
+      },
+      {
+        id: "club-canete-juvenil",
+        name: "C.D. Juvenil Cañete",
+        shortName: "Juvenil Cañete",
+        badgeId: "club-canete-juvenil",
+        founded: "15 de julio de 1956",
+        exactFoundationDate: "15 de julio de 1956",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Población La Granja",
+        titlesComunalesHonor: 8,
+        colors: "Verde y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Institución de gran tradición formativa y constante protagonista de liguillas finales."
+      },
+      {
+        id: "club-canete-caupolican",
+        name: "C.D. Caupolicán de Cañete",
+        shortName: "Caupolicán",
+        badgeId: "club-canete-caupolican",
+        founded: "22 de agosto de 1963",
+        exactFoundationDate: "22 de agosto de 1963",
+        stadium: "Cancha Caupolicán",
+        neighborhood: "Barrio Norte, Cañete",
+        titlesComunalesHonor: 7,
+        colors: "Rojo Furia",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Heredero de la bravura histórica cañetina, reconocido por su aguerrido estilo de juego."
+      },
+      {
+        id: "club-canete-tucapel",
+        name: "C.D. Tucapel Cañete",
+        shortName: "Tucapel",
+        badgeId: "club-canete-tucapel",
+        founded: "12 de marzo de 1959",
+        exactFoundationDate: "12 de marzo de 1959",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Sector Fuerte Tucapel",
+        titlesComunalesHonor: 6,
+        colors: "Verde Bosque y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Club histórico ligado al patrimonio del histórico Fuerte Tucapel y gran animador comarcal."
+      },
+      {
+        id: "club-canete-lagranja",
+        name: "C.D. La Granja",
+        shortName: "La Granja",
+        badgeId: "club-canete-lagranja",
+        founded: "4 de octubre de 1978",
+        exactFoundationDate: "4 de octubre de 1978",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Villa La Granja",
+        titlesComunalesHonor: 4,
+        colors: "Amarillo Dorado",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Representante de los sectores agrícolas y residenciales del oriente comunal."
+      },
+      {
+        id: "club-canete-lautaro",
+        name: "C.D. Lautaro de Cañete",
+        shortName: "Lautaro",
+        badgeId: "club-canete-lautaro",
+        founded: "14 de enero de 1968",
+        exactFoundationDate: "14 de enero de 1968",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Sector Cayucupil, Cañete",
+        titlesComunalesHonor: 5,
+        colors: "Azul Marino",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Emblema del valle de Cayucupil con sólida hinchada rural y títulos en series mayores."
+      },
+      {
+        id: "club-canete-ferro",
+        name: "C.D. Ferroviario Cañete",
+        shortName: "Ferroviario",
+        badgeId: "club-canete-ferro",
+        founded: "19 de noviembre de 1952",
+        exactFoundationDate: "19 de noviembre de 1952",
+        stadium: "Estadio Fiscal de Cañete",
+        neighborhood: "Sector Antigua Estación",
+        titlesComunalesHonor: 5,
+        colors: "Negro y Blanco",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Heredero de la época del ferrocarril a Lebu y Cañete. Fuerte identidad gremial ferroviaria."
+      },
+      {
+        id: "club-canete-galvarino",
+        name: "C.D. Galvarino",
+        shortName: "Galvarino",
+        badgeId: "club-canete-galvarino",
+        founded: "7 de junio de 1971",
+        exactFoundationDate: "7 de junio de 1971",
+        stadium: "Cancha Caupolicán",
+        neighborhood: "Población Galvarino",
+        titlesComunalesHonor: 3,
+        colors: "Blanco y Granate",
+        series: ["honor", "senior_35", "juvenil"],
+        regionalRecord: "Club de fuerte vocación social y destacada participación en series de fútbol infantil."
+      }
+    ],
+
+    players: [
+      {
+        id: "p-canete-1",
+        name: "Mauricio Linco Huenchullán",
+        clubId: "club-canete-alianza",
+        series: "honor",
+        number: 10,
+        position: "Volante Ofensivo",
+        rut: "17.654.321-2",
+        age: 27,
+        goals: 6,
+        assists: 5,
+        yellowCards: 2,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 630,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-canete-2",
+        name: "Rodrigo Millanao Sáez",
+        clubId: "club-canete-juvenil",
+        series: "honor",
+        number: 9,
+        position: "Delantero Centro",
+        rut: "18.321.456-7",
+        age: 25,
+        goals: 5,
+        assists: 2,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 580,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-canete-3",
+        name: "Javier Huenchullán Alvear",
+        clubId: "club-canete-caupolican",
+        series: "honor",
+        number: 8,
+        position: "Volante de Contención",
+        rut: "16.987.654-1",
+        age: 30,
+        goals: 2,
+        assists: 3,
+        yellowCards: 4,
+        redCards: 1,
+        matchesPlayed: 6,
+        minutesPlayed: 520,
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-canete-4",
+        name: "Esteban Leviqueo Cona",
+        clubId: "club-canete-tucapel",
+        series: "honor",
+        number: 7,
+        position: "Extremo Izquierdo",
+        rut: "19.112.233-4",
+        age: 23,
+        goals: 4,
+        assists: 4,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 600,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+      }
+    ],
+
+    matches: [
+      {
+        id: "match-canete-01",
+        series: "honor",
+        round: "Fecha 7 • Torneo Oficial ANFA Cañete",
+        homeClubId: "club-canete-alianza",
+        awayClubId: "club-canete-juvenil",
+        venue: "Estadio Fiscal de Cañete",
+        date: "Hoy • 16:30 hrs",
+        status: "en_vivo",
+        currentMinute: 55,
+        half: 2,
+        homeScore: 1,
+        awayScore: 0,
+        referee: "Javier Bastías (Árbitros ANFA)",
+        events: [
+          { type: "gol", minute: 41, playerName: "Mauricio Linco", teamId: "club-canete-alianza", description: "Definición mano a mano tras tiro libre rápido" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: false, refereeConfirmed: false }
+      },
+      {
+        id: "match-canete-02",
+        series: "honor",
+        round: "Fecha 7 • Oficial",
+        homeClubId: "club-canete-caupolican",
+        awayClubId: "club-canete-tucapel",
+        venue: "Cancha Caupolicán",
+        date: "Hoy • 14:30 hrs",
+        status: "finalizado",
+        currentMinute: 90,
+        half: 2,
+        homeScore: 3,
+        awayScore: 2,
+        referee: "Patricio Alarcón",
+        events: [
+          { type: "gol", minute: 15, playerName: "Javier Huenchullán", teamId: "club-canete-caupolican", description: "Tiro libre potente" },
+          { type: "gol", minute: 34, playerName: "Esteban Leviqueo", teamId: "club-canete-tucapel", description: "Remate cruzado" },
+          { type: "gol", minute: 68, playerName: "Javier Huenchullán", teamId: "club-canete-caupolican", description: "Cabezazo al ángulo" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: true }
+      },
+      {
+        id: "match-canete-03",
+        series: "honor",
+        round: "Fecha 8 • Oficial",
+        homeClubId: "club-canete-lagranja",
+        awayClubId: "club-canete-lautaro",
+        venue: "Estadio Fiscal de Cañete",
+        date: "Domingo • 15:30 hrs",
+        status: "programado",
+        currentMinute: 0,
+        half: 1,
+        homeScore: 0,
+        awayScore: 0,
+        referee: "Por designar",
+        events: [],
+        signatures: { homeCaptainConfirmed: false, awayCaptainConfirmed: false, refereeConfirmed: false }
+      }
+    ],
+
+    standings: {
+      honor: [
+        { pos: 1, clubId: "club-canete-alianza", clubName: "C.D. Alianza de Cañete", pj: 7, pg: 6, pe: 1, pp: 0, gf: 18, gc: 5, dg: 13, pts: 19 },
+        { pos: 2, clubId: "club-canete-caupolican", clubName: "C.D. Caupolicán de Cañete", pj: 7, pg: 5, pe: 0, pp: 2, gf: 15, gc: 9, dg: 6, pts: 15 },
+        { pos: 3, clubId: "club-canete-juvenil", clubName: "C.D. Juvenil Cañete", pj: 7, pg: 4, pe: 1, pp: 2, gf: 13, gc: 8, dg: 5, pts: 13 },
+        { pos: 4, clubId: "club-canete-tucapel", clubName: "C.D. Tucapel Cañete", pj: 7, pg: 3, pe: 2, pp: 2, gf: 12, gc: 11, dg: 1, pts: 11 },
+        { pos: 5, clubId: "club-canete-lautaro", clubName: "C.D. Lautaro de Cañete", pj: 7, pg: 3, pe: 1, pp: 3, gf: 10, gc: 11, dg: -1, pts: 10 },
+        { pos: 6, clubId: "club-canete-lagranja", clubName: "C.D. La Granja", pj: 7, pg: 2, pe: 1, pp: 4, gf: 8, gc: 14, dg: -6, pts: 7 },
+        { pos: 7, clubId: "club-canete-ferro", clubName: "C.D. Ferroviario Cañete", pj: 7, pg: 1, pe: 1, pp: 5, gf: 7, gc: 15, dg: -8, pts: 4 },
+        { pos: 8, clubId: "club-canete-galvarino", clubName: "C.D. Galvarino", pj: 7, pg: 0, pe: 1, pp: 6, gf: 5, gc: 15, dg: -10, pts: 1 }
+      ],
+      senior_35: [
+        { pos: 1, clubId: "club-canete-alianza", clubName: "C.D. Alianza de Cañete", pj: 6, pg: 5, pe: 1, pp: 0, gf: 14, gc: 4, dg: 10, pts: 16 },
+        { pos: 2, clubId: "club-canete-juvenil", clubName: "C.D. Juvenil Cañete", pj: 6, pg: 4, pe: 1, pp: 1, gf: 11, gc: 6, dg: 5, pts: 13 },
+        { pos: 3, clubId: "club-canete-tucapel", clubName: "C.D. Tucapel Cañete", pj: 6, pg: 3, pe: 1, pp: 2, gf: 10, gc: 8, dg: 2, pts: 10 },
+        { pos: 4, clubId: "club-canete-caupolican", clubName: "C.D. Caupolicán de Cañete", pj: 6, pg: 3, pe: 0, pp: 3, gf: 8, gc: 9, dg: -1, pts: 9 },
+        { pos: 5, clubId: "club-canete-lautaro", clubName: "C.D. Lautaro de Cañete", pj: 6, pg: 2, pe: 1, pp: 3, gf: 7, gc: 10, dg: -3, pts: 7 },
+        { pos: 6, clubId: "club-canete-lagranja", clubName: "C.D. La Granja", pj: 6, pg: 1, pe: 2, pp: 3, gf: 6, gc: 9, dg: -3, pts: 5 },
+        { pos: 7, clubId: "club-canete-ferro", clubName: "C.D. Ferroviario Cañete", pj: 6, pg: 1, pe: 1, pp: 4, gf: 5, gc: 11, dg: -6, pts: 4 },
+        { pos: 8, clubId: "club-canete-galvarino", clubName: "C.D. Galvarino", pj: 6, pg: 0, pe: 1, pp: 5, gf: 3, gc: 12, dg: -9, pts: 1 }
+      ]
+    },
+
+    news: [
+      {
+        id: "news-canete-01",
+        title: "Alianza de Cañete sostiene liderato invicto tras ajustada victoria ante Juvenil",
+        category: "Torneo Oficial",
+        categoryBadge: "🏆 PUNTERO INVICTO",
+        date: "02 de Octubre, 2026",
+        readTime: "3 min de lectura",
+        author: "Prensa Cañete Deportes",
+        hero: true,
+        image: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1000&q=80",
+        excerpt: "Con solitaria anotación de tiro libre, Alianza superó a su escolta en el sintético del Estadio Fiscal.",
+        content: "El cuadro azul y blanco suma 19 unidades en siete fechas disputadas, consolidándose como el principal candidato al boleto comunal para la Copa de Campeones ANFA Biobío 2027.",
+        tags: ["ANFA Cañete", "Alianza", "Serie de Honor"]
+      }
+    ],
+
+    mediaGallery: { photos: [], videos: [] }
+  },
+
+  cordillera: {
+    leagueInfo: {
+      name: "Liga Cordillera Santiago",
+      shortName: "Liga Cordillera",
+      leagueId: "cordillera",
+      badgeId: "asociacion-cordillera",
+      foundationDate: "18 de marzo de 1994 (32 años)",
+      anniversary: "Fundada el 18 de marzo de 1994. Tradicional torneo amateur del sector oriente de la Región Metropolitana.",
+      president: "Gonzalo Valdés Rivas",
+      mediaPartner: "Cordillera TV Streaming & Digital",
+      commune: "Santiago Oriente (Las Condes / Lo Barnechea)",
+      region: "Región Metropolitana",
+      headquarters: "Avenida Las Condes 12400, Santiago",
+      season: "Torneo Apertura 2026",
+      activeSeries: "honor",
+      totalClubs: 8,
+      isDemo: true,
+      demoNotice: "Entorno de demostración para ligas metropolitanas en LigaMaster",
+      governingBodies: {
+        regional: "Comité de Ligas Independientes de Santiago",
+        national: "Fútbol Amateur Federado RM",
+        referees: "Asociación Central de Árbitros de Santiago",
+        broadcast: "Cordillera TV Streaming"
+      },
+      activeMatchId: "match-cord-01"
+    },
+
+    venues: [
+      {
+        id: "complejo-cordillera",
+        name: "Complejo Deportivo Cordillera",
+        shortName: "Complejo Cordillera",
+        commune: "Santiago Oriente",
+        surface: "Pasto Sintético Pro 60mm",
+        surfaceType: "sintetico",
+        lighting: "Iluminación Artificial LED",
+        capacity: "1.500 espectadores",
+        address: "Av. Las Condes 12400, Santiago",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada (Cancha Pro)",
+        usageNotes: "Centro neurálgico del torneo con canchas reglamentarias y tecnología de filmación automática.",
+        photo: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético Pro", "Iluminación LED", "Estacionamiento Privado", "Cámaras Automáticas"]
+      },
+      {
+        id: "estadio-san-carlos-oriente",
+        name: "Estadio San Carlos Oriente",
+        shortName: "San Carlos Oriente",
+        commune: "Santiago Oriente",
+        surface: "Pasto Sintético",
+        surfaceType: "sintetico",
+        lighting: "Torres Perimetrales",
+        capacity: "1.000 espectadores",
+        address: "Sector San Carlos, Las Condes",
+        status: "habilitada",
+        statusLabel: "🟢 Habilitada",
+        usageNotes: "Recinto alternativo para duelos simultáneos de fin de semana.",
+        photo: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+        features: ["Pasto Sintético", "Camarines VIP"]
+      }
+    ],
+
+    regulations: {
+      code: "REGLAMENTO-CORDILLERA-2026",
+      disciplinaryCode: "Código de Procedimientos Liga Cordillera",
+      substitutionRule: "Sustituciones libres en tres pausas de juego.",
+      cardRules: { yellowAccumulation: 4, yellowWarning: 3, doubleYellow: 1, directRed: "2 fechas" },
+      cupQualification: { regional: "Torneo Metropolitano de Campeones" }
+    },
+
+    seriesList: [
+      { id: "honor", name: "Serie de Honor (Primera Adulta)", shortName: "Honor", ageLimit: "Todo Competidor", halfDuration: 45, active: true },
+      { id: "senior_35", name: "Serie Senior (35+ Años)", shortName: "Senior 35", ageLimit: "35 años cumplidos", halfDuration: 40, active: false }
+    ],
+
+    clubs: [
+      {
+        id: "club-cord-central",
+        name: "C.D. Cordillera Central",
+        shortName: "Cordillera Central",
+        badgeId: "club-cord-central",
+        founded: "18 de marzo de 1994",
+        exactFoundationDate: "18 de marzo de 1994",
+        stadium: "Complejo Deportivo Cordillera",
+        neighborhood: "Las Condes",
+        titlesComunalesHonor: 7,
+        colors: "Azul Francia y Blanco",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Club fundador de la liga y heptacampeón metropolitano con juego de posesión y velocidad."
+      },
+      {
+        id: "club-cord-andes",
+        name: "C.D. Andes Santiago",
+        shortName: "Andes Santiago",
+        badgeId: "club-cord-andes",
+        founded: "12 de noviembre de 1998",
+        exactFoundationDate: "12 de noviembre de 1998",
+        stadium: "Complejo Deportivo Cordillera",
+        neighborhood: "Lo Barnechea",
+        titlesComunalesHonor: 5,
+        colors: "Celeste Glaciar y Blanco",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Institución de gran despliegue en torneos de invierno con cinco títulos de apertura."
+      },
+      {
+        id: "club-cord-oriente",
+        name: "C.D. Real Oriente",
+        shortName: "Real Oriente",
+        badgeId: "club-cord-oriente",
+        founded: "24 de mayo de 2002",
+        exactFoundationDate: "24 de mayo de 2002",
+        stadium: "Estadio San Carlos Oriente",
+        neighborhood: "San Carlos",
+        titlesComunalesHonor: 4,
+        colors: "Granate y Oro",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Cuatro veces campeón de honor con un plantel estructurado por experimentados ex universitarios."
+      },
+      {
+        id: "club-cord-manquehue",
+        name: "C.D. Manquehue Sur",
+        shortName: "Manquehue Sur",
+        badgeId: "club-cord-manquehue",
+        founded: "30 de julio de 1996",
+        exactFoundationDate: "30 de julio de 1996",
+        stadium: "Complejo Deportivo Cordillera",
+        neighborhood: "Cerro Manquehue",
+        titlesComunalesHonor: 4,
+        colors: "Verde y Azul",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Elenco reconocido por su sólida línea defensiva y constante presencia en semifinales."
+      },
+      {
+        id: "club-cord-cristobal",
+        name: "C.D. San Cristóbal Amateur",
+        shortName: "San Cristóbal",
+        badgeId: "club-cord-cristobal",
+        founded: "15 de enero de 2005",
+        exactFoundationDate: "15 de enero de 2005",
+        stadium: "Estadio San Carlos Oriente",
+        neighborhood: "Providencia / Las Condes",
+        titlesComunalesHonor: 3,
+        colors: "Naranjo y Negro",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Institución dinámica con gran afición juvenil y tres trofeos en sus vitrinas."
+      },
+      {
+        id: "club-cord-condes",
+        name: "C.D. Las Condes Amateur",
+        shortName: "Las Condes",
+        badgeId: "club-cord-condes",
+        founded: "10 de abril de 2001",
+        exactFoundationDate: "10 de abril de 2001",
+        stadium: "Complejo Deportivo Cordillera",
+        neighborhood: "Colón Oriente",
+        titlesComunalesHonor: 4,
+        colors: "Azul Marino y Rojo",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Tradicional animador comunal con destacada participación en series Senior 35."
+      },
+      {
+        id: "club-cord-dehesa",
+        name: "C.D. La Dehesa F.C.",
+        shortName: "La Dehesa F.C.",
+        badgeId: "club-cord-dehesa",
+        founded: "8 de septiembre de 2010",
+        exactFoundationDate: "8 de septiembre de 2010",
+        stadium: "Estadio San Carlos Oriente",
+        neighborhood: "La Dehesa",
+        titlesComunalesHonor: 2,
+        colors: "Blanco y Dorado",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Equipo de rápida evolución competitiva con 2 coronas de torneo corto."
+      },
+      {
+        id: "club-cord-sanramon",
+        name: "C.D. Quebrada San Ramón",
+        shortName: "Quebrada San Ramón",
+        badgeId: "club-cord-sanramon",
+        founded: "14 de junio de 2008",
+        exactFoundationDate: "14 de junio de 2008",
+        stadium: "Complejo Deportivo Cordillera",
+        neighborhood: "Precordillera",
+        titlesComunalesHonor: 2,
+        colors: "Verde Oliva y Negro",
+        series: ["honor", "senior_35"],
+        regionalRecord: "Fuerte localía precordillerana y elenco muy combativo en balones detenidos."
+      }
+    ],
+
+    players: [
+      {
+        id: "p-cord-1",
+        name: "Sebastián Larraín Mackenna",
+        clubId: "club-cord-central",
+        series: "honor",
+        number: 10,
+        position: "Mediocampista Ofensivo",
+        rut: "18.109.876-3",
+        age: 27,
+        goals: 7,
+        assists: 6,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 630,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-cord-2",
+        name: "Nicolás Echeverría Cruz",
+        clubId: "club-cord-andes",
+        series: "honor",
+        number: 9,
+        position: "Goleador Central",
+        rut: "17.890.123-5",
+        age: 29,
+        goals: 6,
+        assists: 2,
+        yellowCards: 2,
+        redCards: 0,
+        matchesPlayed: 7,
+        minutesPlayed: 610,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "p-cord-3",
+        name: "Tomás Mackenna Valdés",
+        clubId: "club-cord-oriente",
+        series: "honor",
+        number: 11,
+        position: "Extremo Derecho",
+        rut: "19.001.234-8",
+        age: 24,
+        goals: 5,
+        assists: 4,
+        yellowCards: 1,
+        redCards: 0,
+        matchesPlayed: 6,
+        minutesPlayed: 540,
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+      }
+    ],
+
+    matches: [
+      {
+        id: "match-cord-01",
+        series: "honor",
+        round: "Fecha 7 • Clásico Cordillera",
+        homeClubId: "club-cord-central",
+        awayClubId: "club-cord-andes",
+        venue: "Complejo Deportivo Cordillera",
+        date: "Hoy • 17:00 hrs",
+        status: "en_vivo",
+        currentMinute: 65,
+        half: 2,
+        homeScore: 2,
+        awayScore: 2,
+        referee: "Pablo Henríquez (Asoc. Árbitros Santiago)",
+        events: [
+          { type: "gol", minute: 14, playerName: "Sebastián Larraín", teamId: "club-cord-central", description: "Volea desde 25 metros" },
+          { type: "gol", minute: 31, playerName: "Nicolás Echeverría", teamId: "club-cord-andes", description: "Anticipo de cabeza" },
+          { type: "gol", minute: 48, playerName: "Nicolás Echeverría", teamId: "club-cord-andes", description: "Tiro penal cruzado" },
+          { type: "gol", minute: 62, playerName: "Sebastián Larraín", teamId: "club-cord-central", description: "Tiro libre al ángulo" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: false }
+      },
+      {
+        id: "match-cord-02",
+        series: "honor",
+        round: "Fecha 7 • Apertura",
+        homeClubId: "club-cord-oriente",
+        awayClubId: "club-cord-manquehue",
+        venue: "Estadio San Carlos Oriente",
+        date: "Hoy • 15:00 hrs",
+        status: "finalizado",
+        currentMinute: 90,
+        half: 2,
+        homeScore: 1,
+        awayScore: 0,
+        referee: "Ignacio Soto",
+        events: [
+          { type: "gol", minute: 73, playerName: "Tomás Mackenna", teamId: "club-cord-oriente", description: "Zurdazo rasante" }
+        ],
+        signatures: { homeCaptainConfirmed: true, awayCaptainConfirmed: true, refereeConfirmed: true }
+      }
+    ],
+
+    standings: {
+      honor: [
+        { pos: 1, clubId: "club-cord-central", clubName: "C.D. Cordillera Central", pj: 7, pg: 5, pe: 2, pp: 0, gf: 17, gc: 7, dg: 10, pts: 17 },
+        { pos: 2, clubId: "club-cord-andes", clubName: "C.D. Andes Santiago", pj: 7, pg: 4, pe: 2, pp: 1, gf: 15, gc: 9, dg: 6, pts: 14 },
+        { pos: 3, clubId: "club-cord-oriente", clubName: "C.D. Real Oriente", pj: 7, pg: 4, pe: 1, pp: 2, gf: 12, gc: 8, dg: 4, pts: 13 },
+        { pos: 4, clubId: "club-cord-manquehue", clubName: "C.D. Manquehue Sur", pj: 7, pg: 3, pe: 2, pp: 2, gf: 11, gc: 10, dg: 1, pts: 11 },
+        { pos: 5, clubId: "club-cord-condes", clubName: "C.D. Las Condes Amateur", pj: 7, pg: 3, pe: 1, pp: 3, gf: 10, gc: 11, dg: -1, pts: 10 },
+        { pos: 6, clubId: "club-cord-cristobal", clubName: "C.D. San Cristóbal Amateur", pj: 7, pg: 2, pe: 1, pp: 4, gf: 9, gc: 13, dg: -4, pts: 7 },
+        { pos: 7, clubId: "club-cord-dehesa", clubName: "C.D. La Dehesa F.C.", pj: 7, pg: 1, pe: 1, pp: 5, gf: 7, gc: 15, dg: -8, pts: 4 },
+        { pos: 8, clubId: "club-cord-sanramon", clubName: "C.D. Quebrada San Ramón", pj: 7, pg: 1, pe: 0, pp: 6, gf: 6, gc: 14, dg: -8, pts: 3 }
+      ],
+      senior_35: [
+        { pos: 1, clubId: "club-cord-central", clubName: "C.D. Cordillera Central", pj: 6, pg: 5, pe: 1, pp: 0, gf: 13, gc: 4, dg: 9, pts: 16 },
+        { pos: 2, clubId: "club-cord-condes", clubName: "C.D. Las Condes Amateur", pj: 6, pg: 4, pe: 1, pp: 1, gf: 12, gc: 7, dg: 5, pts: 13 },
+        { pos: 3, clubId: "club-cord-andes", clubName: "C.D. Andes Santiago", pj: 6, pg: 3, pe: 2, pp: 1, gf: 10, gc: 7, dg: 3, pts: 11 },
+        { pos: 4, clubId: "club-cord-oriente", clubName: "C.D. Real Oriente", pj: 6, pg: 3, pe: 1, pp: 2, gf: 9, gc: 8, dg: 1, pts: 10 }
+      ]
+    },
+
+    news: [
+      {
+        id: "news-cord-01",
+        title: "Intenso empate en el clásico entre Cordillera Central y Andes Santiago",
+        category: "Torneo Apertura",
+        categoryBadge: "⚡ CLÁSICO METROPOLITANO",
+        date: "02 de Octubre, 2026",
+        readTime: "3 min de lectura",
+        author: "Prensa Cordillera TV",
+        hero: true,
+        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80",
+        excerpt: "Con dos goles de Larraín y un doblete de Echeverría, los punteros igualaron en el Complejo Cordillera.",
+        content: "En un partido de ritmo vertiginoso, Central y Andes dividieron puntos ante más de 800 asistentes en las canchas de Las Condes.",
+        tags: ["Liga Cordillera", "Clásico", "Apertura 2026"]
+      }
+    ],
+
+    mediaGallery: { photos: [], videos: [] }
+  }
+};
+
+/**
+ * ==========================================================================
+ * GESTIÓN DE PERSISTENCIA Y MODELO MULTI-LIGA
+ * ==========================================================================
+ */
+
+const memStorage = new Map();
+
+function safeStorageGet(key) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem(key);
+    }
+  } catch (e) {}
+  return memStorage.get(key) || null;
+}
+
+function safeStorageSet(key, value) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(key, value);
+      return;
+    }
+  } catch (e) {}
+  memStorage.set(key, String(value));
 }
 
 export function getActiveLeagueId() {
-  return localStorage.getItem('LIGAMASTER_ACTIVE_LEAGUE_ID') || 'arauco';
+  return safeStorageGet('LIGAMASTER_ACTIVE_LEAGUE_ID') || 'arauco';
 }
 
 export function setActiveLeagueId(leagueId) {
-  localStorage.setItem('LIGAMASTER_ACTIVE_LEAGUE_ID', leagueId);
-  window.dispatchEvent(new CustomEvent('ligamaster:league-changed', { detail: leagueId }));
+  safeStorageSet('LIGAMASTER_ACTIVE_LEAGUE_ID', leagueId);
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('ligamaster:league-changed', { detail: leagueId }));
+  }
 }
 
 export function getLeagueById(leagueId) {
@@ -2142,4 +2891,266 @@ export function getLeagueById(leagueId) {
   return REGIONS_AND_LEAGUES[0].leagues[0];
 }
 
+export function getRegionsAndLeagues() {
+  return REGIONS_AND_LEAGUES;
+}
 
+export function getLeagueSeries(leagueId = null) {
+  const db = getDb(leagueId);
+  return db.seriesList || MULTI_LEAGUE_STORE.arauco.seriesList;
+}
+
+/**
+ * Retorna la base de datos de la liga activa o especificada
+ */
+export function getDb(leagueId = null) {
+  const targetLeague = leagueId || getActiveLeagueId() || 'arauco';
+  const storageKey = `LIGAMASTER_LEAGUE_${targetLeague.toUpperCase()}_V1`;
+
+  try {
+    const raw = safeStorageGet(storageKey);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+
+    // Compatibilidad retroactiva para Arauco si existía la clave previa
+    if (targetLeague === 'arauco') {
+      const legacyRaw = safeStorageGet(STORAGE_KEY);
+      if (legacyRaw) {
+        const parsed = JSON.parse(legacyRaw);
+        safeStorageSet(storageKey, JSON.stringify(parsed));
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error(`Error leyendo base de datos de ${targetLeague}`, e);
+  }
+
+  // Inicializar con la tienda multi-liga predefinida
+  const source = MULTI_LEAGUE_STORE[targetLeague] || MULTI_LEAGUE_STORE.arauco;
+  const cloned = JSON.parse(JSON.stringify(source));
+  saveDb(cloned, targetLeague);
+  return cloned;
+}
+
+/**
+ * Guarda el estado de la base de datos de una liga
+ */
+export function saveDb(data, leagueId = null) {
+  const targetLeague = leagueId || (data.leagueInfo && data.leagueInfo.leagueId) || getActiveLeagueId() || 'arauco';
+  const storageKey = `LIGAMASTER_LEAGUE_${targetLeague.toUpperCase()}_V1`;
+
+  try {
+    safeStorageSet(storageKey, JSON.stringify(data));
+    if (targetLeague === 'arauco') {
+      safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+    }
+  } catch (e) {
+    console.error(`Error guardando base de datos de ${targetLeague}`, e);
+  }
+}
+
+/**
+ * Restaura la base de datos de una liga a sus valores de fábrica
+ */
+export function resetDb(leagueId = null) {
+  const targetLeague = leagueId || getActiveLeagueId() || 'arauco';
+  const source = MULTI_LEAGUE_STORE[targetLeague] || MULTI_LEAGUE_STORE.arauco;
+  const cloned = JSON.parse(JSON.stringify(source));
+  saveDb(cloned, targetLeague);
+  return cloned;
+}
+
+// Catálogo retrocompatible de asociaciones
+export const AVAILABLE_ASSOCIATIONS = REGIONS_AND_LEAGUES.flatMap(r => r.leagues.map(l => ({
+  id: l.id,
+  name: l.name,
+  shortName: l.shortName,
+  region: r.regionName,
+  commune: l.commune,
+  headquarters: l.commune,
+  badgeEmoji: "⚽",
+  accentColor: "#e51b24",
+  stadium: "Estadio Oficial",
+  clubsCount: l.totalClubs,
+  tagline: l.statusLabel
+})));
+
+export function getActiveAssociation() {
+  const activeId = getActiveLeagueId();
+  return AVAILABLE_ASSOCIATIONS.find(a => a.id === activeId) || AVAILABLE_ASSOCIATIONS[0];
+}
+
+export function switchAssociation(targetId) {
+  setActiveLeagueId(targetId);
+}
+
+/**
+ * Exporta toda la base de datos de la liga activa a un archivo JSON para respaldo
+ */
+export function exportDbAsJson(leagueId = null) {
+  const db = getDb(leagueId);
+  const jsonStr = JSON.stringify(db, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const assoc = db.leagueInfo?.shortName?.replace(/\s+/g, '_') || 'LigaMaster';
+  a.download = `${assoc}_Respaldo_Oficial_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Importa y restaura una base de datos desde un archivo JSON
+ */
+export function importDbFromJson(jsonString, leagueId = null) {
+  try {
+    const parsed = JSON.parse(jsonString);
+    if (parsed.leagueInfo && parsed.clubs) {
+      saveDb(parsed, leagueId);
+      return { success: true, message: "Base de datos de la Liga restaurada con éxito." };
+    }
+    return { success: false, message: "El archivo no posee una estructura válida de LigaMaster." };
+  } catch (err) {
+    return { success: false, message: "Error al procesar el archivo JSON: " + err.message };
+  }
+}
+
+/**
+ * Recintos y canchas oficiales
+ */
+export function getVenues(leagueId = null) {
+  const db = getDb(leagueId);
+  return db.venues || [];
+}
+
+export function updateVenueStatus(venueId, status, statusLabel, leagueId = null) {
+  const db = getDb(leagueId);
+  if (!db.venues) db.venues = [];
+  const v = db.venues.find(item => item.id === venueId);
+  if (v) {
+    v.status = status;
+    v.statusLabel = statusLabel;
+    saveDb(db, leagueId);
+    return { success: true, venue: v };
+  }
+  return { success: false, message: "Cancha no encontrada" };
+}
+
+/**
+ * Partido activo
+ */
+export function getActiveMatch(leagueId = null) {
+  const db = getDb(leagueId);
+  const matchId = db.leagueInfo?.activeMatchId;
+  return (db.matches || []).find(m => m.id === matchId) || (db.matches && db.matches[0]);
+}
+
+export function setActiveMatch(matchId, leagueId = null) {
+  const db = getDb(leagueId);
+  const exists = (db.matches || []).find(m => m.id === matchId);
+  if (!exists) return false;
+  
+  db.leagueInfo.activeMatchId = matchId;
+  saveDb(db, leagueId);
+
+  window.dispatchEvent(new CustomEvent('ligapro:match-changed', {
+    detail: { matchId, match: exists }
+  }));
+  return true;
+}
+
+export function getLiveMatches(leagueId = null) {
+  const db = getDb(leagueId);
+  return (db.matches || []).filter(m => m.status === 'en_vivo');
+}
+
+export function getMatchesByVenue(venueId, leagueId = null) {
+  const db = getDb(leagueId);
+  return (db.matches || []).filter(m => m.venueId === venueId);
+}
+
+export function getSelectionInfo(leagueId = null) {
+  const db = getDb(leagueId);
+  return db.selectionInfo || MULTI_LEAGUE_STORE.arauco.selectionInfo;
+}
+
+export function getNews(leagueId = null) {
+  const db = getDb(leagueId);
+  return db.news || [];
+}
+
+export function addNews(newsItem, leagueId = null) {
+  const db = getDb(leagueId);
+  if (!db.news) db.news = [];
+  
+  const newItem = {
+    id: `news-${Date.now()}`,
+    title: newsItem.title || "Comunicado Oficial",
+    category: newsItem.category || "Torneo Oficial",
+    categoryBadge: newsItem.categoryBadge || "📢 COMUNICADO",
+    date: "Recién publicado",
+    readTime: "2 min de lectura",
+    author: newsItem.author || db.leagueInfo?.name || "Directiva de Liga",
+    hero: false,
+    image: newsItem.image || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80",
+    excerpt: newsItem.excerpt || "",
+    content: newsItem.content || newsItem.excerpt || "",
+    tags: [db.leagueInfo?.shortName || "LigaMaster"]
+  };
+
+  db.news.unshift(newItem);
+  saveDb(db, leagueId);
+
+  window.dispatchEvent(new CustomEvent('ligapro:news-updated', { detail: newItem }));
+  return newItem;
+}
+
+export function getMediaGallery(leagueId = null) {
+  const db = getDb(leagueId);
+  return db.mediaGallery || { photos: [], videos: [] };
+}
+
+export function addMediaPhoto(photoItem, leagueId = null) {
+  const db = getDb(leagueId);
+  if (!db.mediaGallery) db.mediaGallery = { photos: [], videos: [] };
+  
+  const newPhoto = {
+    id: `photo-${Date.now()}`,
+    title: photoItem.title || "Postal de Cancha",
+    match: photoItem.match || "Jornada Oficial",
+    date: "Reciente",
+    venue: photoItem.venue || (db.venues && db.venues[0] ? db.venues[0].name : "Recinto Oficial"),
+    author: photoItem.author || "Prensa Oficial",
+    url: photoItem.url
+  };
+
+  db.mediaGallery.photos.unshift(newPhoto);
+  saveDb(db, leagueId);
+  window.dispatchEvent(new CustomEvent('ligapro:media-updated', { detail: { type: 'photo', item: newPhoto } }));
+  return newPhoto;
+}
+
+export function addMediaVideo(videoItem, leagueId = null) {
+  const db = getDb(leagueId);
+  if (!db.mediaGallery) db.mediaGallery = { photos: [], videos: [] };
+
+  const newVideo = {
+    id: `vid-${Date.now()}`,
+    title: videoItem.title || "Jugada Destacada",
+    category: videoItem.category || "Gol de la Fecha",
+    duration: videoItem.duration || "1:00",
+    views: "1 reproducción",
+    thumbnail: videoItem.thumbnail || "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=80",
+    videoUrl: videoItem.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    description: videoItem.description || ""
+  };
+
+  db.mediaGallery.videos.unshift(newVideo);
+  saveDb(db, leagueId);
+  window.dispatchEvent(new CustomEvent('ligapro:media-updated', { detail: { type: 'video', item: newVideo } }));
+  return newVideo;
+}

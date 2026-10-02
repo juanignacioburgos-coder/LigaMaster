@@ -59,6 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
  * Inicialización General de LigaMaster
  */
 function initLigaMaster() {
+  const db = getDb();
+  if (db.clubs && db.clubs.length > 0) {
+    currentActiveClubId = db.clubs[0].id;
+  }
+  if (db.players && db.players.length > 0) {
+    currentActivePlayerId = db.players[0].id;
+  }
+  updateSeriesSelectDropdowns(db.seriesList || []);
+
   setupNavigationRouting();
   setupGlobalModals();
   setupGlobalSearch();
@@ -185,6 +194,24 @@ function setupMultiLeagueHandlers() {
 
   window.addEventListener('ligamaster:league-changed', (e) => {
     const leagueId = e.detail;
+    const db = getDb(leagueId);
+
+    // Ajustar series de la nueva liga
+    const seriesList = db.seriesList || [];
+    const supportedIds = seriesList.map(s => s.id);
+    if (!supportedIds.includes(currentActiveSeries)) {
+      currentActiveSeries = supportedIds[0] || 'honor';
+    }
+    updateSeriesSelectDropdowns(seriesList);
+
+    // Ajustar club y jugador activo a la nueva liga
+    if (db.clubs && db.clubs.length > 0) {
+      currentActiveClubId = db.clubs[0].id;
+    }
+    if (db.players && db.players.length > 0) {
+      currentActivePlayerId = db.players[0].id;
+    }
+
     renderActiveLeagueContext();
     renderHomeView();
     renderLeagueView();
@@ -192,7 +219,10 @@ function setupMultiLeagueHandlers() {
     renderCalendarView();
     renderResultsView();
     renderTeamView();
+    renderPlayerView();
     renderStatsView();
+    renderNewsView();
+    renderLeaguePickerModal();
   });
 
   window.ligamasterSwitchLeague = (leagueId) => {
@@ -202,21 +232,59 @@ function setupMultiLeagueHandlers() {
   };
 }
 
+function updateSeriesSelectDropdowns(seriesList) {
+  const globalSelect = document.getElementById('global-series-select');
+  const standingsSelect = document.getElementById('standings-series-select');
+
+  const list = seriesList && seriesList.length > 0 ? seriesList : [
+    { id: 'honor', name: 'Serie de Honor (Primera)' },
+    { id: 'senior_35', name: 'Serie Senior (35+ Años)' },
+    { id: 'juvenil', name: 'Serie Juvenil (Sub-17)' }
+  ];
+
+  let optionsHtml = '';
+  list.forEach(s => {
+    optionsHtml += `<option value="${s.id}">${s.name || s.shortName || s.id}</option>`;
+  });
+
+  if (globalSelect) {
+    globalSelect.innerHTML = optionsHtml;
+    globalSelect.value = currentActiveSeries;
+  }
+  if (standingsSelect) {
+    standingsSelect.innerHTML = optionsHtml;
+    standingsSelect.value = currentActiveSeries;
+  }
+}
+
 function renderActiveLeagueContext() {
   const activeId = getActiveLeagueId();
   const league = getLeagueById(activeId);
   const crestEl = document.getElementById('context-league-crest');
   const nameEl = document.getElementById('context-league-name');
   const regionEl = document.getElementById('context-league-region');
+  const demoBanner = document.getElementById('league-demo-banner');
+  const demoNoticeText = document.getElementById('league-demo-notice-text');
 
   if (crestEl) {
-    crestEl.innerHTML = getClubBadgeSvg('asociacion-arauco', 28);
+    crestEl.innerHTML = getClubBadgeSvg(league.badgeId || 'asociacion-arauco', 28);
   }
   if (nameEl) {
     nameEl.textContent = league.name;
   }
   if (regionEl) {
     regionEl.textContent = `${league.commune} • ${league.statusLabel}`;
+  }
+
+  if (demoBanner) {
+    if (league.isDemo) {
+      demoBanner.style.display = 'block';
+      if (demoNoticeText) {
+        demoNoticeText.textContent = `Entorno de Demostración: Estructura de liga preconfigurada (${league.name}) para presentación e integración a LigaMaster.`;
+      }
+    } else {
+      demoBanner.style.display = 'none';
+    }
   }
 }
 
@@ -248,7 +316,7 @@ function renderHomeLeaguesGrid() {
           <div>
             <div class="league-picker-header">
               <div class="league-picker-crest">
-                ${getClubBadgeSvg('asociacion-arauco', 40)}
+                ${getClubBadgeSvg(league.badgeId || 'asociacion-arauco', 40)}
               </div>
               <div class="league-picker-meta">
                 <h4>${league.name}</h4>
@@ -273,6 +341,11 @@ function renderHomeLeaguesGrid() {
           </div>
         </div>
       `;
+    });
+  });
+
+  container.innerHTML = html;
+}
     });
   });
 
@@ -462,13 +535,13 @@ function renderHomeMiniNews() {
  * ==========================================================================
  */
 function renderLeagueView() {
-  const db = getDb();
   const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
   const league = getLeagueById(activeId);
 
   const crestBox = document.getElementById('league-hero-crest');
   if (crestBox) {
-    crestBox.innerHTML = getClubBadgeSvg('asociacion-arauco', 64);
+    crestBox.innerHTML = getClubBadgeSvg(league.badgeId || 'asociacion-arauco', 64);
   }
 
   const titleEl = document.getElementById('league-page-title');
@@ -493,7 +566,7 @@ function renderLeagueView() {
           </div>
           <div class="match-teams-row">
             <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.homeClubId}')">
-              <div class="match-team-crest">${getClubBadgeSvg(m.homeClubId, 40)}</div>
+              <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 40)}</div>
               <div class="match-team-name">${homeClub.name}</div>
             </div>
             <div class="match-score-col">
@@ -501,7 +574,7 @@ function renderLeagueView() {
               <span style="font-size: 0.72rem; color: var(--color-primary); font-weight: 700; margin-top: 0.2rem;">${m.date.split('•')[1] || '16:30'}</span>
             </div>
             <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.awayClubId}')">
-              <div class="match-team-crest">${getClubBadgeSvg(m.awayClubId, 40)}</div>
+              <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 40)}</div>
               <div class="match-team-name">${awayClub.name}</div>
             </div>
           </div>
@@ -532,12 +605,14 @@ function renderLeagueView() {
         <tbody>
     `;
     standings.slice(0, 6).forEach(row => {
+      const club = (db.clubs || []).find(c => c.id === row.clubId);
+      const bId = (club && club.badgeId) || row.clubId;
       html += `
         <tr onclick="window.ligamasterSelectTeam('${row.clubId}')" style="cursor: pointer;">
           <td><span class="table-pos-badge" style="width: 22px; height: 22px; font-size: 0.7rem;">${row.pos}</span></td>
           <td>
             <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span style="width: 18px; height: 18px; display: inline-flex;">${getClubBadgeSvg(row.clubId, 18)}</span>
+              <span style="width: 18px; height: 18px; display: inline-flex;">${getClubBadgeSvg(bId, 18)}</span>
               <strong style="font-size: 0.8rem;">${row.clubName}</strong>
             </div>
           </td>
@@ -558,11 +633,11 @@ function renderLeagueView() {
       html += `
         <div class="club-compact-card" onclick="window.ligamasterSelectTeam('${club.id}')">
           <div class="club-compact-crest">
-            ${getClubBadgeSvg(club.id, 38)}
+            ${getClubBadgeSvg(club.badgeId || club.id, 38)}
           </div>
           <div class="club-compact-info">
             <h4>${club.name}</h4>
-            <span>Fundado: ${club.exactFoundationDate}</span>
+            <span>Fundado: ${club.exactFoundationDate || club.founded || 'Oficial'}</span>
           </div>
         </div>
       `;
@@ -577,13 +652,22 @@ function renderLeagueView() {
  * ==========================================================================
  */
 function renderStandingsView() {
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  const league = getLeagueById(activeId);
   const tbody = document.getElementById('standings-table-body');
+  const labelEl = document.getElementById('standings-series-label');
+
+  if (labelEl) {
+    const seriesObj = (db.seriesList || []).find(s => s.id === currentActiveSeries) || { name: 'Serie de Honor' };
+    labelEl.textContent = `${db.leagueInfo?.season || 'Campeonato Oficial'} • ${league.name} • ${seriesObj.name}`;
+  }
+
   if (!tbody) return;
 
   const standings = (db.standings && db.standings[currentActiveSeries]) || [];
   if (standings.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 2rem; color: var(--color-text-muted);">Actualmente no hay estadísticas de tabla disponibles para esta serie.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">Actualmente no hay estadísticas de tabla disponibles para esta serie en ${league.name}.</td></tr>`;
     return;
   }
 
@@ -591,6 +675,8 @@ function renderStandingsView() {
   standings.forEach((row, idx) => {
     const isChampionZone = idx < 2;
     const isRelegationZone = idx >= standings.length - 2;
+    const club = (db.clubs || []).find(c => c.id === row.clubId);
+    const badgeId = (club && club.badgeId) || row.clubId;
 
     html += `
       <tr onclick="window.ligamasterSelectTeam('${row.clubId}')" style="cursor: pointer; ${isChampionZone ? 'border-left: 3px solid var(--color-success);' : (isRelegationZone ? 'border-left: 3px solid var(--color-danger);' : '')}">
@@ -602,7 +688,7 @@ function renderStandingsView() {
         <td>
           <div class="table-team-cell">
             <div class="table-team-crest">
-              ${getClubBadgeSvg(row.clubId, 30)}
+              ${getClubBadgeSvg(badgeId, 30)}
             </div>
             <span class="table-team-name">${row.clubName}</span>
           </div>
@@ -643,9 +729,9 @@ function renderCalendarView() {
   const matchesContainer = document.getElementById('calendar-matches-grid');
   if (!pillsContainer || !matchesContainer) return;
 
-  // Generar pastillas de jornadas 1 a 18
+  // Generar pastillas de jornadas
   let pillsHtml = '';
-  for (let i = 1; i <= 18; i++) {
+  for (let i = 1; i <= 14; i++) {
     pillsHtml += `
       <button class="matchday-pill-btn ${i === currentActiveRound ? 'active' : ''}" onclick="window.ligamasterSelectRound(${i})">
         Fecha ${i}
@@ -655,8 +741,14 @@ function renderCalendarView() {
   pillsContainer.innerHTML = pillsHtml;
 
   // Generar partidos de la fecha seleccionada
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
   const matches = (db.matches || []).filter(m => m.series === currentActiveSeries);
+
+  if (matches.length === 0) {
+    matchesContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">No hay compromisos registrados en el fixture para esta categoría.</div>`;
+    return;
+  }
 
   let html = '';
   matches.forEach(m => {
@@ -666,22 +758,32 @@ function renderCalendarView() {
     html += `
       <div class="match-card">
         <div class="match-card-header">
-          <span>Fecha ${currentActiveRound} • Serie de Honor</span>
-          <span class="match-status-badge ${m.status === 'en_vivo' ? 'live' : 'scheduled'}">${m.status === 'en_vivo' ? 'EN VIVO' : 'PROGRAMADO'}</span>
+          <span>${m.round || `Fecha ${currentActiveRound} • ${db.leagueInfo?.shortName}`}</span>
+          <span class="match-status-badge ${m.status === 'en_vivo' ? 'live' : (m.status === 'finalizado' ? 'finished' : 'scheduled')}">
+            ${m.status === 'en_vivo' ? 'EN VIVO' : (m.status === 'finalizado' ? 'FINALIZADO' : 'PROGRAMADO')}
+          </span>
         </div>
         <div class="match-teams-row">
           <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.homeClubId}')">
-            <div class="match-team-crest">${getClubBadgeSvg(m.homeClubId, 44)}</div>
+            <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 44)}</div>
             <div class="match-team-name">${homeClub.name}</div>
           </div>
           <div class="match-score-col">
-            <div class="match-vs-box">VS</div>
-            <span style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 800; color: var(--color-primary); margin-top: 0.3rem;">
-              ${m.date ? m.date.split('•')[1] || '16:30' : '16:30'}
-            </span>
+            ${m.status === 'en_vivo' || m.status === 'finalizado' ? `
+              <div class="match-score-box">
+                <span>${m.homeScore}</span>
+                <span style="color: var(--color-text-muted);">-</span>
+                <span>${m.awayScore}</span>
+              </div>
+            ` : `
+              <div class="match-vs-box">VS</div>
+              <span style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 800; color: var(--color-primary); margin-top: 0.3rem;">
+                ${m.date ? m.date.split('•')[1] || '16:30' : '16:30'}
+              </span>
+            `}
           </div>
           <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.awayClubId}')">
-            <div class="match-team-crest">${getClubBadgeSvg(m.awayClubId, 44)}</div>
+            <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 44)}</div>
             <div class="match-team-name">${awayClub.name}</div>
           </div>
         </div>
@@ -714,25 +816,42 @@ window.ligamasterSelectRound = (round) => {
 function renderResultsView() {
   const container = document.getElementById('results-matches-grid');
   if (!container) return;
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
 
-  // Partidos jugados (en vivo o finalizados)
-  const matches = (db.matches || []).filter(m => m.series === currentActiveSeries);
+  // Partidos jugados o en disputa
+  const matches = (db.matches || []).filter(m => m.series === currentActiveSeries && (m.status === 'finalizado' || m.status === 'en_vivo'));
+
+  if (matches.length === 0) {
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">Aún no se registran resultados oficiales para esta serie en la jornada.</div>`;
+    return;
+  }
 
   let html = '';
   matches.forEach(m => {
     const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: "Local" };
     const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: "Visita" };
+    const isLive = m.status === 'en_vivo';
+
+    let incidenciasStr = 'Acta cerrada sin observaciones.';
+    if (m.events && m.events.length > 0) {
+      incidenciasStr = m.events.map(ev => {
+        const icon = ev.type === 'gol' ? '⚽' : (ev.type === 'amarilla' ? '🟨' : (ev.type === 'roja' ? '🟥' : '⏱️'));
+        return `${icon} ${ev.minute}' ${ev.playerName}`;
+      }).join(' • ');
+    }
 
     html += `
-      <div class="match-card" style="border-left: 4px solid var(--color-primary);">
+      <div class="match-card" style="border-left: 4px solid ${isLive ? 'var(--color-primary)' : 'var(--color-success)'};">
         <div class="match-card-header">
-          <span>Fecha 7 • Marcador Oficial</span>
-          <span class="match-status-badge finished">ACTA SELLADA</span>
+          <span>${m.round || 'Marcador Oficial'}</span>
+          <span class="match-status-badge ${isLive ? 'live' : 'finished'}">
+            ${isLive ? `● EN VIVO (${m.currentMinute}')` : 'ACTA SELLADA'}
+          </span>
         </div>
         <div class="match-teams-row">
           <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.homeClubId}')">
-            <div class="match-team-crest">${getClubBadgeSvg(m.homeClubId, 44)}</div>
+            <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 44)}</div>
             <div class="match-team-name">${homeClub.name}</div>
           </div>
           <div class="match-score-col">
@@ -741,19 +860,21 @@ function renderResultsView() {
               <span style="color: var(--color-text-muted);">-</span>
               <span>${m.awayScore}</span>
             </div>
-            <span style="font-size: 0.68rem; color: var(--color-text-muted); margin-top: 0.35rem;">Final 90'</span>
+            <span style="font-size: 0.68rem; color: var(--color-text-muted); margin-top: 0.35rem;">
+              ${isLive ? `1er Tiempo ${m.currentMinute}'` : "Final 90'"}
+            </span>
           </div>
           <div class="match-team-col" onclick="window.ligamasterSelectTeam('${m.awayClubId}')">
-            <div class="match-team-crest">${getClubBadgeSvg(m.awayClubId, 44)}</div>
+            <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 44)}</div>
             <div class="match-team-name">${awayClub.name}</div>
           </div>
         </div>
 
-        <!-- Goleadores del Partido -->
+        <!-- Goleadores e Incidencias del Partido -->
         <div style="background-color: var(--color-bg-subtle); padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); margin-bottom: 0.75rem; font-size: 0.78rem;">
           <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Goles e Incidencias:</strong>
           <div style="color: var(--color-text-secondary); line-height: 1.4;">
-            ⚽ 18' M. Neira (Robledo), ⚽ 34' A. Guajardo (Brisas del Mar). 🟨 27' R. Sáez.
+            ${incidenciasStr}
           </div>
         </div>
 
@@ -779,7 +900,16 @@ function renderResultsView() {
  * ==========================================================================
  */
 function renderTeamView() {
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const league = getLeagueById(activeId);
+  const db = getDb(activeId);
+
+  // Validar que el club activo pertenezca a la liga actual
+  if (!db.clubs || db.clubs.length === 0) return;
+  if (!db.clubs.some(c => c.id === currentActiveClubId)) {
+    currentActiveClubId = db.clubs[0].id;
+  }
+
   const strip = document.getElementById('team-view-clubs-strip');
   if (strip) {
     let stripHtml = '';
@@ -787,7 +917,7 @@ function renderTeamView() {
       const isSelected = club.id === currentActiveClubId;
       stripHtml += `
         <button class="club-strip-item ${isSelected ? 'active' : ''}" onclick="window.ligamasterSelectTeam('${club.id}')">
-          <div class="club-strip-crest">${getClubBadgeSvg(club.id, 24)}</div>
+          <div class="club-strip-crest">${getClubBadgeSvg(club.badgeId || club.id, 24)}</div>
           <span class="club-strip-name">${club.shortName}</span>
         </button>
       `;
@@ -800,22 +930,22 @@ function renderTeamView() {
 
   // Header del club
   const crestEl = document.getElementById('team-hero-crest');
-  if (crestEl) crestEl.innerHTML = getClubBadgeSvg(currentClub.id, 80);
+  if (crestEl) crestEl.innerHTML = getClubBadgeSvg(currentClub.badgeId || currentClub.id, 80);
 
   const nameEl = document.getElementById('team-hero-name');
   if (nameEl) nameEl.textContent = currentClub.name;
 
   const locEl = document.getElementById('team-hero-locality');
-  if (locEl) locEl.textContent = `${currentClub.neighborhood || 'Arauco'} • Asociación de Fútbol de Arauco`;
+  if (locEl) locEl.textContent = `${currentClub.neighborhood || league.commune} • ${league.name}`;
 
   const foundedEl = document.getElementById('team-meta-founded');
-  if (foundedEl) foundedEl.textContent = currentClub.exactFoundationDate;
+  if (foundedEl) foundedEl.textContent = currentClub.exactFoundationDate || currentClub.founded || 'Fundado oficialmente';
 
   const stadiumEl = document.getElementById('team-meta-stadium');
   if (stadiumEl) stadiumEl.textContent = currentClub.stadium;
 
   const titlesEl = document.getElementById('team-meta-titles');
-  if (titlesEl) titlesEl.textContent = `${currentClub.titlesComunalesHonor || 0} Títulos de Honor`;
+  if (titlesEl) titlesEl.textContent = `${currentClub.titlesComunalesHonor || currentClub.titles || 0} Títulos de Honor`;
 
   // Renderizar contenido de las tabs del club
   renderTeamTabContent(currentClub);
@@ -824,28 +954,33 @@ function renderTeamView() {
 function renderTeamTabContent(club) {
   const container = document.getElementById('team-tab-content-container');
   if (!container) return;
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
 
   // Filtrar jugadores de este club
   const players = (db.players || []).filter(p => p.clubId === club.id && p.series === currentActiveSeries);
 
   if (currentTeamTab === 'plantel') {
     let html = '<div class="roster-grid">';
-    players.forEach(p => {
-      html += `
-        <div class="player-roster-card" onclick="window.ligamasterSelectPlayer('${p.id}')">
-          <div class="roster-avatar-box">
-            <img src="${p.avatar}" alt="${p.name}" class="roster-avatar-img">
-            <span class="roster-number-badge">#${p.number}</span>
+    if (players.length === 0) {
+      html += `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 2rem;">No hay futbolistas inscritos para esta serie en el club.</div>`;
+    } else {
+      players.forEach(p => {
+        html += `
+          <div class="player-roster-card" onclick="window.ligamasterSelectPlayer('${p.id}')">
+            <div class="roster-avatar-box">
+              <img src="${p.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'}" alt="${p.name}" class="roster-avatar-img">
+              <span class="roster-number-badge">#${p.number}</span>
+            </div>
+            <div class="roster-info">
+              <h4>${p.name}</h4>
+              <span class="position">${p.position}</span>
+              <span class="rut">RUT: ${p.rut}</span>
+            </div>
           </div>
-          <div class="roster-info">
-            <h4>${p.name}</h4>
-            <span class="position">${p.position}</span>
-            <span class="rut">RUT: ${p.rut}</span>
-          </div>
-        </div>
-      `;
-    });
+        `;
+      });
+    }
     html += '</div>';
     container.innerHTML = html;
   } else if (currentTeamTab === 'partidos') {
@@ -853,7 +988,7 @@ function renderTeamTabContent(club) {
       <div style="background: #fff; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); text-align: center;">
         <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem;">Historial de Partidos • ${club.name}</h4>
         <p style="font-size: 0.85rem; color: var(--color-text-muted);">
-          7 Partidos disputados: 4 Victorias, 2 Empates, 1 Derrota. 14 Puntos acumulados en Serie de Honor.
+          7 Partidos oficiales disputados en la temporada regular de ${db.leagueInfo?.name || 'la Asociación'}.
         </p>
       </div>
     `;
@@ -869,21 +1004,21 @@ function renderTeamTabContent(club) {
     `;
   } else {
     // Resumen
+    const seriesListItems = (club.series || ['honor']).map(s => {
+      const sObj = (db.seriesList || []).find(item => item.id === s);
+      return `<li>✓ ${sObj ? sObj.name : s}</li>`;
+    }).join('');
+
     container.innerHTML = `
       <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
         <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem;">
           <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Reseña Histórica & Palmarés</h4>
-          <p style="font-size: 0.88rem; color: var(--color-text-secondary); line-height: 1.6;">${club.regionalRecord}</p>
+          <p style="font-size: 0.88rem; color: var(--color-text-secondary); line-height: 1.6;">${club.regionalRecord || club.description || 'Institución afiliada formalmente a la Asociación.'}</p>
         </div>
         <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem;">
           <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Categorías Oficiales</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; color: var(--color-text-secondary);">
-            <li>✓ Serie de Honor (Primera Adulta)</li>
-            <li>✓ Serie Segunda Adulta (Reserva)</li>
-            <li>✓ Serie Senior 35+ Años</li>
-            <li>✓ Serie Súper Senior 45+ Años</li>
-            <li>✓ Serie Juvenil Sub-17</li>
-            <li>✓ Serie Primera Infantil</li>
+            ${seriesListItems}
           </ul>
         </div>
       </div>
@@ -903,18 +1038,23 @@ window.ligamasterSelectTeam = (clubId) => {
  * ==========================================================================
  */
 function renderPlayerView() {
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
   const clubSelect = document.getElementById('player-select-club');
   const playerSelect = document.getElementById('player-select-individual');
 
-  // Llenar select de clubes si está vacío
-  if (clubSelect && clubSelect.children.length === 0) {
+  // Llenar select de clubes de la liga activa
+  if (clubSelect) {
+    clubSelect.innerHTML = '';
     (db.clubs || []).forEach(c => {
       const opt = document.createElement('option');
       opt.value = c.id;
       opt.textContent = c.name;
       clubSelect.appendChild(opt);
     });
+    if (!db.clubs.some(c => c.id === currentActiveClubId)) {
+      currentActiveClubId = db.clubs[0] ? db.clubs[0].id : '';
+    }
     clubSelect.value = currentActiveClubId;
   }
 
@@ -928,6 +1068,9 @@ function renderPlayerView() {
       opt.textContent = `#${p.number} - ${p.name} (${p.position})`;
       playerSelect.appendChild(opt);
     });
+    if (!clubPlayers.some(p => p.id === currentActivePlayerId)) {
+      currentActivePlayerId = clubPlayers[0] ? clubPlayers[0].id : (db.players && db.players[0] ? db.players[0].id : '');
+    }
     playerSelect.value = currentActivePlayerId;
   }
 
@@ -937,10 +1080,10 @@ function renderPlayerView() {
   const club = (db.clubs || []).find(c => c.id === player.clubId) || { name: "Club Oficial" };
 
   // Renderizar Ficha
-  document.getElementById('player-profile-img').src = player.avatar;
+  document.getElementById('player-profile-img').src = player.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80";
   document.getElementById('player-profile-dorsal').textContent = `#${player.number}`;
   document.getElementById('player-profile-name').textContent = player.name;
-  document.getElementById('player-profile-crest').innerHTML = getClubBadgeSvg(player.clubId, 26);
+  document.getElementById('player-profile-crest').innerHTML = getClubBadgeSvg(club.badgeId || player.clubId, 26);
   document.getElementById('player-profile-club').textContent = club.name;
   document.getElementById('player-profile-pos').textContent = player.position;
 
@@ -1024,7 +1167,7 @@ function renderStatsView() {
         </td>
         <td>
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span style="width: 24px; height: 24px; display: inline-flex;">${getClubBadgeSvg(p.clubId, 24)}</span>
+            <span style="width: 24px; height: 24px; display: inline-flex;">${getClubBadgeSvg(p.badgeId || p.clubId, 24)}</span>
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-secondary);">${p.clubName}</span>
           </div>
         </td>
@@ -1039,14 +1182,16 @@ function renderStatsView() {
 }
 
 function getSortedPlayersByStat(key) {
-  const db = getDb();
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
   const list = [];
   (db.players || []).forEach(p => {
     if (p.series === currentActiveSeries) {
       const club = (db.clubs || []).find(c => c.id === p.clubId) || { name: "Club" };
       list.push({
         ...p,
-        clubName: club.name
+        clubName: club.name,
+        badgeId: club.badgeId || p.clubId
       });
     }
   });
@@ -1189,7 +1334,8 @@ function setupGlobalSearch() {
       return;
     }
 
-    const db = getDb();
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
     let html = '';
 
     // Buscar Clubes
@@ -1199,7 +1345,7 @@ function setupGlobalSearch() {
       matchedClubs.forEach(c => {
         html += `
           <div class="search-result-item" onclick="window.ligamasterSelectTeam('${c.id}'); closeModal('modal-global-search');">
-            <span style="width: 22px; height: 22px;">${getClubBadgeSvg(c.id, 22)}</span>
+            <span style="width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center;">${getClubBadgeSvg(c.badgeId || c.id, 22)}</span>
             <strong>${c.name}</strong>
             <small>Club Oficial</small>
           </div>
@@ -1240,9 +1386,9 @@ function setupGlobalSearch() {
       matchedLeagues.forEach(l => {
         html += `
           <div class="search-result-item" onclick="window.ligamasterSwitchLeague('${l.id}'); closeModal('modal-global-search');">
-            <span>🏆</span>
+            <span style="width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center;">${getClubBadgeSvg(l.badgeId || 'asociacion-arauco', 22)}</span>
             <strong>${l.name}</strong>
-            <small>${l.commune}</small>
+            <small>${l.commune} • ${l.statusLabel}</small>
           </div>
         `;
       });
@@ -1398,15 +1544,17 @@ function renderLeaguePickerModal() {
     r.leagues.forEach(l => {
       const isSel = l.id === activeId;
       html += `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border: 1px solid ${isSel ? 'var(--color-primary)' : 'var(--color-border)'}; border-radius: var(--radius-sm); margin-bottom: 0.5rem; cursor: pointer; background: ${isSel ? 'var(--color-primary-light)' : '#ffffff'};" onclick="window.ligamasterSwitchLeague('${l.id}')">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border: 1px solid ${isSel ? 'var(--color-primary)' : 'var(--color-border)'}; border-radius: var(--radius-sm); margin-bottom: 0.5rem; cursor: pointer; background: ${isSel ? 'var(--color-primary-light)' : '#ffffff'}; transition: all 0.15s ease;" onclick="window.ligamasterSwitchLeague('${l.id}')">
           <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <span style="font-size: 1.2rem;">⚽</span>
+            <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              ${getClubBadgeSvg(l.badgeId || 'asociacion-arauco', 32)}
+            </div>
             <div>
               <strong style="font-family: var(--font-display); font-size: 0.92rem; color: var(--color-text-main); display: block;">${l.name}</strong>
-              <small style="color: var(--color-text-muted);">${l.commune} • ${l.statusLabel}</small>
+              <small style="color: var(--color-text-muted); font-size: 0.75rem;">${l.commune} • ${l.statusLabel}</small>
             </div>
           </div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: var(--color-primary);">${isSel ? '✓ ACTIVA' : 'Seleccionar'}</span>
+          <span style="font-size: 0.75rem; font-weight: 800; color: ${isSel ? 'var(--color-primary)' : 'var(--color-text-muted)'};">${isSel ? '✓ ACTIVA' : 'Seleccionar'}</span>
         </div>
       `;
     });

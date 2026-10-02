@@ -406,7 +406,128 @@ export const CLUB_BADGES_SVG = {
 
   'club-celulosa-arauco': (size = 36) => CLUB_BADGES_SVG['club-celulosa'](size),
   'club-colo-colo-arauco': (size = 36) => CLUB_BADGES_SVG['club-colo-colo'](size),
-  'asociacion-futbol-arauco': (size = 36) => CLUB_BADGES_SVG['asociacion-arauco'](size)
+  'asociacion-futbol-arauco': (size = 36) => CLUB_BADGES_SVG['asociacion-arauco'](size),
+
+  // ==========================================
+  // ESCUDOS DE OTRAS ASOCIACIONES (MULTI-LIGA)
+  // ==========================================
+  'asociacion-lebu': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="54" fill="#ffffff" stroke="#1e3a8a" stroke-width="5" />
+      <circle cx="60" cy="60" r="46" fill="#1e3a8a" />
+      <path d="M 60 26 L 60 76 M 42 42 L 78 42 M 36 64 C 42 82 78 82 84 64" stroke="#f59e0b" stroke-width="5" fill="none" stroke-linecap="round" />
+      <circle cx="60" cy="68" r="8" fill="#ffffff" />
+      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" letter-spacing="1">ANFA LEBU</text>
+    </svg>
+  `,
+
+  'asociacion-canete': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#15803d" stroke="#f59e0b" stroke-width="4.5" />
+      <polygon points="60,28 72,48 94,48 76,62 82,84 60,70 38,84 44,62 26,48 48,48" fill="#f59e0b" />
+      <text x="60" y="102" font-family="'Outfit', sans-serif" font-weight="900" font-size="9" fill="#ffffff" text-anchor="middle">CAÑETE</text>
+    </svg>
+  `,
+
+  'asociacion-cordillera': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 18 24 L 102 24 L 88 106 L 32 106 Z" fill="#0f172a" stroke="#0284c7" stroke-width="4.5" />
+      <polygon points="34,80 50,44 66,74 76,52 92,80" fill="#38bdf8" />
+      <polygon points="50,44 56,58 44,58" fill="#ffffff" />
+      <polygon points="76,52 82,62 70,62" fill="#ffffff" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">CORDILLERA</text>
+    </svg>
+  `,
+
+  // ==========================================
+  // ESCUDOS DE CLUBES DE OTRAS LIGAS (DEMO)
+  // ==========================================
+  'club-lebu-pesquero': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="52" fill="#1e3a8a" stroke="#ffffff" stroke-width="4" />
+      <path d="M 60 25 L 60 85 M 40 45 L 80 45 M 35 70 Q 60 95 85 70" stroke="#f59e0b" stroke-width="6" fill="none" stroke-linecap="round" />
+      <text x="60" y="105" font-family="'Outfit', sans-serif" font-weight="900" font-size="9" fill="#ffffff" text-anchor="middle">PESQUERO</text>
+    </svg>
+  `,
+
+  'club-lebu-carbon': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,15 105,40 105,90 60,115 15,90 15,40" fill="#0f172a" stroke="#f59e0b" stroke-width="4.5" />
+      <line x1="38" y1="42" x2="82" y2="86" stroke="#f59e0b" stroke-width="5" stroke-linecap="round" />
+      <line x1="82" y1="42" x2="38" y2="86" stroke="#f59e0b" stroke-width="5" stroke-linecap="round" />
+      <text x="60" y="104" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">CARBÓN</text>
+    </svg>
+  `,
+
+  'club-canete-tucapel': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#15803d" stroke="#ffffff" stroke-width="4.5" />
+      <circle cx="60" cy="54" r="22" fill="#ffffff" />
+      <path d="M 60 38 L 60 70 M 46 54 L 74 54" stroke="#15803d" stroke-width="4" stroke-linecap="round" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">TUCAPEL</text>
+    </svg>
+  `,
+
+  'club-cord-andes': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 15 L 105 35 L 95 95 L 60 115 L 25 95 L 15 35 Z" fill="#0284c7" stroke="#ffffff" stroke-width="4" />
+      <polygon points="60,35 78,72 42,72" fill="#ffffff" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">LOS ANDES</text>
+    </svg>
+  `,
+
+  'club-lebu-penarol': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#0f172a" stroke="#eab308" stroke-width="4.5" />
+      <rect x="36" y="24" width="12" height="60" fill="#eab308" />
+      <rect x="54" y="24" width="12" height="64" fill="#eab308" />
+      <rect x="72" y="24" width="12" height="60" fill="#eab308" />
+      <circle cx="60" cy="94" r="5" fill="#ffffff" />
+      <text x="60" y="106" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">PEÑAROL</text>
+    </svg>
+  `,
+
+  'club-lebu-victoria': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#ffffff" stroke="#dc2626" stroke-width="4.5" />
+      <path d="M 32 30 L 60 85 L 88 30 L 76 30 L 60 65 L 44 30 Z" fill="#dc2626" />
+      <text x="60" y="102" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#0f172a" text-anchor="middle">VICTORIA</text>
+    </svg>
+  `,
+
+  'club-canete-alianza': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#1d4ed8" stroke="#ffffff" stroke-width="4.5" />
+      <line x1="28" y1="36" x2="92" y2="36" stroke="#ffffff" stroke-width="3" />
+      <text x="60" y="58" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle">ALIANZA</text>
+      <polygon points="60,68 64,78 74,78 66,84 69,94 60,88 51,94 54,84 46,78 56,78" fill="#fde047" />
+    </svg>
+  `,
+
+  'club-canete-caupolican': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#b91c1c" stroke="#f59e0b" stroke-width="4.5" />
+      <circle cx="60" cy="52" r="18" fill="#ffffff" />
+      <line x1="42" y1="74" x2="78" y2="32" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" />
+      <text x="60" y="98" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle">CAUPOLICÁN</text>
+    </svg>
+  `,
+
+  'club-cord-central': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,14 106,36 94,96 60,114 26,96 14,36" fill="#1e3a8a" stroke="#38bdf8" stroke-width="4" />
+      <polygon points="34,80 50,44 66,74 76,52 92,80" fill="#38bdf8" />
+      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">CENTRAL</text>
+    </svg>
+  `,
+
+  'club-cord-oriente': (size = 36) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="#881337" stroke="#eab308" stroke-width="4" />
+      <polygon points="60,32 70,52 92,52 74,66 80,88 60,74 40,88 46,66 28,52 50,52" fill="#eab308" />
+      <text x="60" y="102" font-family="'Outfit', sans-serif" font-weight="900" font-size="7" fill="#ffffff" text-anchor="middle">ORIENTE</text>
+    </svg>
+  `
 };
 
 /**
@@ -422,9 +543,20 @@ export function getClubBadgeSvg(clubId, size = 36) {
   if (clubId === 'seleccion-arauco' || clubId === 'asociacion-arauco') {
     return CLUB_BADGES_SVG['asociacion-arauco'](size);
   }
-  
-  // Escudo genérico oficial AFA
-  return CLUB_BADGES_SVG['asociacion-arauco'](size);
+
+  // Generador dinámico para cualquier club de cualquier liga
+  const hash = String(clubId).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const colors = ['#dc2626', '#1d4ed8', '#16a34a', '#d97706', '#7c3aed', '#0284c7', '#0f172a'];
+  const bg = colors[hash % colors.length];
+  const initial = clubId.replace('club-', '').charAt(0).toUpperCase();
+
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 60 14 C 92 14 104 26 104 62 C 104 92 60 112 60 112 C 60 112 16 92 16 62 C 16 26 28 14 60 14 Z" fill="${bg}" stroke="#ffffff" stroke-width="4.5" />
+      <circle cx="60" cy="58" r="22" fill="#ffffff" />
+      <text x="60" y="67" font-family="'Outfit', sans-serif" font-weight="900" font-size="24" fill="${bg}" text-anchor="middle">${initial}</text>
+    </svg>
+  `;
 }
 
 /**
@@ -433,3 +565,4 @@ export function getClubBadgeSvg(clubId, size = 36) {
 export function getSelectionBadgeSvg(size = 48) {
   return CLUB_BADGES_SVG['asociacion-arauco'](size);
 }
+
