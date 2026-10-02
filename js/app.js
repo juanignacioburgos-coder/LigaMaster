@@ -13,6 +13,8 @@ import {
 } from './data.js';
 
 import { getClubBadgeSvg, getSelectionBadgeSvg } from './badges.js';
+import { initAdmin, renderAdminView } from './admin.js';
+import { initAuth, updateAuthUI, getCurrentRole, ROLES } from './auth.js';
 
 // Estado Global de Navegación y Filtros
 let currentActiveView = 'home-view';
@@ -48,7 +50,11 @@ const VIEW_MAP = {
   'goleadores': 'stats-view',
   'noticias': 'news-view',
   'news-view': 'news-view',
-  'prensa': 'news-view'
+  'prensa': 'news-view',
+  'admin': 'admin-view',
+  'admin-view': 'admin-view',
+  'panel': 'admin-view',
+  'gestion': 'admin-view'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -73,6 +79,9 @@ function initLigaMaster() {
   setupGlobalSearch();
   setupSeriesFilters();
   setupMultiLeagueHandlers();
+
+  initAuth();
+  initAdmin();
 
   // Renderizar vistas con los datos iniciales
   renderActiveLeagueContext();
@@ -139,7 +148,9 @@ function navigateTo(targetViewId, scroll = true) {
   if (mappedId === 'player-view') renderPlayerView();
   if (mappedId === 'standings-view') renderStandingsView();
   if (mappedId === 'stats-view') renderStatsView();
+  if (mappedId === 'admin-view') renderAdminView();
 }
+window.ligamasterNavigate = navigateTo;
 
 function handleHashChange() {
   const hash = window.location.hash.replace('#', '').trim();
@@ -1496,19 +1507,16 @@ function setupGlobalModals() {
 
   // Botón login
   document.getElementById('btn-open-login')?.addEventListener('click', () => {
-    openModal('modal-login');
+    if (getCurrentRole() !== ROLES.PUBLIC) {
+      navigateTo('admin-view');
+    } else {
+      openModal('modal-login');
+    }
   });
 
   // Menú móvil
   document.getElementById('btn-mobile-menu')?.addEventListener('click', () => {
     openModal('modal-mobile-menu');
-  });
-
-  // Form login
-  document.getElementById('form-platform-login')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    closeModal('modal-login');
-    alert('Acceso verificado. Panel institucional en desarrollo.');
   });
 
   // Rellenar lista del modal de ligas
@@ -1519,6 +1527,7 @@ function openModal(modalId) {
   const m = document.getElementById(modalId);
   if (m) m.classList.add('active');
 }
+window.openModal = openModal;
 
 function closeModal(modalId) {
   const m = document.getElementById(modalId);

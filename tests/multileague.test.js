@@ -1,5 +1,5 @@
-import { getDb, getRegionsAndLeagues, getActiveLeagueId, setActiveLeagueId, getLeagueById, getLeagueSeries } from './js/data.js';
-import { getClubBadgeSvg } from './js/badges.js';
+import { getDb, getRegionsAndLeagues, getActiveLeagueId, setActiveLeagueId, getLeagueById, getLeagueSeries } from '../js/data.js';
+import { getClubBadgeSvg } from '../js/badges.js';
 
 console.log('=== MULTI-LEAGUE DATA MODEL TEST SUITE ===');
 

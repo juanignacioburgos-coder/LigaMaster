@@ -50,6 +50,7 @@
           <button class="platform-nav-link" data-nav="standings-view">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view">Noticias</button>
+          <button class="platform-nav-link" data-nav="admin-view" id="nav-btn-admin" style="color: var(--color-primary); font-weight: 800;">⚙️ Admin</button>
         </nav>
 
         <!-- Acciones Derecha -->
@@ -699,6 +700,11 @@
 
     </section>
 
+    <!-- Vista 10: Panel Administrativo & Backoffice Institucional -->
+    <section class="platform-view" id="admin-view" role="tabpanel" aria-labelledby="nav-btn-admin">
+      <!-- Renderizado dinámico desde admin.js -->
+    </section>
+
   </main>
 
   <!-- ====================================================================
@@ -873,20 +879,73 @@
         </p>
         <form id="form-platform-login">
           <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Correo Electrónico o RUT</label>
-            <input type="text" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="ej: dirigente@anfaarauco.cl" required>
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Dirigente o RUT</label>
+            <input type="text" id="login-input-user" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="ej: Presidente ANFA" required>
           </div>
           <div style="margin-bottom: 1.5rem;">
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN o Contraseña</label>
-            <input type="password" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="••••" maxlength="6" required>
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN de Seguridad</label>
+            <input type="password" id="login-input-pin" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="••••" maxlength="6" required>
             <small style="display: block; margin-top: 0.35rem; font-size: 0.72rem; color: var(--color-text-muted);">
-              Demostración: Turno = <code>1234</code> • Directiva = <code>9999</code>
+              Demostración: Turno de Cancha = <code>1234</code> • Directiva ANFA = <code>9999</code>
             </small>
+            <div id="login-error-msg" style="display: none; color: var(--color-primary); font-size: 0.78rem; font-weight: 700; margin-top: 0.5rem;"></div>
           </div>
           <button type="submit" class="btn-primary-coral" style="width: 100%; justify-content: center; padding: 0.75rem;">
             Ingresar al Panel
           </button>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin A: Programar Partido -->
+  <div class="modal-overlay" id="modal-admin-add-match">
+    <div class="modal-window" style="max-width: 560px;">
+      <div class="modal-header-bar">
+        <h3>Programar Encuentro Oficial</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Renderizado dinámico desde admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin B: Inscribir Futbolista -->
+  <div class="modal-overlay" id="modal-admin-add-player">
+    <div class="modal-window" style="max-width: 560px;">
+      <div class="modal-header-bar">
+        <h3>Inscripción Oficial de Futbolista</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Renderizado dinámico desde admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin C: Aplicar Sanción Disciplinaria -->
+  <div class="modal-overlay" id="modal-admin-add-sanction">
+    <div class="modal-window" style="max-width: 560px;">
+      <div class="modal-header-bar">
+        <h3>Fallo Tribunal de Penas ANFA</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Renderizado dinámico desde admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin D: Registrar Movimiento de Tesorería -->
+  <div class="modal-overlay" id="modal-admin-add-treasury">
+    <div class="modal-window" style="max-width: 560px;">
+      <div class="modal-header-bar">
+        <h3>Registrar Movimiento de Caja</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Renderizado dinámico desde admin.js -->
       </div>
     </div>
   </div>
@@ -910,6 +969,7 @@
           <button class="platform-nav-link" data-nav="standings-view" style="width: 100%; text-align: left;">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view" style="width: 100%; text-align: left;">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view" style="width: 100%; text-align: left;">Noticias</button>
+          <button class="platform-nav-link" data-nav="admin-view" id="mobile-btn-admin" style="width: 100%; text-align: left; color: var(--color-primary); font-weight: 800;">⚙️ Panel Administrativo</button>
         </nav>
       </div>
     </div>
