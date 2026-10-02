@@ -5,7 +5,7 @@
     "shortName": "LIGA DEMO",
     "commune": "Comuna Modelo, Región del Biobío",
     "president": "Patricio Morales Vega",
-    "season": "Campeonato Oficial 2026/27",
+    "season": "Campeonato Oficial 2026/27 (3 Fechas Disputadas)",
     "headquarters": "Av. Prat 450, Sede Social Oficial",
     "mediaPartner": "Transmisiones Deportivas Comunales",
     "badgeId": "asociacion-arauco",
@@ -17785,22 +17785,44 @@
   "matches": [
     {
       "id": "m-demo-prim-f1-1",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "primera_adulta",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
+          "playerId": "p-jug-0349",
+          "playerName": "Matias Morales",
+          "clubId": "demo-ohiggins",
+          "minute": 58,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0357",
+          "playerName": "Miguel Silva",
+          "clubId": "demo-ohiggins",
+          "minute": 38,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0356",
+          "playerName": "Nicolas Munoz",
+          "clubId": "demo-ohiggins",
+          "minute": 54,
+          "type": "jugada"
+        },
+        {
           "playerId": "p-jug-0116",
           "playerName": "Carlos Silva",
           "clubId": "demo-unionjuvenil",
-          "minute": 37,
+          "minute": 63,
           "type": "jugada"
         }
       ],
@@ -17808,50 +17830,30 @@
     },
     {
       "id": "m-demo-prim-f1-2",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "primera_adulta",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "15:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-colocolo",
       "awayClubId": "demo-sanlorenzo",
-      "homeScore": 4,
-      "awayScore": 1,
+      "homeScore": 2,
+      "awayScore": 0,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0193",
-          "playerName": "Carlos Rojas",
+          "playerId": "p-jug-0196",
+          "playerName": "Antonio Contreras",
           "clubId": "demo-colocolo",
-          "minute": 22,
+          "minute": 44,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0184",
-          "playerName": "Matias Perez",
+          "playerId": "p-jug-0197",
+          "playerName": "Jose Sepulveda",
           "clubId": "demo-colocolo",
-          "minute": 34,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0195",
-          "playerName": "Juan Tapia",
-          "clubId": "demo-colocolo",
-          "minute": 25,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0184",
-          "playerName": "Matias Perez",
-          "clubId": "demo-colocolo",
-          "minute": 32,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0597",
-          "playerName": "Andres Martinez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 56,
+          "minute": 72,
           "type": "jugada"
         }
       ],
@@ -17859,43 +17861,30 @@
     },
     {
       "id": "m-demo-prim-f1-3",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "primera_adulta",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "16:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
       "awayClubId": "demo-realcordillera",
-      "homeScore": 2,
-      "awayScore": 2,
+      "homeScore": 1,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0440",
-          "playerName": "Pedro Araya",
-          "clubId": "demo-playabrava",
-          "minute": 11,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0426",
-          "playerName": "Luis Contreras",
+          "playerId": "p-jug-0435",
+          "playerName": "Diego Tapia",
           "clubId": "demo-playabrava",
           "minute": 54,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0661",
-          "playerName": "Andres Morales",
+          "playerId": "p-jug-0669",
+          "playerName": "Carlos Morales",
           "clubId": "demo-realcordillera",
-          "minute": 16,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0665",
-          "playerName": "Felipe Perez",
-          "clubId": "demo-realcordillera",
-          "minute": 65,
+          "minute": 68,
           "type": "jugada"
         }
       ],
@@ -17903,50 +17892,37 @@
     },
     {
       "id": "m-demo-prim-f1-4",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "primera_adulta",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "17:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
       "awayClubId": "demo-copihues",
-      "homeScore": 4,
+      "homeScore": 2,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0023",
-          "playerName": "Matias Herrera",
+          "playerId": "p-jug-0039",
+          "playerName": "Juan Contreras",
           "clubId": "demo-arauco",
-          "minute": 38,
+          "minute": 64,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0028",
-          "playerName": "Pedro Castro",
+          "playerId": "p-jug-0032",
+          "playerName": "Miguel Martinez",
           "clubId": "demo-arauco",
-          "minute": 52,
+          "minute": 86,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0023",
-          "playerName": "Matias Herrera",
-          "clubId": "demo-arauco",
-          "minute": 82,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0022",
-          "playerName": "Miguel Sepulveda",
-          "clubId": "demo-arauco",
-          "minute": 54,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0513",
-          "playerName": "Matias Araya",
+          "playerId": "p-jug-0512",
+          "playerName": "Pedro Sepulveda",
           "clubId": "demo-copihues",
-          "minute": 83,
+          "minute": 33,
           "type": "jugada"
         }
       ],
@@ -17954,199 +17930,52 @@
     },
     {
       "id": "m-demo-prim-f1-5",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "primera_adulta",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
       "awayClubId": "demo-estrelladelsur",
-      "homeScore": 2,
-      "awayScore": 1,
+      "homeScore": 0,
+      "awayScore": 0,
       "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0760",
-          "playerName": "Matias Gonzalez",
-          "clubId": "demo-ferroviario",
-          "minute": 12,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0746",
-          "playerName": "Carlos Araya",
-          "clubId": "demo-ferroviario",
-          "minute": 86,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0276",
-          "playerName": "Carlos Tapia",
-          "clubId": "demo-estrelladelsur",
-          "minute": 61,
-          "type": "jugada"
-        }
-      ],
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-prim-f2-1",
-      "round": 2,
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "primera_adulta",
-      "date": "2026-08-15",
+      "date": "2026-09-19",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-ohiggins",
-      "homeScore": 0,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0357",
-          "playerName": "Miguel Silva",
-          "clubId": "demo-ohiggins",
-          "minute": 41,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0347",
-          "playerName": "Juan Martinez",
-          "clubId": "demo-ohiggins",
-          "minute": 9,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0360",
-          "playerName": "Antonio Silva",
-          "clubId": "demo-ohiggins",
-          "minute": 70,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f2-2",
-      "round": 2,
-      "series": "primera_adulta",
-      "date": "2026-08-15",
-      "time": "15:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0106",
-          "playerName": "Miguel Perez",
-          "clubId": "demo-unionjuvenil",
-          "minute": 9,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f2-3",
-      "round": 2,
-      "series": "primera_adulta",
-      "date": "2026-08-15",
-      "time": "16:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-copihues",
       "homeScore": 1,
       "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0186",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-colocolo",
-          "minute": 16,
+          "playerId": "p-jug-0592",
+          "playerName": "Francisco Gonzalez",
+          "clubId": "demo-sanlorenzo",
+          "minute": 67,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0509",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-copihues",
-          "minute": 56,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0512",
-          "playerName": "Pedro Sepulveda",
-          "clubId": "demo-copihues",
-          "minute": 55,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f2-4",
-      "round": 2,
-      "series": "primera_adulta",
-      "date": "2026-08-15",
-      "time": "17:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0421",
-          "playerName": "Juan Contreras",
-          "clubId": "demo-playabrava",
-          "minute": 13,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f2-5",
-      "round": 2,
-      "series": "primera_adulta",
-      "date": "2026-08-15",
-      "time": "18:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-arauco",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 3,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0038",
+          "playerId": "p-jug-0356",
           "playerName": "Nicolas Munoz",
-          "clubId": "demo-arauco",
-          "minute": 79,
+          "clubId": "demo-ohiggins",
+          "minute": 35,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0032",
-          "playerName": "Miguel Martinez",
-          "clubId": "demo-arauco",
-          "minute": 49,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0029",
-          "playerName": "Javier Martinez",
-          "clubId": "demo-arauco",
-          "minute": 33,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0760",
-          "playerName": "Matias Gonzalez",
-          "clubId": "demo-ferroviario",
+          "playerId": "p-jug-0349",
+          "playerName": "Matias Morales",
+          "clubId": "demo-ohiggins",
           "minute": 29,
           "type": "jugada"
         }
@@ -18154,30 +17983,176 @@
       "cards": []
     },
     {
-      "id": "m-demo-prim-f3-1",
-      "round": 3,
+      "id": "m-demo-prim-f2-2",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "primera_adulta",
-      "date": "2026-08-22",
-      "time": "14:30",
+      "date": "2026-09-19",
+      "time": "15:30",
       "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-ohiggins",
+      "homeClubId": "demo-unionjuvenil",
       "awayClubId": "demo-realcordillera",
+      "homeScore": 2,
+      "awayScore": 3,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0116",
+          "playerName": "Carlos Silva",
+          "clubId": "demo-unionjuvenil",
+          "minute": 44,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0112",
+          "playerName": "Nicolas Gonzalez",
+          "clubId": "demo-unionjuvenil",
+          "minute": 71,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0679",
+          "playerName": "Pedro Sepulveda",
+          "clubId": "demo-realcordillera",
+          "minute": 70,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0679",
+          "playerName": "Pedro Sepulveda",
+          "clubId": "demo-realcordillera",
+          "minute": 40,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0674",
+          "playerName": "Nicolas Munoz",
+          "clubId": "demo-realcordillera",
+          "minute": 58,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f2-3",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "primera_adulta",
+      "date": "2026-09-19",
+      "time": "16:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-copihues",
       "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0341",
-          "playerName": "Javier Perez",
-          "clubId": "demo-ohiggins",
-          "minute": 38,
+          "playerId": "p-jug-0189",
+          "playerName": "Luis Tapia",
+          "clubId": "demo-colocolo",
+          "minute": 85,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0666",
-          "playerName": "Andres Araya",
-          "clubId": "demo-realcordillera",
-          "minute": 57,
+          "playerId": "p-jug-0509",
+          "playerName": "Cristian Perez",
+          "clubId": "demo-copihues",
+          "minute": 40,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f2-4",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "primera_adulta",
+      "date": "2026-09-19",
+      "time": "17:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0275",
+          "playerName": "Carlos Castro",
+          "clubId": "demo-estrelladelsur",
+          "minute": 74,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0273",
+          "playerName": "Nicolas Diaz",
+          "clubId": "demo-estrelladelsur",
+          "minute": 77,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f2-5",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "primera_adulta",
+      "date": "2026-09-19",
+      "time": "18:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-arauco",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0033",
+          "playerName": "Luis Gonzalez",
+          "clubId": "demo-arauco",
+          "minute": 16,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f3-1",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "primera_adulta",
+      "date": "2026-09-26",
+      "time": "14:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-realcordillera",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0360",
+          "playerName": "Antonio Silva",
+          "clubId": "demo-ohiggins",
+          "minute": 23,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0351",
+          "playerName": "Matias Martinez",
+          "clubId": "demo-ohiggins",
+          "minute": 37,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0349",
+          "playerName": "Matias Morales",
+          "clubId": "demo-ohiggins",
+          "minute": 64,
           "type": "jugada"
         }
       ],
@@ -18185,472 +18160,35 @@
     },
     {
       "id": "m-demo-prim-f3-2",
-      "round": 3,
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "primera_adulta",
-      "date": "2026-08-22",
+      "date": "2026-09-26",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-copihues",
       "homeScore": 1,
-      "awayScore": 1,
+      "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0597",
-          "playerName": "Andres Martinez",
+          "playerId": "p-jug-0589",
+          "playerName": "Nicolas Soto",
           "clubId": "demo-sanlorenzo",
-          "minute": 42,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0511",
-          "playerName": "Francisco Castro",
-          "clubId": "demo-copihues",
-          "minute": 19,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f3-3",
-      "round": 3,
-      "series": "primera_adulta",
-      "date": "2026-08-22",
-      "time": "16:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 3,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0118",
-          "playerName": "Miguel Munoz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 78,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0109",
-          "playerName": "Miguel Castro",
-          "clubId": "demo-unionjuvenil",
-          "minute": 61,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0113",
-          "playerName": "Antonio Tapia",
-          "clubId": "demo-unionjuvenil",
-          "minute": 77,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0276",
-          "playerName": "Carlos Tapia",
-          "clubId": "demo-estrelladelsur",
-          "minute": 36,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0271",
-          "playerName": "Juan Tapia",
-          "clubId": "demo-estrelladelsur",
-          "minute": 63,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0275",
-          "playerName": "Carlos Castro",
-          "clubId": "demo-estrelladelsur",
-          "minute": 80,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0261",
-          "playerName": "Miguel Munoz",
-          "clubId": "demo-estrelladelsur",
-          "minute": 66,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f3-4",
-      "round": 3,
-      "series": "primera_adulta",
-      "date": "2026-08-22",
-      "time": "17:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f3-5",
-      "round": 3,
-      "series": "primera_adulta",
-      "date": "2026-08-22",
-      "time": "18:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-arauco",
-      "homeScore": 2,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0428",
-          "playerName": "Jose Perez",
-          "clubId": "demo-playabrava",
-          "minute": 45,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0434",
-          "playerName": "Felipe Sepulveda",
-          "clubId": "demo-playabrava",
-          "minute": 50,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0037",
-          "playerName": "Antonio Tapia",
-          "clubId": "demo-arauco",
-          "minute": 73,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0021",
-          "playerName": "Javier Castro",
-          "clubId": "demo-arauco",
-          "minute": 38,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0028",
-          "playerName": "Pedro Castro",
-          "clubId": "demo-arauco",
-          "minute": 41,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0023",
-          "playerName": "Matias Herrera",
-          "clubId": "demo-arauco",
-          "minute": 56,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f4-1",
-      "round": 4,
-      "series": "primera_adulta",
-      "date": "2026-09-01",
-      "time": "14:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 2,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0503",
-          "playerName": "Miguel Silva",
-          "clubId": "demo-copihues",
-          "minute": 75,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0506",
-          "playerName": "Miguel Araya",
-          "clubId": "demo-copihues",
-          "minute": 65,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0351",
-          "playerName": "Matias Martinez",
-          "clubId": "demo-ohiggins",
-          "minute": 50,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0347",
-          "playerName": "Juan Martinez",
-          "clubId": "demo-ohiggins",
-          "minute": 78,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0349",
-          "playerName": "Matias Morales",
-          "clubId": "demo-ohiggins",
-          "minute": 28,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f4-2",
-      "round": 4,
-      "series": "primera_adulta",
-      "date": "2026-09-01",
-      "time": "15:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 4,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0667",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-realcordillera",
-          "minute": 68,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0667",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-realcordillera",
-          "minute": 35,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0668",
-          "playerName": "Diego Gonzalez",
-          "clubId": "demo-realcordillera",
-          "minute": 38,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0667",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-realcordillera",
-          "minute": 34,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0267",
-          "playerName": "Pedro Morales",
-          "clubId": "demo-estrelladelsur",
-          "minute": 36,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0280",
-          "playerName": "Javier Sepulveda",
-          "clubId": "demo-estrelladelsur",
-          "minute": 50,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f4-3",
-      "round": 4,
-      "series": "primera_adulta",
-      "date": "2026-09-01",
-      "time": "16:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f4-4",
-      "round": 4,
-      "series": "primera_adulta",
-      "date": "2026-09-01",
-      "time": "17:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-arauco",
-      "homeScore": 4,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0116",
-          "playerName": "Carlos Silva",
-          "clubId": "demo-unionjuvenil",
           "minute": 83,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0101",
-          "playerName": "Luis Gonzalez",
-          "clubId": "demo-unionjuvenil",
-          "minute": 74,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0102",
-          "playerName": "Miguel Diaz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 66,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0112",
-          "playerName": "Nicolas Gonzalez",
-          "clubId": "demo-unionjuvenil",
-          "minute": 84,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0031",
-          "playerName": "Cristian Rojas",
-          "clubId": "demo-arauco",
-          "minute": 68,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0039",
-          "playerName": "Juan Contreras",
-          "clubId": "demo-arauco",
-          "minute": 40,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f4-5",
-      "round": 4,
-      "series": "primera_adulta",
-      "date": "2026-09-01",
-      "time": "18:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 1,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0197",
-          "playerName": "Jose Sepulveda",
-          "clubId": "demo-colocolo",
-          "minute": 40,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0433",
-          "playerName": "Jose Soto",
-          "clubId": "demo-playabrava",
-          "minute": 33,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0439",
-          "playerName": "Carlos Morales",
-          "clubId": "demo-playabrava",
-          "minute": 21,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0422",
-          "playerName": "Luis Herrera",
-          "clubId": "demo-playabrava",
-          "minute": 72,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0434",
-          "playerName": "Felipe Sepulveda",
-          "clubId": "demo-playabrava",
-          "minute": 66,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f5-1",
-      "round": 5,
-      "series": "primera_adulta",
-      "date": "2026-09-08",
-      "time": "14:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-ohiggins",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 4,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0352",
-          "playerName": "Francisco Silva",
-          "clubId": "demo-ohiggins",
-          "minute": 55,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0346",
-          "playerName": "Matias Perez",
-          "clubId": "demo-ohiggins",
-          "minute": 63,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0344",
-          "playerName": "Pedro Munoz",
-          "clubId": "demo-ohiggins",
-          "minute": 71,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0355",
-          "playerName": "Matias Herrera",
-          "clubId": "demo-ohiggins",
-          "minute": 45,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f5-2",
-      "round": 5,
-      "series": "primera_adulta",
-      "date": "2026-09-08",
-      "time": "15:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0507",
-          "playerName": "Miguel Perez",
-          "clubId": "demo-copihues",
-          "minute": 53,
           "type": "jugada"
         },
         {
           "playerId": "p-jug-0519",
           "playerName": "Pedro Rojas",
+          "clubId": "demo-copihues",
+          "minute": 37,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0511",
+          "playerName": "Francisco Castro",
           "clubId": "demo-copihues",
           "minute": 17,
           "type": "jugada"
@@ -18659,328 +18197,374 @@
       "cards": []
     },
     {
-      "id": "m-demo-prim-f5-3",
-      "round": 5,
+      "id": "m-demo-prim-f3-3",
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "primera_adulta",
-      "date": "2026-09-08",
+      "date": "2026-09-26",
       "time": "16:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0669",
-          "playerName": "Carlos Morales",
-          "clubId": "demo-realcordillera",
-          "minute": 28,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0038",
-          "playerName": "Nicolas Munoz",
-          "clubId": "demo-arauco",
-          "minute": 38,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0028",
-          "playerName": "Pedro Castro",
-          "clubId": "demo-arauco",
-          "minute": 39,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f5-4",
-      "round": 5,
-      "series": "primera_adulta",
-      "date": "2026-09-08",
-      "time": "17:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 1,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0592",
-          "playerName": "Francisco Gonzalez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 28,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0436",
-          "playerName": "Francisco Herrera",
-          "clubId": "demo-playabrava",
-          "minute": 59,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0427",
-          "playerName": "Carlos Tapia",
-          "clubId": "demo-playabrava",
-          "minute": 58,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f5-5",
-      "round": 5,
-      "series": "primera_adulta",
-      "date": "2026-09-08",
-      "time": "18:30",
-      "venue": "Cancha El Morro",
+      "venue": "Estadio Municipal",
       "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-colocolo",
+      "awayClubId": "demo-estrelladelsur",
       "homeScore": 2,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0109",
+          "playerName": "Miguel Castro",
+          "clubId": "demo-unionjuvenil",
+          "minute": 87,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0111",
+          "playerName": "Luis Gonzalez",
+          "clubId": "demo-unionjuvenil",
+          "minute": 14,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0278",
+          "playerName": "Miguel Contreras",
+          "clubId": "demo-estrelladelsur",
+          "minute": 87,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0279",
+          "playerName": "Andres Sepulveda",
+          "clubId": "demo-estrelladelsur",
+          "minute": 47,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f3-4",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "primera_adulta",
+      "date": "2026-09-26",
+      "time": "17:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0113",
-          "playerName": "Antonio Tapia",
-          "clubId": "demo-unionjuvenil",
-          "minute": 40,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0115",
-          "playerName": "Antonio Diaz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 28,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0199",
-          "playerName": "Miguel Castro",
-          "clubId": "demo-colocolo",
-          "minute": 21,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f6-1",
-      "round": 6,
-      "series": "primera_adulta",
-      "date": "2026-09-15",
-      "time": "14:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-ferroviario",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 4,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0744",
-          "playerName": "Pedro Munoz",
-          "clubId": "demo-ferroviario",
-          "minute": 39,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0748",
-          "playerName": "Felipe Morales",
-          "clubId": "demo-ferroviario",
-          "minute": 76,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0754",
-          "playerName": "Pedro Perez",
-          "clubId": "demo-ferroviario",
-          "minute": 53,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0747",
-          "playerName": "Juan Contreras",
-          "clubId": "demo-ferroviario",
-          "minute": 23,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0345",
-          "playerName": "Matias Tapia",
-          "clubId": "demo-ohiggins",
-          "minute": 65,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0341",
+          "playerId": "p-jug-0200",
           "playerName": "Javier Perez",
-          "clubId": "demo-ohiggins",
-          "minute": 27,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f6-2",
-      "round": 6,
-      "series": "primera_adulta",
-      "date": "2026-09-15",
-      "time": "15:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-estrelladelsur",
-      "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0277",
-          "playerName": "Carlos Soto",
-          "clubId": "demo-estrelladelsur",
-          "minute": 73,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-prim-f6-3",
-      "round": 6,
-      "series": "primera_adulta",
-      "date": "2026-09-15",
-      "time": "16:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 2,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0510",
-          "playerName": "Nicolas Araya",
-          "clubId": "demo-copihues",
-          "minute": 37,
+          "clubId": "demo-colocolo",
+          "minute": 24,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0518",
-          "playerName": "Nicolas Gonzalez",
-          "clubId": "demo-copihues",
+          "playerId": "p-jug-0757",
+          "playerName": "Felipe Contreras",
+          "clubId": "demo-ferroviario",
           "minute": 77,
           "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0422",
-          "playerName": "Luis Herrera",
-          "clubId": "demo-playabrava",
-          "minute": 55,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0424",
-          "playerName": "Nicolas Diaz",
-          "clubId": "demo-playabrava",
-          "minute": 25,
-          "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-prim-f6-4",
-      "round": 6,
+      "id": "m-demo-prim-f3-5",
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "primera_adulta",
-      "date": "2026-09-15",
-      "time": "17:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-colocolo",
+      "date": "2026-09-26",
+      "time": "18:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-arauco",
       "homeScore": 0,
       "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0196",
-          "playerName": "Antonio Contreras",
-          "clubId": "demo-colocolo",
-          "minute": 85,
+          "playerId": "p-jug-0032",
+          "playerName": "Miguel Martinez",
+          "clubId": "demo-arauco",
+          "minute": 62,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0184",
-          "playerName": "Matias Perez",
-          "clubId": "demo-colocolo",
-          "minute": 62,
+          "playerId": "p-jug-0040",
+          "playerName": "Francisco Soto",
+          "clubId": "demo-arauco",
+          "minute": 78,
           "type": "jugada"
         }
       ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f4-1",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "primera_adulta",
+      "date": "2026-10-09",
+      "time": "14:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f4-2",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "primera_adulta",
+      "date": "2026-10-09",
+      "time": "15:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f4-3",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "primera_adulta",
+      "date": "2026-10-09",
+      "time": "16:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f4-4",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "primera_adulta",
+      "date": "2026-10-09",
+      "time": "17:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f4-5",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "primera_adulta",
+      "date": "2026-10-09",
+      "time": "18:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f5-1",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "primera_adulta",
+      "date": "2026-10-16",
+      "time": "14:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f5-2",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "primera_adulta",
+      "date": "2026-10-16",
+      "time": "15:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f5-3",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "primera_adulta",
+      "date": "2026-10-16",
+      "time": "16:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f5-4",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "primera_adulta",
+      "date": "2026-10-16",
+      "time": "17:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f5-5",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "primera_adulta",
+      "date": "2026-10-16",
+      "time": "18:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-colocolo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f6-1",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "primera_adulta",
+      "date": "2026-10-23",
+      "time": "14:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-ferroviario",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f6-2",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "primera_adulta",
+      "date": "2026-10-23",
+      "time": "15:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-estrelladelsur",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f6-3",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "primera_adulta",
+      "date": "2026-10-23",
+      "time": "16:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-prim-f6-4",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "primera_adulta",
+      "date": "2026-10-23",
+      "time": "17:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-colocolo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-prim-f6-5",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "primera_adulta",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0592",
-          "playerName": "Francisco Gonzalez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 76,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0598",
-          "playerName": "Luis Soto",
-          "clubId": "demo-sanlorenzo",
-          "minute": 37,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0112",
-          "playerName": "Nicolas Gonzalez",
-          "clubId": "demo-unionjuvenil",
-          "minute": 7,
-          "type": "jugada"
-        }
-      ],
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-prim-f7-1",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "primera_adulta",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "en_vivo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-prim-f7-2",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "primera_adulta",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "15:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-ferroviario",
@@ -18993,9 +18577,10 @@
     },
     {
       "id": "m-demo-prim-f7-3",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "primera_adulta",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "16:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-estrelladelsur",
@@ -19008,9 +18593,10 @@
     },
     {
       "id": "m-demo-prim-f7-4",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "primera_adulta",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "17:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-copihues",
@@ -19023,9 +18609,10 @@
     },
     {
       "id": "m-demo-prim-f7-5",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "primera_adulta",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "18:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-realcordillera",
@@ -19038,9 +18625,10 @@
     },
     {
       "id": "m-demo-prim-f8-1",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "primera_adulta",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "14:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
@@ -19053,9 +18641,10 @@
     },
     {
       "id": "m-demo-prim-f8-2",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "primera_adulta",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
@@ -19068,9 +18657,10 @@
     },
     {
       "id": "m-demo-prim-f8-3",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "primera_adulta",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "16:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
@@ -19083,9 +18673,10 @@
     },
     {
       "id": "m-demo-prim-f8-4",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "primera_adulta",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "17:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-estrelladelsur",
@@ -19098,9 +18689,10 @@
     },
     {
       "id": "m-demo-prim-f8-5",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "primera_adulta",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "18:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-copihues",
@@ -19113,9 +18705,10 @@
     },
     {
       "id": "m-demo-prim-f9-1",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "primera_adulta",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "14:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-ohiggins",
@@ -19128,9 +18721,10 @@
     },
     {
       "id": "m-demo-prim-f9-2",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "primera_adulta",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "15:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-playabrava",
@@ -19143,9 +18737,10 @@
     },
     {
       "id": "m-demo-prim-f9-3",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "primera_adulta",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "16:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-arauco",
@@ -19158,9 +18753,10 @@
     },
     {
       "id": "m-demo-prim-f9-4",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "primera_adulta",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "17:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ferroviario",
@@ -19173,9 +18769,10 @@
     },
     {
       "id": "m-demo-prim-f9-5",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "primera_adulta",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "18:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-estrelladelsur",
@@ -19188,502 +18785,50 @@
     },
     {
       "id": "m-demo-seni-f1-1",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "senior",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 1,
+      "homeScore": 4,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0399",
-          "playerName": "Felipe Herrera",
+          "playerId": "p-jug-0391",
+          "playerName": "Francisco Rojas",
           "clubId": "demo-ohiggins",
-          "minute": 30,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0157",
-          "playerName": "Javier Soto",
-          "clubId": "demo-unionjuvenil",
-          "minute": 78,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f1-2",
-      "round": 1,
-      "series": "senior",
-      "date": "2026-08-08",
-      "time": "15:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-sanlorenzo",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0219",
-          "playerName": "Miguel Diaz",
-          "clubId": "demo-colocolo",
-          "minute": 50,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0221",
-          "playerName": "Cristian Morales",
-          "clubId": "demo-colocolo",
-          "minute": 70,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0632",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 62,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f1-3",
-      "round": 1,
-      "series": "senior",
-      "date": "2026-08-08",
-      "time": "16:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 3,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0459",
-          "playerName": "Felipe Munoz",
-          "clubId": "demo-playabrava",
-          "minute": 64,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0450",
-          "playerName": "Antonio Perez",
-          "clubId": "demo-playabrava",
-          "minute": 26,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0462",
-          "playerName": "Matias Castro",
-          "clubId": "demo-playabrava",
-          "minute": 58,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0720",
-          "playerName": "Javier Diaz",
-          "clubId": "demo-realcordillera",
-          "minute": 78,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f1-4",
-      "round": 1,
-      "series": "senior",
-      "date": "2026-08-08",
-      "time": "17:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-arauco",
-      "awayClubId": "demo-copihues",
-      "homeScore": 1,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0046",
-          "playerName": "Jose Herrera",
-          "clubId": "demo-arauco",
-          "minute": 25,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0542",
-          "playerName": "Andres Herrera",
-          "clubId": "demo-copihues",
-          "minute": 34,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0541",
-          "playerName": "Matias Diaz",
-          "clubId": "demo-copihues",
-          "minute": 45,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0539",
-          "playerName": "Felipe Martinez",
-          "clubId": "demo-copihues",
-          "minute": 39,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f1-5",
-      "round": 1,
-      "series": "senior",
-      "date": "2026-08-08",
-      "time": "18:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-ferroviario",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0789",
-          "playerName": "Javier Herrera",
-          "clubId": "demo-ferroviario",
-          "minute": 51,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0798",
-          "playerName": "Andres Perez",
-          "clubId": "demo-ferroviario",
-          "minute": 71,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0309",
-          "playerName": "Matias Silva",
-          "clubId": "demo-estrelladelsur",
-          "minute": 57,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f2-1",
-      "round": 2,
-      "series": "senior",
-      "date": "2026-08-15",
-      "time": "14:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 0,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0369",
-          "playerName": "Miguel Diaz",
-          "clubId": "demo-ohiggins",
-          "minute": 35,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0377",
-          "playerName": "Cristian Gonzalez",
-          "clubId": "demo-ohiggins",
-          "minute": 15,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0374",
-          "playerName": "Felipe Herrera",
-          "clubId": "demo-ohiggins",
-          "minute": 26,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f2-2",
-      "round": 2,
-      "series": "senior",
-      "date": "2026-08-15",
-      "time": "15:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0151",
-          "playerName": "Javier Morales",
-          "clubId": "demo-unionjuvenil",
-          "minute": 75,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f2-3",
-      "round": 2,
-      "series": "senior",
-      "date": "2026-08-15",
-      "time": "16:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-copihues",
-      "homeScore": 0,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0554",
-          "playerName": "Felipe Gonzalez",
-          "clubId": "demo-copihues",
-          "minute": 15,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0527",
-          "playerName": "Francisco Herrera",
-          "clubId": "demo-copihues",
-          "minute": 38,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f2-4",
-      "round": 2,
-      "series": "senior",
-      "date": "2026-08-15",
-      "time": "17:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 2,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0465",
-          "playerName": "Antonio Herrera",
-          "clubId": "demo-playabrava",
-          "minute": 44,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0455",
-          "playerName": "Carlos Gonzalez",
-          "clubId": "demo-playabrava",
-          "minute": 36,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f2-5",
-      "round": 2,
-      "series": "senior",
-      "date": "2026-08-15",
-      "time": "18:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-arauco",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0049",
-          "playerName": "Pedro Araya",
-          "clubId": "demo-arauco",
-          "minute": 21,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0074",
-          "playerName": "Antonio Munoz",
-          "clubId": "demo-arauco",
-          "minute": 26,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0762",
-          "playerName": "Juan Castro",
-          "clubId": "demo-ferroviario",
-          "minute": 9,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f3-1",
-      "round": 3,
-      "series": "senior",
-      "date": "2026-08-22",
-      "time": "14:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-ohiggins",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 2,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0381",
-          "playerName": "Andres Sepulveda",
-          "clubId": "demo-ohiggins",
-          "minute": 65,
+          "minute": 87,
           "type": "jugada"
         },
         {
           "playerId": "p-jug-0390",
           "playerName": "Jose Araya",
           "clubId": "demo-ohiggins",
-          "minute": 74,
+          "minute": 65,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0698",
-          "playerName": "Pedro Martinez",
-          "clubId": "demo-realcordillera",
-          "minute": 75,
+          "playerId": "p-jug-0371",
+          "playerName": "Matias Contreras",
+          "clubId": "demo-ohiggins",
+          "minute": 63,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0709",
-          "playerName": "Andres Contreras",
-          "clubId": "demo-realcordillera",
-          "minute": 22,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0715",
-          "playerName": "Diego Diaz",
-          "clubId": "demo-realcordillera",
-          "minute": 27,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f3-2",
-      "round": 3,
-      "series": "senior",
-      "date": "2026-08-22",
-      "time": "15:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-copihues",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0637",
-          "playerName": "Javier Perez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 60,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0634",
-          "playerName": "Pedro Diaz",
-          "clubId": "demo-sanlorenzo",
-          "minute": 86,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0555",
-          "playerName": "Antonio Martinez",
-          "clubId": "demo-copihues",
-          "minute": 44,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f3-3",
-      "round": 3,
-      "series": "senior",
-      "date": "2026-08-22",
-      "time": "16:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 3,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0135",
-          "playerName": "Luis Perez",
-          "clubId": "demo-unionjuvenil",
-          "minute": 16,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0149",
+          "playerId": "p-jug-0399",
           "playerName": "Felipe Herrera",
-          "clubId": "demo-unionjuvenil",
-          "minute": 44,
+          "clubId": "demo-ohiggins",
+          "minute": 82,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0144",
-          "playerName": "Juan Perez",
+          "playerId": "p-jug-0130",
+          "playerName": "Andres Sepulveda",
           "clubId": "demo-unionjuvenil",
-          "minute": 57,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0297",
-          "playerName": "Juan Herrera",
-          "clubId": "demo-estrelladelsur",
-          "minute": 24,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f3-4",
-      "round": 3,
-      "series": "senior",
-      "date": "2026-08-22",
-      "time": "17:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0209",
-          "playerName": "Carlos Contreras",
-          "clubId": "demo-colocolo",
           "minute": 49,
           "type": "jugada"
         }
@@ -19691,282 +18836,234 @@
       "cards": []
     },
     {
-      "id": "m-demo-seni-f3-5",
-      "round": 3,
+      "id": "m-demo-seni-f1-2",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "senior",
-      "date": "2026-08-22",
-      "time": "18:30",
+      "date": "2026-09-12",
+      "time": "15:30",
       "venue": "Estadio El Roble",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-sanlorenzo",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0631",
+          "playerName": "Francisco Morales",
+          "clubId": "demo-sanlorenzo",
+          "minute": 76,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0630",
+          "playerName": "Matias Perez",
+          "clubId": "demo-sanlorenzo",
+          "minute": 32,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f1-3",
+      "round": "Fecha 1",
+      "roundNumber": 1,
+      "series": "senior",
+      "date": "2026-09-12",
+      "time": "16:30",
+      "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-arauco",
+      "awayClubId": "demo-realcordillera",
       "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0472",
-          "playerName": "Juan Rojas",
+          "playerId": "p-jug-0458",
+          "playerName": "Javier Munoz",
           "clubId": "demo-playabrava",
-          "minute": 66,
+          "minute": 45,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0060",
-          "playerName": "Pedro Herrera",
-          "clubId": "demo-arauco",
-          "minute": 6,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f4-1",
-      "round": 4,
-      "series": "senior",
-      "date": "2026-09-01",
-      "time": "14:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 2,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0559",
-          "playerName": "Luis Munoz",
-          "clubId": "demo-copihues",
-          "minute": 34,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0521",
-          "playerName": "Antonio Castro",
-          "clubId": "demo-copihues",
-          "minute": 75,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0384",
-          "playerName": "Carlos Araya",
-          "clubId": "demo-ohiggins",
-          "minute": 29,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0387",
-          "playerName": "Luis Morales",
-          "clubId": "demo-ohiggins",
-          "minute": 76,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f4-2",
-      "round": 4,
-      "series": "senior",
-      "date": "2026-09-01",
-      "time": "15:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0705",
-          "playerName": "Antonio Castro",
+          "playerId": "p-jug-0695",
+          "playerName": "Miguel Herrera",
           "clubId": "demo-realcordillera",
-          "minute": 53,
+          "minute": 73,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-seni-f4-3",
-      "round": 4,
+      "id": "m-demo-seni-f1-4",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "senior",
-      "date": "2026-09-01",
-      "time": "16:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 1,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0616",
-          "playerName": "Luis Sepulveda",
-          "clubId": "demo-sanlorenzo",
-          "minute": 71,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f4-4",
-      "round": 4,
-      "series": "senior",
-      "date": "2026-09-01",
+      "date": "2026-09-12",
       "time": "17:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-arauco",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-arauco",
+      "awayClubId": "demo-copihues",
       "homeScore": 2,
       "awayScore": 3,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0138",
-          "playerName": "Cristian Tapia",
-          "clubId": "demo-unionjuvenil",
-          "minute": 41,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0155",
-          "playerName": "Matias Sepulveda",
-          "clubId": "demo-unionjuvenil",
-          "minute": 39,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0067",
-          "playerName": "Javier Castro",
-          "clubId": "demo-arauco",
-          "minute": 29,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0045",
-          "playerName": "Pedro Soto",
+          "playerId": "p-jug-0059",
+          "playerName": "Francisco Soto",
           "clubId": "demo-arauco",
           "minute": 28,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0049",
-          "playerName": "Pedro Araya",
+          "playerId": "p-jug-0076",
+          "playerName": "Nicolas Munoz",
           "clubId": "demo-arauco",
-          "minute": 42,
+          "minute": 33,
           "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f4-5",
-      "round": 4,
-      "series": "senior",
-      "date": "2026-09-01",
-      "time": "18:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 0,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
+        },
         {
-          "playerId": "p-jug-0469",
-          "playerName": "Juan Morales",
-          "clubId": "demo-playabrava",
-          "minute": 39,
+          "playerId": "p-jug-0532",
+          "playerName": "Miguel Morales",
+          "clubId": "demo-copihues",
+          "minute": 26,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0552",
+          "playerName": "Carlos Herrera",
+          "clubId": "demo-copihues",
+          "minute": 83,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0531",
+          "playerName": "Carlos Castro",
+          "clubId": "demo-copihues",
+          "minute": 22,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-seni-f5-1",
-      "round": 5,
+      "id": "m-demo-seni-f1-5",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "senior",
-      "date": "2026-09-08",
-      "time": "14:30",
+      "date": "2026-09-12",
+      "time": "18:30",
       "venue": "Estadio Municipal",
-      "homeClubId": "demo-ohiggins",
+      "homeClubId": "demo-ferroviario",
       "awayClubId": "demo-estrelladelsur",
       "homeScore": 2,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0381",
-          "playerName": "Andres Sepulveda",
-          "clubId": "demo-ohiggins",
-          "minute": 7,
+          "playerId": "p-jug-0769",
+          "playerName": "Juan Sepulveda",
+          "clubId": "demo-ferroviario",
+          "minute": 51,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0793",
+          "playerName": "Cristian Silva",
+          "clubId": "demo-ferroviario",
+          "minute": 31,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0311",
+          "playerName": "Javier Martinez",
+          "clubId": "demo-estrelladelsur",
+          "minute": 85,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f2-1",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "senior",
+      "date": "2026-09-19",
+      "time": "14:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0629",
+          "playerName": "Jose Morales",
+          "clubId": "demo-sanlorenzo",
+          "minute": 45,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0616",
+          "playerName": "Luis Sepulveda",
+          "clubId": "demo-sanlorenzo",
+          "minute": 37,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0612",
+          "playerName": "Cristian Herrera",
+          "clubId": "demo-sanlorenzo",
+          "minute": 30,
           "type": "jugada"
         },
         {
           "playerId": "p-jug-0370",
           "playerName": "Jose Morales",
           "clubId": "demo-ohiggins",
-          "minute": 11,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0315",
-          "playerName": "Javier Morales",
-          "clubId": "demo-estrelladelsur",
-          "minute": 7,
+          "minute": 35,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-seni-f5-2",
-      "round": 5,
+      "id": "m-demo-seni-f2-2",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "senior",
-      "date": "2026-09-08",
+      "date": "2026-09-19",
       "time": "15:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-seni-f5-3",
-      "round": 5,
-      "series": "senior",
-      "date": "2026-09-08",
-      "time": "16:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-arauco",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-realcordillera",
       "homeScore": 1,
       "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0681",
-          "playerName": "Francisco Munoz",
+          "playerId": "p-jug-0136",
+          "playerName": "Pedro Munoz",
+          "clubId": "demo-unionjuvenil",
+          "minute": 40,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0713",
+          "playerName": "Carlos Castro",
           "clubId": "demo-realcordillera",
-          "minute": 34,
+          "minute": 30,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0046",
-          "playerName": "Jose Herrera",
-          "clubId": "demo-arauco",
-          "minute": 24,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0041",
-          "playerName": "Antonio Castro",
-          "clubId": "demo-arauco",
+          "playerId": "p-jug-0697",
+          "playerName": "Jose Morales",
+          "clubId": "demo-realcordillera",
           "minute": 68,
           "type": "jugada"
         }
@@ -19974,277 +19071,550 @@
       "cards": []
     },
     {
-      "id": "m-demo-seni-f5-4",
-      "round": 5,
+      "id": "m-demo-seni-f2-3",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "senior",
-      "date": "2026-09-08",
-      "time": "17:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-playabrava",
+      "date": "2026-09-19",
+      "time": "16:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-copihues",
       "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0632",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 52,
+          "playerId": "p-jug-0233",
+          "playerName": "Antonio Diaz",
+          "clubId": "demo-colocolo",
+          "minute": 16,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0549",
+          "playerName": "Jose Rojas",
+          "clubId": "demo-copihues",
+          "minute": 15,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f2-4",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "senior",
+      "date": "2026-09-19",
+      "time": "17:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0454",
+          "playerName": "Carlos Diaz",
+          "clubId": "demo-playabrava",
+          "minute": 30,
           "type": "jugada"
         },
         {
           "playerId": "p-jug-0470",
           "playerName": "Pedro Diaz",
           "clubId": "demo-playabrava",
-          "minute": 9,
+          "minute": 33,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-seni-f5-5",
-      "round": 5,
+      "id": "m-demo-seni-f2-5",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "senior",
-      "date": "2026-09-08",
+      "date": "2026-09-19",
       "time": "18:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-arauco",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0792",
+          "playerName": "Javier Tapia",
+          "clubId": "demo-ferroviario",
+          "minute": 32,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f3-1",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "senior",
+      "date": "2026-09-26",
+      "time": "14:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-realcordillera",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0393",
+          "playerName": "Diego Silva",
+          "clubId": "demo-ohiggins",
+          "minute": 15,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0369",
+          "playerName": "Miguel Diaz",
+          "clubId": "demo-ohiggins",
+          "minute": 59,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f3-2",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "senior",
+      "date": "2026-09-26",
+      "time": "15:30",
       "venue": "Cancha El Morro",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-copihues",
+      "homeScore": 3,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0618",
+          "playerName": "Nicolas Araya",
+          "clubId": "demo-sanlorenzo",
+          "minute": 43,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0640",
+          "playerName": "Diego Rojas",
+          "clubId": "demo-sanlorenzo",
+          "minute": 59,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0610",
+          "playerName": "Javier Silva",
+          "clubId": "demo-sanlorenzo",
+          "minute": 44,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0530",
+          "playerName": "Cristian Morales",
+          "clubId": "demo-copihues",
+          "minute": 67,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0533",
+          "playerName": "Pedro Castro",
+          "clubId": "demo-copihues",
+          "minute": 21,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f3-3",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "senior",
+      "date": "2026-09-26",
+      "time": "16:30",
+      "venue": "Estadio Municipal",
       "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-colocolo",
+      "awayClubId": "demo-estrelladelsur",
       "homeScore": 1,
-      "awayScore": 3,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
           "playerId": "p-jug-0130",
           "playerName": "Andres Sepulveda",
           "clubId": "demo-unionjuvenil",
-          "minute": 12,
+          "minute": 52,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0218",
-          "playerName": "Pedro Morales",
-          "clubId": "demo-colocolo",
-          "minute": 55,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0205",
-          "playerName": "Luis Diaz",
-          "clubId": "demo-colocolo",
-          "minute": 74,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0231",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-colocolo",
-          "minute": 28,
+          "playerId": "p-jug-0309",
+          "playerName": "Matias Silva",
+          "clubId": "demo-estrelladelsur",
+          "minute": 13,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-seni-f6-1",
-      "round": 6,
+      "id": "m-demo-seni-f3-4",
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "senior",
-      "date": "2026-09-15",
+      "date": "2026-09-26",
+      "time": "17:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0211",
+          "playerName": "Andres Munoz",
+          "clubId": "demo-colocolo",
+          "minute": 83,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0796",
+          "playerName": "Felipe Contreras",
+          "clubId": "demo-ferroviario",
+          "minute": 43,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0778",
+          "playerName": "Nicolas Castro",
+          "clubId": "demo-ferroviario",
+          "minute": 78,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0792",
+          "playerName": "Javier Tapia",
+          "clubId": "demo-ferroviario",
+          "minute": 67,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f3-5",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "senior",
+      "date": "2026-09-26",
+      "time": "18:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-arauco",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0449",
+          "playerName": "Javier Castro",
+          "clubId": "demo-playabrava",
+          "minute": 33,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0458",
+          "playerName": "Javier Munoz",
+          "clubId": "demo-playabrava",
+          "minute": 60,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0071",
+          "playerName": "Antonio Perez",
+          "clubId": "demo-arauco",
+          "minute": 14,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f4-1",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "senior",
+      "date": "2026-10-09",
+      "time": "14:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f4-2",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "senior",
+      "date": "2026-10-09",
+      "time": "15:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f4-3",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "senior",
+      "date": "2026-10-09",
+      "time": "16:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f4-4",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "senior",
+      "date": "2026-10-09",
+      "time": "17:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f4-5",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "senior",
+      "date": "2026-10-09",
+      "time": "18:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f5-1",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "senior",
+      "date": "2026-10-16",
+      "time": "14:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f5-2",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "senior",
+      "date": "2026-10-16",
+      "time": "15:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f5-3",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "senior",
+      "date": "2026-10-16",
+      "time": "16:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f5-4",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "senior",
+      "date": "2026-10-16",
+      "time": "17:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f5-5",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "senior",
+      "date": "2026-10-16",
+      "time": "18:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-colocolo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-seni-f6-1",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "senior",
+      "date": "2026-10-23",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ferroviario",
       "awayClubId": "demo-ohiggins",
       "homeScore": 0,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0385",
-          "playerName": "Miguel Araya",
-          "clubId": "demo-ohiggins",
-          "minute": 6,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0368",
-          "playerName": "Miguel Perez",
-          "clubId": "demo-ohiggins",
-          "minute": 36,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0385",
-          "playerName": "Miguel Araya",
-          "clubId": "demo-ohiggins",
-          "minute": 61,
-          "type": "jugada"
-        }
-      ],
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f6-2",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "15:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-estrelladelsur",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0293",
-          "playerName": "Pedro Morales",
-          "clubId": "demo-estrelladelsur",
-          "minute": 63,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0047",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-arauco",
-          "minute": 71,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0054",
-          "playerName": "Javier Castro",
-          "clubId": "demo-arauco",
-          "minute": 65,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0065",
-          "playerName": "Matias Gonzalez",
-          "clubId": "demo-arauco",
-          "minute": 44,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0061",
-          "playerName": "Diego Tapia",
-          "clubId": "demo-arauco",
-          "minute": 25,
-          "type": "jugada"
-        }
-      ],
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f6-3",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "16:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-copihues",
       "awayClubId": "demo-playabrava",
-      "homeScore": 2,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0556",
-          "playerName": "Felipe Herrera",
-          "clubId": "demo-copihues",
-          "minute": 71,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0528",
-          "playerName": "Luis Sepulveda",
-          "clubId": "demo-copihues",
-          "minute": 37,
-          "type": "jugada"
-        }
-      ],
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f6-4",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "17:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-realcordillera",
       "awayClubId": "demo-colocolo",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0704",
-          "playerName": "Javier Martinez",
-          "clubId": "demo-realcordillera",
-          "minute": 11,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0214",
-          "playerName": "Pedro Munoz",
-          "clubId": "demo-colocolo",
-          "minute": 19,
-          "type": "jugada"
-        }
-      ],
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f6-5",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0601",
-          "playerName": "Luis Contreras",
-          "clubId": "demo-sanlorenzo",
-          "minute": 26,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0138",
-          "playerName": "Cristian Tapia",
-          "clubId": "demo-unionjuvenil",
-          "minute": 79,
-          "type": "jugada"
-        }
-      ],
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f7-1",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "en_vivo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-seni-f7-2",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "15:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-ferroviario",
@@ -20257,9 +19627,10 @@
     },
     {
       "id": "m-demo-seni-f7-3",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "16:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-estrelladelsur",
@@ -20272,9 +19643,10 @@
     },
     {
       "id": "m-demo-seni-f7-4",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "17:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-copihues",
@@ -20287,9 +19659,10 @@
     },
     {
       "id": "m-demo-seni-f7-5",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "18:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-realcordillera",
@@ -20302,9 +19675,10 @@
     },
     {
       "id": "m-demo-seni-f8-1",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "14:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
@@ -20317,9 +19691,10 @@
     },
     {
       "id": "m-demo-seni-f8-2",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
@@ -20332,9 +19707,10 @@
     },
     {
       "id": "m-demo-seni-f8-3",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "16:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
@@ -20347,9 +19723,10 @@
     },
     {
       "id": "m-demo-seni-f8-4",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "17:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-estrelladelsur",
@@ -20362,9 +19739,10 @@
     },
     {
       "id": "m-demo-seni-f8-5",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "18:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-copihues",
@@ -20377,9 +19755,10 @@
     },
     {
       "id": "m-demo-seni-f9-1",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "14:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-ohiggins",
@@ -20392,9 +19771,10 @@
     },
     {
       "id": "m-demo-seni-f9-2",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "15:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-playabrava",
@@ -20407,9 +19787,10 @@
     },
     {
       "id": "m-demo-seni-f9-3",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "16:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-arauco",
@@ -20422,9 +19803,10 @@
     },
     {
       "id": "m-demo-seni-f9-4",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "17:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ferroviario",
@@ -20437,9 +19819,10 @@
     },
     {
       "id": "m-demo-seni-f9-5",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "18:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-estrelladelsur",
@@ -20452,44 +19835,47 @@
     },
     {
       "id": "m-demo-supe-f1-1",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "super_senior",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 0,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-supe-f1-2",
-      "round": 1,
-      "series": "super_senior",
-      "date": "2026-08-08",
-      "time": "15:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-sanlorenzo",
-      "homeScore": 0,
+      "homeScore": 3,
       "awayScore": 0,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
-      "id": "m-demo-supe-f1-3",
-      "round": 1,
+      "id": "m-demo-supe-f1-2",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "super_senior",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
+      "time": "15:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-sanlorenzo",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-supe-f1-3",
+      "round": "Fecha 1",
+      "roundNumber": 1,
+      "series": "super_senior",
+      "date": "2026-09-12",
       "time": "16:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
       "awayClubId": "demo-realcordillera",
-      "homeScore": 2,
+      "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
@@ -20497,24 +19883,26 @@
     },
     {
       "id": "m-demo-supe-f1-4",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "super_senior",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "17:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
       "awayClubId": "demo-copihues",
       "homeScore": 2,
-      "awayScore": 1,
+      "awayScore": 0,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f1-5",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "super_senior",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
@@ -20527,13 +19915,30 @@
     },
     {
       "id": "m-demo-supe-f2-1",
-      "round": 2,
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "super_senior",
-      "date": "2026-08-15",
+      "date": "2026-09-19",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-ohiggins",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "finalizado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-supe-f2-2",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "super_senior",
+      "date": "2026-09-19",
+      "time": "15:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-realcordillera",
       "homeScore": 0,
       "awayScore": 2,
       "status": "finalizado",
@@ -20541,59 +19946,63 @@
       "cards": []
     },
     {
-      "id": "m-demo-supe-f2-2",
-      "round": 2,
-      "series": "super_senior",
-      "date": "2026-08-15",
-      "time": "15:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 4,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
       "id": "m-demo-supe-f2-3",
-      "round": 2,
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "super_senior",
-      "date": "2026-08-15",
+      "date": "2026-09-19",
       "time": "16:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-colocolo",
       "awayClubId": "demo-copihues",
-      "homeScore": 2,
-      "awayScore": 0,
+      "homeScore": 1,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f2-4",
-      "round": 2,
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "super_senior",
-      "date": "2026-08-15",
+      "date": "2026-09-19",
       "time": "17:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-playabrava",
       "awayClubId": "demo-estrelladelsur",
-      "homeScore": 2,
-      "awayScore": 2,
+      "homeScore": 0,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f2-5",
-      "round": 2,
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "super_senior",
-      "date": "2026-08-15",
+      "date": "2026-09-19",
       "time": "18:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-arauco",
       "awayClubId": "demo-ferroviario",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-supe-f3-1",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "super_senior",
+      "date": "2026-09-26",
+      "time": "14:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-realcordillera",
       "homeScore": 2,
       "awayScore": 0,
       "status": "finalizado",
@@ -20601,45 +20010,32 @@
       "cards": []
     },
     {
-      "id": "m-demo-supe-f3-1",
-      "round": 3,
-      "series": "super_senior",
-      "date": "2026-08-22",
-      "time": "14:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-ohiggins",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 1,
-      "awayScore": 4,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
       "id": "m-demo-supe-f3-2",
-      "round": 3,
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "super_senior",
-      "date": "2026-08-22",
+      "date": "2026-09-26",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-copihues",
       "homeScore": 2,
-      "awayScore": 2,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f3-3",
-      "round": 3,
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "super_senior",
-      "date": "2026-08-22",
+      "date": "2026-09-26",
       "time": "16:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-unionjuvenil",
       "awayClubId": "demo-estrelladelsur",
-      "homeScore": 3,
+      "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
@@ -20647,279 +20043,298 @@
     },
     {
       "id": "m-demo-supe-f3-4",
-      "round": 3,
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "super_senior",
-      "date": "2026-08-22",
+      "date": "2026-09-26",
       "time": "17:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-colocolo",
       "awayClubId": "demo-ferroviario",
-      "homeScore": 0,
-      "awayScore": 2,
+      "homeScore": 1,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f3-5",
-      "round": 3,
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "super_senior",
-      "date": "2026-08-22",
+      "date": "2026-09-26",
       "time": "18:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-playabrava",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 0,
+      "homeScore": 0,
+      "awayScore": 2,
       "status": "finalizado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f4-1",
-      "round": 4,
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "super_senior",
-      "date": "2026-09-01",
+      "date": "2026-10-09",
       "time": "14:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-copihues",
       "awayClubId": "demo-ohiggins",
-      "homeScore": 3,
-      "awayScore": 1,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f4-2",
-      "round": 4,
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "super_senior",
-      "date": "2026-09-01",
+      "date": "2026-10-09",
       "time": "15:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-realcordillera",
       "awayClubId": "demo-estrelladelsur",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f4-3",
-      "round": 4,
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "super_senior",
-      "date": "2026-09-01",
+      "date": "2026-10-09",
       "time": "16:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f4-4",
-      "round": 4,
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "super_senior",
-      "date": "2026-09-01",
+      "date": "2026-10-09",
       "time": "17:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-unionjuvenil",
       "awayClubId": "demo-arauco",
       "homeScore": 0,
-      "awayScore": 1,
-      "status": "finalizado",
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f4-5",
-      "round": 4,
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "super_senior",
-      "date": "2026-09-01",
+      "date": "2026-10-09",
       "time": "18:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-colocolo",
       "awayClubId": "demo-playabrava",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f5-1",
-      "round": 5,
+      "round": "Fecha 5",
+      "roundNumber": 5,
       "series": "super_senior",
-      "date": "2026-09-08",
+      "date": "2026-10-16",
       "time": "14:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-estrelladelsur",
-      "homeScore": 3,
-      "awayScore": 3,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f5-2",
-      "round": 5,
+      "round": "Fecha 5",
+      "roundNumber": 5,
       "series": "super_senior",
-      "date": "2026-09-08",
+      "date": "2026-10-16",
       "time": "15:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-copihues",
       "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f5-3",
-      "round": 5,
+      "round": "Fecha 5",
+      "roundNumber": 5,
       "series": "super_senior",
-      "date": "2026-09-08",
+      "date": "2026-10-16",
       "time": "16:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-realcordillera",
       "awayClubId": "demo-arauco",
       "homeScore": 0,
-      "awayScore": 1,
-      "status": "finalizado",
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f5-4",
-      "round": 5,
+      "round": "Fecha 5",
+      "roundNumber": 5,
       "series": "super_senior",
-      "date": "2026-09-08",
+      "date": "2026-10-16",
       "time": "17:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-playabrava",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f5-5",
-      "round": 5,
+      "round": "Fecha 5",
+      "roundNumber": 5,
       "series": "super_senior",
-      "date": "2026-09-08",
+      "date": "2026-10-16",
       "time": "18:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-unionjuvenil",
       "awayClubId": "demo-colocolo",
       "homeScore": 0,
-      "awayScore": 2,
-      "status": "finalizado",
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f6-1",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "super_senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ferroviario",
       "awayClubId": "demo-ohiggins",
-      "homeScore": 1,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f6-2",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "super_senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "15:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-estrelladelsur",
       "awayClubId": "demo-arauco",
       "homeScore": 0,
-      "awayScore": 3,
-      "status": "finalizado",
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f6-3",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "super_senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "16:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-copihues",
       "awayClubId": "demo-playabrava",
-      "homeScore": 2,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f6-4",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "super_senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "17:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-realcordillera",
       "awayClubId": "demo-colocolo",
-      "homeScore": 2,
-      "awayScore": 2,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f6-5",
-      "round": 6,
+      "round": "Fecha 6",
+      "roundNumber": 6,
       "series": "super_senior",
-      "date": "2026-09-15",
+      "date": "2026-10-23",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f7-1",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "super_senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "en_vivo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-supe-f7-2",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "super_senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "15:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-ferroviario",
@@ -20932,9 +20347,10 @@
     },
     {
       "id": "m-demo-supe-f7-3",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "super_senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "16:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-estrelladelsur",
@@ -20947,9 +20363,10 @@
     },
     {
       "id": "m-demo-supe-f7-4",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "super_senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "17:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-copihues",
@@ -20962,9 +20379,10 @@
     },
     {
       "id": "m-demo-supe-f7-5",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "super_senior",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "18:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-realcordillera",
@@ -20977,9 +20395,10 @@
     },
     {
       "id": "m-demo-supe-f8-1",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "super_senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "14:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
@@ -20992,9 +20411,10 @@
     },
     {
       "id": "m-demo-supe-f8-2",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "super_senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
@@ -21007,9 +20427,10 @@
     },
     {
       "id": "m-demo-supe-f8-3",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "super_senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "16:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
@@ -21022,9 +20443,10 @@
     },
     {
       "id": "m-demo-supe-f8-4",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "super_senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "17:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-estrelladelsur",
@@ -21037,9 +20459,10 @@
     },
     {
       "id": "m-demo-supe-f8-5",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "super_senior",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "18:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-copihues",
@@ -21052,9 +20475,10 @@
     },
     {
       "id": "m-demo-supe-f9-1",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "super_senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "14:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-ohiggins",
@@ -21067,9 +20491,10 @@
     },
     {
       "id": "m-demo-supe-f9-2",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "super_senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "15:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-playabrava",
@@ -21082,9 +20507,10 @@
     },
     {
       "id": "m-demo-supe-f9-3",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "super_senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "16:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-arauco",
@@ -21097,9 +20523,10 @@
     },
     {
       "id": "m-demo-supe-f9-4",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "super_senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "17:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ferroviario",
@@ -21112,9 +20539,10 @@
     },
     {
       "id": "m-demo-supe-f9-5",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "super_senior",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "18:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-estrelladelsur",
@@ -21127,29 +20555,51 @@
     },
     {
       "id": "m-demo-juve-f1-1",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "juvenil",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "14:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-unionjuvenil",
       "homeScore": 1,
-      "awayScore": 1,
+      "awayScore": 4,
       "status": "finalizado",
       "scorers": [
         {
           "playerId": "p-jug-0338",
           "playerName": "Luis Perez",
           "clubId": "demo-ohiggins",
-          "minute": 24,
+          "minute": 62,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0100",
-          "playerName": "Felipe Martinez",
+          "playerId": "p-jug-0092",
+          "playerName": "Diego Soto",
           "clubId": "demo-unionjuvenil",
-          "minute": 41,
+          "minute": 44,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0093",
+          "playerName": "Javier Munoz",
+          "clubId": "demo-unionjuvenil",
+          "minute": 55,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0091",
+          "playerName": "Javier Gonzalez",
+          "clubId": "demo-unionjuvenil",
+          "minute": 79,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0097",
+          "playerName": "Nicolas Diaz",
+          "clubId": "demo-unionjuvenil",
+          "minute": 16,
           "type": "jugada"
         }
       ],
@@ -21157,36 +20607,44 @@
     },
     {
       "id": "m-demo-juve-f1-2",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "juvenil",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "15:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-colocolo",
       "awayClubId": "demo-sanlorenzo",
-      "homeScore": 1,
-      "awayScore": 2,
+      "homeScore": 3,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0164",
-          "playerName": "Andres Gonzalez",
+          "playerId": "p-jug-0169",
+          "playerName": "Juan Tapia",
           "clubId": "demo-colocolo",
-          "minute": 17,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0577",
-          "playerName": "Miguel Herrera",
-          "clubId": "demo-sanlorenzo",
-          "minute": 13,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0562",
-          "playerName": "Carlos Rojas",
-          "clubId": "demo-sanlorenzo",
           "minute": 21,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0169",
+          "playerName": "Juan Tapia",
+          "clubId": "demo-colocolo",
+          "minute": 16,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0170",
+          "playerName": "Diego Tapia",
+          "clubId": "demo-colocolo",
+          "minute": 12,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0570",
+          "playerName": "Cristian Perez",
+          "clubId": "demo-sanlorenzo",
+          "minute": 66,
           "type": "jugada"
         }
       ],
@@ -21194,372 +20652,73 @@
     },
     {
       "id": "m-demo-juve-f1-3",
-      "round": 1,
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "juvenil",
-      "date": "2026-08-08",
+      "date": "2026-09-12",
       "time": "16:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
       "awayClubId": "demo-realcordillera",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f1-4",
-      "round": 1,
-      "series": "juvenil",
-      "date": "2026-08-08",
-      "time": "17:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-arauco",
-      "awayClubId": "demo-copihues",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f1-5",
-      "round": 1,
-      "series": "juvenil",
-      "date": "2026-08-08",
-      "time": "18:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-ferroviario",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 0,
+      "homeScore": 2,
       "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0253",
-          "playerName": "Cristian Contreras",
-          "clubId": "demo-estrelladelsur",
-          "minute": 67,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0257",
-          "playerName": "Carlos Soto",
-          "clubId": "demo-estrelladelsur",
-          "minute": 84,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f2-1",
-      "round": 2,
-      "series": "juvenil",
-      "date": "2026-08-15",
-      "time": "14:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0572",
-          "playerName": "Nicolas Morales",
-          "clubId": "demo-sanlorenzo",
-          "minute": 33,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0580",
-          "playerName": "Carlos Munoz",
-          "clubId": "demo-sanlorenzo",
-          "minute": 14,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0321",
-          "playerName": "Matias Gonzalez",
-          "clubId": "demo-ohiggins",
-          "minute": 31,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f2-2",
-      "round": 2,
-      "series": "juvenil",
-      "date": "2026-08-15",
-      "time": "15:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 2,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0083",
-          "playerName": "Miguel Castro",
-          "clubId": "demo-unionjuvenil",
-          "minute": 64,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0082",
-          "playerName": "Luis Araya",
-          "clubId": "demo-unionjuvenil",
-          "minute": 51,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0658",
-          "playerName": "Luis Herrera",
-          "clubId": "demo-realcordillera",
-          "minute": 58,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0652",
-          "playerName": "Andres Silva",
-          "clubId": "demo-realcordillera",
-          "minute": 12,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0660",
-          "playerName": "Antonio Castro",
-          "clubId": "demo-realcordillera",
-          "minute": 39,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f2-3",
-      "round": 2,
-      "series": "juvenil",
-      "date": "2026-08-15",
-      "time": "16:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-copihues",
-      "homeScore": 1,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0170",
-          "playerName": "Diego Tapia",
-          "clubId": "demo-colocolo",
-          "minute": 14,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0487",
-          "playerName": "Jose Perez",
-          "clubId": "demo-copihues",
-          "minute": 71,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0484",
-          "playerName": "Nicolas Silva",
-          "clubId": "demo-copihues",
-          "minute": 17,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f2-4",
-      "round": 2,
-      "series": "juvenil",
-      "date": "2026-08-15",
-      "time": "17:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0407",
-          "playerName": "Nicolas Araya",
+          "playerId": "p-jug-0409",
+          "playerName": "Javier Castro",
           "clubId": "demo-playabrava",
-          "minute": 29,
+          "minute": 76,
           "type": "jugada"
         },
         {
           "playerId": "p-jug-0417",
           "playerName": "Luis Sepulveda",
           "clubId": "demo-playabrava",
-          "minute": 36,
+          "minute": 20,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0259",
-          "playerName": "Jose Contreras",
-          "clubId": "demo-estrelladelsur",
-          "minute": 85,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f2-5",
-      "round": 2,
-      "series": "juvenil",
-      "date": "2026-08-15",
-      "time": "18:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-arauco",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 4,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0018",
-          "playerName": "Pedro Soto",
-          "clubId": "demo-arauco",
-          "minute": 58,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0004",
-          "playerName": "Juan Sepulveda",
-          "clubId": "demo-arauco",
-          "minute": 86,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0019",
-          "playerName": "Matias Silva",
-          "clubId": "demo-arauco",
-          "minute": 50,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0015",
-          "playerName": "Matias Munoz",
-          "clubId": "demo-arauco",
-          "minute": 59,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0724",
-          "playerName": "Nicolas Morales",
-          "clubId": "demo-ferroviario",
-          "minute": 26,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f3-1",
-      "round": 3,
-      "series": "juvenil",
-      "date": "2026-08-22",
-      "time": "14:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-ohiggins",
-      "awayClubId": "demo-realcordillera",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0337",
-          "playerName": "Carlos Soto",
-          "clubId": "demo-ohiggins",
-          "minute": 48,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0326",
-          "playerName": "Jose Diaz",
-          "clubId": "demo-ohiggins",
-          "minute": 73,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0660",
-          "playerName": "Antonio Castro",
+          "playerId": "p-jug-0659",
+          "playerName": "Francisco Araya",
           "clubId": "demo-realcordillera",
-          "minute": 61,
+          "minute": 46,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0652",
+          "playerName": "Andres Silva",
+          "clubId": "demo-realcordillera",
+          "minute": 56,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-juve-f3-2",
-      "round": 3,
+      "id": "m-demo-juve-f1-4",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "juvenil",
-      "date": "2026-08-22",
-      "time": "15:30",
+      "date": "2026-09-12",
+      "time": "17:30",
       "venue": "Cancha El Morro",
-      "homeClubId": "demo-sanlorenzo",
+      "homeClubId": "demo-arauco",
       "awayClubId": "demo-copihues",
-      "homeScore": 4,
-      "awayScore": 3,
+      "homeScore": 0,
+      "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0578",
-          "playerName": "Juan Morales",
-          "clubId": "demo-sanlorenzo",
-          "minute": 46,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0572",
-          "playerName": "Nicolas Morales",
-          "clubId": "demo-sanlorenzo",
-          "minute": 57,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0574",
-          "playerName": "Juan Tapia",
-          "clubId": "demo-sanlorenzo",
-          "minute": 46,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0580",
-          "playerName": "Carlos Munoz",
-          "clubId": "demo-sanlorenzo",
-          "minute": 35,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0499",
-          "playerName": "Carlos Soto",
+          "playerId": "p-jug-0494",
+          "playerName": "Pedro Martinez",
           "clubId": "demo-copihues",
-          "minute": 74,
+          "minute": 31,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0487",
-          "playerName": "Jose Perez",
-          "clubId": "demo-copihues",
-          "minute": 53,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0498",
-          "playerName": "Javier Morales",
+          "playerId": "p-jug-0491",
+          "playerName": "Luis Soto",
           "clubId": "demo-copihues",
           "minute": 37,
           "type": "jugada"
@@ -21568,365 +20727,162 @@
       "cards": []
     },
     {
-      "id": "m-demo-juve-f3-3",
-      "round": 3,
+      "id": "m-demo-juve-f1-5",
+      "round": "Fecha 1",
+      "roundNumber": 1,
       "series": "juvenil",
-      "date": "2026-08-22",
-      "time": "16:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0093",
-          "playerName": "Javier Munoz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 5,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0242",
-          "playerName": "Javier Perez",
-          "clubId": "demo-estrelladelsur",
-          "minute": 41,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f3-4",
-      "round": 3,
-      "series": "juvenil",
-      "date": "2026-08-22",
-      "time": "17:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0170",
-          "playerName": "Diego Tapia",
-          "clubId": "demo-colocolo",
-          "minute": 5,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0170",
-          "playerName": "Diego Tapia",
-          "clubId": "demo-colocolo",
-          "minute": 33,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0727",
-          "playerName": "Andres Rojas",
-          "clubId": "demo-ferroviario",
-          "minute": 45,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f3-5",
-      "round": 3,
-      "series": "juvenil",
-      "date": "2026-08-22",
+      "date": "2026-09-12",
       "time": "18:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-playabrava",
-      "awayClubId": "demo-arauco",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-ferroviario",
+      "awayClubId": "demo-estrelladelsur",
       "homeScore": 0,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0250",
+          "playerName": "Jose Tapia",
+          "clubId": "demo-estrelladelsur",
+          "minute": 54,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f2-1",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "juvenil",
+      "date": "2026-09-19",
+      "time": "14:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 1,
       "awayScore": 3,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0009",
-          "playerName": "Juan Contreras",
-          "clubId": "demo-arauco",
-          "minute": 75,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0017",
-          "playerName": "Diego Rojas",
-          "clubId": "demo-arauco",
+          "playerId": "p-jug-0573",
+          "playerName": "Cristian Diaz",
+          "clubId": "demo-sanlorenzo",
           "minute": 76,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0019",
-          "playerName": "Matias Silva",
-          "clubId": "demo-arauco",
-          "minute": 78,
+          "playerId": "p-jug-0332",
+          "playerName": "Francisco Herrera",
+          "clubId": "demo-ohiggins",
+          "minute": 27,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0333",
+          "playerName": "Pedro Gonzalez",
+          "clubId": "demo-ohiggins",
+          "minute": 83,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0340",
+          "playerName": "Matias Herrera",
+          "clubId": "demo-ohiggins",
+          "minute": 38,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-juve-f4-1",
-      "round": 4,
+      "id": "m-demo-juve-f2-2",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "juvenil",
-      "date": "2026-09-01",
-      "time": "14:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f4-2",
-      "round": 4,
-      "series": "juvenil",
-      "date": "2026-09-01",
+      "date": "2026-09-19",
       "time": "15:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 1,
-      "awayScore": 0,
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-realcordillera",
+      "homeScore": 2,
+      "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0652",
-          "playerName": "Andres Silva",
+          "playerId": "p-jug-0098",
+          "playerName": "Antonio Sepulveda",
+          "clubId": "demo-unionjuvenil",
+          "minute": 67,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0097",
+          "playerName": "Nicolas Diaz",
+          "clubId": "demo-unionjuvenil",
+          "minute": 84,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0655",
+          "playerName": "Pedro Morales",
           "clubId": "demo-realcordillera",
-          "minute": 79,
+          "minute": 30,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-juve-f4-3",
-      "round": 4,
+      "id": "m-demo-juve-f2-3",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "juvenil",
-      "date": "2026-09-01",
+      "date": "2026-09-19",
       "time": "16:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-ferroviario",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-copihues",
       "homeScore": 1,
       "awayScore": 1,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0570",
-          "playerName": "Cristian Perez",
-          "clubId": "demo-sanlorenzo",
-          "minute": 16,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0739",
-          "playerName": "Carlos Castro",
-          "clubId": "demo-ferroviario",
-          "minute": 56,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f4-4",
-      "round": 4,
-      "series": "juvenil",
-      "date": "2026-09-01",
-      "time": "17:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-arauco",
-      "homeScore": 2,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0083",
-          "playerName": "Miguel Castro",
-          "clubId": "demo-unionjuvenil",
-          "minute": 46,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0096",
-          "playerName": "Francisco Munoz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 27,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f4-5",
-      "round": 4,
-      "series": "juvenil",
-      "date": "2026-09-01",
-      "time": "18:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-colocolo",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 1,
-      "awayScore": 3,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0179",
-          "playerName": "Javier Tapia",
+          "playerId": "p-jug-0176",
+          "playerName": "Francisco Martinez",
           "clubId": "demo-colocolo",
-          "minute": 17,
+          "minute": 31,
           "type": "jugada"
         },
+        {
+          "playerId": "p-jug-0495",
+          "playerName": "Luis Contreras",
+          "clubId": "demo-copihues",
+          "minute": 39,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f2-4",
+      "round": "Fecha 2",
+      "roundNumber": 2,
+      "series": "juvenil",
+      "date": "2026-09-19",
+      "time": "17:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 3,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
         {
           "playerId": "p-jug-0420",
           "playerName": "Matias Tapia",
           "clubId": "demo-playabrava",
-          "minute": 87,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0410",
-          "playerName": "Antonio Munoz",
-          "clubId": "demo-playabrava",
-          "minute": 9,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0419",
-          "playerName": "Luis Castro",
-          "clubId": "demo-playabrava",
-          "minute": 53,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f5-1",
-      "round": 5,
-      "series": "juvenil",
-      "date": "2026-09-08",
-      "time": "14:30",
-      "venue": "Estadio Municipal",
-      "homeClubId": "demo-ohiggins",
-      "awayClubId": "demo-estrelladelsur",
-      "homeScore": 0,
-      "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f5-2",
-      "round": 5,
-      "series": "juvenil",
-      "date": "2026-09-08",
-      "time": "15:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-ferroviario",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0494",
-          "playerName": "Pedro Martinez",
-          "clubId": "demo-copihues",
-          "minute": 58,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0484",
-          "playerName": "Nicolas Silva",
-          "clubId": "demo-copihues",
-          "minute": 34,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0740",
-          "playerName": "Javier Contreras",
-          "clubId": "demo-ferroviario",
-          "minute": 6,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f5-3",
-      "round": 5,
-      "series": "juvenil",
-      "date": "2026-09-08",
-      "time": "16:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-arauco",
-      "homeScore": 2,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0642",
-          "playerName": "Miguel Diaz",
-          "clubId": "demo-realcordillera",
-          "minute": 44,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0657",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-realcordillera",
-          "minute": 10,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0011",
-          "playerName": "Antonio Contreras",
-          "clubId": "demo-arauco",
-          "minute": 74,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0019",
-          "playerName": "Matias Silva",
-          "clubId": "demo-arauco",
-          "minute": 24,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f5-4",
-      "round": 5,
-      "series": "juvenil",
-      "date": "2026-09-08",
-      "time": "17:30",
-      "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-sanlorenzo",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 1,
-      "awayScore": 2,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0565",
-          "playerName": "Carlos Diaz",
-          "clubId": "demo-sanlorenzo",
-          "minute": 11,
+          "minute": 36,
           "type": "jugada"
         },
         {
@@ -21937,129 +20893,92 @@
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0420",
-          "playerName": "Matias Tapia",
+          "playerId": "p-jug-0411",
+          "playerName": "Cristian Silva",
           "clubId": "demo-playabrava",
-          "minute": 78,
+          "minute": 24,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0250",
+          "playerName": "Jose Tapia",
+          "clubId": "demo-estrelladelsur",
+          "minute": 81,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0250",
+          "playerName": "Jose Tapia",
+          "clubId": "demo-estrelladelsur",
+          "minute": 63,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-juve-f5-5",
-      "round": 5,
+      "id": "m-demo-juve-f2-5",
+      "round": "Fecha 2",
+      "roundNumber": 2,
       "series": "juvenil",
-      "date": "2026-09-08",
+      "date": "2026-09-19",
       "time": "18:30",
-      "venue": "Cancha El Morro",
-      "homeClubId": "demo-unionjuvenil",
-      "awayClubId": "demo-colocolo",
-      "homeScore": 1,
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-arauco",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 2,
       "awayScore": 0,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0090",
-          "playerName": "Miguel Diaz",
-          "clubId": "demo-unionjuvenil",
-          "minute": 55,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f6-1",
-      "round": 6,
-      "series": "juvenil",
-      "date": "2026-09-15",
-      "time": "14:30",
-      "venue": "Cancha Deportivo Ferroviario",
-      "homeClubId": "demo-ferroviario",
-      "awayClubId": "demo-ohiggins",
-      "homeScore": 0,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0336",
-          "playerName": "Matias Araya",
-          "clubId": "demo-ohiggins",
-          "minute": 78,
-          "type": "jugada"
-        }
-      ],
-      "cards": []
-    },
-    {
-      "id": "m-demo-juve-f6-2",
-      "round": 6,
-      "series": "juvenil",
-      "date": "2026-09-15",
-      "time": "15:30",
-      "venue": "Estadio El Roble",
-      "homeClubId": "demo-estrelladelsur",
-      "awayClubId": "demo-arauco",
-      "homeScore": 2,
-      "awayScore": 1,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0249",
-          "playerName": "Jose Gonzalez",
-          "clubId": "demo-estrelladelsur",
-          "minute": 15,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0253",
-          "playerName": "Cristian Contreras",
-          "clubId": "demo-estrelladelsur",
-          "minute": 69,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0014",
-          "playerName": "Luis Castro",
+          "playerId": "p-jug-0009",
+          "playerName": "Juan Contreras",
           "clubId": "demo-arauco",
-          "minute": 21,
+          "minute": 79,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0009",
+          "playerName": "Juan Contreras",
+          "clubId": "demo-arauco",
+          "minute": 34,
           "type": "jugada"
         }
       ],
       "cards": []
     },
     {
-      "id": "m-demo-juve-f6-3",
-      "round": 6,
+      "id": "m-demo-juve-f3-1",
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "juvenil",
-      "date": "2026-09-15",
-      "time": "16:30",
+      "date": "2026-09-26",
+      "time": "14:30",
       "venue": "Estadio Costanera Playa Brava",
-      "homeClubId": "demo-copihues",
-      "awayClubId": "demo-playabrava",
-      "homeScore": 2,
-      "awayScore": 1,
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-realcordillera",
+      "homeScore": 0,
+      "awayScore": 3,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0487",
-          "playerName": "Jose Perez",
-          "clubId": "demo-copihues",
-          "minute": 67,
+          "playerId": "p-jug-0660",
+          "playerName": "Antonio Castro",
+          "clubId": "demo-realcordillera",
+          "minute": 82,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0493",
-          "playerName": "Juan Castro",
-          "clubId": "demo-copihues",
-          "minute": 88,
+          "playerId": "p-jug-0651",
+          "playerName": "Pedro Castro",
+          "clubId": "demo-realcordillera",
+          "minute": 71,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0419",
-          "playerName": "Luis Castro",
-          "clubId": "demo-playabrava",
+          "playerId": "p-jug-0652",
+          "playerName": "Andres Silva",
+          "clubId": "demo-realcordillera",
           "minute": 30,
           "type": "jugada"
         }
@@ -22067,57 +20986,137 @@
       "cards": []
     },
     {
-      "id": "m-demo-juve-f6-4",
-      "round": 6,
+      "id": "m-demo-juve-f3-2",
+      "round": "Fecha 3",
+      "roundNumber": 3,
       "series": "juvenil",
-      "date": "2026-09-15",
-      "time": "17:30",
+      "date": "2026-09-26",
+      "time": "15:30",
       "venue": "Cancha El Morro",
-      "homeClubId": "demo-realcordillera",
-      "awayClubId": "demo-colocolo",
-      "homeScore": 2,
-      "awayScore": 4,
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-copihues",
+      "homeScore": 1,
+      "awayScore": 2,
       "status": "finalizado",
       "scorers": [
         {
-          "playerId": "p-jug-0657",
-          "playerName": "Diego Munoz",
-          "clubId": "demo-realcordillera",
-          "minute": 36,
+          "playerId": "p-jug-0577",
+          "playerName": "Miguel Herrera",
+          "clubId": "demo-sanlorenzo",
+          "minute": 40,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0648",
-          "playerName": "Felipe Castro",
-          "clubId": "demo-realcordillera",
-          "minute": 14,
+          "playerId": "p-jug-0490",
+          "playerName": "Carlos Sepulveda",
+          "clubId": "demo-copihues",
+          "minute": 13,
           "type": "jugada"
         },
         {
-          "playerId": "p-jug-0169",
-          "playerName": "Juan Tapia",
-          "clubId": "demo-colocolo",
-          "minute": 60,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0171",
-          "playerName": "Matias Martinez",
-          "clubId": "demo-colocolo",
-          "minute": 78,
-          "type": "jugada"
-        },
-        {
-          "playerId": "p-jug-0163",
-          "playerName": "Diego Morales",
-          "clubId": "demo-colocolo",
+          "playerId": "p-jug-0494",
+          "playerName": "Pedro Martinez",
+          "clubId": "demo-copihues",
           "minute": 19,
           "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f3-3",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "juvenil",
+      "date": "2026-09-26",
+      "time": "16:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0094",
+          "playerName": "Andres Martinez",
+          "clubId": "demo-unionjuvenil",
+          "minute": 72,
+          "type": "jugada"
         },
+        {
+          "playerId": "p-jug-0259",
+          "playerName": "Jose Contreras",
+          "clubId": "demo-estrelladelsur",
+          "minute": 36,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f3-4",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "juvenil",
+      "date": "2026-09-26",
+      "time": "17:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "finalizado",
+      "scorers": [
         {
           "playerId": "p-jug-0174",
           "playerName": "Carlos Martinez",
           "clubId": "demo-colocolo",
+          "minute": 50,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0170",
+          "playerName": "Diego Tapia",
+          "clubId": "demo-colocolo",
+          "minute": 18,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0730",
+          "playerName": "Francisco Diaz",
+          "clubId": "demo-ferroviario",
+          "minute": 25,
+          "type": "jugada"
+        }
+      ],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f3-5",
+      "round": "Fecha 3",
+      "roundNumber": 3,
+      "series": "juvenil",
+      "date": "2026-09-26",
+      "time": "18:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-playabrava",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "finalizado",
+      "scorers": [
+        {
+          "playerId": "p-jug-0009",
+          "playerName": "Juan Contreras",
+          "clubId": "demo-arauco",
+          "minute": 77,
+          "type": "jugada"
+        },
+        {
+          "playerId": "p-jug-0009",
+          "playerName": "Juan Contreras",
+          "clubId": "demo-arauco",
           "minute": 59,
           "type": "jugada"
         }
@@ -22125,48 +21124,267 @@
       "cards": []
     },
     {
-      "id": "m-demo-juve-f6-5",
-      "round": 6,
+      "id": "m-demo-juve-f4-1",
+      "round": "Fecha 4",
+      "roundNumber": 4,
       "series": "juvenil",
-      "date": "2026-09-15",
+      "date": "2026-10-09",
+      "time": "14:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f4-2",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "juvenil",
+      "date": "2026-10-09",
+      "time": "15:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f4-3",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "juvenil",
+      "date": "2026-10-09",
+      "time": "16:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f4-4",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "juvenil",
+      "date": "2026-10-09",
+      "time": "17:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f4-5",
+      "round": "Fecha 4",
+      "roundNumber": 4,
+      "series": "juvenil",
+      "date": "2026-10-09",
+      "time": "18:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-colocolo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f5-1",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "juvenil",
+      "date": "2026-10-16",
+      "time": "14:30",
+      "venue": "Estadio Municipal",
+      "homeClubId": "demo-ohiggins",
+      "awayClubId": "demo-estrelladelsur",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f5-2",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "juvenil",
+      "date": "2026-10-16",
+      "time": "15:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-ferroviario",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f5-3",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "juvenil",
+      "date": "2026-10-16",
+      "time": "16:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f5-4",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "juvenil",
+      "date": "2026-10-16",
+      "time": "17:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-sanlorenzo",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f5-5",
+      "round": "Fecha 5",
+      "roundNumber": 5,
+      "series": "juvenil",
+      "date": "2026-10-16",
+      "time": "18:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-unionjuvenil",
+      "awayClubId": "demo-colocolo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f6-1",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "juvenil",
+      "date": "2026-10-23",
+      "time": "14:30",
+      "venue": "Cancha Deportivo Ferroviario",
+      "homeClubId": "demo-ferroviario",
+      "awayClubId": "demo-ohiggins",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f6-2",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "juvenil",
+      "date": "2026-10-23",
+      "time": "15:30",
+      "venue": "Estadio El Roble",
+      "homeClubId": "demo-estrelladelsur",
+      "awayClubId": "demo-arauco",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f6-3",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "juvenil",
+      "date": "2026-10-23",
+      "time": "16:30",
+      "venue": "Estadio Costanera Playa Brava",
+      "homeClubId": "demo-copihues",
+      "awayClubId": "demo-playabrava",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f6-4",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "juvenil",
+      "date": "2026-10-23",
+      "time": "17:30",
+      "venue": "Cancha El Morro",
+      "homeClubId": "demo-realcordillera",
+      "awayClubId": "demo-colocolo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
+      "scorers": [],
+      "cards": []
+    },
+    {
+      "id": "m-demo-juve-f6-5",
+      "round": "Fecha 6",
+      "roundNumber": 6,
+      "series": "juvenil",
+      "date": "2026-10-23",
       "time": "18:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-sanlorenzo",
       "awayClubId": "demo-unionjuvenil",
-      "homeScore": 1,
+      "homeScore": 0,
       "awayScore": 0,
-      "status": "finalizado",
-      "scorers": [
-        {
-          "playerId": "p-jug-0572",
-          "playerName": "Nicolas Morales",
-          "clubId": "demo-sanlorenzo",
-          "minute": 81,
-          "type": "jugada"
-        }
-      ],
+      "status": "programado",
+      "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-juve-f7-1",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "juvenil",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "14:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ohiggins",
       "awayClubId": "demo-arauco",
-      "homeScore": 1,
-      "awayScore": 1,
-      "status": "en_vivo",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "programado",
       "scorers": [],
       "cards": []
     },
     {
       "id": "m-demo-juve-f7-2",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "juvenil",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "15:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-ferroviario",
@@ -22179,9 +21397,10 @@
     },
     {
       "id": "m-demo-juve-f7-3",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "juvenil",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "16:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-estrelladelsur",
@@ -22194,9 +21413,10 @@
     },
     {
       "id": "m-demo-juve-f7-4",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "juvenil",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "17:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-copihues",
@@ -22209,9 +21429,10 @@
     },
     {
       "id": "m-demo-juve-f7-5",
-      "round": 7,
+      "round": "Fecha 7",
+      "roundNumber": 7,
       "series": "juvenil",
-      "date": "2026-09-22",
+      "date": "2026-10-30",
       "time": "18:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-realcordillera",
@@ -22224,9 +21445,10 @@
     },
     {
       "id": "m-demo-juve-f8-1",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "juvenil",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "14:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-playabrava",
@@ -22239,9 +21461,10 @@
     },
     {
       "id": "m-demo-juve-f8-2",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "juvenil",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "15:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-arauco",
@@ -22254,9 +21477,10 @@
     },
     {
       "id": "m-demo-juve-f8-3",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "juvenil",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "16:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-ferroviario",
@@ -22269,9 +21493,10 @@
     },
     {
       "id": "m-demo-juve-f8-4",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "juvenil",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "17:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-estrelladelsur",
@@ -22284,9 +21509,10 @@
     },
     {
       "id": "m-demo-juve-f8-5",
-      "round": 8,
+      "round": "Fecha 8",
+      "roundNumber": 8,
       "series": "juvenil",
-      "date": "2026-10-01",
+      "date": "2026-10-37",
       "time": "18:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-copihues",
@@ -22299,9 +21525,10 @@
     },
     {
       "id": "m-demo-juve-f9-1",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "juvenil",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "14:30",
       "venue": "Cancha El Morro",
       "homeClubId": "demo-ohiggins",
@@ -22314,9 +21541,10 @@
     },
     {
       "id": "m-demo-juve-f9-2",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "juvenil",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "15:30",
       "venue": "Estadio Municipal",
       "homeClubId": "demo-playabrava",
@@ -22329,9 +21557,10 @@
     },
     {
       "id": "m-demo-juve-f9-3",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "juvenil",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "16:30",
       "venue": "Cancha Deportivo Ferroviario",
       "homeClubId": "demo-arauco",
@@ -22344,9 +21573,10 @@
     },
     {
       "id": "m-demo-juve-f9-4",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "juvenil",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "17:30",
       "venue": "Estadio El Roble",
       "homeClubId": "demo-ferroviario",
@@ -22359,9 +21589,10 @@
     },
     {
       "id": "m-demo-juve-f9-5",
-      "round": 9,
+      "round": "Fecha 9",
+      "roundNumber": 9,
       "series": "juvenil",
-      "date": "2026-10-08",
+      "date": "2026-10-44",
       "time": "18:30",
       "venue": "Estadio Costanera Playa Brava",
       "homeClubId": "demo-estrelladelsur",
@@ -22376,490 +21607,730 @@
   "standings": {
     "primera_adulta": [
       {
+        "pos": 1,
         "clubId": "demo-arauco",
-        "played": 6,
-        "won": 4,
-        "drawn": 0,
-        "lost": 2,
-        "gf": 15,
-        "ga": 10,
-        "gd": 5,
-        "points": 12,
-        "position": 1
+        "clubName": "Club Deportivo Arauco",
+        "pj": 3,
+        "pg": 3,
+        "pe": 0,
+        "pp": 0,
+        "gf": 8,
+        "gc": 2,
+        "dg": 6,
+        "pts": 9,
+        "form": [
+          "V",
+          "V",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-unionjuvenil",
-        "played": 6,
-        "won": 4,
-        "drawn": 0,
-        "lost": 2,
-        "gf": 12,
-        "ga": 9,
-        "gd": 3,
-        "points": 12,
-        "position": 2
-      },
-      {
-        "clubId": "demo-playabrava",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 13,
-        "ga": 10,
-        "gd": 3,
-        "points": 11,
-        "position": 3
-      },
-      {
-        "clubId": "demo-ohiggins",
-        "played": 6,
-        "won": 3,
-        "drawn": 1,
-        "lost": 2,
-        "gf": 13,
-        "ga": 8,
-        "gd": 5,
-        "points": 10,
-        "position": 4
-      },
-      {
-        "clubId": "demo-copihues",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 10,
-        "ga": 11,
-        "gd": -1,
-        "points": 8,
-        "position": 5
-      },
-      {
-        "clubId": "demo-ferroviario",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 7,
-        "ga": 8,
-        "gd": -1,
-        "points": 8,
-        "position": 6
-      },
-      {
-        "clubId": "demo-colocolo",
-        "played": 6,
-        "won": 2,
-        "drawn": 1,
-        "lost": 3,
-        "gf": 9,
-        "ga": 9,
-        "gd": 0,
-        "points": 7,
-        "position": 7
-      },
-      {
+        "pos": 2,
         "clubId": "demo-estrelladelsur",
-        "played": 6,
-        "won": 2,
-        "drawn": 0,
-        "lost": 4,
-        "gf": 8,
-        "ga": 14,
-        "gd": -6,
-        "points": 6,
-        "position": 8
+        "clubName": "Club Deportivo Estrella del Sur",
+        "pj": 3,
+        "pg": 2,
+        "pe": 1,
+        "pp": 0,
+        "gf": 6,
+        "gc": 3,
+        "dg": 3,
+        "pts": 7,
+        "form": [
+          "V",
+          "E",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-realcordillera",
-        "played": 6,
-        "won": 1,
-        "drawn": 2,
-        "lost": 3,
-        "gf": 8,
-        "ga": 10,
-        "gd": -2,
-        "points": 5,
-        "position": 9
+        "pos": 3,
+        "clubId": "demo-colocolo",
+        "clubName": "Club Deportivo Colo Colo Local",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 7,
+        "gc": 4,
+        "dg": 3,
+        "pts": 6,
+        "form": [
+          "V",
+          "D",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-sanlorenzo",
-        "played": 6,
-        "won": 1,
-        "drawn": 2,
-        "lost": 3,
+        "pos": 4,
+        "clubId": "demo-ohiggins",
+        "clubName": "Club Deportivo O'Higgins",
+        "pj": 3,
+        "pg": 1,
+        "pe": 2,
+        "pp": 0,
         "gf": 5,
-        "ga": 11,
-        "gd": -6,
-        "points": 5,
-        "position": 10
+        "gc": 4,
+        "dg": 1,
+        "pts": 5,
+        "form": [
+          "E",
+          "V",
+          "E"
+        ]
+      },
+      {
+        "pos": 5,
+        "clubId": "demo-realcordillera",
+        "clubName": "Real Cordillera F.C.",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 4,
+        "gc": 4,
+        "dg": 0,
+        "pts": 4,
+        "form": [
+          "V",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 6,
+        "clubId": "demo-playabrava",
+        "clubName": "Defensor Playa Brava",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 3,
+        "gc": 4,
+        "dg": -1,
+        "pts": 4,
+        "form": [
+          "D",
+          "V",
+          "E"
+        ]
+      },
+      {
+        "pos": 7,
+        "clubId": "demo-ferroviario",
+        "clubName": "Club Deportivo Ferroviario",
+        "pj": 3,
+        "pg": 1,
+        "pe": 0,
+        "pp": 2,
+        "gf": 4,
+        "gc": 6,
+        "dg": -2,
+        "pts": 3,
+        "form": [
+          "D",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 8,
+        "clubId": "demo-copihues",
+        "clubName": "Club Social Los Copihues",
+        "pj": 3,
+        "pg": 0,
+        "pe": 2,
+        "pp": 1,
+        "gf": 3,
+        "gc": 5,
+        "dg": -2,
+        "pts": 2,
+        "form": [
+          "E",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 9,
+        "clubId": "demo-sanlorenzo",
+        "clubName": "Club San Lorenzo Minero",
+        "pj": 3,
+        "pg": 0,
+        "pe": 1,
+        "pp": 2,
+        "gf": 2,
+        "gc": 6,
+        "dg": -4,
+        "pts": 1,
+        "form": [
+          "D",
+          "E",
+          "D"
+        ]
+      },
+      {
+        "pos": 10,
+        "clubId": "demo-unionjuvenil",
+        "clubName": "Club Deportivo Unión Juvenil",
+        "pj": 3,
+        "pg": 0,
+        "pe": 0,
+        "pp": 3,
+        "gf": 1,
+        "gc": 5,
+        "dg": -4,
+        "pts": 0,
+        "form": [
+          "D",
+          "D",
+          "D"
+        ]
       }
     ],
     "senior": [
       {
-        "clubId": "demo-arauco",
-        "played": 6,
-        "won": 4,
-        "drawn": 1,
-        "lost": 1,
-        "gf": 13,
-        "ga": 9,
-        "gd": 4,
-        "points": 13,
-        "position": 1
-      },
-      {
-        "clubId": "demo-ohiggins",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 13,
-        "ga": 7,
-        "gd": 6,
-        "points": 11,
-        "position": 2
-      },
-      {
-        "clubId": "demo-copihues",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 10,
-        "ga": 5,
-        "gd": 5,
-        "points": 11,
-        "position": 3
-      },
-      {
+        "pos": 1,
         "clubId": "demo-playabrava",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 8,
-        "ga": 5,
-        "gd": 3,
-        "points": 11,
-        "position": 4
-      },
-      {
-        "clubId": "demo-colocolo",
-        "played": 6,
-        "won": 3,
-        "drawn": 1,
-        "lost": 2,
-        "gf": 7,
-        "ga": 6,
-        "gd": 1,
-        "points": 10,
-        "position": 5
-      },
-      {
-        "clubId": "demo-unionjuvenil",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
+        "clubName": "Defensor Playa Brava",
+        "pj": 3,
+        "pg": 3,
+        "pe": 0,
+        "pp": 0,
         "gf": 9,
-        "ga": 9,
-        "gd": 0,
-        "points": 8,
-        "position": 6
+        "gc": 2,
+        "dg": 7,
+        "pts": 9,
+        "form": [
+          "V",
+          "V",
+          "V"
+        ]
       },
       {
+        "pos": 2,
         "clubId": "demo-sanlorenzo",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 6,
-        "ga": 8,
-        "gd": -2,
-        "points": 8,
-        "position": 7
-      },
-      {
-        "clubId": "demo-realcordillera",
-        "played": 6,
-        "won": 2,
-        "drawn": 1,
-        "lost": 3,
+        "clubName": "Club San Lorenzo Minero",
+        "pj": 3,
+        "pg": 2,
+        "pe": 1,
+        "pp": 0,
         "gf": 7,
-        "ga": 9,
-        "gd": -2,
-        "points": 7,
-        "position": 8
+        "gc": 3,
+        "dg": 4,
+        "pts": 7,
+        "form": [
+          "V",
+          "E",
+          "V"
+        ]
       },
       {
+        "pos": 3,
         "clubId": "demo-ferroviario",
-        "played": 6,
-        "won": 1,
-        "drawn": 1,
-        "lost": 4,
-        "gf": 3,
-        "ga": 8,
-        "gd": -5,
-        "points": 4,
-        "position": 9
+        "clubName": "Club Deportivo Ferroviario",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 5,
+        "gc": 3,
+        "dg": 2,
+        "pts": 6,
+        "form": [
+          "V",
+          "D",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-estrelladelsur",
-        "played": 6,
-        "won": 0,
-        "drawn": 0,
-        "lost": 6,
+        "pos": 4,
+        "clubId": "demo-copihues",
+        "clubName": "Club Social Los Copihues",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 6,
+        "gc": 5,
+        "dg": 1,
+        "pts": 6,
+        "form": [
+          "D",
+          "V",
+          "V"
+        ]
+      },
+      {
+        "pos": 5,
+        "clubId": "demo-colocolo",
+        "clubName": "Club Deportivo Colo Colo Local",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
         "gf": 4,
-        "ga": 14,
-        "gd": -10,
-        "points": 0,
-        "position": 10
+        "gc": 4,
+        "dg": 0,
+        "pts": 4,
+        "form": [
+          "E",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 6,
+        "clubId": "demo-ohiggins",
+        "clubName": "Club Deportivo O'Higgins",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 3,
+        "gc": 4,
+        "dg": -1,
+        "pts": 4,
+        "form": [
+          "V",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 7,
+        "clubId": "demo-arauco",
+        "clubName": "Club Deportivo Arauco",
+        "pj": 3,
+        "pg": 1,
+        "pe": 0,
+        "pp": 2,
+        "gf": 4,
+        "gc": 6,
+        "dg": -2,
+        "pts": 3,
+        "form": [
+          "D",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 8,
+        "clubId": "demo-realcordillera",
+        "clubName": "Real Cordillera F.C.",
+        "pj": 3,
+        "pg": 0,
+        "pe": 2,
+        "pp": 1,
+        "gf": 2,
+        "gc": 4,
+        "dg": -2,
+        "pts": 2,
+        "form": [
+          "E",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 9,
+        "clubId": "demo-unionjuvenil",
+        "clubName": "Club Deportivo Unión Juvenil",
+        "pj": 3,
+        "pg": 0,
+        "pe": 1,
+        "pp": 2,
+        "gf": 3,
+        "gc": 7,
+        "dg": -4,
+        "pts": 1,
+        "form": [
+          "D",
+          "E",
+          "D"
+        ]
+      },
+      {
+        "pos": 10,
+        "clubId": "demo-estrelladelsur",
+        "clubName": "Club Deportivo Estrella del Sur",
+        "pj": 3,
+        "pg": 0,
+        "pe": 0,
+        "pp": 3,
+        "gf": 2,
+        "gc": 7,
+        "dg": -5,
+        "pts": 0,
+        "form": [
+          "D",
+          "D",
+          "D"
+        ]
       }
     ],
     "super_senior": [
       {
-        "clubId": "demo-arauco",
-        "played": 6,
-        "won": 5,
-        "drawn": 0,
-        "lost": 1,
-        "gf": 9,
-        "ga": 2,
-        "gd": 7,
-        "points": 15,
-        "position": 1
-      },
-      {
-        "clubId": "demo-colocolo",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 8,
-        "ga": 5,
-        "gd": 3,
-        "points": 11,
-        "position": 2
-      },
-      {
-        "clubId": "demo-copihues",
-        "played": 6,
-        "won": 3,
-        "drawn": 1,
-        "lost": 2,
-        "gf": 10,
-        "ga": 7,
-        "gd": 3,
-        "points": 10,
-        "position": 3
-      },
-      {
-        "clubId": "demo-unionjuvenil",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 10,
-        "ga": 9,
-        "gd": 1,
-        "points": 8,
-        "position": 4
-      },
-      {
-        "clubId": "demo-playabrava",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 7,
-        "ga": 8,
-        "gd": -1,
-        "points": 8,
-        "position": 5
-      },
-      {
-        "clubId": "demo-sanlorenzo",
-        "played": 6,
-        "won": 1,
-        "drawn": 4,
-        "lost": 1,
-        "gf": 6,
-        "ga": 6,
-        "gd": 0,
-        "points": 7,
-        "position": 6
-      },
-      {
+        "pos": 1,
         "clubId": "demo-ferroviario",
-        "played": 6,
-        "won": 2,
-        "drawn": 1,
-        "lost": 3,
-        "gf": 3,
-        "ga": 6,
-        "gd": -3,
-        "points": 7,
-        "position": 7
+        "clubName": "Club Deportivo Ferroviario",
+        "pj": 3,
+        "pg": 3,
+        "pe": 0,
+        "pp": 0,
+        "gf": 8,
+        "gc": 1,
+        "dg": 7,
+        "pts": 9,
+        "form": [
+          "V",
+          "V",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-realcordillera",
-        "played": 6,
-        "won": 1,
-        "drawn": 3,
-        "lost": 2,
-        "gf": 12,
-        "ga": 11,
-        "gd": 1,
-        "points": 6,
-        "position": 8
-      },
-      {
-        "clubId": "demo-estrelladelsur",
-        "played": 6,
-        "won": 0,
-        "drawn": 4,
-        "lost": 2,
-        "gf": 7,
-        "ga": 12,
-        "gd": -5,
-        "points": 4,
-        "position": 9
-      },
-      {
+        "pos": 2,
         "clubId": "demo-ohiggins",
-        "played": 6,
-        "won": 1,
-        "drawn": 1,
-        "lost": 4,
-        "gf": 7,
-        "ga": 13,
-        "gd": -6,
-        "points": 4,
-        "position": 10
+        "clubName": "Club Deportivo O'Higgins",
+        "pj": 3,
+        "pg": 2,
+        "pe": 1,
+        "pp": 0,
+        "gf": 6,
+        "gc": 2,
+        "dg": 4,
+        "pts": 7,
+        "form": [
+          "V",
+          "E",
+          "V"
+        ]
+      },
+      {
+        "pos": 3,
+        "clubId": "demo-estrelladelsur",
+        "clubName": "Club Deportivo Estrella del Sur",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 5,
+        "gc": 3,
+        "dg": 2,
+        "pts": 6,
+        "form": [
+          "V",
+          "D",
+          "V"
+        ]
+      },
+      {
+        "pos": 4,
+        "clubId": "demo-arauco",
+        "clubName": "Club Deportivo Arauco",
+        "pj": 3,
+        "pg": 1,
+        "pe": 2,
+        "pp": 0,
+        "gf": 4,
+        "gc": 3,
+        "dg": 1,
+        "pts": 5,
+        "form": [
+          "E",
+          "V",
+          "E"
+        ]
+      },
+      {
+        "pos": 5,
+        "clubId": "demo-sanlorenzo",
+        "clubName": "Club San Lorenzo Minero",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 3,
+        "gc": 3,
+        "dg": 0,
+        "pts": 4,
+        "form": [
+          "D",
+          "V",
+          "E"
+        ]
+      },
+      {
+        "pos": 6,
+        "clubId": "demo-realcordillera",
+        "clubName": "Real Cordillera F.C.",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 4,
+        "gc": 5,
+        "dg": -1,
+        "pts": 4,
+        "form": [
+          "E",
+          "D",
+          "V"
+        ]
+      },
+      {
+        "pos": 7,
+        "clubId": "demo-colocolo",
+        "clubName": "Club Deportivo Colo Colo Local",
+        "pj": 3,
+        "pg": 1,
+        "pe": 0,
+        "pp": 2,
+        "gf": 3,
+        "gc": 5,
+        "dg": -2,
+        "pts": 3,
+        "form": [
+          "D",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 8,
+        "clubId": "demo-playabrava",
+        "clubName": "Defensor Playa Brava",
+        "pj": 3,
+        "pg": 0,
+        "pe": 2,
+        "pp": 1,
+        "gf": 2,
+        "gc": 4,
+        "dg": -2,
+        "pts": 2,
+        "form": [
+          "E",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 9,
+        "clubId": "demo-copihues",
+        "clubName": "Club Social Los Copihues",
+        "pj": 3,
+        "pg": 0,
+        "pe": 1,
+        "pp": 2,
+        "gf": 1,
+        "gc": 5,
+        "dg": -4,
+        "pts": 1,
+        "form": [
+          "D",
+          "E",
+          "D"
+        ]
+      },
+      {
+        "pos": 10,
+        "clubId": "demo-unionjuvenil",
+        "clubName": "Club Deportivo Unión Juvenil",
+        "pj": 3,
+        "pg": 0,
+        "pe": 0,
+        "pp": 3,
+        "gf": 0,
+        "gc": 5,
+        "dg": -5,
+        "pts": 0,
+        "form": [
+          "D",
+          "D",
+          "D"
+        ]
       }
     ],
     "juvenil": [
       {
-        "clubId": "demo-sanlorenzo",
-        "played": 6,
-        "won": 4,
-        "drawn": 1,
-        "lost": 1,
-        "gf": 11,
-        "ga": 8,
-        "gd": 3,
-        "points": 13,
-        "position": 1
-      },
-      {
-        "clubId": "demo-copihues",
-        "played": 6,
-        "won": 3,
-        "drawn": 2,
-        "lost": 1,
-        "gf": 9,
-        "ga": 7,
-        "gd": 2,
-        "points": 11,
-        "position": 2
-      },
-      {
-        "clubId": "demo-playabrava",
-        "played": 6,
-        "won": 3,
-        "drawn": 1,
-        "lost": 2,
-        "gf": 8,
-        "ga": 8,
-        "gd": 0,
-        "points": 10,
-        "position": 3
-      },
-      {
-        "clubId": "demo-ohiggins",
-        "played": 6,
-        "won": 2,
-        "drawn": 3,
-        "lost": 1,
-        "gf": 5,
-        "ga": 4,
-        "gd": 1,
-        "points": 9,
-        "position": 4
-      },
-      {
-        "clubId": "demo-arauco",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 10,
-        "ga": 7,
-        "gd": 3,
-        "points": 8,
-        "position": 5
-      },
-      {
+        "pos": 1,
         "clubId": "demo-unionjuvenil",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 7,
-        "ga": 6,
-        "gd": 1,
-        "points": 8,
-        "position": 6
+        "clubName": "Club Deportivo Unión Juvenil",
+        "pj": 3,
+        "pg": 3,
+        "pe": 0,
+        "pp": 0,
+        "gf": 10,
+        "gc": 2,
+        "dg": 8,
+        "pts": 9,
+        "form": [
+          "V",
+          "V",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-estrelladelsur",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 6,
-        "ga": 5,
-        "gd": 1,
-        "points": 8,
-        "position": 7
-      },
-      {
+        "pos": 2,
         "clubId": "demo-realcordillera",
-        "played": 6,
-        "won": 2,
-        "drawn": 2,
-        "lost": 2,
-        "gf": 9,
-        "ga": 10,
-        "gd": -1,
-        "points": 8,
-        "position": 8
+        "clubName": "Real Cordillera F.C.",
+        "pj": 3,
+        "pg": 2,
+        "pe": 1,
+        "pp": 0,
+        "gf": 7,
+        "gc": 3,
+        "dg": 4,
+        "pts": 7,
+        "form": [
+          "V",
+          "E",
+          "V"
+        ]
       },
       {
+        "pos": 3,
+        "clubId": "demo-copihues",
+        "clubName": "Club Social Los Copihues",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 6,
+        "gc": 4,
+        "dg": 2,
+        "pts": 6,
+        "form": [
+          "V",
+          "D",
+          "V"
+        ]
+      },
+      {
+        "pos": 4,
         "clubId": "demo-colocolo",
-        "played": 6,
-        "won": 2,
-        "drawn": 0,
-        "lost": 4,
-        "gf": 9,
-        "ga": 11,
-        "gd": -2,
-        "points": 6,
-        "position": 9
+        "clubName": "Club Deportivo Colo Colo Local",
+        "pj": 3,
+        "pg": 2,
+        "pe": 0,
+        "pp": 1,
+        "gf": 5,
+        "gc": 4,
+        "dg": 1,
+        "pts": 6,
+        "form": [
+          "D",
+          "V",
+          "V"
+        ]
       },
       {
-        "clubId": "demo-ferroviario",
-        "played": 6,
-        "won": 0,
-        "drawn": 1,
-        "lost": 5,
+        "pos": 5,
+        "clubId": "demo-ohiggins",
+        "clubName": "Club Deportivo O'Higgins",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
         "gf": 4,
-        "ga": 12,
-        "gd": -8,
-        "points": 1,
-        "position": 10
+        "gc": 4,
+        "dg": 0,
+        "pts": 4,
+        "form": [
+          "E",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 6,
+        "clubId": "demo-arauco",
+        "clubName": "Club Deportivo Arauco",
+        "pj": 3,
+        "pg": 1,
+        "pe": 1,
+        "pp": 1,
+        "gf": 3,
+        "gc": 4,
+        "dg": -1,
+        "pts": 4,
+        "form": [
+          "V",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 7,
+        "clubId": "demo-playabrava",
+        "clubName": "Defensor Playa Brava",
+        "pj": 3,
+        "pg": 1,
+        "pe": 0,
+        "pp": 2,
+        "gf": 4,
+        "gc": 6,
+        "dg": -2,
+        "pts": 3,
+        "form": [
+          "D",
+          "V",
+          "D"
+        ]
+      },
+      {
+        "pos": 8,
+        "clubId": "demo-estrelladelsur",
+        "clubName": "Club Deportivo Estrella del Sur",
+        "pj": 3,
+        "pg": 0,
+        "pe": 2,
+        "pp": 1,
+        "gf": 3,
+        "gc": 6,
+        "dg": -3,
+        "pts": 2,
+        "form": [
+          "E",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "pos": 9,
+        "clubId": "demo-ferroviario",
+        "clubName": "Club Deportivo Ferroviario",
+        "pj": 3,
+        "pg": 0,
+        "pe": 1,
+        "pp": 2,
+        "gf": 2,
+        "gc": 6,
+        "dg": -4,
+        "pts": 1,
+        "form": [
+          "D",
+          "E",
+          "D"
+        ]
+      },
+      {
+        "pos": 10,
+        "clubId": "demo-sanlorenzo",
+        "clubName": "Club San Lorenzo Minero",
+        "pj": 3,
+        "pg": 0,
+        "pe": 0,
+        "pp": 3,
+        "gf": 1,
+        "gc": 6,
+        "dg": -5,
+        "pts": 0,
+        "form": [
+          "D",
+          "D",
+          "D"
+        ]
       }
     ]
   },

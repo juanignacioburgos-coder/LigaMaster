@@ -394,6 +394,9 @@
       </div>
 
       <div class="table-wrapper-card">
+        <!-- Selector Rápido de Serie en Pastillas -->
+        <div id="standings-series-pills-container" style="padding: 1.25rem 1.25rem 0.5rem;"></div>
+
         <div class="table-header-bar">
           <div class="table-legend-pills">
             <span style="display: flex; align-items: center; gap: 0.4rem;">
@@ -552,13 +555,19 @@
       <!-- Selector / Buscador Rápido de Jugador -->
       <div class="table-wrapper-card" style="margin-bottom: 2rem; padding: 1.25rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 240px;">
             <label for="player-select-club" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Club:</label>
             <select id="player-select-club" class="series-select" style="flex: 1;">
               <!-- Opciones de los 10 clubes -->
             </select>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 220px;">
+            <label for="player-select-series" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Serie:</label>
+            <select id="player-select-series" class="series-select" style="flex: 1;">
+              <!-- Opciones de series dinámicas -->
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 260px;">
             <label for="player-select-individual" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Futbolista:</label>
             <select id="player-select-individual" class="series-select" style="flex: 1;">
               <!-- Jugadores del club seleccionado -->
@@ -577,13 +586,17 @@
             <span class="player-profile-dorsal" id="player-profile-dorsal">#9</span>
             <h1 class="player-profile-name" id="player-profile-name">Mauricio Neira</h1>
           </div>
-          <div class="player-profile-club-row">
+          <div class="player-profile-club-row" style="flex-wrap: wrap; gap: 0.5rem;">
             <div class="player-profile-crest" id="player-profile-crest"></div>
             <span class="player-profile-club-name" id="player-profile-club">Club Deportivo Jorge Robledo</span>
             <span style="color: var(--color-text-muted);">•</span>
+            <span style="font-size: 0.75rem; background: var(--color-primary-light); color: var(--color-primary); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); font-weight: 800; border: 1px solid var(--color-primary-border);" id="player-profile-series">
+              1ª Adulta
+            </span>
+            <span style="color: var(--color-text-muted);">•</span>
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted);" id="player-profile-pos">Delantero Centro</span>
             <span style="color: var(--color-text-muted);">•</span>
-            <span style="font-size: 0.75rem; background: var(--color-success-bg); color: var(--color-success); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); font-weight: 800;">
+            <span style="font-size: 0.75rem; background: var(--color-success-bg); color: var(--color-success); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); font-weight: 800;" id="player-profile-status">
               CARNET ANFA VIGENTE
             </span>
           </div>
@@ -992,7 +1005,7 @@
   </div>
 
   <!-- JavaScript de Alto Rendimiento y Universal (Compatible con file://, HTTP y GitHub Pages) -->
-  <script src="js/bundle.js?v=20261002_06"></script>
+  <script src="js/bundle.js?v=20261002_07"></script>
 
 </body>
 </html>

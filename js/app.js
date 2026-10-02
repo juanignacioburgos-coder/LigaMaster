@@ -89,7 +89,11 @@ function initLigaMaster() {
   if (db.players && db.players.length > 0) {
     currentActivePlayerId = db.players[0].id;
   }
-  updateSeriesSelectDropdowns(db.seriesList || []);
+  const seriesList = db.seriesList || [];
+  if (seriesList.length > 0 && !seriesList.some(s => s.id === currentActiveSeries)) {
+    currentActiveSeries = seriesList[0].id;
+  }
+  updateSeriesSelectDropdowns(seriesList);
 
   setupNavigationRouting();
   setupGlobalModals();
@@ -264,6 +268,7 @@ function setupMultiLeagueHandlers() {
 function updateSeriesSelectDropdowns(seriesList) {
   const globalSelect = document.getElementById('global-series-select');
   const standingsSelect = document.getElementById('standings-series-select');
+  const playerSeriesSelect = document.getElementById('player-select-series');
 
   const list = seriesList && seriesList.length > 0 ? seriesList : [
     { id: 'honor', name: 'Serie de Honor (Primera)' },
@@ -283,6 +288,10 @@ function updateSeriesSelectDropdowns(seriesList) {
   if (standingsSelect) {
     standingsSelect.innerHTML = optionsHtml;
     standingsSelect.value = currentActiveSeries;
+  }
+  if (playerSeriesSelect) {
+    playerSeriesSelect.innerHTML = optionsHtml;
+    playerSeriesSelect.value = currentActiveSeries;
   }
 }
 
@@ -746,9 +755,37 @@ function renderStandingsView() {
   const league = getLeagueById(activeId);
   const tbody = document.getElementById('standings-table-body');
   const labelEl = document.getElementById('standings-series-label');
+  const pillsContainer = document.getElementById('standings-series-pills-container');
+
+  // Asegurar que currentActiveSeries pertenezca a la liga activa
+  const seriesList = db.seriesList || [];
+  if (seriesList.length > 0 && !seriesList.some(s => s.id === currentActiveSeries)) {
+    currentActiveSeries = seriesList[0].id;
+  }
+
+  // Renderizar pastillas de selección rápida de series
+  if (pillsContainer) {
+    let pillsHtml = '<div class="series-pills-scroll">';
+    seriesList.forEach(s => {
+      const isActive = s.id === currentActiveSeries;
+      pillsHtml += `
+        <button class="series-pill-btn ${isActive ? 'active' : ''}" onclick="window.ligamasterSetSeries('${s.id}')">
+          <span>🏆 ${s.name || s.shortName}</span>
+        </button>
+      `;
+    });
+    pillsHtml += '</div>';
+    pillsContainer.innerHTML = pillsHtml;
+  }
+
+  // Sincronizar select si existe
+  const standingsSelect = document.getElementById('standings-series-select');
+  if (standingsSelect && standingsSelect.value !== currentActiveSeries) {
+    standingsSelect.value = currentActiveSeries;
+  }
 
   if (labelEl) {
-    const seriesObj = (db.seriesList || []).find(s => s.id === currentActiveSeries) || { name: 'Serie de Honor' };
+    const seriesObj = seriesList.find(s => s.id === currentActiveSeries) || seriesList[0] || { name: 'Serie de Honor' };
     labelEl.textContent = `${db.leagueInfo?.season || 'Campeonato Oficial'} • ${league.name} • ${seriesObj.name}`;
   }
 
@@ -773,14 +810,31 @@ function renderStandingsView() {
   standings.forEach((row, idx) => {
     const isChampionZone = idx < 2;
     const isRelegationZone = idx >= standings.length - 2;
-    const club = (db.clubs || []).find(c => c.id === row.clubId);
-    const badgeId = (club && club.badgeId) || row.clubId;
+    const club = (db.clubs || []).find(c => c.id === (row.clubId || row.teamId));
+    const badgeId = (club && club.badgeId) || row.clubId || row.teamId;
+    const clubName = row.clubName || (club ? club.name : 'Club');
+    const pos = row.pos ?? row.position ?? (idx + 1);
+    const pj = row.pj ?? row.played ?? 0;
+    const pg = row.pg ?? row.won ?? 0;
+    const pe = row.pe ?? row.drawn ?? 0;
+    const pp = row.pp ?? row.lost ?? 0;
+    const gf = row.gf ?? row.goalsFor ?? 0;
+    const gc = row.gc ?? row.goalsAgainst ?? 0;
+    const dg = row.dg ?? row.goalDiff ?? (gf - gc);
+    const pts = row.pts ?? row.points ?? 0;
+
+    let formPillsHtml = '';
+    const formList = Array.isArray(row.form) && row.form.length > 0 ? row.form : ['V', 'E', 'D'];
+    formList.forEach(f => {
+      const cls = f === 'V' ? 'win' : (f === 'E' ? 'draw' : 'loss');
+      formPillsHtml += `<span class="form-pill ${cls}">${f}</span>`;
+    });
 
     html += `
-      <tr onclick="window.ligamasterSelectTeam('${row.clubId}')" style="cursor: pointer; ${isChampionZone ? 'border-left: 3px solid var(--color-success);' : (isRelegationZone ? 'border-left: 3px solid var(--color-danger);' : '')}">
+      <tr onclick="window.ligamasterSelectTeam('${row.clubId || (club && club.id)}')" style="cursor: pointer; ${isChampionZone ? 'border-left: 3px solid var(--color-success);' : (isRelegationZone ? 'border-left: 3px solid var(--color-danger);' : '')}">
         <td class="text-center">
           <span class="table-pos-badge ${idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''))}">
-            ${row.pos}
+            ${pos}
           </span>
         </td>
         <td>
@@ -788,26 +842,22 @@ function renderStandingsView() {
             <div class="table-team-crest">
               ${getClubBadgeSvg(badgeId, 30)}
             </div>
-            <span class="table-team-name">${row.clubName}</span>
+            <span class="table-team-name">${clubName}</span>
           </div>
         </td>
-        <td class="text-center">${row.pj}</td>
-        <td class="text-center">${row.pg}</td>
-        <td class="text-center">${row.pe}</td>
-        <td class="text-center">${row.pp}</td>
-        <td class="text-center">${row.gf}</td>
-        <td class="text-center">${row.gc}</td>
-        <td class="text-center" style="font-weight: 700; color: ${row.dg > 0 ? 'var(--color-success)' : (row.dg < 0 ? 'var(--color-danger)' : 'var(--color-text-secondary)')};">
-          ${row.dg > 0 ? `+${row.dg}` : row.dg}
+        <td class="text-center">${pj}</td>
+        <td class="text-center">${pg}</td>
+        <td class="text-center">${pe}</td>
+        <td class="text-center">${pp}</td>
+        <td class="text-center">${gf}</td>
+        <td class="text-center">${gc}</td>
+        <td class="text-center" style="font-weight: 700; color: ${dg > 0 ? 'var(--color-success)' : (dg < 0 ? 'var(--color-danger)' : 'var(--color-text-secondary)')};">
+          ${dg > 0 ? `+${dg}` : dg}
         </td>
-        <td class="pts-cell">${row.pts}</td>
+        <td class="pts-cell">${pts}</td>
         <td class="text-center">
           <div class="form-pills">
-            <span class="form-pill win">V</span>
-            <span class="form-pill win">V</span>
-            <span class="form-pill draw">E</span>
-            <span class="form-pill win">V</span>
-            <span class="form-pill loss">D</span>
+            ${formPillsHtml}
           </div>
         </td>
       </tr>
@@ -1070,78 +1120,423 @@ function renderTeamTabContent(club) {
   if (!container) return;
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
+  const seriesList = db.seriesList || [
+    { id: 'primera_adulta', name: 'Primera Adulta' },
+    { id: 'senior', name: 'Senior' },
+    { id: 'super_senior', name: 'Súper Senior' },
+    { id: 'juvenil', name: 'Juvenil' }
+  ];
 
-  // Filtrar jugadores de este club
-  const players = (db.players || []).filter(p => p.clubId === club.id && p.series === currentActiveSeries);
+  // Asegurar serie activa válida
+  if (!seriesList.some(s => s.id === currentActiveSeries)) {
+    currentActiveSeries = seriesList[0].id;
+  }
+  const currentSeriesObj = seriesList.find(s => s.id === currentActiveSeries) || seriesList[0];
 
   if (currentTeamTab === 'plantel') {
-    let html = '<div class="roster-grid">';
-    if (players.length === 0) {
-      html += `
-        <div style="grid-column: 1/-1;">
-          <div class="empty-state-box">
-            <span class="empty-state-icon">👥</span>
-            <div class="empty-state-title">Sin Futbolistas Inscritos</div>
-            <div class="empty-state-desc">No hay futbolistas inscritos para esta serie en ${club.name}.</div>
+    const seriesPlayers = (db.players || []).filter(p => p.clubId === club.id && p.series === currentActiveSeries);
+    const totalClubPlayers = (db.players || []).filter(p => p.clubId === club.id).length;
+
+    let html = `
+      <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-xs);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.25rem;">
+              Plantel Oficial por Series • ${club.name}
+            </h4>
+            <p style="font-size: 0.82rem; color: var(--color-text-secondary);">
+              Total: <strong>${totalClubPlayers} futbolistas federados</strong> en el club, distribuidos en sus 4 categorías oficiales.
+            </p>
           </div>
+          <span style="font-size: 0.8rem; font-weight: 800; color: var(--color-primary); background: var(--color-primary-light); padding: 0.35rem 0.85rem; border-radius: var(--radius-full); border: 1px solid var(--color-primary-border);">
+            ${currentSeriesObj.name}: ${seriesPlayers.length} Jugadores
+          </span>
+        </div>
+
+        <!-- Selector Rápido de Serie del Club -->
+        <div class="series-pills-scroll">
+          ${seriesList.map(s => {
+            const count = (db.players || []).filter(p => p.clubId === club.id && p.series === s.id).length;
+            const isActive = s.id === currentActiveSeries;
+            return `
+              <button class="series-pill-btn ${isActive ? 'active' : ''}" onclick="window.ligamasterSetSeries('${s.id}')">
+                <span>${s.name || s.shortName}</span>
+                <span class="series-pill-badge">${count}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    if (seriesPlayers.length === 0) {
+      html += `
+        <div class="empty-state-box" style="padding: 3rem 1rem;">
+          <span class="empty-state-icon">👥</span>
+          <div class="empty-state-title">Sin Futbolistas Inscritos</div>
+          <div class="empty-state-desc">No hay futbolistas inscritos para ${currentSeriesObj.name} en ${club.name}.</div>
         </div>
       `;
     } else {
-      players.forEach(p => {
+      html += '<div class="roster-grid">';
+      seriesPlayers.forEach(p => {
+        const dorsalNum = p.dorsal ?? p.number ?? '-';
+        const positionLabel = p.specificPosition ? `${p.position} (${p.specificPosition})` : (p.position || 'Jugador');
+        const isSuspended = p.status === 'Suspendido';
+
         html += `
           <div class="player-roster-card" onclick="window.ligamasterSelectPlayer('${p.id}')">
             <div class="roster-avatar-box">
-              <img src="${p.avatar || FALLBACK_AVATAR}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" class="roster-avatar-img">
-              <span class="roster-number-badge">#${p.number}</span>
+              <img src="${p.photo || p.avatar || FALLBACK_AVATAR}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" class="roster-avatar-img">
+              <span class="roster-number-badge">#${dorsalNum}</span>
             </div>
-            <div class="roster-info">
-              <h4>${p.name}</h4>
-              <span class="position">${p.position}</span>
-              <span class="rut">RUT: ${p.rut}</span>
+            <div class="roster-info" style="flex: 1;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+                <h4 style="margin: 0; font-size: 0.95rem;">${p.name}</h4>
+                ${p.isCaptain ? '<span style="font-size: 0.65rem; background: #fef3c7; color: #b45309; padding: 0.1rem 0.4rem; border-radius: var(--radius-xs); font-weight: 800; border: 1px solid #fde68a;">⭐ CAPITÁN</span>' : ''}
+              </div>
+              <span class="position" style="color: var(--color-primary); font-weight: 600;">${positionLabel}</span>
+              <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.2rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                ${p.age ? `<span>${p.age} años</span> •` : ''}
+                ${p.preferredFoot ? `<span>Pie ${p.preferredFoot}</span> •` : ''}
+                <span class="rut">RUT: ${p.rut || 'Pendiente'}</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+              <span style="font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); background: ${isSuspended ? 'var(--color-danger-bg)' : 'var(--color-success-bg)'}; color: ${isSuspended ? 'var(--color-danger)' : 'var(--color-success)'};">
+                ${p.status || 'Activo'}
+              </span>
             </div>
           </div>
         `;
       });
+      html += '</div>';
     }
-    html += '</div>';
+
     container.innerHTML = html;
   } else if (currentTeamTab === 'partidos') {
-    container.innerHTML = `
-      <div style="background: #fff; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); text-align: center;">
-        <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem;">Historial de Partidos • ${club.name}</h4>
-        <p style="font-size: 0.85rem; color: var(--color-text-muted);">
-          7 Partidos oficiales disputados en la temporada regular de ${db.leagueInfo?.name || 'la Asociación'}.
-        </p>
+    const clubMatches = (db.matches || []).filter(m => (m.homeClubId === club.id || m.awayClubId === club.id) && (!currentActiveSeries || m.series === currentActiveSeries));
+    const finishedMatches = clubMatches.filter(m => m.status === 'finalizado');
+    const upcomingMatches = clubMatches.filter(m => m.status !== 'finalizado');
+
+    let html = `
+      <div style="margin-bottom: 2rem;">
+        <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: var(--shadow-xs);">
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.2rem;">
+              Partidos & Fixture • ${club.name}
+            </h4>
+            <span style="font-size: 0.82rem; color: var(--color-text-secondary);">
+              Categoría: <strong>${currentSeriesObj.name}</strong> • 3 Fechas jugadas, ${upcomingMatches.length} pendientes.
+            </span>
+          </div>
+          <div class="series-pills-scroll">
+            ${seriesList.map(s => `
+              <button class="series-pill-btn ${s.id === currentActiveSeries ? 'active' : ''}" onclick="window.ligamasterSetSeries('${s.id}')">
+                <span>${s.shortName || s.name}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="view-title-row" style="margin-bottom: 1rem;">
+          <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;">
+            Partidos Disputados (3 Fechas Jugadas) • ${currentSeriesObj.name}
+          </h4>
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--color-success); background: var(--color-success-bg); padding: 0.25rem 0.65rem; border-radius: var(--radius-full);">
+            ${finishedMatches.length} Partidos Oficiales Sellados
+          </span>
+        </div>
+    `;
+
+    if (finishedMatches.length === 0) {
+      html += `
+        <div class="empty-state-box" style="padding: 2rem;">
+          <span class="empty-state-icon">⚽</span>
+          <div class="empty-state-title">Sin Partidos Jugados</div>
+          <div class="empty-state-desc">Aún no se registran actas cerradas para este club.</div>
+        </div>
+      `;
+    } else {
+      html += '<div class="matches-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 2rem;">';
+      finishedMatches.forEach(m => {
+        const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: 'Local', shortName: 'Local' };
+        const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: 'Visita', shortName: 'Visita' };
+        const sObj = seriesList.find(s => s.id === m.series) || { shortName: m.series };
+        const isWin = (m.homeClubId === club.id && m.homeScore > m.awayScore) || (m.awayClubId === club.id && m.awayScore > m.homeScore);
+        const isDraw = m.homeScore === m.awayScore;
+
+        html += `
+          <div class="match-card" style="border-left: 4px solid ${isWin ? 'var(--color-success)' : (isDraw ? 'var(--color-warning)' : 'var(--color-danger)')};">
+            <div class="match-card-header">
+              <span>${m.round || 'Fecha Oficial'} • <strong>${sObj.shortName || sObj.name}</strong></span>
+              <span class="match-status-badge finished">FINALIZADO</span>
+            </div>
+            <div class="match-teams-row">
+              <div class="match-team-col">
+                <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 36)}</div>
+                <div class="match-team-name">${homeClub.name}</div>
+              </div>
+              <div class="match-score-col">
+                <div class="match-score-box">
+                  <span>${m.homeScore}</span>
+                  <span style="color: var(--color-text-muted);">-</span>
+                  <span>${m.awayScore}</span>
+                </div>
+                <span style="font-size: 0.68rem; font-weight: 800; color: ${isWin ? 'var(--color-success)' : (isDraw ? 'var(--color-warning)' : 'var(--color-danger)')}; margin-top: 0.35rem;">
+                  ${isWin ? 'TRIUNFO' : (isDraw ? 'EMPATE' : 'DERROTA')}
+                </span>
+              </div>
+              <div class="match-team-col">
+                <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 36)}</div>
+                <div class="match-team-name">${awayClub.name}</div>
+              </div>
+            </div>
+            <div class="match-card-footer">
+              <span style="font-size: 0.72rem; color: var(--color-text-muted);">${m.venue || 'Estadio Municipal'}</span>
+              <button class="btn-outline-coral" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">
+                Ver Acta
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+
+    // Próximos Partidos
+    html += `
+      <div class="view-title-row" style="margin-bottom: 1rem;">
+        <h4 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800;">
+          Próximos Encuentros Programados (Fechas 4 a 9)
+        </h4>
+        <span style="font-size: 0.78rem; color: var(--color-text-muted);">
+          ${upcomingMatches.length} Fechas Pendientes
+        </span>
       </div>
     `;
+
+    if (upcomingMatches.length === 0) {
+      html += `
+        <div class="empty-state-box" style="padding: 2rem;">
+          <span class="empty-state-icon">📅</span>
+          <div class="empty-state-title">Fixture Concluido</div>
+          <div class="empty-state-desc">No hay más partidos agendados en esta fase.</div>
+        </div>
+      `;
+    } else {
+      html += '<div class="matches-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;">';
+      upcomingMatches.slice(0, 6).forEach(m => {
+        const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: 'Local', shortName: 'Local' };
+        const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: 'Visita', shortName: 'Visita' };
+        const sObj = seriesList.find(s => s.id === m.series) || { shortName: m.series };
+
+        html += `
+          <div class="match-card">
+            <div class="match-card-header">
+              <span>${m.round || 'Fecha Oficial'} • <strong>${sObj.shortName || sObj.name}</strong></span>
+              <span class="match-status-badge scheduled">PROGRAMADO</span>
+            </div>
+            <div class="match-teams-row">
+              <div class="match-team-col">
+                <div class="match-team-crest">${getClubBadgeSvg(homeClub.badgeId || m.homeClubId, 36)}</div>
+                <div class="match-team-name">${homeClub.name}</div>
+              </div>
+              <div class="match-score-col">
+                <div class="match-vs-box">VS</div>
+                <span style="font-size: 0.7rem; color: var(--color-primary); font-weight: 800; margin-top: 0.3rem;">${m.date ? (m.date.split('•')[1] || '16:00') : '16:00'}</span>
+              </div>
+              <div class="match-team-col">
+                <div class="match-team-crest">${getClubBadgeSvg(awayClub.badgeId || m.awayClubId, 36)}</div>
+                <div class="match-team-name">${awayClub.name}</div>
+              </div>
+            </div>
+            <div class="match-card-footer">
+              <span style="font-size: 0.72rem; color: var(--color-text-muted);">${m.venue || 'Estadio Municipal'}</span>
+              <button class="btn-outline-coral" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">
+                Detalle
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
   } else if (currentTeamTab === 'estadisticas') {
+    const sStandings = (db.standings && db.standings[currentActiveSeries]) || [];
+    const clubEntry = sStandings.find(r => r.clubId === club.id) || {
+      pos: '-', pj: 3, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, dg: 0, pts: 0
+    };
+    const seriesPlayers = (db.players || []).filter(p => p.clubId === club.id && p.series === currentActiveSeries);
+    const topScorers = [...seriesPlayers].sort((a, b) => ((b.stats?.goals ?? b.goals ?? 0) - (a.stats?.goals ?? a.goals ?? 0))).slice(0, 4);
+
     container.innerHTML = `
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
-        <div class="player-metric-box highlight"><div class="player-metric-label">Goles a Favor</div><div class="player-metric-value">16</div></div>
-        <div class="player-metric-box"><div class="player-metric-label">Goles en Contra</div><div class="player-metric-value">9</div></div>
-        <div class="player-metric-box"><div class="player-metric-label">Diferencia</div><div class="player-metric-value" style="color: var(--color-success);">+7</div></div>
-        <div class="player-metric-box"><div class="player-metric-label">Amarillas</div><div class="player-metric-value">12</div></div>
-        <div class="player-metric-box"><div class="player-metric-label">Rojas</div><div class="player-metric-value">1</div></div>
+      <div>
+        <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--color-text-main);">
+              Estadísticas Oficiales en ${currentSeriesObj.name}
+            </h4>
+            <span style="font-size: 0.8rem; color: var(--color-text-secondary);">
+              Balance computado tras las primeras 3 fechas de la temporada regular.
+            </span>
+          </div>
+          <div class="series-pills-scroll">
+            ${seriesList.map(s => `
+              <button class="series-pill-btn ${s.id === currentActiveSeries ? 'active' : ''}" onclick="window.ligamasterSetSeries('${s.id}')">
+                <span>${s.shortName || s.name}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          <div class="player-metric-box highlight">
+            <div class="player-metric-label">Puntos Oficiales</div>
+            <div class="player-metric-value">${clubEntry.pts} PTS</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Posición en Serie</div>
+            <div class="player-metric-value">${clubEntry.pos}º Lugar</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Partidos Jugados</div>
+            <div class="player-metric-value">${clubEntry.pj} PJ</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Victorias (PG)</div>
+            <div class="player-metric-value" style="color: var(--color-success);">${clubEntry.pg}</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Goles a Favor</div>
+            <div class="player-metric-value">${clubEntry.gf}</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Goles en Contra</div>
+            <div class="player-metric-value">${clubEntry.gc}</div>
+          </div>
+          <div class="player-metric-box">
+            <div class="player-metric-label">Diferencia de Gol</div>
+            <div class="player-metric-value" style="color: ${clubEntry.dg >= 0 ? 'var(--color-success)' : 'var(--color-danger)'};">
+              ${clubEntry.dg >= 0 ? '+' : ''}${clubEntry.dg}
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem;">
+            Máximos Artilleros del Club (${currentSeriesObj.name})
+          </h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+            ${topScorers.map(p => `
+              <div style="display: flex; align-items: center; gap: 0.85rem; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); cursor: pointer;" onclick="window.ligamasterSelectPlayer('${p.id}')">
+                <div style="width: 40px; height: 40px; border-radius: var(--radius-xs); overflow: hidden; background: var(--color-bg-subtle);">
+                  <img src="${p.photo || p.avatar || FALLBACK_AVATAR}" style="width: 100%; height: 100%; object-fit: cover;" onerror="window.ligamasterImageFallback(this, 'avatar')">
+                </div>
+                <div style="flex: 1;">
+                  <strong style="display: block; font-size: 0.88rem; color: var(--color-text-main);">${p.name}</strong>
+                  <span style="font-size: 0.75rem; color: var(--color-text-muted);">${p.specificPosition || p.position} • #${p.dorsal || p.number || '-'}</span>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: var(--color-primary);">${p.stats?.goals ?? p.goals ?? 0}</span>
+                  <span style="display: block; font-size: 0.65rem; color: var(--color-text-muted); text-transform: uppercase;">Goles</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
       </div>
     `;
   } else {
-    // Resumen
-    const seriesListItems = (club.series || ['honor']).map(s => {
-      const sObj = (db.seriesList || []).find(item => item.id === s);
-      return `<li>✓ ${sObj ? sObj.name : s}</li>`;
-    }).join('');
+    // Resumen: Estatus Multi-Series y Reseña Institucional
+    let seriesCardsHtml = '';
+    seriesList.forEach(s => {
+      const sStandings = (db.standings && db.standings[s.id]) || [];
+      const clubEntry = sStandings.find(r => r.clubId === club.id);
+      const sPlayers = (db.players || []).filter(p => p.clubId === club.id && p.series === s.id);
+      const isCurrent = s.id === currentActiveSeries;
+
+      seriesCardsHtml += `
+        <div class="club-series-card ${isCurrent ? 'is-active-series' : ''}">
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 800; color: var(--color-text-main);">
+                ${s.name}
+              </span>
+              <span style="font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: var(--radius-full); background: ${isCurrent ? 'var(--color-primary-light)' : 'var(--color-bg-subtle)'}; color: ${isCurrent ? 'var(--color-primary)' : 'var(--color-text-muted)'};">
+                ${sPlayers.length} Jugadores
+              </span>
+            </div>
+
+            ${clubEntry ? `
+              <div style="display: flex; align-items: baseline; gap: 0.75rem; margin: 0.75rem 0;">
+                <span style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: ${clubEntry.pos === 1 ? 'var(--color-gold)' : (clubEntry.pos <= 3 ? 'var(--color-primary)' : 'var(--color-text-main)')};">
+                  ${clubEntry.pos}º
+                </span>
+                <span style="font-size: 0.82rem; color: var(--color-text-secondary); font-weight: 600;">
+                  Lugar de la tabla (${clubEntry.pts} pts)
+                </span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+                <strong>${clubEntry.pj} PJ:</strong> ${clubEntry.pg} PG • ${clubEntry.pe} PE • ${clubEntry.pp} PP<br>
+                <strong>Goles:</strong> ${clubEntry.gf} GF / ${clubEntry.gc} GC (${clubEntry.dg >= 0 ? '+' : ''}${clubEntry.dg} DG)
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 1rem;">
+                <span style="font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); margin-right: 0.25rem;">Racha:</span>
+                ${(clubEntry.form || ['V', 'V', 'V']).map(f => `<span class="form-pill ${f === 'V' ? 'win' : (f === 'E' ? 'draw' : 'loss')}">${f}</span>`).join('')}
+              </div>
+            ` : `
+              <div style="padding: 1rem 0; font-size: 0.8rem; color: var(--color-text-muted);">
+                Serie formativa / sin tabla activa.
+              </div>
+            `}
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+            <button class="btn-outline-coral" style="flex: 1; font-size: 0.75rem; padding: 0.4rem 0.5rem;" onclick="window.ligamasterViewClubSeriesRoster('${club.id}', '${s.id}')">
+              Ver Plantel (${sPlayers.length})
+            </button>
+            <button class="btn-outline-coral" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;" onclick="window.ligamasterViewSeriesStandings('${s.id}')" title="Ver tabla de esta serie">
+              Tabla
+            </button>
+          </div>
+        </div>
+      `;
+    });
 
     container.innerHTML = `
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-        <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Reseña Histórica & Palmarés</h4>
-          <p style="font-size: 0.88rem; color: var(--color-text-secondary); line-height: 1.6;">${club.regionalRecord || club.description || 'Institución afiliada formalmente a la Asociación.'}</p>
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.25rem;">
+            Rendimiento por Series • Campeonato Oficial 2026/27 (3 Fechas Jugadas)
+          </h3>
+          <p style="font-size: 0.82rem; color: var(--color-text-secondary);">
+            Resumen comparativo de la campaña del club en cada una de sus series federadas.
+          </p>
         </div>
-        <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Categorías Oficiales</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; color: var(--color-text-secondary);">
-            ${seriesListItems}
-          </ul>
+
+        <!-- Grilla de las 4 Series -->
+        <div class="club-series-grid">
+          ${seriesCardsHtml}
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+          <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-xs);">
+            <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Reseña Histórica & Palmarés</h4>
+            <p style="font-size: 0.88rem; color: var(--color-text-secondary); line-height: 1.6;">${club.regionalRecord || club.description || 'Institución afiliada formalmente a la Asociación.'}</p>
+          </div>
+          <div style="background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-xs);">
+            <h4 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.75rem;">Ficha Institucional</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--color-text-secondary);">
+              <li><strong>Estadio:</strong> ${club.stadium || 'Estadio Municipal'}</li>
+              <li><strong>Presidente:</strong> ${club.president || 'Directorio Oficial'}</li>
+              <li><strong>Fundación:</strong> ${club.exactFoundationDate || club.founded || 'Oficial'}</li>
+              <li><strong>Estado ANFA:</strong> <span style="color: var(--color-success); font-weight: 800;">Vigente / Federado</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     `;
@@ -1163,6 +1558,7 @@ function renderPlayerView() {
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
   const clubSelect = document.getElementById('player-select-club');
+  const seriesSelect = document.getElementById('player-select-series');
   const playerSelect = document.getElementById('player-select-individual');
 
   // Llenar select de clubes de la liga activa
@@ -1180,16 +1576,36 @@ function renderPlayerView() {
     clubSelect.value = currentActiveClubId;
   }
 
-  // Llenar select de jugadores del club actual
+  // Llenar select de series
+  const seriesList = db.seriesList || [];
+  if (seriesSelect) {
+    let sHtml = '<option value="">Todas las Series</option>';
+    seriesList.forEach(s => {
+      sHtml += `<option value="${s.id}">${s.name || s.shortName || s.id}</option>`;
+    });
+    seriesSelect.innerHTML = sHtml;
+    seriesSelect.value = currentActiveSeries || '';
+  }
+
+  // Llenar select de jugadores del club actual filtrados por serie si está seleccionada
   if (playerSelect) {
     playerSelect.innerHTML = '';
-    const clubPlayers = (db.players || []).filter(p => p.clubId === currentActiveClubId);
+    let clubPlayers = (db.players || []).filter(p => p.clubId === currentActiveClubId);
+    if (currentActiveSeries) {
+      const filteredBySeries = clubPlayers.filter(p => p.series === currentActiveSeries);
+      if (filteredBySeries.length > 0) {
+        clubPlayers = filteredBySeries;
+      }
+    }
+
     clubPlayers.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.id;
-      opt.textContent = `#${p.number} - ${p.name} (${p.position})`;
+      const dorsalNum = p.dorsal ?? p.number ?? '-';
+      opt.textContent = `#${dorsalNum} - ${p.name} (${p.specificPosition || p.position || 'Jugador'})`;
       playerSelect.appendChild(opt);
     });
+
     if (!clubPlayers.some(p => p.id === currentActivePlayerId)) {
       currentActivePlayerId = clubPlayers[0] ? clubPlayers[0].id : (db.players && db.players[0] ? db.players[0].id : '');
     }
@@ -1200,26 +1616,48 @@ function renderPlayerView() {
   if (!player) return;
 
   const club = (db.clubs || []).find(c => c.id === player.clubId) || { name: "Club Oficial" };
+  const seriesObj = seriesList.find(s => s.id === player.series);
 
   // Renderizar Ficha
   const pImg = document.getElementById('player-profile-img');
   if (pImg) {
     pImg.onerror = () => { pImg.src = FALLBACK_AVATAR; };
-    pImg.src = player.avatar || FALLBACK_AVATAR;
+    pImg.src = player.photo || player.avatar || FALLBACK_AVATAR;
   }
-  document.getElementById('player-profile-dorsal').textContent = `#${player.number}`;
-  document.getElementById('player-profile-name').textContent = player.name;
-  document.getElementById('player-profile-crest').innerHTML = getClubBadgeSvg(club.badgeId || player.clubId, 26);
-  document.getElementById('player-profile-club').textContent = club.name;
-  document.getElementById('player-profile-pos').textContent = player.position;
+  const dorsalEl = document.getElementById('player-profile-dorsal');
+  if (dorsalEl) dorsalEl.textContent = `#${player.dorsal ?? player.number ?? '-'}`;
+  
+  const nameEl = document.getElementById('player-profile-name');
+  if (nameEl) nameEl.textContent = player.name;
 
-  document.getElementById('player-metric-goals').textContent = player.goals || 0;
-  document.getElementById('player-metric-assists').textContent = player.assists || 0;
-  document.getElementById('player-metric-matches').textContent = player.matchesPlayed || 0;
-  document.getElementById('player-metric-starters').textContent = player.matchesPlayed || 0;
-  document.getElementById('player-metric-minutes').textContent = player.minutesPlayed || 0;
-  document.getElementById('player-metric-yellows').textContent = player.yellowCards || 0;
-  document.getElementById('player-metric-reds').textContent = player.redCards || 0;
+  const crestEl = document.getElementById('player-profile-crest');
+  if (crestEl) crestEl.innerHTML = getClubBadgeSvg(club.badgeId || player.clubId, 26);
+
+  const clubEl = document.getElementById('player-profile-club');
+  if (clubEl) clubEl.textContent = club.name;
+
+  const seriesEl = document.getElementById('player-profile-series');
+  if (seriesEl) seriesEl.textContent = seriesObj ? (seriesObj.shortName || seriesObj.name) : (player.series || '1ª Adulta');
+
+  const posEl = document.getElementById('player-profile-pos');
+  if (posEl) posEl.textContent = player.specificPosition ? `${player.position} (${player.specificPosition})` : (player.position || 'Jugador');
+
+  const statusEl = document.getElementById('player-profile-status');
+  if (statusEl) {
+    const isSuspended = player.status === 'Suspendido';
+    statusEl.textContent = isSuspended ? 'SUSPENDIDO ANFA' : 'CARNET ANFA VIGENTE';
+    statusEl.style.backgroundColor = isSuspended ? 'var(--color-danger-bg)' : 'var(--color-success-bg)';
+    statusEl.style.color = isSuspended ? 'var(--color-danger)' : 'var(--color-success)';
+  }
+
+  const pStats = player.stats || {};
+  document.getElementById('player-metric-goals').textContent = pStats.goals ?? player.goals ?? 0;
+  document.getElementById('player-metric-assists').textContent = pStats.assists ?? player.assists ?? 0;
+  document.getElementById('player-metric-matches').textContent = pStats.matches ?? player.matchesPlayed ?? 3;
+  document.getElementById('player-metric-starters').textContent = pStats.matches ?? player.matchesPlayed ?? 3;
+  document.getElementById('player-metric-minutes').textContent = (pStats.matches ?? 3) * 90;
+  document.getElementById('player-metric-yellows').textContent = pStats.yellowCards ?? player.yellowCards ?? 0;
+  document.getElementById('player-metric-reds').textContent = pStats.redCards ?? player.redCards ?? 0;
 }
 
 window.ligamasterSelectPlayer = (playerId) => {
@@ -1510,9 +1948,9 @@ function setupGlobalSearch() {
       matchedPlayers.slice(0, 5).forEach(p => {
         html += `
           <div class="search-result-item" onclick="window.ligamasterSelectPlayer('${p.id}'); closeModal('modal-global-search');">
-            <img src="${p.avatar}" alt="${p.name}" style="width: 22px; height: 22px; border-radius: var(--radius-xs); object-fit: cover;">
-            <strong>${p.name} (#${p.number})</strong>
-            <small>${p.position}</small>
+            <img src="${p.photo || p.avatar || FALLBACK_AVATAR}" alt="${p.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" style="width: 22px; height: 22px; border-radius: var(--radius-xs); object-fit: cover;">
+            <strong>${p.name} (#${p.dorsal || p.number || '-'})</strong>
+            <small>${p.specificPosition || p.position}</small>
           </div>
         `;
       });
@@ -1560,21 +1998,27 @@ function setupGlobalSearch() {
 function setupSeriesFilters() {
   const globalSelect = document.getElementById('global-series-select');
   const standingsSelect = document.getElementById('standings-series-select');
+  const playerSeriesSelect = document.getElementById('player-select-series');
 
-  const onSeriesChange = (val) => {
+  window.ligamasterSetSeries = (val) => {
+    if (!val) return;
     currentActiveSeries = val;
-    if (globalSelect) globalSelect.value = val;
-    if (standingsSelect) standingsSelect.value = val;
+    const db = getDb();
+    updateSeriesSelectDropdowns(db.seriesList || []);
     renderHomeView();
     renderLeagueView();
     renderStandingsView();
     renderCalendarView();
     renderResultsView();
+    renderTeamView();
+    renderPlayerView();
     renderStatsView();
+    window.dispatchEvent(new CustomEvent('ligamaster:series-changed', { detail: val }));
   };
 
-  globalSelect?.addEventListener('change', (e) => onSeriesChange(e.target.value));
-  standingsSelect?.addEventListener('change', (e) => onSeriesChange(e.target.value));
+  globalSelect?.addEventListener('change', (e) => window.ligamasterSetSeries(e.target.value));
+  standingsSelect?.addEventListener('change', (e) => window.ligamasterSetSeries(e.target.value));
+  playerSeriesSelect?.addEventListener('change', (e) => window.ligamasterSetSeries(e.target.value));
 
   // Pastillas de estadísticas
   document.querySelectorAll('.stats-pill-btn').forEach(btn => {
@@ -1602,7 +2046,8 @@ function setupSeriesFilters() {
   document.getElementById('player-select-club')?.addEventListener('change', (e) => {
     currentActiveClubId = e.target.value;
     const db = getDb();
-    const firstPlayer = (db.players || []).find(p => p.clubId === currentActiveClubId);
+    const firstPlayer = (db.players || []).find(p => p.clubId === currentActiveClubId && p.series === currentActiveSeries) ||
+                        (db.players || []).find(p => p.clubId === currentActiveClubId);
     if (firstPlayer) currentActivePlayerId = firstPlayer.id;
     renderPlayerView();
   });
@@ -1612,6 +2057,22 @@ function setupSeriesFilters() {
     renderPlayerView();
   });
 }
+
+window.ligamasterViewClubSeriesRoster = (clubId, seriesId) => {
+  currentActiveClubId = clubId;
+  currentActiveSeries = seriesId;
+  currentTeamTab = 'plantel';
+  document.querySelectorAll('.team-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-team-tab') === 'plantel');
+  });
+  navigateTo('team-view');
+  renderTeamView();
+};
+
+window.ligamasterViewSeriesStandings = (seriesId) => {
+  window.ligamasterSetSeries(seriesId);
+  navigateTo('standings-view');
+};
 
 /**
  * ==========================================================================
