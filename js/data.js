@@ -2049,3 +2049,97 @@ export function addMediaVideo(videoItem) {
   return newVideo;
 }
 
+/**
+ * ==========================================================================
+ * ARQUITECTURA MULTI-LIGA DE CHILE (REGIONES, ASOCIACIONES Y LIGAS)
+ * ==========================================================================
+ */
+export const REGIONS_AND_LEAGUES = [
+  {
+    regionId: "biobio",
+    regionName: "Región del Biobío",
+    leagues: [
+      {
+        id: "arauco",
+        name: "Asociación de Fútbol de Arauco",
+        shortName: "Liga de Arauco",
+        badgeId: "asociacion-arauco",
+        commune: "Arauco",
+        founded: "01 de octubre de 1940 (86 años)",
+        president: "Claudio Pampaloni Altamirano",
+        totalClubs: 10,
+        status: "active",
+        statusLabel: "Temporada 2026/27 en Vivo",
+        isDemo: false
+      },
+      {
+        id: "lebu",
+        name: "Asociación de Fútbol de Lebu",
+        shortName: "Liga de Lebu",
+        badgeId: "asociacion-arauco",
+        commune: "Lebu",
+        founded: "1948",
+        president: "Directiva ANFA Lebu",
+        totalClubs: 8,
+        status: "demo",
+        statusLabel: "Demostración de Liga",
+        isDemo: true
+      },
+      {
+        id: "canete",
+        name: "Asociación de Fútbol de Cañete",
+        shortName: "Liga de Cañete",
+        badgeId: "asociacion-arauco",
+        commune: "Cañete",
+        founded: "1955",
+        president: "Directiva ANFA Cañete",
+        totalClubs: 8,
+        status: "demo",
+        statusLabel: "Demostración de Liga",
+        isDemo: true
+      }
+    ]
+  },
+  {
+    regionId: "metropolitana",
+    regionName: "Región Metropolitana",
+    leagues: [
+      {
+        id: "cordillera",
+        name: "Liga Cordillera Santiago",
+        shortName: "Liga Cordillera",
+        badgeId: "asociacion-arauco",
+        commune: "Santiago Oriente",
+        founded: "1994",
+        president: "Comité de Competición",
+        totalClubs: 12,
+        status: "demo",
+        statusLabel: "Demostración de Liga",
+        isDemo: true
+      }
+    ]
+  }
+];
+
+export function getRegionsAndLeagues() {
+  return REGIONS_AND_LEAGUES;
+}
+
+export function getActiveLeagueId() {
+  return localStorage.getItem('LIGAMASTER_ACTIVE_LEAGUE_ID') || 'arauco';
+}
+
+export function setActiveLeagueId(leagueId) {
+  localStorage.setItem('LIGAMASTER_ACTIVE_LEAGUE_ID', leagueId);
+  window.dispatchEvent(new CustomEvent('ligamaster:league-changed', { detail: leagueId }));
+}
+
+export function getLeagueById(leagueId) {
+  for (const reg of REGIONS_AND_LEAGUES) {
+    const found = reg.leagues.find(l => l.id === leagueId);
+    if (found) return found;
+  }
+  return REGIONS_AND_LEAGUES[0].leagues[0];
+}
+
+

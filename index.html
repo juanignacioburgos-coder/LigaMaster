@@ -3,2272 +3,902 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>LigaMaster | Plataforma de Gestión de Fútbol Amateur</title>
-  <meta name="description" content="LigaMaster: Plataforma oficial de gestión para ligas y asociaciones de fútbol amateur. Papeleta digital de turno, carnets con código QR, tablas automáticas y seguimiento en vivo.">
+  <title>LigaMaster | Plataforma Oficial del Fútbol Amateur Chileno</title>
+  <meta name="description" content="LigaMaster: La plataforma profesional de gestión y visualización de ligas de fútbol amateur en Chile. Resultados, calendarios, tablas, equipos, jugadores y estadísticas oficiales.">
   
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/print.css" media="print">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.svg">
-  <meta name="theme-color" content="#07090e">
+  <meta name="theme-color" content="#ffffff">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LigaMaster">
   <link rel="icon" href="icons/icon-192.svg">
 </head>
 <body>
 
-  <!-- Tira Superior Oficial Web Clubes (Estilo LaLiga EA Sports) -->
-  <div class="laliga-clubes-strip">
-    <div class="laliga-clubes-label">
-      <span>🛡️</span> <span>Web Clubes AFA:</span>
-    </div>
-    <div id="laliga-clubes-list" class="laliga-clubes-list">
-      <!-- Llenado dinámico con los 10 clubes oficiales de Arauco -->
-    </div>
-  </div>
-
-  <!-- Cinta Superior Institucional ANFA Biobío & Historia -->
-  <div class="official-top-ribbon">
-    <div>
-      <span>🇨🇱 <strong>Asociación de Fútbol de Arauco</strong> • Fundada el 1 de Octubre de 1940 (86 Años • 10ª más antigua del Biobío) • Presidente: <strong>Sr. Claudio Pampaloni Altamirano</strong> • Sede: Julio Montt Nº 386</span>
-    </div>
-    <div style="display: flex; gap: 1rem; align-items: center;">
-      <span>📺 Voz Deportiva (Transmisión Oficial)</span>
-      <a href="#business-view" onclick="document.querySelector('[data-target=\'business-view\']').click()">💼 Presentación Directivas</a>
-    </div>
-  </div>
-
-  <!-- Encabezado Principal Estilo LaLiga EA Sports -->
-  <header class="app-header">
-    <div class="header-container">
-      <!-- Marca LigaMaster con emblema rojo oficial estilo EA Sports FC -->
-      <a href="#" class="brand">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #e51b24 0%, #ff2b44 100%); border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(255, 43, 68, 0.4);">
-          <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));">⚽</span>
-        </div>
-        <div class="brand-info">
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <h1 id="header-league-title" style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; letter-spacing: -0.03em; color: #ffffff; margin: 0;">
-              LIGA<span style="color: #ff2b44; text-shadow: 0 0 14px rgba(255, 43, 68, 0.7);">MASTER</span>
-            </h1>
-            <span class="status-badge habilitado" style="font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(255, 43, 68, 0.15); border: 1px solid #ff2b44; color: #ff4d6d; font-weight: 800;">EA SPORTS FC ED.</span>
+  <!-- ====================================================================
+       CABECERA PRINCIPAL TIER 1 (PLATFORM HEADER)
+       ==================================================================== -->
+  <header class="platform-header">
+    <div class="platform-container">
+      <div class="platform-header-inner">
+        
+        <!-- Logo LigaMaster -->
+        <a href="#home" class="platform-brand" id="brand-home-link" title="LigaMaster • Fútbol Amateur de Chile">
+          <div class="platform-brand-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
           </div>
-          <span id="header-league-subtitle" style="font-size: 0.7rem; color: #94a3b8; font-weight: 600; letter-spacing: 0.04em;">ASOCIACIÓN DE FÚTBOL ARAUCO • BIOBÍO CHILE</span>
+          <div class="platform-brand-text">
+            <div class="platform-brand-title">LIGA<span>MASTER</span></div>
+            <div class="platform-brand-sub">Fútbol Amateur de Chile</div>
+          </div>
+        </a>
+
+        <!-- Menú Principal (Desktop) -->
+        <nav class="platform-nav" aria-label="Navegación Principal">
+          <button class="platform-nav-link active" data-nav="home-view">Home</button>
+          <button class="platform-nav-link" id="nav-btn-ligas-picker">Ligas</button>
+          <button class="platform-nav-link" data-nav="league-view">Competición</button>
+          <button class="platform-nav-link" data-nav="team-view">Equipos</button>
+          <button class="platform-nav-link" data-nav="player-view">Jugadores</button>
+          <button class="platform-nav-link" data-nav="calendar-view">Calendario</button>
+          <button class="platform-nav-link" data-nav="results-view">Resultados</button>
+          <button class="platform-nav-link" data-nav="standings-view">Tabla</button>
+          <button class="platform-nav-link" data-nav="stats-view">Estadísticas</button>
+          <button class="platform-nav-link" data-nav="news-view">Noticias</button>
+        </nav>
+
+        <!-- Acciones Derecha -->
+        <div class="platform-header-actions">
+          <button class="btn-header-search" id="btn-open-search" title="Buscar en LigaMaster (Ctrl + K)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>Buscar...</span>
+            <kbd class="search-shortcut-kbd">⌘K</kbd>
+          </button>
+
+          <button class="btn-primary-coral" id="btn-open-login" title="Acceso a Dirigentes y Turnos de Cancha">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Iniciar Sesión</span>
+          </button>
+
+          <button class="btn-mobile-toggle" id="btn-mobile-menu" aria-label="Abrir menú de navegación">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
-      </a>
 
-      <!-- Selector Rápido de Asociación (Multi-Tenant Demo) -->
-      <div class="assoc-switcher-box" title="Cambiar Asociación para demostración o presentación a otras comunas">
-        <span style="font-size: 0.72rem; color: #ff4d6d; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">📍 Torneo:</span>
-        <select id="select-active-association" class="assoc-select">
-          <option value="arauco">⚓ AFA Arauco (10 Clubes)</option>
-          <option value="lebu">🌊 ANFA Lebu (Capital Provincial)</option>
-          <option value="canete">🌲 ANFA Cañete (Histórica)</option>
-          <option value="curanilahue">⛏️ ANFA Curanilahue (Minera)</option>
-          <option value="concepcion">🦁 ANFA Concepción (Regional)</option>
-        </select>
       </div>
-
-      <!-- Acciones de Cabecera y Perfil de Acceso -->
-      <div class="header-actions">
-        <button class="btn btn-sm btn-outline-pitch" id="btn-open-mobile-qr" title="Abrir la app en tu celular con Código QR">
-          <span>📱</span> <span>Celular</span>
-        </button>
-        <button class="btn btn-sm btn-secondary" id="btn-notifications-toggle" title="Activar alertas de gol y noticias en vivo">
-          <span id="notif-icon">🔔</span> <span id="notif-label">Alertas</span>
-        </button>
-        <button class="btn btn-sm btn-secondary" id="btn-open-share-modal" title="Kit de difusión para WhatsApp y Redes Sociales">
-          📢 Compartir
-        </button>
-
-        <!-- Botón Estilo LaLiga "ENTRA EN MILIGA" -->
-        <button class="btn-entrar-miliga" id="btn-header-login" title="Acceso a Turno de Cancha, Árbitros y Directivas">
-          <span>👤</span> <span id="current-role-label">ENTRA EN MILIGA</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Pestañas de Navegación Estilo FIFA Broadcast -->
-    <div class="nav-tabs-wrapper">
-      <nav class="nav-tabs" aria-label="Navegación del Torneo">
-        <button class="nav-tab-btn active" data-target="news-view">
-          <span>📰</span> Noticias & Media
-        </button>
-        <button class="nav-tab-btn" data-target="papeleta-view">
-          <span>⚽</span> Partidos & En Vivo
-        </button>
-        <button class="nav-tab-btn" data-target="standings-view">
-          <span>🏆</span> Tablas & Goleadores
-        </button>
-        <button class="nav-tab-btn" data-target="fixture-view">
-          <span>📅</span> Fixture Oficial
-        </button>
-        <button class="nav-tab-btn" data-target="venues-view">
-          <span>🏟️</span> Canchas & Estadios
-        </button>
-        <button class="nav-tab-btn" data-target="seleccion-view" style="color: #f87171; font-weight: 700;">
-          <span>🇨🇱</span> Selección Arauco
-        </button>
-        <button class="nav-tab-btn" data-target="players-view">
-          <span>👥</span> Clubes & Fichas
-        </button>
-        <button class="nav-tab-btn" data-target="sanctions-view">
-          <span>⚖️</span> Tribunal de Penas
-        </button>
-        <button class="nav-tab-btn" data-target="regulations-view">
-          <span>📜</span> Reglamento ANFA
-        </button>
-        <button class="nav-tab-btn" data-target="business-view" style="color: var(--accent-gold); font-weight: 700;">
-          <span>💼</span> Contratar para mi Liga
-        </button>
-
-        <!-- Pestañas Privadas (Ocultas al Público) -->
-        <button class="nav-tab-btn admin-only-tab" id="tab-btn-treasury" data-target="treasury-view" style="display: none; color: #00ff85; border-left: 2px solid #00ff85;">
-          <span>💰</span> Tesorería (Privado)
-        </button>
-        <button class="nav-tab-btn admin-only-tab" id="tab-btn-backup" data-target="backup-view" style="display: none; color: #60a5fa; border-left: 2px solid #3b82f6;">
-          <span>💾</span> Base de Datos (Privado)
-        </button>
-        <button class="nav-tab-btn admin-only-tab" id="tab-btn-cms" data-target="cms-view" style="display: none; color: #f472b6; border-left: 2px solid #ec4899;">
-          <span>🕹️</span> CMS Turno (Privado)
-        </button>
-      </nav>
     </div>
   </header>
 
-  <!-- Contenedor Principal de la App -->
-  <main class="main-container">
-
-    <!-- ====================================================================
-         VISTA 0: SALA DE PRENSA & MEDIA HUB (ESTILO FIFA / FAN HUB)
-         ==================================================================== -->
-    <section id="news-view" class="tab-view active">
-      <!-- Header de la Sala de Prensa -->
-      <div class="news-hub-header">
-        <div class="news-hub-title-group">
-          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-            <span class="fifa-pill-badge">FIFA FAN HUB</span>
-            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">• Cobertura Oficial ANFA Arauco</span>
+  <!-- ====================================================================
+       SEGUNDA NAVEGACIÓN CONTEXTUAL TIER 2 (LEAGUE CONTEXT BAR)
+       ==================================================================== -->
+  <div class="league-context-bar">
+    <div class="platform-container">
+      <div class="league-context-inner">
+        
+        <!-- Liga Activa con disparador de selector multi-liga -->
+        <div class="league-active-badge" id="btn-trigger-league-picker" title="Cambiar competición o región">
+          <div class="league-active-crest" id="context-league-crest">
+            <!-- Escudo vectorial inyectado dinámicamente -->
           </div>
-          <h2>Sala de Prensa & Cobertura Multimedia</h2>
-          <p>Crónicas oficiales del campeonato, fotos exclusivas de la jornada y videoteca de goles comunales.</p>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-fifa-glow" id="btn-open-publish-modal" style="display: none;">
-            <span>✍️</span> <span>Publicar Noticia / Foto / Video</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Banner Interactivo: Alertas en Vivo al Celular -->
-      <div class="notif-live-banner">
-        <div class="notif-live-info">
-          <div class="notif-live-tag">
-            <span class="live-pulse-dot"></span> <span>SINCRONIZACIÓN EN VIVO & ALERTAS PUSH</span>
+          <div class="league-active-meta">
+            <div class="league-active-name" id="context-league-name">Asociación de Fútbol de Arauco</div>
+            <div class="league-active-region" id="context-league-region">Región del Biobío • Temporada 2026/27</div>
           </div>
-          <h3>Recibe los goles de tu equipo en tu celular</h3>
-          <p>Entérate al instante de cada gol con silbatazo de árbitro, sirena de estadio, vibración y noticias oficiales sin recargar la página.</p>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-text-muted); margin-left: 0.25rem;">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
-        <div class="notif-live-actions">
-          <button class="btn btn-sm btn-fifa-glow" id="btn-banner-activate-notifs">
-            <span>🔔</span> <span>Activar Alertas en mi Celular</span>
+
+        <!-- Links Contextuales de la Liga Seleccionada -->
+        <nav class="league-subnav" aria-label="Navegación de Competición">
+          <button class="league-subnav-link" data-nav="league-view">Resumen</button>
+          <button class="league-subnav-link" data-nav="calendar-view">Calendario</button>
+          <button class="league-subnav-link" data-nav="results-view">Resultados</button>
+          <button class="league-subnav-link" data-nav="standings-view">Tabla</button>
+          <button class="league-subnav-link" data-nav="team-view">Equipos</button>
+          <button class="league-subnav-link" data-nav="player-view">Jugadores</button>
+          <button class="league-subnav-link" data-nav="stats-view">Estadísticas</button>
+          <button class="league-subnav-link" data-nav="news-view">Noticias</button>
+        </nav>
+
+        <!-- Selector de Serie Contextual -->
+        <div class="series-filter-box">
+          <select id="global-series-select" class="series-select" aria-label="Seleccionar Serie Oficial">
+            <option value="honor">Serie de Honor (Primera)</option>
+            <option value="senior_35">Serie Senior (35+ Años)</option>
+            <option value="juvenil">Serie Juvenil (Sub-17)</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       CONTENEDOR PRINCIPAL DE VISTAS (MAIN VIEWS)
+       ==================================================================== -->
+  <main class="platform-container">
+
+    <!-- ================================================================
+         1. VISTA: HOME
+         ================================================================ -->
+    <section id="home-view" class="platform-view active">
+      
+      <!-- Hero Principal -->
+      <div class="home-hero-card">
+        <div class="home-hero-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span>La Plataforma del Fútbol Amateur Chileno</span>
+        </div>
+        <h1 class="home-hero-title">
+          FÚTBOL AMATEUR<br>
+          <span>EN UN SOLO LUGAR</span>
+        </h1>
+        <p class="home-hero-sub">
+          Resultados oficiales, tablas de posiciones en tiempo real, estadísticas detalladas, calendarios de canchas y fichas de jugadores de las principales ligas y asociaciones de Chile.
+        </p>
+        <div class="home-hero-actions">
+          <button class="btn-primary-coral" id="hero-btn-ver-ligas" style="padding: 0.8rem 1.75rem; font-size: 0.9rem;">
+            <span>Ver Ligas de Chile</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
-          <button class="btn btn-sm btn-outline-pitch" id="btn-test-goal-alert" title="Simula un golazo en vivo con sonido y zumbido">
-            <span>🔊</span> <span>Probar Alerta de Gol</span>
+          <button class="btn-outline-coral" data-nav="calendar-view" style="padding: 0.8rem 1.75rem; font-size: 0.9rem;">
+            <span>Ver Partidos de la Fecha</span>
           </button>
         </div>
       </div>
 
-      <!-- Artículo Destacado Principal (Hero) -->
-      <div id="news-hero-container"></div>
-
-      <!-- Barra de Filtros de Categoría -->
-      <div class="news-filters-bar" id="news-category-filters"></div>
-
-      <!-- Grilla de Noticias Secundarias -->
-      <div class="news-grid" id="news-articles-grid"></div>
-
-      <!-- Galería de Fotos Oficiales de la Cancha -->
-      <div class="media-section-header">
-        <div class="media-section-title">
-          <span>📸</span> <span>Postales de Cancha (Fotos en Alta Resolución)</span>
+      <!-- Selector de Ligas y Regiones de Chile -->
+      <div class="home-leagues-section">
+        <div class="view-header" style="margin-bottom: 1.25rem;">
+          <div class="view-title-row">
+            <div>
+              <h2 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; color: var(--color-text-main);">
+                Ligas y Competiciones Disponibles
+              </h2>
+              <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.2rem;">
+                Explora las asociaciones federadas activas y ligas en proceso de incorporación.
+              </p>
+            </div>
+            <button class="btn-outline-coral" id="btn-suggest-league" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+              <span>+ Postular mi Asociación</span>
+            </button>
+          </div>
         </div>
-        <span style="font-size: 0.75rem; color: var(--text-muted);">Estadios Ramón Burgos & Sebastián Gaete</span>
-      </div>
-      <div class="photos-grid-track" id="news-photos-track"></div>
 
-      <!-- Videoteca y Goles de la Fecha -->
-      <div class="media-section-header">
-        <div class="media-section-title">
-          <span>🎥</span> <span>Goles de la Fecha & Jugadas Clave</span>
+        <div class="home-leagues-grid" id="home-leagues-grid">
+          <!-- Renderizado dinámico desde app.js -->
         </div>
-        <span style="font-size: 0.75rem; color: var(--accent-pitch); font-weight: 700;">TRANSMISIÓN OFICIAL LIGAPRO EVOLUTION</span>
       </div>
-      <div class="videos-grid-container" id="news-videos-grid"></div>
+
+      <!-- Partidos Destacados de la Jornada -->
+      <div class="featured-matches-section">
+        <div class="view-header" style="margin-bottom: 1.25rem;">
+          <div class="view-title-row">
+            <div>
+              <div class="view-breadcrumb">
+                <span>Competición Oficial</span> <span class="separator">/</span> <span id="home-featured-league-name">Asociación de Fútbol de Arauco</span>
+              </div>
+              <h2 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; color: var(--color-text-main);">
+                Partidos Destacados • Fecha 8
+              </h2>
+            </div>
+            <button class="btn-outline-coral" data-nav="calendar-view" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+              <span>Ver Fixture Completo</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="matches-grid" id="home-featured-matches-grid">
+          <!-- Renderizado dinámico desde app.js -->
+        </div>
+      </div>
+
+      <!-- Trio Grid: Mini Tabla, Top Goleadores, Últimas Noticias -->
+      <div class="home-trio-grid">
+        
+        <!-- Columna 1: Mini Tabla -->
+        <div class="trio-card">
+          <div>
+            <div class="trio-card-header">
+              <h3>Tabla de Posiciones</h3>
+              <button class="trio-card-action" data-nav="standings-view">Ver Completa →</button>
+            </div>
+            <div id="home-mini-standings-container">
+              <!-- Renderizado dinámico desde app.js -->
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 1rem; border-top: 1px solid var(--color-border-subtle); padding-top: 0.5rem;">
+            * Los 2 primeros clasifican a la Copa de Campeones ANFA Biobío.
+          </div>
+        </div>
+
+        <!-- Columna 2: Goleadores Destacados -->
+        <div class="trio-card">
+          <div>
+            <div class="trio-card-header">
+              <h3>Goleadores de la Liga</h3>
+              <button class="trio-card-action" data-nav="stats-view">Ver Ranking →</button>
+            </div>
+            <div id="home-mini-scorers-container">
+              <!-- Renderizado dinámico desde app.js -->
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 1rem; border-top: 1px solid var(--color-border-subtle); padding-top: 0.5rem;">
+            * Actualizado con las actas oficiales de la Fecha 7.
+          </div>
+        </div>
+
+        <!-- Columna 3: Noticias Recientes -->
+        <div class="trio-card">
+          <div>
+            <div class="trio-card-header">
+              <h3>Actualidad & Prensa</h3>
+              <button class="trio-card-action" data-nav="news-view">Ver Sala de Prensa →</button>
+            </div>
+            <div id="home-mini-news-container">
+              <!-- Renderizado dinámico desde app.js -->
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 1rem; border-top: 1px solid var(--color-border-subtle); padding-top: 0.5rem;">
+            * Cobertura periodística oficial del torneo comunal.
+          </div>
+        </div>
+
+      </div>
+
     </section>
 
-    <!-- ====================================================================
-         VISTA 1: PAPELETA DIGITAL DE TURNO EN VIVO (ANFA ARAUCO)
-         ==================================================================== -->
-    <section id="papeleta-view" class="tab-view">
+    <!-- ================================================================
+         2. VISTA: LIGA (PÁGINA DE COMPETICIÓN)
+         ================================================================ -->
+    <section id="league-view" class="platform-view">
       
-      <!-- Aviso de Seguridad si el usuario está en Solo Lectura -->
-      <div class="papeleta-lock-banner" id="papeleta-lock-notice" style="display: none;">
-        <div style="display: flex; align-items: center; gap: 0.6rem;">
-          <span style="font-size: 1.3rem;">🔒</span>
-          <div>
-            <strong>Modo Solo Lectura (Público / Hincha):</strong> Para registrar goles, tarjetas o firmar la planilla en la cancha, cambie al perfil <strong>Árbitro de Turno (PIN: 2026)</strong>.
-          </div>
+      <!-- Header de la Liga -->
+      <div class="league-hero-header">
+        <div class="league-hero-crest-box" id="league-hero-crest">
+          <!-- Escudo AFA en SVG -->
         </div>
-        <button class="btn btn-sm btn-warning" onclick="document.getElementById('btn-open-role-modal').click()">
-          🔑 Ingresar PIN de Cancha
-        </button>
-      </div>
-
-      <!-- Barra Multi-Cancha en Vivo: Partidos Simultáneos en Distintos Estadios -->
-      <div id="multicancha-bar-container" class="multicancha-wrapper">
-        <div class="multicancha-header">
-          <div class="multicancha-title">
-            <span class="live-pulse-dot"></span>
-            <strong>Canchas en Simultáneo:</strong>
-            <span class="multicancha-subtitle">Jornada Oficial ANFA Arauco</span>
+        <div class="league-hero-info">
+          <div class="view-breadcrumb">
+            <span>Chile</span> <span class="separator">/</span> <span id="league-breadcrumb-region">Región del Biobío</span> <span class="separator">/</span> <span>Asociación Federada</span>
           </div>
-          <div class="multicancha-actions">
-            <button id="btn-toggle-dual-view" class="btn btn-xs btn-outline-pitch">
-              <span>📺</span> <span id="btn-toggle-dual-label">Modo Doble Cancha</span>
-            </button>
-          </div>
-        </div>
-        <div id="multicancha-chips-track" class="multicancha-chips">
-          <!-- Renderizado dinámico desde papeleta.js -->
-        </div>
-      </div>
-
-      <!-- Vista Dividida de Doble Cancha (Multipantalla en Paralelo) -->
-      <div id="multicancha-dual-container" class="dual-screen-grid" style="display: none;">
-        <!-- Renderizado dinámico con los 2 partidos en paralelo -->
-      </div>
-
-      <!-- Tarjeta Superior del Partido (Marcador en Vivo de la Cancha Seleccionada) -->
-      <div class="papeleta-header-card" id="single-match-header-card">
-        <div class="match-meta-bar">
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <span id="match-status-badge" class="badge-live">EN VIVO • EN DIRECTO</span>
-            <span><strong>Fecha 8:</strong> Campeonato Oficial ANFA Arauco • Serie de Honor</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 1rem;">
-            <span id="match-venue-label">🏟️ Estadio Municipal de Arauco</span>
-            <span id="match-referee-label">👔 Árbitro: Carlos Henríquez González (CAPA)</span>
-          </div>
-        </div>
-
-        <!-- Marcador Central Deportivo -->
-        <div class="scoreboard-grid">
-          <!-- Equipo Local -->
-          <div class="team-badge-col">
-            <div class="team-crest" id="match-home-badge">⚓</div>
-            <div class="team-details">
-              <h3 id="match-home-name">C.D. Jorge Robledo</h3>
-              <p>Sector Centro, Arauco • Local</p>
+          <h1 class="league-hero-title" id="league-page-title">Asociación de Fútbol de Arauco</h1>
+          <div class="league-hero-meta-row">
+            <div class="league-hero-meta-item">
+              <span style="color: var(--color-primary); font-weight: 800;">📅</span>
+              <span>Temporada: <strong>2026/27</strong></span>
             </div>
-          </div>
-
-          <!-- Centro: Puntos y Cronómetro -->
-          <div class="score-center-col">
-            <div class="score-display">
-              <span class="score-num" id="match-home-score">1</span>
-              <span class="score-divider">:</span>
-              <span class="score-num" id="match-away-score">1</span>
+            <div class="league-hero-meta-item">
+              <span style="color: var(--color-primary); font-weight: 800;">🛡️</span>
+              <span>Clubes Afiliados: <strong id="league-total-clubs-label">10 Instituciones</strong></span>
             </div>
-            <div class="match-clock-box">
-              <span>⏱️</span>
-              <span id="match-clock-minute">42'</span>
-              <span style="color: var(--text-muted); font-size: 0.75rem;" id="match-half-label">1er Tiempo</span>
+            <div class="league-hero-meta-item">
+              <span style="color: var(--color-primary); font-weight: 800;">🏛️</span>
+              <span>Fundada: <strong>01 de Octubre de 1940 (86 Años)</strong></span>
             </div>
-          </div>
-
-          <!-- Equipo Visita -->
-          <div class="team-badge-col team-away">
-            <div class="team-crest" id="match-away-badge">🌊</div>
-            <div class="team-details">
-              <h3 id="match-away-name">C.D. Brisas del Mar</h3>
-              <p>Caleta Tubul • Visita</p>
+            <div class="league-hero-meta-item">
+              <span style="color: var(--color-primary); font-weight: 800;">👤</span>
+              <span>Presidente: <strong>Claudio Pampaloni Altamirano</strong></span>
             </div>
-          </div>
-        </div>
-
-        <!-- Banner de Transparencia y Fe Pública (Visible a Hinchas y Dirigentes) -->
-        <div class="match-antifraud-banner" id="match-antifraud-banner" style="display: flex;">
-          <div class="antifraud-info" style="display: flex; align-items: center; gap: 0.6rem;">
-            <span style="font-size: 1.25rem;">🛡️</span>
-            <div>
-              <strong style="color: var(--accent-pitch); font-size: 0.82rem;">Transparencia y Fe Pública ANFA:</strong>
-              <span id="antifraud-status-text" style="font-size: 0.78rem; color: #cbd5e1; margin-left: 4px;">Marcador firmado a mano en la mesa de turno por ambos capitanes.</span>
-              <span id="shift-operator-info" style="display: block; font-size: 0.72rem; color: #94a3b8;">Mesa de Turno: Don Sergio Viveros (Director de Turno ANFA)</span>
-            </div>
-          </div>
-          <button class="btn btn-sm btn-outline-cyan" id="btn-view-signed-sheet">
-            📷 Ver Acta Física Firmada
-          </button>
-        </div>
-
-        <!-- Botonera de Operador de Turno (Solo visible con PIN de Turno o Directiva) -->
-        <div class="match-controller-bar" style="display: none;">
-          <div style="font-size: 0.75rem; color: var(--accent-gold); font-weight: 800; display: flex; align-items: center; gap: 0.4rem; width: 100%; margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <span>⏱️ PANEL EXCLUSIVO MESA DE TURNO</span>
-            <span style="color: #94a3b8; font-weight: normal;">• Modificaciones autorizadas con PIN</span>
-          </div>
-          <div class="action-buttons-group">
-            <button class="btn btn-sm btn-danger" id="btn-toggle-clock">
-              ⏸ Pausar Reloj
-            </button>
-            <button class="btn btn-sm btn-primary" id="btn-open-goal-modal">
-              ⚽ Registrar Gol
-            </button>
-            <button class="btn btn-sm btn-warning" id="btn-open-card-modal">
-              🟨 / 🟥 Tarjeta
-            </button>
-            <button class="btn btn-sm btn-secondary" id="btn-open-sub-modal">
-              🔄 Cambio
-            </button>
-            <button class="btn btn-sm btn-warning" id="btn-open-quick-digitize" title="Subir foto del acta física y digitalizar en 2 minutos">
-              📝 Subir Papeleta con Foto
-            </button>
-            <button class="btn btn-sm btn-secondary" id="btn-print-blank-sheet" title="Imprimir planilla oficial en blanco para llevar a la cancha">
-              📋 Imprimir Planilla A4
-            </button>
-          </div>
-
-          <div>
-            <button class="btn btn-sm btn-primary" id="btn-finalize-match" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
-              🏆 Finalizar y Sellar Acta Oficial
-            </button>
           </div>
         </div>
       </div>
 
-      <!-- Cuerpo de la Papeleta: Roster Izquierdo + Línea de Tiempo Derecha -->
-      <div class="papeleta-body-grid">
+      <!-- Resumen de Competición: Próximos Partidos y Mini Tabla -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;" class="league-main-grid">
         
-        <!-- Columna Izquierda: Check-in de Nómina Pre-Partido Anti-Suplantación -->
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4>📋 Nómina Oficial y Control Anti-Suplantación</h4>
-            <span style="font-size: 0.72rem; color: var(--accent-pitch); font-weight: 700;">✓ Verificación ANFA Biobío</span>
+        <!-- Próxima Jornada -->
+        <div>
+          <div class="view-title-row" style="margin-bottom: 1rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800;">Próximos Partidos • Jornada en Disputa</h3>
+            <button class="btn-outline-coral" data-nav="calendar-view" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">Ver Todo el Calendario</button>
           </div>
-
-          <div class="team-tabs-container">
-            <button class="team-selector-btn active" id="papeleta-tab-home">
-              ⚓ Nómina Jorge Robledo
-            </button>
-            <button class="team-selector-btn" id="papeleta-tab-away">
-              🌊 Nómina Brisas del Mar (Tubul)
-            </button>
+          <div class="matches-grid" id="league-next-matches-grid" style="grid-template-columns: 1fr;">
+            <!-- Renderizado dinámico desde app.js -->
           </div>
+        </div>
 
-          <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-            * Los jugadores con fallos vigentes del Tribunal de Penas aparecen inhabilitados automáticamente y no pueden ingresar a la cancha.
-          </p>
+        <!-- Tabla Resumida -->
+        <div>
+          <div class="view-title-row" style="margin-bottom: 1rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800;">Posiciones en Vivo</h3>
+            <button class="btn-outline-coral" data-nav="standings-view" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">Tabla Completa</button>
+          </div>
+          <div class="table-wrapper-card" style="padding: 1rem;">
+            <div id="league-summary-standings-box">
+              <!-- Renderizado dinámico -->
+            </div>
+          </div>
+        </div>
 
-          <table class="roster-table">
+      </div>
+
+      <!-- Directorio de los 10 Clubes de la Liga -->
+      <div>
+        <div class="view-title-row" style="margin-bottom: 1.25rem;">
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800;">Clubes Afiliados a la Asociación</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.2rem;">
+              Instituciones oficiales con personalidad jurídica vigente y derechos federativos ANFA.
+            </p>
+          </div>
+        </div>
+
+        <div class="league-clubs-grid" id="league-clubs-grid">
+          <!-- Renderizado dinámico desde app.js con los 10 clubes oficiales -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================
+         3. VISTA: TABLA DE POSICIONES
+         ================================================================ -->
+    <section id="standings-view" class="platform-view">
+      
+      <div class="view-header">
+        <div class="view-breadcrumb">
+          <span>Competición</span> <span class="separator">/</span> <span>Clasificación Oficial</span>
+        </div>
+        <div class="view-title-row">
+          <div>
+            <h1 class="view-title">Tabla de Posiciones</h1>
+            <p class="view-subtitle" id="standings-series-label">
+              Campeonato Oficial 2026/27 • Asociación de Fútbol de Arauco • Serie de Honor
+            </p>
+          </div>
+          <div class="series-filter-box">
+            <label for="standings-series-select" style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted);">Serie:</label>
+            <select id="standings-series-select" class="series-select">
+              <option value="honor">Serie de Honor (Primera)</option>
+              <option value="senior_35">Serie Senior (35+ Años)</option>
+              <option value="juvenil">Serie Juvenil (Sub-17)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper-card">
+        <div class="table-header-bar">
+          <div class="table-legend-pills">
+            <span style="display: flex; align-items: center; gap: 0.4rem;">
+              <span class="legend-dot champion"></span> 1º y 2º: Clasificación Copa de Campeones ANFA Biobío
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.4rem;">
+              <span class="legend-dot relegation"></span> 9º y 10º: Liguilla de Promoción / Relegación
+            </span>
+          </div>
+          <span style="font-size: 0.75rem; background: var(--color-bg-subtle); color: var(--color-text-muted); padding: 0.25rem 0.65rem; border-radius: var(--radius-xs); font-weight: 700;">
+            Desliza horizontalmente en móvil ↔
+          </span>
+        </div>
+
+        <div class="sports-table-responsive">
+          <table class="sports-table" id="official-standings-table">
             <thead>
               <tr>
-                <th style="width: 30px;">#</th>
-                <th>Jugador / RUT</th>
-                <th>Estado Reglamentario</th>
-                <th style="text-align: center;">Presencia</th>
+                <th style="width: 50px;" class="text-center">POS</th>
+                <th>EQUIPO</th>
+                <th class="text-center" title="Partidos Jugados">PJ</th>
+                <th class="text-center" title="Partidos Ganados">PG</th>
+                <th class="text-center" title="Partidos Empatados">PE</th>
+                <th class="text-center" title="Partidos Perdidos">PP</th>
+                <th class="text-center" title="Goles a Favor">GF</th>
+                <th class="text-center" title="Goles en Contra">GC</th>
+                <th class="text-center" title="Diferencia de Goles">DG</th>
+                <th class="text-center" title="Puntos Oficiales" style="color: var(--color-primary);">PTS</th>
+                <th class="text-center" title="Rendimiento últimos 5 partidos">FORMA</th>
               </tr>
             </thead>
-            <tbody id="papeleta-roster-body">
-              <!-- Renderizado dinámico desde papeleta.js -->
+            <tbody id="standings-table-body">
+              <!-- Renderizado dinámico desde app.js -->
             </tbody>
           </table>
         </div>
-
-        <!-- Columna Derecha: Registro de Incidencias en Vivo y Firmas -->
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4>⏱️ Línea de Tiempo del Partido (Incidencias)</h4>
-            <span style="font-size: 0.72rem; color: var(--text-muted);">Acta de Cancha en Directo</span>
-          </div>
-
-          <div class="events-timeline" id="match-events-timeline">
-            <!-- Renderizado dinámico desde papeleta.js -->
-          </div>
-
-          <!-- Firmas Oficiales al Final de la Papeleta -->
-          <div class="signatures-box">
-            <div style="grid-column: 1 / -1; margin-bottom: 0.25rem;">
-              <h5 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); text-align: center;">
-                Firmas Oficiales del Acta Arbitral (Colegio de Árbitros Arauco)
-              </h5>
-            </div>
-            <div id="match-signatures-container" style="display: contents;">
-              <!-- Renderizado dinámico desde papeleta.js -->
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </section>
 
-    <!-- ====================================================================
-         VISTA 2: TABLA DE POSICIONES Y GOLEADORES
-         ==================================================================== -->
-    <section id="standings-view" class="tab-view">
+    <!-- ================================================================
+         4. VISTA: CALENDARIO (FIXTURE)
+         ================================================================ -->
+    <section id="calendar-view" class="platform-view">
       
-      <!-- Banner Héroe Rojo Oficial LaLiga EA Sports (LIGAMASTER) -->
-      <div class="laliga-hero-banner">
-        <div class="laliga-breadcrumb">
-          <span>Inicio</span> <span>&gt;</span> <span>Estadísticas Oficiales AFA Arauco</span> <span>&gt;</span> <span>Temporada 2026/27</span>
+      <div class="view-header">
+        <div class="view-breadcrumb">
+          <span>Competición</span> <span class="separator">/</span> <span>Fixture & Programación</span>
         </div>
-        <h2 class="laliga-hero-title">
-          ESTADÍSTICAS LIGAMASTER 2026/27
-        </h2>
-        <div class="laliga-selectors-row">
-          <select id="laliga-series-dropdown" class="laliga-select" onchange="window.ligaproChangeSeries(this.value)">
-            <option value="honor">🏆 LIGAMASTER SERIE DE HONOR</option>
-            <option value="senior_35">⭐ SERIE SENIOR (35+ AÑOS)</option>
-            <option value="juvenil">🌱 SERIE JUVENIL (SUB-17)</option>
-            <option value="general">📊 TABLA GENERAL ACUMULADA</option>
-          </select>
-          <select id="laliga-club-filter-dropdown" class="laliga-select">
-            <option value="all">Todos los 10 clubes de Arauco</option>
-            <option value="club-pelantaro">Pelantaro (1929)</option>
-            <option value="club-arauco">C.D. Arauco (1939)</option>
-            <option value="club-colo-colo">Colo-Colo Arauco (1948)</option>
-            <option value="club-arturo-prat">Arturo Prat (1952)</option>
-            <option value="club-jorge-robledo">Jorge Robledo (1954)</option>
-            <option value="club-gente-de-mar">Gente de Mar (1960)</option>
-            <option value="club-caupolican">Caupolicán (1965)</option>
-            <option value="club-celulosa-arauco">Celulosa Arauco (1972)</option>
-            <option value="club-brisas-del-mar">Brisas del Mar (1978)</option>
-            <option value="club-real-jose-maria">Real José María (2026)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Barra de Filtros en Pastillas (Pills) estilo LaLiga EA Sports -->
-      <div class="laliga-pills-nav">
-        <button class="laliga-pill active" data-stat="goleadores">Goleadores</button>
-        <button class="laliga-pill" data-stat="asistencias">Asistencias</button>
-        <button class="laliga-pill" data-stat="amarillas">Tarjetas amarillas</button>
-        <button class="laliga-pill" data-stat="rojas">Tarjetas rojas</button>
-        <button class="laliga-pill" data-stat="paradas">Paradas / Arqueros</button>
-        <button class="laliga-pill" data-stat="equipo">Tabla de Posiciones (Equipos)</button>
-      </div>
-
-      <!-- Tabla 1: Estadísticas de Jugadores (LaLiga EA Sports Style) -->
-      <div id="laliga-players-table-wrapper" class="laliga-stats-card">
-        <table class="laliga-stats-table">
-          <thead>
-            <tr>
-              <th style="width: 45px;">#</th>
-              <th>NOMBRE</th>
-              <th>EQUIPO</th>
-              <th id="laliga-metric-header" style="text-align: center;">GOLES</th>
-              <th style="text-align: center;">PARTIDOS JUGADOS</th>
-              <th id="laliga-avg-header" style="text-align: center;">PROMEDIO POR PARTIDO</th>
-            </tr>
-          </thead>
-          <tbody id="laliga-stats-body">
-            <!-- Renderizado dinámico desde standings.js -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tabla 2: Tabla de Posiciones de Clubes (Se activa al elegir 'Equipo') -->
-      <div id="laliga-clubs-table-wrapper" class="laliga-stats-card" style="display: none; padding: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-          <h4 id="standings-series-title" style="margin: 0; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: #0f172a;">
-            🏆 Tabla de Posiciones Oficial ANFA Arauco
-          </h4>
-          <span style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 700;">EN VIVO</span>
-        </div>
-        <table class="standings-table">
-          <thead>
-            <tr>
-              <th style="width: 35px;">Pos</th>
-              <th class="th-team">Club</th>
-              <th title="Partidos Jugados">PJ</th>
-              <th title="Partidos Ganados">PG</th>
-              <th title="Partidos Empatados">PE</th>
-              <th title="Partidos Perdidos">PP</th>
-              <th title="Goles a Favor">GF</th>
-              <th title="Goles en Contra">GC</th>
-              <th title="Diferencia de Goles">DG</th>
-              <th title="Puntos Oficiales">PTS</th>
-            </tr>
-          </thead>
-          <tbody id="standings-table-body">
-            <!-- Renderizado dinámico desde standings.js -->
-          </tbody>
-        </table>
-      </div>
-
-    </section>
-
-    <!-- ====================================================================
-         VISTA 3: PADRÓN OFICIAL DE JUGADORES (ANFA ARAUCO)
-         ==================================================================== -->
-    <section id="players-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1.5rem;">
-        <div class="card-title-row" style="flex-wrap: wrap; gap: 0.5rem;">
+        <div class="view-title-row">
           <div>
-            <h4>📋 Padrón Oficial y Fichas de Jugadores Federados</h4>
-            <span style="font-size: 0.72rem; color: var(--text-muted);">Registro comunal de futbolistas con carnet oficial plastificado ANFA Chile</span>
-          </div>
-          <button class="btn btn-sm btn-outline-cyan" id="btn-export-players-csv" title="Descargar nómina de jugadores en formato CSV">
-            📥 Descargar Padrón Oficial (CSV)
-          </button>
-        </div>
-
-        <div class="players-filter-bar">
-          <input type="text" id="search-player-input" class="search-input" placeholder="Buscar por nombre o RUT (ej: 18.321.654-7)...">
-          
-          <select id="filter-player-series" class="filter-select">
-            <option value="all">Todas las Series Oficiales</option>
-            <option value="honor">Serie de Honor (Primera Adulta)</option>
-            <option value="senior_35">Serie Senior (35+ Años)</option>
-            <option value="juvenil">Serie Juvenil (Sub-17)</option>
-            <option value="segunda_adulta">Serie Segunda Adulta</option>
-          </select>
-
-          <select id="filter-player-club" class="filter-select">
-            <!-- Opciones llenadas dinámicamente -->
-          </select>
-
-          <select id="filter-player-status" class="filter-select">
-            <option value="all">Todos los Estados</option>
-            <option value="habilitado">Solo Habilitados</option>
-            <option value="suspendido">Solo Sancionados / Suspendidos</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="players-cards-grid" id="players-cards-grid">
-        <!-- Renderizado dinámico desde players.js -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 4: HISTORIA Y CLUBES DE ANFA ARAUCO
-         ==================================================================== -->
-    <section id="clubs-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--accent-blue);">
-        <div class="card-title-row">
-          <h4>🏛️ Clubes Afiliados a la Asociación de Fútbol de Arauco</h4>
-          <span style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700;">Patrimonio Deportivo Comunal</span>
-        </div>
-        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.6;">
-          La <strong>Asociación de Fútbol Amateur de Arauco</strong> está compuesta por <strong>10 instituciones deportivas oficiales</strong>: los 9 clubes históricos tradicionales (<em>Arauco, Arturo Prat, Brisas del Mar de Tubul, Caupolicán, Celulosa Arauco, Colo Colo, Gente de Mar, Jorge Robledo y Pelantaro</em>) junto a la reciente incorporación del <em>Club Deportivo Real José María</em>. Conoce su historia y palmarés:
-        </p>
-      </div>
-
-      <div class="players-cards-grid" id="clubs-history-grid">
-        <!-- Renderizado dinámico desde players.js -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 5: REGLAMENTO OFICIAL DE COMPETICIÓN ANFA BIOBÍO
-         ==================================================================== -->
-    <section id="regulations-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--accent-pitch);">
-        <div class="card-title-row">
-          <h4>📜 Reglamento Oficial de Competición ANFA Biobío • Temporada 2026</h4>
-          <span class="status-badge habilitado">Normativa Oficial Vigente</span>
-        </div>
-        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.6;">
-          Estatutos técnicos oficiales, régimen de series (Honor, Senior 35, Súper Senior 45, Juvenil e Infantil), tiempos de juego reglamentarios, régimen de 5 cambios en 3 ventanas, acumulación de amarillas y clasificación a la Copa de Campeones ANFA Biobío y Torneo Nacional ANFA.
-        </p>
-      </div>
-
-      <div class="content-card">
-        <div id="regulations-content-box">
-          <!-- Renderizado dinámico desde players.js -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 6: TRIBUNAL DE PENAS Y SANCIONES (ANFA ARAUCO)
-         ==================================================================== -->
-    <section id="sanctions-view" class="tab-view">
-      <div class="content-card">
-        <div class="card-title-row">
-          <h4>⚖️ Tribunal de Honor y Disciplina • ANFA Arauco</h4>
-          <span class="status-badge alerta">Transparencia Pública de Fallos</span>
-        </div>
-
-        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-          Registro oficial de fallos emitidos según el Código de Procedimientos y Penalidades de ANFA Nacional. Cualquier jugador listado queda inhabilitado automáticamente en la papeleta digital.
-        </p>
-
-        <table class="sanctions-table">
-          <thead>
-            <tr>
-              <th>Jugador</th>
-              <th>Club</th>
-              <th>Causa Reglamentaria</th>
-              <th style="text-align: center;">Sanción Total</th>
-              <th style="text-align: center;">Fechas Restantes</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody id="sanctions-table-body">
-            <!-- Renderizado dinámico desde players.js -->
-          </tbody>
-        </table>
-
-        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-          <div style="font-size: 0.8rem; color: var(--text-muted);">
-            Reglamento ANFA: 5 amarillas = 1 fecha automática • Doble amarilla = 1 fecha • Roja directa = 2 a 4 fechas según informe arbitral.
-          </div>
-          <button class="btn btn-sm btn-secondary" onclick="window.showToast('Requiere rol Directiva ANFA (PIN: 9999) para dictar fallos.')">
-            ➕ Emitir Nuevo Fallo del Tribunal
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 6: FIXTURE DE LA JORNADA
-         ==================================================================== -->
-    <section id="fixture-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1rem;">
-        <div class="card-title-row">
-          <h4>📅 Programación Oficial - Fecha 8</h4>
-          <span style="font-size: 0.72rem; color: var(--accent-pitch);">Torneo Apertura Arauco 2026</span>
-        </div>
-        <p style="font-size: 0.85rem; color: var(--text-secondary);">
-          Recintos, horarios y ternas arbitrales designadas para la Serie de Honor.
-        </p>
-      </div>
-
-      <div id="fixture-matches-list">
-        <!-- Renderizado dinámico desde app.js -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA: CANCHAS Y RECINTOS OFICIALES DE ARAUCO
-         ==================================================================== -->
-    <section id="venues-view" class="tab-view">
-      <div id="venues-container">
-        <!-- Renderizado dinámicamente por js/venues.js -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA: SELECCIÓN OFICIAL DE FÚTBOL DE ARAUCO (TORNEO REGIONAL ANFA)
-         ==================================================================== -->
-    <section id="seleccion-view" class="tab-view">
-      <div id="seleccion-container">
-        <!-- Renderizado dinámicamente por js/seleccion.js -->
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 8: PLATAFORMA COMERCIAL, PLANES & DIFUSIÓN PARA ASOCIACIONES
-         ==================================================================== -->
-    <section id="business-view" class="tab-view">
-      
-      <!-- Banner Héroe Comercial -->
-      <div class="commercial-hero-banner">
-        <div class="commercial-badge-pill">
-          <span>🏆</span>
-          <span>PLATAFORMA SAAS #1 PARA EL FÚTBOL AMATEUR DE CHILE</span>
-        </div>
-        <h2>Moderniza tu Asociación ANFA en 48 Horas</h2>
-        <p class="commercial-hero-sub">
-          Dile adiós a las papeletas manchadas, las sospechas de suplantación y las discusiones eternas de los lunes. 
-          <strong>LigaPro Amateur</strong> entrega marcadores en vivo, credenciales con QR y gestión profesional a la medida de tu comuna.
-        </p>
-
-        <div class="commercial-cta-row">
-          <button class="btn btn-lg btn-whatsapp" id="btn-hero-whatsapp">
-            <span>📲</span> Solicitar Demo para mi Asociación
-          </button>
-          <button class="btn btn-lg btn-secondary" id="btn-hero-share">
-            <span>📢</span> Kit de Difusión para Redes Sociales
-          </button>
-        </div>
-      </div>
-
-      <!-- Selector Rápido de Demostración para Cualquier Comuna -->
-      <div class="content-card" style="margin-bottom: 2rem; border-left: 4px solid var(--accent-cyan); background: linear-gradient(135deg, rgba(11,25,44,0.7) 0%, rgba(15,23,42,0.9) 100%);">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h4 style="color: var(--accent-cyan); font-size: 1.05rem; margin-bottom: 0.3rem;">
-              📍 ¿Eres directivo de otra comuna? Prueba la demo en vivo con tus clubes:
-            </h4>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">
-              LigaPro no es solo para Arauco. Haz clic en tu asociación para ver cómo se adapta al instante:
+            <h1 class="view-title">Calendario de Partidos</h1>
+            <p class="view-subtitle">
+              Programación oficial de estadios, fechas y horarios aprobados por la directiva y el Colegio de Árbitros.
             </p>
           </div>
-          <div class="demo-association-buttons" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <button class="btn btn-sm btn-outline-cyan btn-switch-demo" data-assoc="arauco">⚓ Arauco</button>
-            <button class="btn btn-sm btn-outline-cyan btn-switch-demo" data-assoc="lebu">🌊 Lebu</button>
-            <button class="btn btn-sm btn-outline-cyan btn-switch-demo" data-assoc="canete">🌲 Cañete</button>
-            <button class="btn btn-sm btn-outline-cyan btn-switch-demo" data-assoc="curanilahue">⛏️ Curanilahue</button>
-            <button class="btn btn-sm btn-outline-cyan btn-switch-demo" data-assoc="concepcion">🦁 Concepción</button>
-          </div>
         </div>
       </div>
 
-      <!-- Planes y Tarifas de Contratación -->
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
-          Planes Diseñados para la Realidad de los Clubes de Barrio
-        </h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto;">
-          Inversión accesible que se autofinancia con solo $1.500 por carnet de jugador o con el auspicio de comercios locales.
-        </p>
-      </div>
-
-      <div class="pricing-cards-grid">
-        <!-- Plan 1: Básico -->
-        <div class="pricing-card">
-          <div class="pricing-header">
-            <span class="pricing-tier-name">Plan Básico Comunal</span>
-            <div class="pricing-amount">$45.000 <span class="pricing-freq">/ mes</span></div>
-            <p class="pricing-desc">Para asociaciones que inician su proceso de modernización digital.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li>Papeleta digital y marcador en vivo.</li>
-            <li>Tablas de posiciones automáticas por serie.</li>
-            <li>Tabla General Acumulada de Clubes.</li>
-            <li>Ranking de goleadores de la comuna.</li>
-            <li>Fixture y programación de canchas.</li>
-          </ul>
-          <button class="btn btn-secondary btn-block btn-choose-plan" data-plan="Plan Básico Comunal ($45.000/mes)">
-            Consultar por este Plan
-          </button>
+      <!-- Navegador de Jornadas (Pills) -->
+      <div class="matchday-nav-bar">
+        <div style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 800; color: var(--color-text-main);">
+          JORNADA:
         </div>
-
-        <!-- Plan 2: Pro Asociación (Destacado) -->
-        <div class="pricing-card pricing-card-featured">
-          <div class="pricing-popular-badge">MÁS ELEGIDO POR ASOCIACIONES</div>
-          <div class="pricing-header">
-            <span class="pricing-tier-name" style="color: var(--accent-pitch);">Plan Pro Asociación</span>
-            <div class="pricing-amount">$75.000 <span class="pricing-freq">/ mes</span></div>
-            <p class="pricing-desc">El estándar definitivo para blindar tu torneo contra reclamos y suplantaciones.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li><strong>Todo lo del Plan Básico</strong> incluido.</li>
-            <li><strong>Subida Express de Foto-Papeleta</strong> firmada por capitanes desde el celular en 2 minutos.</li>
-            <li><strong>Fe Pública y Transparencia</strong>: foto del acta física con firmas visible a toda la comuna.</li>
-            <li><strong>Tribunal de Honor automatizado</strong> (control de amonestados según Art. 42 ANFA).</li>
-            <li><strong>Módulo de Canchas & Recintos</strong> con enlaces a Google Maps y estado de terrenos.</li>
-            <li>Soporte y capacitación a directores de turno.</li>
-          </ul>
-          <button class="btn btn-primary btn-block btn-choose-plan" data-plan="Plan Pro Asociación ($75.000/mes)" style="background: linear-gradient(135deg, #00ff85 0%, #00cc6a 100%);">
-            Contratar Plan Pro
-          </button>
-        </div>
-
-        <!-- Plan 3: Torneo Corto / Copa Regional -->
-        <div class="pricing-card">
-          <div class="pricing-header">
-            <span class="pricing-tier-name">Copa o Torneo Corto</span>
-            <div class="pricing-amount">$120.000 <span class="pricing-freq">pago único</span></div>
-            <p class="pricing-desc">Ideal para cuadrangulares, copas de verano o torneos eliminatorios.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li>Administración íntegra del campeonato eliminatorio.</li>
-            <li>Llaves de ida y vuelta con definición a penales.</li>
-            <li>Fichas de todos los equipos participantes.</li>
-            <li>Publicación de resultados en vivo para hinchas.</li>
-            <li>Informe final con cuadro de honor y premiación.</li>
-          </ul>
-          <button class="btn btn-secondary btn-block btn-choose-plan" data-plan="Plan Torneo Corto ($120.000 único)">
-            Cotizar Campeonato Corto
-          </button>
+        <div class="matchday-pills-row" id="calendar-round-pills">
+          <!-- Botones de Jornada 1 a 18 generados dinámicamente -->
         </div>
       </div>
 
-      <!-- Kit de Difusión para Redes Sociales -->
-      <div class="content-card" style="margin-top: 2rem; border-top: 3px solid var(--accent-gold);">
-        <div class="card-title-row">
-          <h4>📢 Kit de Difusión Comercial para Redes Sociales</h4>
-          <span class="status-badge alerta">Copiar y Pegar en 1 Clic</span>
-        </div>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-          Usa estos mensajes pre-redactados para compartir el enlace de la plataforma en grupos de WhatsApp de presidentes de clubes, Facebook comunal e Instagram:
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-          <!-- Opción 1: WhatsApp -->
-          <div class="share-template-card">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-              <strong style="color: #25d366; font-size: 0.85rem;">💬 Para Grupos de WhatsApp de Dirigentes:</strong>
-              <button class="btn btn-xs btn-secondary btn-copy-text" data-target="copy-whatsapp-text">Copiar</button>
-            </div>
-            <div id="copy-whatsapp-text" class="share-code-box">Estimados presidentes y dirigentes: Les comparto esta plataforma diseñada especialmente para modernizar nuestro campeonato ANFA. Permite subir la papeleta con una foto desde el celular en 2 minutos con las firmas de ambos capitanes, publica resultados en directo y actualiza las tablas automáticamente. Revisen la demo en vivo aquí: [URL_DE_TU_WEB]</div>
-          </div>
-
-          <!-- Opción 2: Facebook -->
-          <div class="share-template-card">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-              <strong style="color: #60a5fa; font-size: 0.85rem;">📘 Para Facebook / Grupos Deportivos:</strong>
-              <button class="btn btn-xs btn-secondary btn-copy-text" data-target="copy-facebook-text">Copiar</button>
-            </div>
-            <div id="copy-facebook-text" class="share-code-box">¡Llegó la hora de profesionalizar el fútbol amateur de nuestra comuna! ⚽🏆 Con LigaPro se acaban los reclamos por secretaría y las papeletas perdidas: resultados en directo, actas físicas respaldadas con foto, tablas al instante y ubicación de estadios por GPS. ¿Te gustaría implementarlo en tu asociación? Contáctanos para una demo gratuita.</div>
-          </div>
-
-          <!-- Opción 3: Instagram -->
-          <div class="share-template-card">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-              <strong style="color: #f43f5e; font-size: 0.85rem;">📸 Para Historias o Posts de Instagram:</strong>
-              <button class="btn btn-xs btn-secondary btn-copy-text" data-target="copy-instagram-text">Copiar</button>
-            </div>
-            <div id="copy-instagram-text" class="share-code-box">El fútbol amateur merece respeto y tecnología de primera. Menos papel, cero suplantaciones y estadísticas reales para los jugadores de barrio. 📱⚡ Conoce LigaPro Amateur, la plataforma #1 para ligas ANFA. Link en biografía o mensaje directo.</div>
-          </div>
-        </div>
+      <!-- Grilla de Partidos de la Jornada -->
+      <div class="matches-grid" id="calendar-matches-grid">
+        <!-- Renderizado dinámico desde app.js -->
       </div>
 
     </section>
 
-    <!-- ====================================================================
-         VISTA 8: TESORERÍA, CAJA CHICA Y FINANZAS (ANFA ARAUCO)
-         (Supera con creces el software arcaico de SUYMI de $70.000)
-         ==================================================================== -->
-    <section id="treasury-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1.5rem; border-left: 4px solid #00ff85;">
-        <div class="card-title-row">
-          <h4>💰 Libro de Tesorería, Caja Chica y Comprobantes Oficiales</h4>
-          <span class="status-badge habilitado">Finanzas Transparentes ANFA Arauco</span>
+    <!-- ================================================================
+         5. VISTA: RESULTADOS
+         ================================================================ -->
+    <section id="results-view" class="platform-view">
+      
+      <div class="view-header">
+        <div class="view-breadcrumb">
+          <span>Competición</span> <span class="separator">/</span> <span>Marcadores Oficiales</span>
         </div>
-        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.6;">
-          Módulo financiero integral para la directiva y tesorero de la asociación: registro de ingresos (cuotas de clubes, multas de amonestaciones y expulsiones del Tribunal de Honor, pases comunales) y egresos (honorarios de turnos arbitrales CAPA, arriendos de canchas, implementación de balones), con emisión de comprobantes oficiales con folio y balance exportable a Excel.
-        </p>
-      </div>
-
-      <!-- Tarjetas de Resumen Financiero (KPIs) -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div class="content-card" style="border-top: 3px solid #00ff85; text-align: center; padding: 1.25rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Ingresos de Temporada</span>
-          <div id="treasury-total-ingresos" style="font-family: var(--font-display); font-size: 1.7rem; font-weight: 900; color: #00ff85; margin: 0.4rem 0;">$0</div>
-          <small style="font-size: 0.7rem; color: var(--text-muted);">Cuotas clubes + multas tribunal</small>
-        </div>
-
-        <div class="content-card" style="border-top: 3px solid #ef4444; text-align: center; padding: 1.25rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Egresos Operacionales</span>
-          <div id="treasury-total-egresos" style="font-family: var(--font-display); font-size: 1.7rem; font-weight: 900; color: #f87171; margin: 0.4rem 0;">$0</div>
-          <small style="font-size: 0.7rem; color: var(--text-muted);">Árbitros CAPA + mantención</small>
-        </div>
-
-        <div class="content-card" style="border-top: 3px solid var(--accent-gold); text-align: center; padding: 1.25rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Saldo Neto Disponible en Caja</span>
-          <div id="treasury-balance-neto" style="font-family: var(--font-display); font-size: 1.7rem; font-weight: 900; color: var(--accent-pitch); margin: 0.4rem 0;">$0</div>
-          <small id="treasury-movements-count" style="font-size: 0.7rem; color: var(--accent-gold);">0 movimientos</small>
-        </div>
-      </div>
-
-      <!-- Cuadro Comparativo vs SUYMI / MiraFutbol -->
-      <div class="content-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(30,41,59,0.4) 100%); border: 1px solid rgba(245,158,11,0.3);">
-        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
-          <span style="font-size: 1.3rem;">⚡</span>
-          <h4 style="color: var(--accent-gold); font-size: 0.95rem; margin: 0;">Ventaja Competitiva sobre SUYMI ($70.000/año) / MiraFutbol:</h4>
-        </div>
-        <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; margin: 0;">
-          A diferencia del software de SUYMI que exige cargar todo manualmente en un sistema anticuado, en <strong>LigaPro Arauco</strong> las multas por amonestaciones y expulsiones ingresan automáticamente a tesorería cuando se oficializa la papeleta del partido ($1.000 por amarilla, $5.000 por roja según arancel ANFA). Todo se sincroniza en vivo con el Tribunal de Penas y genera comprobantes imprimibles con membrete oficial en 1 clic.
-        </p>
-      </div>
-
-      <!-- Barra de Acciones de Tesorería -->
-      <div class="content-card" style="margin-bottom: 1rem; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">Filtrar Movimientos:</span>
-          <select id="treasury-filter-type" class="filter-select" style="min-width: 180px;">
-            <option value="all">Todos los Movimientos</option>
-            <option value="ingreso">Solo Ingresos (Verdes)</option>
-            <option value="egreso">Solo Egresos (Rojos)</option>
-          </select>
-        </div>
-
-        <div style="display: flex; gap: 0.6rem;">
-          <button class="btn btn-sm btn-primary" id="btn-new-treasury-movement">
-            ➕ Registrar Movimiento
-          </button>
-          <button class="btn btn-sm btn-secondary" id="btn-export-treasury-csv" title="Descargar libro diario en formato compatible con Excel">
-            📊 Exportar a Excel (CSV)
-          </button>
-        </div>
-      </div>
-
-      <!-- Tabla de Movimientos de Tesorería -->
-      <div class="content-card">
-        <table class="standings-table">
-          <thead>
-            <tr>
-              <th style="width: 85px;">Fecha</th>
-              <th style="width: 90px;">Tipo</th>
-              <th>Categoría / Club</th>
-              <th>Concepto / Glosa Oficial</th>
-              <th style="text-align: right; width: 110px;">Monto CLP</th>
-              <th style="text-align: center; width: 100px;">Folio</th>
-              <th style="text-align: center; width: 60px;">Recibo</th>
-            </tr>
-          </thead>
-          <tbody id="treasury-table-body">
-            <!-- Renderizado dinámico desde treasury.js -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         VISTA 9: BASE DE DATOS Y RESPALDOS (MÁS DE 1.200 JUGADORES)
-         ==================================================================== -->
-    <section id="backup-view" class="tab-view">
-      <div class="content-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--accent-blue);">
-        <div class="card-title-row">
-          <h4>💾 Arquitectura de Datos y Respaldos Oficiales • ANFA Arauco</h4>
-          <span class="status-badge habilitado">Capacidad: 1.200+ Jugadores</span>
-        </div>
-        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.6;">
-          ¿Dónde se almacena toda la información del fútbol comunal de Arauco? Aquí explicamos el funcionamiento del almacenamiento offline de alta capacidad y cómo se escala para registrar a las 6 series de los 10 clubes oficiales sin riesgo de pérdida de datos.
-        </p>
-      </div>
-
-      <!-- Métricas de Dimensionamiento Real de Arauco -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div class="content-card" style="border-top: 3px solid var(--accent-blue); padding: 1.25rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <span style="font-size: 1.5rem;">👥</span>
-            <strong style="color: #fff; font-size: 0.95rem;">Volumen de Jugadores de la Comuna</strong>
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
-            • <strong>10 Clubes Oficiales</strong> de la Asociación Arauco.<br>
-            • <strong>5 a 6 Series por club</strong> (Honor, Segunda, Senior 35, Súper Senior 45, Juvenil, Infantil).<br>
-            • 20 a 25 jugadores por serie = <strong>1.200 a 1.500 fichas federadas activas</strong>.
-          </p>
-        </div>
-
-        <div class="content-card" style="border-top: 3px solid var(--accent-pitch); padding: 1.25rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <span style="font-size: 1.5rem;">⚡</span>
-            <strong style="color: #fff; font-size: 0.95rem;">Almacenamiento Local Seguro (Actual)</strong>
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
-            • Motor relacional integrado en el navegador (LocalStorage + IndexedDB).<br>
-            • Capacidad de hasta <strong>500 MB</strong> (los 1.500 jugadores ocupan menos de 25 MB).<br>
-            • Funciona <strong>100% sin internet</strong> en la cancha comunitaria de Tubul o en el Estadio Municipal.
-          </p>
-        </div>
-
-        <div class="content-card" style="border-top: 3px solid var(--accent-gold); padding: 1.25rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <span style="font-size: 1.5rem;">☁️</span>
-            <strong style="color: #fff; font-size: 0.95rem;">Sincronización en la Nube (Producción)</strong>
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
-            • Para producción, el sistema se conecta a una base de datos Cloud (PostgreSQL / Supabase).<br>
-            • Los turnos suben el acta desde su celular y la secretaría de ANFA Arauco en Julio Montt 386 la ve en tiempo real en su pantalla.
-          </p>
-        </div>
-      </div>
-
-      <!-- Centro de Respaldos Oficiales -->
-      <div class="content-card">
-        <h4 style="color: #fff; margin-bottom: 0.5rem;">🛡️ Centro de Control de Copias de Seguridad (Backup)</h4>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-          Descargue en cualquier momento una copia íntegra de la base de datos de la asociación (clubes, jugadores, partidos, sanciones y tesorería) para guardarla en un pendrive o enviarla por correo electrónico:
-        </p>
-
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <button class="btn btn-primary" id="btn-export-full-db" style="padding: 0.75rem 1.5rem;">
-            💾 Descargar Respaldo Oficial ANFA (.json)
-          </button>
-
-          <label class="btn btn-secondary" style="cursor: pointer; padding: 0.75rem 1.5rem;">
-            📂 Restaurar Base de Datos desde Archivo
-            <input type="file" id="input-import-db" accept=".json" style="display: none;">
-          </label>
-
-          <button class="btn btn-danger" id="btn-reset-full-db" style="padding: 0.75rem 1.5rem;">
-            🧹 Restablecer Datos de Demostración
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         MURO DE PATROCINADORES Y FOOTER OFICIAL ESTILO LALIGA EA SPORTS
-         ==================================================================== -->
-    <section class="laliga-sponsors-section">
-      <div class="laliga-sponsors-header">
-        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #fee2e2; color: #dc2626; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.75rem;">
-          <span>⭐</span> <span>Partners & Auspiciadores Oficiales</span>
-        </div>
-        <h3>Patrocinadores Oficiales • Temporada 2026/27</h3>
-        <p>Instituciones y marcas que apoyan el desarrollo del fútbol amateur en la Asociación de Arauco</p>
-      </div>
-
-      <!-- Fila 1: Main Global & Institutional Partners -->
-      <div class="laliga-sponsors-grid">
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🐆</span>
-          </div>
-          <strong>PUMA</strong>
-          <small>Balón Oficial ANFA</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🖥️</span>
-          </div>
-          <strong>Microsoft</strong>
-          <small>Partner Tecnológico Cloud</small>
-        </div>
-
-        <div class="laliga-sponsor-item" style="border: 1px solid #fed7aa; background: #fff7ed;">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🎙️</span>
-          </div>
-          <strong style="color: #c2410c;">Voz Deportiva</strong>
-          <small style="color: #ea580c; font-weight: 700;">Media Partner Oficial (20:00)</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🌲</span>
-          </div>
-          <strong>Celulosa Arauco</strong>
-          <small>Patrocinador Histórico</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🏛️</span>
-          </div>
-          <strong>I. Municipalidad</strong>
-          <small>Auspicio Comunal Arauco</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🔋</span>
-          </div>
-          <strong>DURACELL</strong>
-          <small>Tiempo Añadido Oficial</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🛞</span>
-          </div>
-          <strong>BKT TIRES</strong>
-          <small>Neumático Oficial</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 2rem;">🚗</span>
-          </div>
-          <strong>Volkswagen</strong>
-          <small>Vehículo Oficial</small>
-        </div>
-      </div>
-
-      <!-- Fila 2: Regional & Comunal Collaborators -->
-      <div class="laliga-sponsors-grid" style="padding-top: 2rem; border-bottom: none;">
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">🍔</span>
-          </div>
-          <strong>Uber Eats</strong>
-          <small>Delivery Oficial Tercer Tiempo</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">🏡</span>
-          </div>
-          <strong>Airbnb</strong>
-          <small>Alojamientos Biobío</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">🔧</span>
-          </div>
-          <strong>Ferretería Arauco</strong>
-          <small>Infraestructura & Recintos</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">💧</span>
-          </div>
-          <strong>Aguas de Arauco</strong>
-          <small>Hidratación Oficial</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">📻</span>
-          </div>
-          <strong>Radio Indómita</strong>
-          <small>Transmisión Radial 90.9 FM</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">🥖</span>
-          </div>
-          <strong>Panadería San Pedro</strong>
-          <small>Colaborador Comunal</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">🎴</span>
-          </div>
-          <strong>Panini ANFA</strong>
-          <small>Álbum Oficial de Clubes</small>
-        </div>
-
-        <div class="laliga-sponsor-item">
-          <div class="laliga-sponsor-logo-box">
-            <span style="font-size: 1.8rem;">⚽</span>
-          </div>
-          <strong>Sorare Amateur</strong>
-          <small>Fantasy Oficial</small>
-        </div>
-      </div>
-
-      <!-- Barra Roja Oficial de Marca & Miliga (LaLiga EA Sports Style) -->
-      <div class="laliga-red-footer">
-        <div class="laliga-footer-brand">
-          <div style="background: linear-gradient(135deg, #e51b24 0%, #ff2b44 100%); width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(229, 27, 36, 0.4);">
-            <span style="font-size: 1.4rem;">⚽</span>
-          </div>
+        <div class="view-title-row">
           <div>
-            <h2 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: #ff2b44; letter-spacing: -0.04em; margin: 0; line-height: 1;">
-              LIGA<span style="color: #0f172a;">MASTER</span>
-            </h2>
-            <small style="font-size: 0.65rem; color: #64748b; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
-              ASOCIACIÓN DE FÚTBOL DE ARAUCO
-            </small>
+            <h1 class="view-title">Resultados de la Competición</h1>
+            <p class="view-subtitle">
+              Marcadores y actas oficiales validadas por los capitanes y el Colegio de Árbitros de Arauco (CAPA).
+            </p>
+          </div>
+          <div class="series-filter-box">
+            <select id="results-round-select" class="series-select" aria-label="Filtrar por Jornada">
+              <option value="round-7">Jornada 7 (Reciente)</option>
+              <option value="round-6">Jornada 6</option>
+              <option value="round-5">Jornada 5</option>
+            </select>
           </div>
         </div>
+      </div>
 
-        <!-- Redes Sociales Oficiales -->
-        <div class="laliga-footer-socials">
-          <a href="https://facebook.com" target="_blank" rel="noopener" class="laliga-social-icon" title="Facebook Oficial Voz Deportiva & AFA Arauco">
-            <span>📘</span>
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener" class="laliga-social-icon" title="Instagram Oficial">
-            <span>📸</span>
-          </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener" class="laliga-social-icon" title="YouTube Voz Deportiva Transmisiones">
-            <span>▶️</span>
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener" class="laliga-social-icon" title="X / Twitter">
-            <span>✖️</span>
-          </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener" class="laliga-social-icon" title="TikTok Oficial">
-            <span>🎵</span>
-          </a>
+      <div class="matches-grid" id="results-matches-grid">
+        <!-- Renderizado dinámico desde app.js -->
+      </div>
+
+    </section>
+
+    <!-- ================================================================
+         6. VISTA: EQUIPO (PÁGINA DE CLUB)
+         ================================================================ -->
+    <section id="team-view" class="platform-view">
+      
+      <!-- Tira de Selección de Clubes -->
+      <div class="clubs-selector-strip" id="team-view-clubs-strip">
+        <!-- Renderizado dinámico con los 10 clubes oficiales -->
+      </div>
+
+      <!-- Header del Club Seleccionado -->
+      <div class="team-hero-card" id="team-hero-card">
+        <div class="team-hero-crest-box" id="team-hero-crest">
+          <!-- Escudo dinámico -->
         </div>
-
-        <!-- Botón Oficial Estilo LaLiga 'ENTRA EN MILIGA' -->
-        <div>
-          <button class="btn-entrar-miliga" onclick="window.ligaproOpenWelcomePortal()">
-            <span>👤</span> ENTRA EN MILIGA
-          </button>
+        <div class="team-hero-info">
+          <div class="team-hero-locality" id="team-hero-locality">Arauco • Región del Biobío</div>
+          <h1 class="team-hero-title" id="team-hero-name">Club Deportivo Arauco</h1>
+          <div class="team-meta-pills">
+            <div class="team-meta-pill">Fundado: <strong id="team-meta-founded">01 de enero de 1939</strong></div>
+            <div class="team-meta-pill">Estadio Habitual: <strong id="team-meta-stadium">Estadio Municipal de Arauco</strong></div>
+            <div class="team-meta-pill">Palmarés: <strong id="team-meta-titles">11 Títulos de Honor</strong></div>
+            <div class="team-meta-pill">Estado ANFA: <strong style="color: var(--color-success);">Vigente / Federado</strong></div>
+          </div>
         </div>
       </div>
 
-      <!-- Columnas de Navegación Oficial e Información -->
-      <div class="laliga-footer-cols">
-        <div class="laliga-footer-col">
-          <h5>LIGAMASTER SERIES</h5>
-          <ul>
-            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('honor')">Serie de Honor</a></li>
-            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('senior_35')">Serie Senior (35+ Años)</a></li>
-            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('juvenil')">Serie Juvenil (Sub-17)</a></li>
-            <li><a href="#standings-view" onclick="window.ligaproChangeSeries('general')">Tabla General Acumulada</a></li>
-            <li><a href="#fixture-view" onclick="document.querySelector('[data-target=\'fixture-view\']').click()">Calendario & Programación</a></li>
-          </ul>
-        </div>
+      <!-- Tabs Internas del Club -->
+      <div class="team-tabs-bar">
+        <button class="team-tab-btn active" data-team-tab="resumen">Resumen</button>
+        <button class="team-tab-btn" data-team-tab="partidos">Partidos</button>
+        <button class="team-tab-btn" data-team-tab="plantel">Plantel Oficial</button>
+        <button class="team-tab-btn" data-team-tab="estadisticas">Estadísticas</button>
+      </div>
 
-        <div class="laliga-footer-col">
-          <h5>CLUBES ASOCIADOS</h5>
-          <ul>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Pelantaro (1929)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">C.D. Arauco (1939)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Colo-Colo Arauco (1948)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Arturo Prat (1952)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Jorge Robledo (1954)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Gente de Mar (1960)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Caupolicán (1965)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Celulosa Arauco (1972)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Brisas del Mar (1978)</a></li>
-            <li><a href="#clubs-view" onclick="document.querySelector('[data-target=\'clubs-view\']').click()">Real José María (2026)</a></li>
-          </ul>
-        </div>
+      <!-- Contenedor del Contenido de Tabs de Equipo -->
+      <div id="team-tab-content-container">
+        <!-- Renderizado dinámico desde app.js -->
+      </div>
 
-        <div class="laliga-footer-col">
-          <h5>TRANSMISIONES & PRENSA</h5>
-          <ul>
-            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Voz Deportiva (Lun-Mié-Vie 20:00)</a></li>
-            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Sala de Prensa Comunal</a></li>
-            <li><a href="#news-view" onclick="document.querySelector('[data-target=\'news-view\']').click()">Alertas de Gol al Celular</a></li>
-            <li><a href="#business-view" onclick="document.querySelector('[data-target=\'business-view\']').click()">Kit de Difusión Redes</a></li>
-            <li><a href="#" onclick="document.getElementById('modal-blank-sheet-backdrop').classList.add('active')">Planilla Oficial en Blanco A4</a></li>
-          </ul>
-        </div>
+    </section>
 
-        <div class="laliga-footer-col">
-          <h5>INSTITUCIONAL AFA</h5>
-          <ul>
-            <li><span>Asociación de Fútbol de Arauco</span></li>
-            <li><span>Fundada el 1 de Octubre de 1940</span></li>
-            <li><span>86 Años de Historia (10ª más antigua)</span></li>
-            <li><span>Presidente: Sr. Claudio Pampaloni A.</span></li>
-            <li><span>Colegio de Árbitros Arauco (CAPA)</span></li>
-            <li><span>Sede Oficial: Julio Montt Nº 386</span></li>
-            <li><a href="#regulations-view" onclick="document.querySelector('[data-target=\'regulations-view\']').click()">Reglamento ANFA 2026</a></li>
-          </ul>
+    <!-- ================================================================
+         7. VISTA: JUGADOR (FICHA PROFESIONAL)
+         ================================================================ -->
+    <section id="player-view" class="platform-view">
+      
+      <!-- Selector / Buscador Rápido de Jugador -->
+      <div class="table-wrapper-card" style="margin-bottom: 2rem; padding: 1.25rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
+            <label for="player-select-club" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Club:</label>
+            <select id="player-select-club" class="series-select" style="flex: 1;">
+              <!-- Opciones de los 10 clubes -->
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
+            <label for="player-select-individual" style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-secondary); white-space: nowrap;">Futbolista:</label>
+            <select id="player-select-individual" class="series-select" style="flex: 1;">
+              <!-- Jugadores del club seleccionado -->
+            </select>
+          </div>
         </div>
       </div>
 
-      <!-- Legal & Copyright -->
-      <div class="laliga-bottom-legal">
-        <div>
-          © 2026-2027 <strong>LigaMaster</strong> • Desarrollado para la <strong>Asociación de Fútbol de Arauco (AFA)</strong>. Afiliada a ANFA Región del Biobío.
+      <!-- Ficha de Perfil del Jugador -->
+      <div class="player-profile-card" id="player-profile-card">
+        <div class="player-profile-avatar-box">
+          <img id="player-profile-img" src="" alt="Foto Jugador" class="player-profile-avatar-img">
         </div>
-        <div style="display: flex; gap: 1rem;">
-          <a href="#" style="color: #94a3b8; text-decoration: none;">Política de Privacidad</a>
-          <span>•</span>
-          <a href="#" style="color: #94a3b8; text-decoration: none;">Términos y Condiciones ANFA</a>
-          <span>•</span>
-          <a href="#" style="color: #94a3b8; text-decoration: none;">Contacto Directiva</a>
+        <div class="player-profile-info">
+          <div class="player-profile-header-row">
+            <span class="player-profile-dorsal" id="player-profile-dorsal">#9</span>
+            <h1 class="player-profile-name" id="player-profile-name">Mauricio Neira</h1>
+          </div>
+          <div class="player-profile-club-row">
+            <div class="player-profile-crest" id="player-profile-crest"></div>
+            <span class="player-profile-club-name" id="player-profile-club">Club Deportivo Jorge Robledo</span>
+            <span style="color: var(--color-text-muted);">•</span>
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted);" id="player-profile-pos">Delantero Centro</span>
+            <span style="color: var(--color-text-muted);">•</span>
+            <span style="font-size: 0.75rem; background: var(--color-success-bg); color: var(--color-success); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); font-weight: 800;">
+              CARNET ANFA VIGENTE
+            </span>
+          </div>
+
+          <!-- Métricas del Jugador -->
+          <div class="player-metrics-grid">
+            <div class="player-metric-box highlight">
+              <div class="player-metric-label">Goles</div>
+              <div class="player-metric-value" id="player-metric-goals">11</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Asistencias</div>
+              <div class="player-metric-value" id="player-metric-assists">4</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Partidos (PJ)</div>
+              <div class="player-metric-value" id="player-metric-matches">7</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Titular (TIT)</div>
+              <div class="player-metric-value" id="player-metric-starters">7</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Minutos (MIN)</div>
+              <div class="player-metric-value" id="player-metric-minutes">630</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Amarillas</div>
+              <div class="player-metric-value" id="player-metric-yellows" style="color: var(--color-warning);">2</div>
+            </div>
+            <div class="player-metric-box">
+              <div class="player-metric-label">Rojas</div>
+              <div class="player-metric-value" id="player-metric-reds" style="color: var(--color-danger);">0</div>
+            </div>
+          </div>
         </div>
       </div>
+
+    </section>
+
+    <!-- ================================================================
+         8. VISTA: ESTADÍSTICAS OFICIALES
+         ================================================================ -->
+    <section id="stats-view" class="platform-view">
+      
+      <div class="view-header">
+        <div class="view-breadcrumb">
+          <span>Competición</span> <span class="separator">/</span> <span>Métricas Individuales</span>
+        </div>
+        <div class="view-title-row">
+          <div>
+            <h1 class="view-title">Estadísticas Oficiales</h1>
+            <p class="view-subtitle">
+              Rankings de goleadores, asistencias, tarjetas y porteros con menos goles concedidos.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pastillas de Categorías de Estadísticas -->
+      <div class="stats-pills-bar">
+        <button class="stats-pill-btn active" data-stat-category="goleadores">Goleadores</button>
+        <button class="stats-pill-btn" data-stat-category="asistencias">Asistencias</button>
+        <button class="stats-pill-btn" data-stat-category="amarillas">Tarjetas Amarillas</button>
+        <button class="stats-pill-btn" data-stat-category="rojas">Tarjetas Rojas</button>
+        <button class="stats-pill-btn" data-stat-category="porteros">Porteros</button>
+      </div>
+
+      <!-- Tabla Estadística de Alto Rendimiento -->
+      <div class="table-wrapper-card">
+        <div class="sports-table-responsive">
+          <table class="sports-table" id="official-stats-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;" class="text-center">#</th>
+                <th>JUGADOR</th>
+                <th>CLUB</th>
+                <th class="text-center" id="stats-metric-header" style="color: var(--color-primary);">GOLES</th>
+                <th class="text-center">PARTIDOS JUGADOS</th>
+                <th class="text-center">PROMEDIO POR PARTIDO</th>
+              </tr>
+            </thead>
+            <tbody id="stats-table-body">
+              <!-- Renderizado dinámico desde app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================
+         9. VISTA: NOTICIAS & PRENSA
+         ================================================================ -->
+    <section id="news-view" class="platform-view">
+      
+      <div class="view-header">
+        <div class="view-breadcrumb">
+          <span>Comunicación Oficial</span> <span class="separator">/</span> <span>Sala de Prensa</span>
+        </div>
+        <div class="view-title-row">
+          <div>
+            <h1 class="view-title">Noticias & Actualidad</h1>
+            <p class="view-subtitle">
+              Crónicas oficiales de la jornada, designaciones arbitrales de CAPA y resoluciones del Tribunal de Penas.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-grid" id="official-news-grid">
+        <!-- Renderizado dinámico desde app.js -->
+      </div>
+
     </section>
 
   </main>
 
   <!-- ====================================================================
+       FOOTER INSTITUCIONAL LIGAMASTER
+       ==================================================================== -->
+  <footer class="platform-footer">
+    <div class="platform-container">
+      
+      <div class="platform-footer-inner">
+        
+        <!-- Columna Marca -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-title">LIGA<span>MASTER</span></div>
+          <p class="footer-desc">
+            La plataforma líder de gestión y difusión digital para el fútbol amateur chileno. Diseñada para dotar a asociaciones, directivas y clubes de herramientas profesionales de visualización.
+          </p>
+          <div class="footer-social-row">
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-link" title="Facebook Oficial" aria-label="Facebook">📘</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-link" title="Instagram Oficial" aria-label="Instagram">📸</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-link" title="YouTube Transmisiones" aria-label="YouTube">▶️</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-link" title="X / Twitter" aria-label="X">✖️</a>
+          </div>
+        </div>
+
+        <!-- Columna 1: Competiciones -->
+        <div class="footer-nav-col">
+          <h5>Competiciones</h5>
+          <ul>
+            <li><a href="#league-view" data-nav="league-view">Serie de Honor</a></li>
+            <li><a href="#standings-view" data-nav="standings-view">Serie Senior 35+</a></li>
+            <li><a href="#standings-view" data-nav="standings-view">Serie Juvenil Sub-17</a></li>
+            <li><a href="#calendar-view" data-nav="calendar-view">Copa de Campeones</a></li>
+            <li><a href="#calendar-view" data-nav="calendar-view">Torneo Regional Biobío</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 2: Ligas de Chile -->
+        <div class="footer-nav-col">
+          <h5>Ligas de Chile</h5>
+          <ul>
+            <li><a href="#" onclick="window.ligamasterSwitchLeague('arauco')">Liga de Arauco (Activa)</a></li>
+            <li><a href="#" onclick="window.ligamasterSwitchLeague('lebu')">Liga de Lebu (Demo)</a></li>
+            <li><a href="#" onclick="window.ligamasterSwitchLeague('canete')">Liga de Cañete (Demo)</a></li>
+            <li><a href="#" onclick="window.ligamasterSwitchLeague('cordillera')">Liga Cordillera Santiago (Demo)</a></li>
+            <li><a href="#" id="footer-btn-postular">Postular mi Asociación</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Equipos & Jugadores -->
+        <div class="footer-nav-col">
+          <h5>Clubes & Fichas</h5>
+          <ul>
+            <li><a href="#team-view" data-nav="team-view">Directorio de Clubes</a></li>
+            <li><a href="#player-view" data-nav="player-view">Padrón de Jugadores</a></li>
+            <li><a href="#stats-view" data-nav="stats-view">Goleadores Oficiales</a></li>
+            <li><a href="#stats-view" data-nav="stats-view">Valla Menos Batida</a></li>
+            <li><a href="#news-view" data-nav="news-view">Tribunal de Penas</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 4: Recursos & Soporte -->
+        <div class="footer-nav-col">
+          <h5>Recursos & Soporte</h5>
+          <ul>
+            <li><a href="#" id="footer-btn-reglamento">Reglamento ANFA 2026</a></li>
+            <li><a href="#" id="footer-btn-arbitros">Colegio de Árbitros (CAPA)</a></li>
+            <li><a href="#" id="footer-btn-actas">Planillas Oficiales de Cancha</a></li>
+            <li><a href="#" id="footer-btn-contacto">Contacto para Directivas</a></li>
+            <li><a href="#" id="footer-btn-terminos">Términos de Privacidad</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Barra Legal Inferior -->
+      <div class="footer-legal-bar">
+        <div>
+          © 2026-2027 <strong>LigaMaster</strong> • Plataforma Deportiva del Fútbol Amateur Chileno. Todos los derechos reservados.
+        </div>
+        <div style="display: flex; gap: 1rem;">
+          <span>Tecnología Deportiva Independiente</span>
+          <span>•</span>
+          <span>Región del Biobío, Chile</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ====================================================================
        MODALES
        ==================================================================== -->
 
-  <!-- Modal Selector de Rol con PIN de Seguridad (RBAC) -->
-  <div class="modal-backdrop" id="modal-role-backdrop">
-    <div class="modal-card" style="max-width: 440px;">
-      <div class="modal-header">
-        <h3>🔑 Control de Acceso y Perfiles</h3>
-        <button class="modal-close-btn" id="modal-role-close">&times;</button>
+  <!-- Modal 1: Buscador Global (Command Palette) -->
+  <div class="modal-overlay" id="modal-global-search">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <h3>Buscador Global en LigaMaster</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
+      <div class="modal-body">
+        <div class="search-input-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="global-search-input" class="search-field" placeholder="Escribe para buscar ligas, equipos, futbolistas o partidos..." autofocus>
+        </div>
 
-      <div class="form-group">
-        <label class="form-label">Seleccione Perfil</label>
-        <select id="select-target-role" class="form-control">
-          <option value="public">👤 Hincha / Público General (Solo Lectura - Sin PIN)</option>
-          <option value="referee">⏱️ Turno de Cancha / Árbitro Oficial (PIN: 1234 / 2026)</option>
-          <option value="admin">🏛️ Directiva ANFA Arauco / Tribunal (Requiere PIN: 9999)</option>
-        </select>
-      </div>
-
-      <!-- Selector de Cancha Asignada para el Turno (Aislamiento por Estadio) -->
-      <div class="form-group" id="role-venue-group" style="display: none;">
-        <label class="form-label">📍 Cancha / Estadio donde Operas el Turno</label>
-        <select id="select-turno-venue" class="form-control">
-          <option value="match-arauco-01">🏟️ Estadio Municipal Ramón Burgos (Robledo vs Brisas)</option>
-          <option value="match-arauco-02">🏟️ Estadio Sebastián Gaete (Arauco vs Arturo Prat)</option>
-        </select>
-        <small style="color: var(--text-muted); font-size: 0.72rem; margin-top: 0.3rem; display: block;">
-          * Tu sesión quedará anclada a este estadio. Solo podrás ingresar goles y subir actas para esta cancha.
-        </small>
-      </div>
-
-      <div class="form-group" id="role-pin-group" style="display: none;">
-        <label class="form-label">Código PIN de Seguridad</label>
-        <input type="password" id="input-role-pin" class="form-control" placeholder="Ingrese PIN de 4 dígitos" maxlength="6">
-        <small style="color: var(--text-muted); font-size: 0.72rem; margin-top: 0.3rem; display: block;">
-          * Pistas para demostración: Turno de Cancha = <code>1234</code> ó <code>2026</code> | Directiva = <code>9999</code>
-        </small>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="modal-role-cancel">Cancelar</button>
-        <button class="btn btn-primary" id="btn-submit-role">Aplicar Perfil</button>
+        <div id="global-search-results">
+          <!-- Resultados dinámicos agrupados por Ligas, Equipos, Jugadores, Partidos -->
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal para Registrar Incidencia -->
-  <div class="modal-backdrop" id="modal-event-backdrop">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="modal-event-title">⚽ Registrar Incidencia</h3>
-        <button class="modal-close-btn" id="modal-event-close">&times;</button>
+  <!-- Modal 2: Selector de Ligas de Chile (Multi-Liga Hierarchy) -->
+  <div class="modal-overlay" id="modal-league-picker">
+    <div class="modal-window" style="max-width: 600px;">
+      <div class="modal-header-bar">
+        <h3>Seleccionar Competición o Región</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
-
-      <input type="hidden" id="modal-event-type" value="gol">
-
-      <div class="form-group">
-        <label class="form-label">Equipo</label>
-        <select id="modal-event-team" class="form-control"></select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Jugador Involucrado</label>
-        <select id="modal-event-player" class="form-control"></select>
-      </div>
-
-      <div class="form-group" id="modal-card-type-group" style="display: none;">
-        <label class="form-label">Tipo de Tarjeta</label>
-        <select id="modal-card-type" class="form-control">
-          <option value="amarilla">🟨 Tarjeta Amarilla (Amonestación)</option>
-          <option value="roja">🟥 Tarjeta Roja (Expulsión Directa y Suspensión)</option>
-        </select>
-      </div>
-
-      <div class="form-group" id="modal-assist-group">
-        <label class="form-label">Asistencia de Gol (Opcional)</label>
-        <select id="modal-event-assist" class="form-control"></select>
-      </div>
-
-      <div class="form-group" style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem;">
-        <div>
-          <label class="form-label">Minuto</label>
-          <input type="number" id="modal-event-minute" class="form-control" min="1" max="120" value="45">
-        </div>
-        <div id="modal-reason-group">
-          <label class="form-label">Motivo o Detalle</label>
-          <input type="text" id="modal-event-reason" class="form-control" placeholder="Ej: Remate al ángulo / Falta táctica">
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="modal-event-cancel">Cancelar</button>
-        <button class="btn btn-primary" id="modal-event-save">Guardar en Papeleta</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Inspección de Acta Física Firmada en Cancha (Anti-Fraude y Fe Pública) -->
-  <div class="modal-backdrop" id="modal-view-sheet-backdrop">
-    <div class="modal-card" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
-      <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <span style="font-size: 1.3rem;">📷</span>
-          <div>
-            <h3 style="margin: 0; font-size: 1.1rem;">Acta Oficial de Cancha • Respaldo Firmado</h3>
-            <span style="font-size: 0.72rem; color: var(--accent-pitch);">Garantía de Transparencia y Fe Pública ANFA Arauco</span>
-          </div>
-        </div>
-        <button class="modal-close-btn" id="modal-view-sheet-close">&times;</button>
-      </div>
-
-      <div style="text-align: center; margin: 1rem 0; background: #000; border-radius: 8px; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.15);">
-        <img id="view-sheet-image" src="" alt="Papeleta física firmada a mano" style="max-width: 100%; max-height: 420px; object-fit: contain; border-radius: 4px;">
-      </div>
-
-      <div id="view-sheet-details"></div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="modal-view-sheet-cancel">Cerrar Inspección</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 1: Transcripción Express & Subida de Foto-Papeleta Física -->
-  <div class="modal-backdrop" id="modal-quick-digitize-backdrop">
-    <div class="modal-card" style="max-width: 620px; max-height: 90vh; overflow-y: auto;">
-      <div class="modal-header">
-        <h3>📝 Transcripción Express & Foto-Papeleta ANFA</h3>
-        <button class="modal-close-btn" id="modal-quick-digitize-close">&times;</button>
-      </div>
-
-      <div style="background: rgba(37,99,235,0.1); border-left: 4px solid var(--accent-blue); padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1.25rem;">
-        <strong style="color: #93c5fd; font-size: 0.85rem;">📸 Flujo Real de Cancha en Arauco:</strong>
-        <p style="font-size: 0.78rem; color: #cbd5e1; margin-top: 0.25rem; line-height: 1.5;">
-          En el barro y lluvia del fin de semana, los turnos firman en la papeleta de papel a lápiz pasta. Al terminar el partido o el domingo por la noche, el turno o dirigente le saca una foto con su celular, digita el marcador y tarjetas en 2 minutos, y el sistema oficializa el resultado actualizando la tabla y las sanciones de inmediato.
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1.25rem;">
+          LigaMaster está diseñada como una arquitectura multi-asociación. Selecciona cualquier competición para explorar su calendario, estadísticas y clubes afiliados:
         </p>
-      </div>
 
-      <form id="form-quick-digitize">
-        <div class="form-group">
-          <label class="form-label">Seleccionar Partido de la Fecha</label>
-          <select id="quick-select-match" class="form-control"></select>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" class="form-group">
-          <div>
-            <label class="form-label" id="quick-lbl-home">Goles Equipo Local</label>
-            <input type="number" id="quick-score-home" class="form-control" min="0" max="30" value="2" required>
-          </div>
-          <div>
-            <label class="form-label" id="quick-lbl-away">Goles Equipo Visita</label>
-            <input type="number" id="quick-score-away" class="form-control" min="0" max="30" value="1" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Foto o Escaneo del Acta Física Firmada</label>
-          <div style="border: 2px dashed var(--border-subtle); border-radius: 8px; padding: 1rem; text-align: center; background: rgba(0,0,0,0.25);">
-            <div id="quick-photo-preview-container" style="margin-bottom: 0.75rem; display: none;">
-              <img id="quick-photo-preview" src="" alt="Foto Acta" style="max-height: 160px; border-radius: 6px; border: 1px solid var(--border-subtle); margin: 0 auto; display: block;">
-              <small id="quick-photo-name" style="color: var(--accent-pitch); font-size: 0.75rem; margin-top: 0.3rem; display: block;"></small>
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-              <label class="btn btn-sm btn-secondary" style="cursor: pointer;">
-                📷 Tomar Foto / Subir Archivo
-                <input type="file" id="quick-photo-input" accept="image/*" capture="environment" style="display: none;">
-              </label>
-              <button type="button" class="btn btn-sm btn-secondary" id="btn-use-sample-photo">
-                📄 Usar Foto de Muestra (Acta Firmada)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Observaciones Arbitrales / Goleadores / Tarjetas (Opcional)</label>
-          <textarea id="quick-match-notes" class="form-control" rows="2" placeholder="Ej: Goles de M. Neira (2) y A. Guajardo. Amonestado R. Sáez por reclamos. Partido sin incidentes."></textarea>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="modal-quick-digitize-cancel">Cancelar</button>
-          <button type="submit" class="btn btn-primary" id="btn-submit-quick-digitize" style="background: linear-gradient(135deg, #00ff85 0%, #00cc6a 100%);">
-            ✓ Oficializar Partido & Homologar en LigaPro
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal 2: Planilla Oficial en Blanco para Llevar a Cancha -->
-  <div class="modal-backdrop" id="modal-blank-sheet-backdrop">
-    <div class="modal-card" style="max-width: 800px; max-height: 92vh; overflow-y: auto;">
-      <div class="modal-header">
-        <h3>📋 Planilla Oficial en Blanco para Cancha • ANFA Arauco</h3>
-        <button class="modal-close-btn" id="modal-blank-sheet-close">&times;</button>
-      </div>
-
-      <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Serie:</span>
-          <select id="blank-sheet-series" class="filter-select" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
-            <option value="honor">Serie de Honor (Primera)</option>
-            <option value="senior_35">Serie Senior 35+</option>
-            <option value="juvenil">Serie Juvenil Sub-17</option>
-            <option value="segunda_adulta">Serie Segunda Adulta</option>
-          </select>
-        </div>
-
-        <button class="btn btn-sm btn-primary" id="btn-print-blank-trigger">
-          🖨️ Imprimir Formato Cancha (A4)
-        </button>
-      </div>
-
-      <!-- Contenedor Imprimible de la Planilla -->
-      <div id="printable-blank-sheet" style="background: #ffffff; color: #0f172a; padding: 1.75rem; border-radius: 8px; font-family: sans-serif; font-size: 0.78rem; line-height: 1.4; border: 1px solid #cbd5e1;">
-        <!-- Encabezado Oficial -->
-        <div style="text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 0.75rem; margin-bottom: 1rem;">
-          <div style="font-size: 1.15rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #0f172a;">
-            ASOCIACIÓN DE FÚTBOL AMATEUR DE ARAUCO
-          </div>
-          <div style="font-size: 0.75rem; font-weight: 700; color: #475569;">
-            AFILIADA A ANFA REGIÓN DEL BIOBÍO • FUNDADA EN 1934 • PERSONALIDAD JURÍDICA Nº 245
-          </div>
-          <div style="font-size: 0.72rem; color: #64748b;">
-            Sede: Julio Montt Nº 386, Arauco • CAMPEONATO OFICIAL 2026 • ACTA ARBITRAL Y PAPELETA DE JUEGO
-          </div>
-        </div>
-
-        <!-- Metadatos del Partido -->
-        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; border: 1px solid #94a3b8; padding: 0.5rem; border-radius: 4px; background: #f8fafc;">
-          <div><strong>Partido:</strong> ______________________ vs ______________________</div>
-          <div><strong>Serie:</strong> <span id="blank-sheet-series-label">Honor</span></div>
-          <div><strong>Fecha:</strong> ____/____/2026</div>
-          <div><strong>Recinto Deportivo:</strong> Estadio Municipal de Arauco</div>
-          <div><strong>Hora Inicio:</strong> ____:____ hrs</div>
-          <div><strong>Marcador:</strong> [ ___ ] - [ ___ ]</div>
-        </div>
-
-        <!-- Nómina de Jugadores (Tabla Dividida Local / Visita) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-          <!-- Local -->
-          <div>
-            <div style="font-weight: 800; text-transform: uppercase; background: #e2e8f0; padding: 0.3rem 0.5rem; border: 1px solid #94a3b8; text-align: center;">
-              CLUB LOCAL: _______________________
-            </div>
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.72rem; border: 1px solid #94a3b8;">
-              <thead>
-                <tr style="background: #f1f5f9;">
-                  <th style="border: 1px solid #94a3b8; width: 25px; text-align: center;">Nº</th>
-                  <th style="border: 1px solid #94a3b8; padding: 0.2rem;">Nombre y Apellidos (20 Jugadores)</th>
-                  <th style="border: 1px solid #94a3b8; width: 60px; text-align: center;">Firma</th>
-                  <th style="border: 1px solid #94a3b8; width: 25px; text-align: center;">Gol</th>
-                  <th style="border: 1px solid #94a3b8; width: 30px; text-align: center;">Tarj</th>
-                </tr>
-              </thead>
-              <tbody id="blank-sheet-rows-home">
-                <!-- Generado dinámicamente con 20 filas -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Visita -->
-          <div>
-            <div style="font-weight: 800; text-transform: uppercase; background: #e2e8f0; padding: 0.3rem 0.5rem; border: 1px solid #94a3b8; text-align: center;">
-              CLUB VISITA: _______________________
-            </div>
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.72rem; border: 1px solid #94a3b8;">
-              <thead>
-                <tr style="background: #f1f5f9;">
-                  <th style="border: 1px solid #94a3b8; width: 25px; text-align: center;">Nº</th>
-                  <th style="border: 1px solid #94a3b8; padding: 0.2rem;">Nombre y Apellidos (20 Jugadores)</th>
-                  <th style="border: 1px solid #94a3b8; width: 60px; text-align: center;">Firma</th>
-                  <th style="border: 1px solid #94a3b8; width: 25px; text-align: center;">Gol</th>
-                  <th style="border: 1px solid #94a3b8; width: 30px; text-align: center;">Tarj</th>
-                </tr>
-              </thead>
-              <tbody id="blank-sheet-rows-away">
-                <!-- Generado dinámicamente con 20 filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Observaciones y Firmas -->
-        <div style="border: 1px solid #94a3b8; padding: 0.5rem; border-radius: 4px; margin-bottom: 1rem; min-height: 50px;">
-          <strong>Informe del Árbitro / Director de Turno:</strong>
-          <div style="height: 35px; border-bottom: 1px dashed #cbd5e1;"></div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; text-align: center; padding-top: 0.5rem;">
-          <div>
-            <div style="border-bottom: 1px solid #475569; height: 30px;"></div>
-            <div style="font-size: 0.7rem; font-weight: 700; margin-top: 0.2rem;">Firma Capitán Local</div>
-          </div>
-          <div>
-            <div style="border-bottom: 1px solid #475569; height: 30px;"></div>
-            <div style="font-size: 0.7rem; font-weight: 700; margin-top: 0.2rem;">Firma Capitán Visita</div>
-          </div>
-          <div>
-            <div style="border-bottom: 1px solid #475569; height: 30px;"></div>
-            <div style="font-size: 0.7rem; font-weight: 700; margin-top: 0.2rem;">Firma Árbitro CAPA / Turno</div>
-          </div>
+        <div id="league-picker-modal-list">
+          <!-- Renderizado dinámico desde app.js -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ====================================================================
-       VISTA 10: CMS TURNO (ADMIN)
-       ==================================================================== -->
-  <section id="cms-view" class="tab-view">
-    <div class="cms-content">
-      
-      <!-- Info del Partido -->
-      <div class="match-info-card">
-          <div class="info-row">
-              <i class="ti ti-calendar"></i>
-              <select id="cms-matchSelector" class="form-control" style="background: transparent; color: white; border: 1px solid var(--border-color); width: 100%; padding: 0.2rem;" onchange="window.cmsChangeMatch(this.value)">
-                <!-- Partidos generados por JS -->
-              </select>
-          </div>
-          <div class="info-row">
-              <i class="ti ti-trophy"></i>
-              <strong id="cms-matchSeries">Serie de Honor</strong>
-          </div>
-          <div class="info-row">
-              <i class="ti ti-map-pin"></i>
-              <span id="cms-matchVenue">Estadio Municipal Ramón Burgos</span>
-          </div>
-          <div class="info-row">
-              <i class="ti ti-whistle"></i>
-              <span id="cms-matchReferee">Árbitro: C. Henríquez</span>
-          </div>
+  <!-- Modal 3: Ficha Detallada de Partido -->
+  <div class="modal-overlay" id="modal-match-detail">
+    <div class="modal-window" style="max-width: 620px;">
+      <div class="modal-header-bar">
+        <h3 id="match-modal-title">Ficha Oficial del Encuentro</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
-
-      <!-- Tablero Arcade -->
-      <div class="arcade-scoreboard">
-          <!-- Local -->
-          <div class="team-col">
-              <img src="" alt="Local" class="team-logo" id="cms-homeLogo">
-              <div class="team-name" id="cms-homeName">Local</div>
-              <button class="btn-arcade btn-plus" onclick="window.cmsAddGoal('home')" aria-label="Sumar gol local">
-                  ➕
-              </button>
-              <div class="score-display" id="cms-homeScore">0</div>
-              <button class="btn-arcade btn-minus" onclick="window.cmsRemoveLastGoal('home')" aria-label="Restar gol local">
-                  ➖
-              </button>
-          </div>
-
-          <div class="vs-divider">VS</div>
-
-          <!-- Visita -->
-          <div class="team-col">
-              <img src="" alt="Visita" class="team-logo" id="cms-awayLogo">
-              <div class="team-name" id="cms-awayName">Visita</div>
-              <button class="btn-arcade btn-plus" onclick="window.cmsAddGoal('away')" aria-label="Sumar gol visita">
-                  ➕
-              </button>
-              <div class="score-display" id="cms-awayScore">0</div>
-              <button class="btn-arcade btn-minus" onclick="window.cmsRemoveLastGoal('away')" aria-label="Restar gol visita">
-                  ➖
-              </button>
-          </div>
-      </div>
-
-      <!-- Lista de Goleadores -->
-      <div class="scorers-section">
-          <h3 style="color: white;">Registro de Goles en Vivo</h3>
-          <div id="cms-scorersList">
-              <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0;">
-                  Aún no hay goles registrados
-              </div>
-          </div>
-      </div>
-
-      <!-- Botón Finalizar -->
-      <div style="padding: 1rem 0 3rem 0;">
-        <button class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem; border-radius: 1rem; font-weight: 700; background: linear-gradient(135deg, var(--status-success), #1eb854); border: none; box-shadow: 0 4px 15px rgba(30, 215, 96, 0.3);" onclick="window.cmsOpenSignatureModal()">
-            ✅ FINALIZAR PARTIDO Y ENVIAR TABLA
-        </button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Modal 3: Registrar Movimiento de Tesorería (ANFA Arauco) -->
-  <div class="modal-backdrop" id="modal-new-movement-backdrop">
-    <div class="modal-card" style="max-width: 500px;">
-      <div class="modal-header">
-        <h3>💰 Registrar Movimiento de Tesorería</h3>
-        <button class="modal-close-btn" id="modal-movement-close">&times;</button>
-      </div>
-
-      <form id="form-new-treasury-movement">
-        <div class="form-group">
-          <label class="form-label">Tipo de Movimiento</label>
-          <select id="mov-type" class="form-control" required>
-            <option value="ingreso">🟢 Ingreso a Caja Chica</option>
-            <option value="egreso">🔴 Egreso / Gasto Operacional</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Categoría Contable</label>
-          <select id="mov-category" class="form-control" required>
-            <option value="Cuota de Inscripción">Cuota Anual de Club / Asociación</option>
-            <option value="Multa Tarjetas Amarillas">Multa Tarjetas Amarillas (Art. 42 ANFA)</option>
-            <option value="Multa Tribunal de Penas">Multa Tribunal de Honor y Disciplina</option>
-            <option value="Honorarios Arbitrales">Honorarios Colegio de Árbitros (CAPA)</option>
-            <option value="Implementación Deportiva">Balones y Material de Juego</option>
-            <option value="Mantención y Operación">Mantención Sede Julio Montt / Gastos Básicos</option>
-            <option value="Arriendo de Canchas">Arriendo de Recintos Deportivos</option>
-            <option value="Pases y Fichajes">Arancel Pases Comunales / Inter-asociaciones</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Club o Entidad Relacionada</label>
-          <select id="mov-club" class="form-control">
-            <option value="asociacion">🏛️ ANFA Asociación Arauco</option>
-            <option value="club-arauco">⚓ C.D. Arauco</option>
-            <option value="club-arturo-prat">⚓ C.D. Arturo Prat</option>
-            <option value="club-brisas-del-mar">🌊 C.D. Brisas del Mar (Tubul)</option>
-            <option value="club-caupolican">🌲 C.D. Caupolicán</option>
-            <option value="club-celulosa-arauco">🏭 C.D. Celulosa Arauco</option>
-            <option value="club-colo-colo">⚪ C.D. Colo Colo (Arauco)</option>
-            <option value="club-gente-de-mar">🐟 C.D. Gente de Mar</option>
-            <option value="club-jorge-robledo">⭐ C.D. Jorge Robledo</option>
-            <option value="club-pelantaro">🏹 C.D. Pelantaro</option>
-            <option value="club-real-jose-maria">👑 C.D. Real José María</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Monto Total en Pesos Chilenos (CLP)</label>
-          <input type="number" id="mov-amount" class="form-control" placeholder="Ej: 45000" min="500" step="500" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Glosa / Concepto Oficial</label>
-          <input type="text" id="mov-concept" class="form-control" placeholder="Ej: Pago honorarios terna arbitral Fecha 8 vs Brisas" required>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="document.getElementById('modal-new-movement-backdrop').classList.remove('active')">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar y Emitir Comprobante</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal 4: Comprobante Oficial Imprimible de Tesorería -->
-  <div class="modal-backdrop" id="modal-receipt-backdrop">
-    <div class="modal-card" style="max-width: 560px; padding: 1.5rem;">
-      <div class="modal-header">
-        <h3>🧾 Comprobante Oficial de Tesorería</h3>
-        <button class="modal-close-btn" id="modal-receipt-close">&times;</button>
-      </div>
-      <div id="modal-receipt-content">
-        <!-- Renderizado dinámico desde treasury.js -->
+      <div class="modal-body" id="match-modal-body">
+        <!-- Renderizado dinámico -->
       </div>
     </div>
   </div>
 
-  <!-- Modal 5: Kit de Difusión para Redes Sociales & WhatsApp -->
-  <div class="modal-backdrop" id="modal-share-social-backdrop">
-    <div class="modal-card" style="max-width: 580px; max-height: 90vh; overflow-y: auto;">
-      <div class="modal-header">
-        <h3>📢 Kit de Difusión para Redes & WhatsApp</h3>
-        <button class="modal-close-btn" id="modal-share-social-close">&times;</button>
+  <!-- Modal 4: Lector de Noticia Completa -->
+  <div class="modal-overlay" id="modal-news-reader">
+    <div class="modal-window" style="max-width: 680px;">
+      <div class="modal-header-bar">
+        <h3 id="news-modal-title">Comunicado Oficial</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
-
-      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.25rem;">
-        Copia estos textos listos para enviar a directores de turno, presidentes de clubes o publicar en redes sociales para que contraten la plataforma en cualquier comuna:
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <!-- Card 1 -->
-        <div class="share-template-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span style="color: #25d366; font-weight: 700; font-size: 0.82rem;">💬 Mensaje para WhatsApp de Presidentes:</span>
-            <button class="btn btn-xs btn-secondary btn-copy-text" data-target="modal-copy-wa">Copiar</button>
-          </div>
-          <div id="modal-copy-wa" class="share-code-box">Estimados presidentes y delegados de clubes: Les comparto esta plataforma web diseñada para el fútbol amateur de nuestra comuna. Permite subir la papeleta con una foto desde el celular en 2 minutos con las firmas de los capitanes, muestra la ubicación de las canchas por GPS y calcula las tablas y goleadores en vivo. Vean la demostración aquí: http://localhost:8080</div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="share-template-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span style="color: #60a5fa; font-weight: 700; font-size: 0.82rem;">📘 Publicación para Facebook Comunal:</span>
-            <button class="btn btn-xs btn-secondary btn-copy-text" data-target="modal-copy-fb">Copiar</button>
-          </div>
-          <div id="modal-copy-fb" class="share-code-box">¡Llegó el momento de profesionalizar el fútbol amateur! ⚽🏆 Con LigaPro Amateur eliminamos las papeletas manchadas y los reclamos por secretaría: actas físicas con foto de respaldo, resultados en vivo en el celular de los hinchas y control estricto de amonestados. Disponible para cualquier Asociación ANFA. Contáctanos para una demo gratuita: http://localhost:8080</div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="share-template-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span style="color: #f43f5e; font-weight: 700; font-size: 0.82rem;">📸 Copy para Instagram / TikTok:</span>
-            <button class="btn btn-xs btn-secondary btn-copy-text" data-target="modal-copy-ig">Copiar</button>
-          </div>
-          <div id="modal-copy-ig" class="share-code-box">El fútbol de barrio merece tecnología de primera división. Cero suplantaciones, resultados en tiempo real y respaldo de papeletas firmadas. LigaPro Amateur moderniza tu liga en 48 horas. Link en biografía 📲⚽ #FutbolAmateur #ANFA #LigaPro</div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="modal-share-social-cancel">Cerrar</button>
+      <div class="modal-body" id="news-modal-body">
+        <!-- Renderizado dinámico -->
       </div>
     </div>
   </div>
 
-  <!-- Modal 6: Formulario de Contacto y Solicitud de Demostración -->
-  <div class="modal-backdrop" id="modal-request-demo-backdrop">
-    <div class="modal-card" style="max-width: 480px;">
-      <div class="modal-header">
-        <h3>📲 Solicitar Demo para mi Asociación</h3>
-        <button class="modal-close-btn" id="modal-request-demo-close">&times;</button>
+  <!-- Modal 5: Inicio de Sesión / Portal Institucional -->
+  <div class="modal-overlay" id="modal-login">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <h3>Acceso Institucional</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
-
-      <form id="form-request-demo">
-        <div class="form-group">
-          <label class="form-label">Tu Nombre y Apellidos</label>
-          <input type="text" id="demo-contact-name" class="form-control" placeholder="Ej: Juan Pérez" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Asociación ANFA o Comuna</label>
-          <input type="text" id="demo-contact-league" class="form-control" placeholder="Ej: Asociación de Lebu / Cañete / Chillán" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Cargo o Rol</label>
-          <select id="demo-contact-role" class="form-control">
-            <option value="Presidente de Asociación">Presidente de Asociación ANFA</option>
-            <option value="Secretario General">Secretario General</option>
-            <option value="Presidente o Delegado de Club">Presidente / Delegado de Club</option>
-            <option value="Director de Turno / Árbitro">Director de Turno / Árbitro</option>
-            <option value="Hincha / Comunicador Deportivo">Hincha / Comunicador Deportivo</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Plan de Interés</label>
-          <select id="demo-contact-plan" class="form-control">
-            <option value="Plan Pro Asociación ($75.000/mes)">Plan Pro Asociación ($75.000/mes) - Recomendado</option>
-            <option value="Plan Básico Comunal ($45.000/mes)">Plan Básico Comunal ($45.000/mes)</option>
-            <option value="Plan Torneo Corto / Copa ($120.000)">Plan Torneo Corto / Copa Regional ($120.000)</option>
-          </select>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="modal-request-demo-cancel">Cancelar</button>
-          <button type="submit" class="btn btn-whatsapp" style="background: #25d366; color: white;">
-            💬 Abrir WhatsApp Directo
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal CMS Jugadores (Autocompletado Goles) -->
-  <div class="modal-backdrop" id="modal-cms-player-backdrop">
-      <div class="modal-card" style="max-width: 400px; padding: 1.5rem; transform: translateY(0); display: flex; flex-direction: column;">
-          <div class="modal-header">
-              <h2>¿Quién hizo el gol?</h2>
-              <button class="modal-close-btn" onclick="window.cmsClosePlayerModal()">&times;</button>
-          </div>
-          
-          <div class="players-grid" id="cms-playersGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; overflow-y: auto; padding-bottom: 1rem; max-height: 50vh;">
-              <!-- Los jugadores se inyectan acá vía JS -->
-          </div>
-          
-          <button class="btn btn-secondary" style="margin-top: 1rem; width: 100%; font-size: 1rem;" onclick="window.cmsAddGoalUnknown()">
-              Gol en Contra / No Identificado
-          </button>
-      </div>
-  </div>
-
-  <!-- Modal CMS Firma y Cierre -->
-  <div class="modal-backdrop" id="modal-cms-signature-backdrop">
-      <div class="modal-card" style="max-width: 500px; padding: 1.5rem;">
-          <div class="modal-header">
-              <h2>Firma del Árbitro</h2>
-              <button class="modal-close-btn" onclick="window.cmsCloseSignatureModal()">&times;</button>
-          </div>
-          
-          <p style="margin:0; font-size: 0.9rem; color: var(--text-secondary);">
-              Al firmar, el resultado se guardará y la Tabla de Posiciones se actualizará automáticamente usando `data.js`.
-          </p>
-
-          <div class="signature-container" style="border: 2px dashed var(--border-color); border-radius: 1rem; background: var(--bg-main); margin: 1rem 0; position: relative;">
-              <canvas id="cms-signatureCanvas" style="width: 100%; height: 200px; touch-action: none;"></canvas>
-              <button class="btn btn-sm btn-secondary" style="position: absolute; bottom: 0.5rem; right: 0.5rem;" onclick="window.cmsClearSignature()">Limpiar</button>
-          </div>
-
-          <button class="btn btn-primary" onclick="window.cmsSubmitMatchResult()" id="btnSubmitMatch" style="width: 100%; padding: 1rem; font-size: 1.1rem; border-radius: 0.8rem; font-weight: 700;">
-              CONFIRMAR RESULTADO
-          </button>
-      </div>
-  </div>
-
-  <!-- ====================================================================
-       PORTAL DE BIENVENIDA ESTILO FIFA: SELECCIÓN DE EXPERIENCIA
-       ==================================================================== -->
-  <div class="welcome-modal-backdrop" id="modal-welcome-portal">
-    <div class="welcome-modal-card">
-      <div class="welcome-header">
-        <div class="welcome-tagline">
-          <span>⚽</span> <span>Bienvenido a LigaPro Evolution</span>
-        </div>
-        <h2 class="welcome-title">¿Cómo deseas ingresar a la plataforma?</h2>
-        <p class="welcome-subtitle">
-          Selecciona tu calidad para personalizar tu experiencia en el Campeonato Oficial de ANFA Arauco.
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1.25rem;">
+          Portal reservado para directivas de asociaciones, turnos de cancha y presidentes de clubes afiliados.
         </p>
-      </div>
-
-      <div class="role-cards-grid">
-        <!-- Opción 1: Aficionado / Visita -->
-        <div class="role-card-item card-public" onclick="window.ligaproSelectExperience('public')">
-          <div>
-            <div class="role-card-icon">⚽</div>
-            <div class="role-card-badge">Acceso Libre • Sin Clave</div>
-            <h3 class="role-card-title">Aficionado / Visita</h3>
-            <p class="role-card-desc">
-              Sigue los partidos en directo, revisa las crónicas de la Sala de Prensa, fotos de la hinchada, videos de los goles y tablas de posiciones sin avisos de bloqueo ni pantallas de administración.
-            </p>
+        <form id="form-platform-login">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Correo Electrónico o RUT</label>
+            <input type="text" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="ej: dirigente@anfaarauco.cl" required>
           </div>
-          <button class="role-card-btn">
-            <span>Ingresar como Aficionado</span> <span>&rarr;</span>
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN o Contraseña</label>
+            <input type="password" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="••••" maxlength="6" required>
+            <small style="display: block; margin-top: 0.35rem; font-size: 0.72rem; color: var(--color-text-muted);">
+              Demostración: Turno = <code>1234</code> • Directiva = <code>9999</code>
+            </small>
+          </div>
+          <button type="submit" class="btn-primary-coral" style="width: 100%; justify-content: center; padding: 0.75rem;">
+            Ingresar al Panel
           </button>
-        </div>
-
-        <!-- Opción 2: Árbitro de Turno / Planillero -->
-        <div class="role-card-item card-referee" onclick="window.ligaproPromptRolePin('referee')">
-          <div>
-            <div class="role-card-icon">⏱️</div>
-            <div class="role-card-badge">Mesa de Cancha • PIN 1234</div>
-            <h3 class="role-card-title">Árbitro / Turno</h3>
-            <p class="role-card-desc">
-              Acceso oficial para la mesa de control del estadio. Opera el marcador en vivo, añade goles en el CMS Arcade, registra tarjetas amarillas/rojas y firma la papeleta digital.
-            </p>
-          </div>
-          <button class="role-card-btn">
-            <span>Acceso Árbitro de Cancha</span> <span>🔐</span>
-          </button>
-        </div>
-
-        <!-- Opción 3: Directiva ANFA / Dirigente -->
-        <div class="role-card-item card-admin" onclick="window.ligaproPromptRolePin('admin')">
-          <div>
-            <div class="role-card-icon">🏛️</div>
-            <div class="role-card-badge">Control Institucional • PIN 9999</div>
-            <h3 class="role-card-title">Directiva ANFA</h3>
-            <p class="role-card-desc">
-              Acceso integral de dirigencia comunal. Permite publicar noticias y fotos oficiales, gestionar ingresos de tesorería, resoluciones disciplinarias y copias de seguridad.
-            </p>
-          </div>
-          <button class="role-card-btn">
-            <span>Acceso Mesa Directiva</span> <span>👑</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Formulario de PIN rápido para Árbitro o Directiva -->
-      <div id="welcome-pin-form-container" style="display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan); border-radius: 14px; padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-          <strong id="welcome-pin-title" style="color: #fff; font-size: 1rem;">Ingresar Credencial de Acceso</strong>
-          <button type="button" class="btn btn-xs btn-secondary" onclick="document.getElementById('welcome-pin-form-container').style.display='none'">&times; Cancelar</button>
-        </div>
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <input type="password" id="welcome-input-pin" class="form-control" placeholder="Ingresa PIN (Turno: 1234 / Admin: 9999)" style="flex: 1; min-width: 200px;" maxlength="6" />
-          <button type="button" id="welcome-btn-submit-pin" class="btn btn-primary btn-fifa-glow">Validar y Entrar</button>
-        </div>
-        <div id="welcome-pin-error" style="color: var(--accent-red-card); font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+        </form>
       </div>
     </div>
   </div>
 
-  <!-- Modal Lectura de Artículo Completo -->
-  <div class="modal-backdrop" id="modal-article-view">
-    <div class="modal-card" style="max-width: 760px; max-height: 90vh; overflow-y: auto;">
-      <div class="modal-header">
-        <span class="fifa-pill-badge" id="modal-article-category">Torneo Oficial</span>
-        <button class="modal-close-btn" id="modal-article-close">&times;</button>
+  <!-- Modal 6: Menú Móvil Lateral (Drawer) -->
+  <div class="modal-overlay" id="modal-mobile-menu">
+    <div class="modal-window" style="max-width: 320px; height: 100vh; max-height: 100vh; border-radius: 0; margin-left: auto; margin-right: 0;">
+      <div class="modal-header-bar">
+        <div class="platform-brand-title" style="font-size: 1.25rem;">LIGA<span>MASTER</span></div>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
-      <img id="modal-article-image" src="" alt="Portada Noticia" style="width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; margin: 1rem 0;" />
-      <h2 id="modal-article-title" style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.5rem;"></h2>
-      <div id="modal-article-meta" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;"></div>
-      <div id="modal-article-content"></div>
-    </div>
-  </div>
-
-  <!-- Modal Lightbox de Fotos -->
-  <div class="modal-backdrop" id="modal-photo-lightbox">
-    <div class="modal-card" style="max-width: 900px; padding: 1rem; background: rgba(7, 9, 14, 0.96); border: 1px solid rgba(255,255,255,0.15);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-        <div>
-          <h3 id="lightbox-title" style="color: #fff; font-size: 1.1rem; margin: 0;"></h3>
-          <span id="lightbox-match" style="color: var(--accent-cyan); font-size: 0.75rem; font-weight: 700;"></span>
-        </div>
-        <button class="modal-close-btn" id="modal-lightbox-close">&times;</button>
-      </div>
-      <img id="lightbox-img" src="" alt="Foto en Grande" style="width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px;" />
-    </div>
-  </div>
-
-  <!-- Modal Reproductor de Video de Goles -->
-  <div class="modal-backdrop" id="modal-video-player">
-    <div class="modal-card" style="max-width: 800px; background: #000; border: 1px solid var(--accent-red-card); padding: 1.25rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-        <div>
-          <span class="fifa-pill-badge" style="background: var(--accent-red-card); color: #fff;">REPETICIÓN OFICIAL</span>
-          <h3 id="modal-video-title" style="color: #fff; font-size: 1.15rem; margin-top: 0.4rem;"></h3>
-        </div>
-        <button class="modal-close-btn" id="modal-video-close" style="color: #fff;">&times;</button>
-      </div>
-      <div style="position: relative; width: 100%; border-radius: 10px; overflow: hidden; background: #0a0a0a;">
-        <video id="video-player-element" controls style="width: 100%; max-height: 480px; display: block;"></video>
-      </div>
-      <p id="modal-video-desc" style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.75rem;"></p>
-    </div>
-  </div>
-
-  <!-- Modal Publicar Noticia / Foto / Video (CMS de Prensa) -->
-  <div class="modal-backdrop" id="modal-publish-backdrop">
-    <div class="modal-card" style="max-width: 620px;">
-      <div class="modal-header">
-        <h3>✍️ Publicar Contenido en Sala de Prensa</h3>
-        <button class="modal-close-btn" id="modal-publish-close">&times;</button>
-      </div>
-
-      <form id="form-publish-content">
-        <div class="form-group">
-          <label class="form-label">Tipo de Publicación</label>
-          <select id="publish-type-select" class="form-control" required>
-            <option value="news">📰 Noticia o Comunicado Oficial</option>
-            <option value="photo">📸 Fotografía de Cancha / Hinchada</option>
-            <option value="video">🎥 Video / Gol de la Fecha</option>
-          </select>
-        </div>
-
-        <!-- Grupo Noticia -->
-        <div id="publish-group-news">
-          <div class="form-group">
-            <label class="form-label">Titular de la Noticia</label>
-            <input type="text" id="pub-news-title" class="form-control" placeholder="Ej: Histórico triunfo en la Serie de Honor" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Categoría</label>
-            <select id="pub-news-category" class="form-control">
-              <option value="Torneo Oficial">Torneo Oficial</option>
-              <option value="Selección Comunal">Selección Comunal</option>
-              <option value="Tribunal & Disciplina">Tribunal & Disciplina</option>
-              <option value="Institucional">Institucional</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Resumen o Bajada (Extracto)</label>
-            <textarea id="pub-news-excerpt" class="form-control" rows="2" placeholder="Breve introducción para la tarjeta..."></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Cuerpo de la Noticia</label>
-            <textarea id="pub-news-content" class="form-control" rows="4" placeholder="Detalle completo de la información..."></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Subir Imagen de Portada desde tu Dispositivo</label>
-            <div class="file-upload-dropzone" id="dropzone-news-file">
-              <input type="file" id="pub-news-file" accept="image/*" class="file-input-hidden" />
-              <div class="dropzone-content" id="dropzone-news-content">
-                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.3rem;">📸</span>
-                <p><strong>Toca aquí para seleccionar una foto</strong></p>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Desde tu galería del celular o computadora (JPG, PNG)</span>
-              </div>
-              <img id="pub-news-preview" class="file-preview-img" style="display: none;" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Grupo Foto -->
-        <div id="publish-group-photo" style="display: none;">
-          <div class="form-group">
-            <label class="form-label">Título o Pie de Foto</label>
-            <input type="text" id="pub-photo-title" class="form-control" placeholder="Ej: La barra de Brisas alentando con bombos" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Partido o Instancia</label>
-            <input type="text" id="pub-photo-match" class="form-control" placeholder="Ej: Robledo vs Brisas del Mar" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Estadio o Recinto</label>
-            <input type="text" id="pub-photo-venue" class="form-control" placeholder="Ej: Estadio Municipal Ramón Burgos" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Subir Fotografía desde tu Dispositivo</label>
-            <div class="file-upload-dropzone" id="dropzone-photo-file">
-              <input type="file" id="pub-photo-file" accept="image/*" class="file-input-hidden" />
-              <div class="dropzone-content" id="dropzone-photo-content">
-                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.3rem;">🖼️</span>
-                <p><strong>Toca aquí para abrir tu galería o cámara</strong></p>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Foto tomada en la cancha o graderías</span>
-              </div>
-              <img id="pub-photo-preview" class="file-preview-img" style="display: none;" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Grupo Video -->
-        <div id="publish-group-video" style="display: none;">
-          <div class="form-group">
-            <label class="form-label">Título del Gol / Jugada</label>
-            <input type="text" id="pub-video-title" class="form-control" placeholder="Ej: Tiro libre de 30 metros al ángulo" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Categoría de Video</label>
-            <select id="pub-video-category" class="form-control">
-              <option value="Gol de la Fecha">Gol de la Fecha</option>
-              <option value="Atajada Clave">Atajada Clave</option>
-              <option value="Backstage Comunal">Backstage Comunal</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Descripción breve</label>
-            <input type="text" id="pub-video-desc" class="form-control" placeholder="Ej: Definición perfecta en el minuto 82" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Subir Video / Clip de Gol desde tu Dispositivo</label>
-            <div class="file-upload-dropzone" id="dropzone-video-file">
-              <input type="file" id="pub-video-file" accept="video/*" class="file-input-hidden" />
-              <div class="dropzone-content" id="dropzone-video-content">
-                <span style="font-size: 2.2rem; display: block; margin-bottom: 0.3rem;">🎥</span>
-                <p><strong>Toca aquí para seleccionar un video de tu celular o PC</strong></p>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Clip de video grabado en la cancha (MP4, MOV, WEBM)</span>
-              </div>
-              <video id="pub-video-preview" class="file-preview-video" controls style="display: none;"></video>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
-          <button type="submit" class="btn btn-primary btn-fifa-glow" style="width: 100%;">
-            🚀 Publicar Inmediatamente
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal: Abrir en el Celular (Código QR y URL Directa) -->
-  <div class="modal-backdrop" id="modal-mobile-qr">
-    <div class="modal-card" style="max-width: 440px; text-align: center;">
-      <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <span style="font-size: 1.4rem;">📱</span>
-          <h3 style="margin: 0;">Abrir LigaMaster en tu Celular</h3>
-        </div>
-        <button class="modal-close-btn" id="modal-mobile-qr-close">&times;</button>
-      </div>
-
-      <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1.25rem; line-height: 1.5;">
-        Apunta la <strong>cámara de tu celular</strong> a este código QR para abrir la plataforma al instante en tu teléfono:
-      </p>
-
-      <div style="background: #ffffff; padding: 1rem; border-radius: 14px; display: inline-block; box-shadow: 0 8px 25px rgba(0, 255, 133, 0.25); border: 2px solid var(--accent-pitch); margin-bottom: 1.25rem;">
-        <img id="modal-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://ligamaster.app" alt="Código QR LigaMaster" style="display: block; width: 200px; height: 200px;" />
-      </div>
-
-      <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; text-align: left;">
-        <div style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;">O comparte este enlace directo a WhatsApp:</div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
-          <code id="modal-qr-code-text" style="font-size: 0.85rem; color: var(--accent-pitch); font-weight: 700; word-break: break-all;">https://ligamaster.app</code>
-          <button class="btn btn-xs btn-secondary btn-copy-text" data-target="qr-ip-url">Copiar</button>
-        </div>
-        <div id="qr-ip-url" style="display: none;">https://ligamaster.app</div>
-      </div>
-
-      <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-        ⚡ Compatible con <strong>Android e iOS</strong>. Los directivos y capitanes pueden añadirla a su pantalla de inicio como una App.
+      <div class="modal-body" style="padding: 1rem;">
+        <nav style="display: flex; flex-direction: column; gap: 0.5rem;" id="mobile-drawer-nav">
+          <button class="platform-nav-link active" data-nav="home-view" style="width: 100%; text-align: left;">Home</button>
+          <button class="platform-nav-link" id="mobile-btn-ligas" style="width: 100%; text-align: left;">Ligas de Chile</button>
+          <button class="platform-nav-link" data-nav="league-view" style="width: 100%; text-align: left;">Competición</button>
+          <button class="platform-nav-link" data-nav="team-view" style="width: 100%; text-align: left;">Equipos</button>
+          <button class="platform-nav-link" data-nav="player-view" style="width: 100%; text-align: left;">Jugadores</button>
+          <button class="platform-nav-link" data-nav="calendar-view" style="width: 100%; text-align: left;">Calendario</button>
+          <button class="platform-nav-link" data-nav="results-view" style="width: 100%; text-align: left;">Resultados</button>
+          <button class="platform-nav-link" data-nav="standings-view" style="width: 100%; text-align: left;">Tabla</button>
+          <button class="platform-nav-link" data-nav="stats-view" style="width: 100%; text-align: left;">Estadísticas</button>
+          <button class="platform-nav-link" data-nav="news-view" style="width: 100%; text-align: left;">Noticias</button>
+        </nav>
       </div>
     </div>
   </div>
 
-  <!-- Barra de Navegación Inferior Fija para Móviles (Estilo App Nativa) -->
-  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Navegación Móvil">
-    <button class="mobile-nav-btn active" data-target="news-view">
-      <span class="mobile-nav-icon">📰</span>
-      <span class="mobile-nav-text">Noticias</span>
-    </button>
-    <button class="mobile-nav-btn" data-target="papeleta-view">
-      <span class="mobile-nav-icon">⚽</span>
-      <span class="mobile-nav-text">En Vivo</span>
-      <span class="mobile-nav-live-dot"></span>
-    </button>
-    <button class="mobile-nav-btn" data-target="standings-view">
-      <span class="mobile-nav-icon">🏆</span>
-      <span class="mobile-nav-text">Tablas</span>
-    </button>
-    <button class="mobile-nav-btn" data-target="venues-view">
-      <span class="mobile-nav-icon">🏟️</span>
-      <span class="mobile-nav-text">Canchas</span>
-    </button>
-    <button class="mobile-nav-btn" id="btn-mobile-more-menu">
-      <span class="mobile-nav-icon">☰</span>
-      <span class="mobile-nav-text">Más</span>
-    </button>
-  </nav>
-
-  <!-- Bottom Sheet: Menú de Módulos para Móvil -->
-  <div class="modal-backdrop" id="modal-mobile-menu">
-    <div class="modal-card mobile-sheet-card">
-      <div class="sheet-drag-handle"></div>
-      <div class="modal-header" style="margin-bottom: 1rem;">
-        <div style="display: flex; align-items: center; gap: 0.6rem;">
-          <span style="font-size: 1.4rem;">⚽</span>
-          <div>
-            <h3 style="margin: 0; font-size: 1.15rem;">Más Módulos de la Liga</h3>
-            <span style="font-size: 0.72rem; color: var(--accent-pitch);">Campeonato Oficial ANFA Arauco</span>
-          </div>
-        </div>
-        <button class="modal-close-btn" id="modal-mobile-menu-close">&times;</button>
-      </div>
-
-      <div class="mobile-menu-grid">
-        <button class="mobile-menu-item" data-target="seleccion-view">
-          <span class="menu-item-icon">🇨🇱</span>
-          <div class="menu-item-info">
-            <strong>Selección Arauco</strong>
-            <small>Torneo Regional ANFA</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item" data-target="fixture-view">
-          <span class="menu-item-icon">📅</span>
-          <div class="menu-item-info">
-            <strong>Fixture de la Fecha</strong>
-            <small>Horarios y recintos</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item" data-target="players-view">
-          <span class="menu-item-icon">👥</span>
-          <div class="menu-item-info">
-            <strong>Clubes & Fichas</strong>
-            <small>10 clubes de barrio</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item" data-target="sanctions-view">
-          <span class="menu-item-icon">⚖️</span>
-          <div class="menu-item-info">
-            <strong>Tribunal de Penas</strong>
-            <small>Control disciplinario</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item" data-target="regulations-view">
-          <span class="menu-item-icon">📜</span>
-          <div class="menu-item-info">
-            <strong>Reglamento Oficial</strong>
-            <small>Estatutos ANFA 2026</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item" data-target="business-view">
-          <span class="menu-item-icon">💼</span>
-          <div class="menu-item-info">
-            <strong>Contratar Plataforma</strong>
-            <small>Planes para directivas</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item admin-only-item" id="mobile-menu-treasury" data-target="treasury-view" style="display: none;">
-          <span class="menu-item-icon">💰</span>
-          <div class="menu-item-info">
-            <strong>Libro de Tesorería</strong>
-            <small>Ingresos y egresos (Admin)</small>
-          </div>
-        </button>
-        <button class="mobile-menu-item admin-only-item" id="mobile-menu-cms" data-target="cms-view" style="display: none;">
-          <span class="menu-item-icon">🕹️</span>
-          <div class="menu-item-info">
-            <strong>CMS Turno de Cancha</strong>
-            <small>Papeleta digital (Árbitro)</small>
-          </div>
-        </button>
-      </div>
-
-      <div class="mobile-menu-actions">
-        <button class="btn btn-sm btn-secondary" id="btn-mobile-share-app" style="flex: 1;">
-          📢 Compartir
-        </button>
-        <button class="btn btn-sm btn-fifa-glow" id="btn-mobile-change-role" style="flex: 1;">
-          ⚡ Cambiar Perfil
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Overlay de Celebración de Golazo -->
-  <div id="goal-celebration-overlay" class="goal-celebration-overlay">
-      <div class="goal-text-container">
-          <h1 class="goal-word">¡GOLAZO!</h1>
-          <div class="goal-player" id="goal-celebration-player">#9 - Mauricio Neira</div>
-          
-          <div class="sponsor-banner">
-              <div class="sponsor-label">Auspiciado por</div>
-              <div class="sponsor-brand">Ferretería Arauco</div>
-          </div>
-      </div>
-  </div>
-
-  <!-- Notificaciones Toast -->
-  <div class="toast-container" id="toast-container"></div>
-
-  <!-- Scripts Modulares -->
+  <!-- JavaScript Modular -->
   <script type="module" src="js/app.js"></script>
 
 </body>
