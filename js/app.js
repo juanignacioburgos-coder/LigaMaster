@@ -70,9 +70,13 @@ const VIEW_MAP = {
   'gestion': 'admin-view'
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  initLigaMaster();
-});
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initLigaMaster());
+  } else {
+    initLigaMaster();
+  }
+}
 
 /**
  * Inicialización General de LigaMaster
@@ -366,11 +370,6 @@ function renderHomeLeaguesGrid() {
           </div>
         </div>
       `;
-    });
-  });
-
-  container.innerHTML = html;
-}
     });
   });
 
