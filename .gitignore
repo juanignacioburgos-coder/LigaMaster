@@ -1,0 +1,23 @@
+# Ambientes y caches
+__pycache__/
+*.pyc
+*.db
+.system_generated/
+.DS_Store
+Thumbs.db
+node_modules/
+
+# Archivos temporales de pruebas
+test_event_*.json
+test_more_info_*.json
+copafacil_*.html
+copafacil_info.png
+video_copafacil.mp4
+extract_copafacil.py
+fetch_doc.py
+find_api.py
+inspect_event.py
+query_api2.py
+search_mevt.py
+test_copa_endpoints.py
+analyze_dart.py

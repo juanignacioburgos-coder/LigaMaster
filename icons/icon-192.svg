@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c111c" />
+      <stop offset="100%" stop-color="#07090e" />
+    </linearGradient>
+    <linearGradient id="neonGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ff85" />
+      <stop offset="100%" stop-color="#00e5ff" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#00ff85" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="192" height="192" rx="42" fill="url(#bgGrad)" stroke="url(#neonGlow)" stroke-width="4"/>
+  <circle cx="96" cy="96" r="62" fill="none" stroke="rgba(0,255,133,0.15)" stroke-width="2"/>
+  <!-- Soccer ball icon -->
+  <g filter="url(#glow)">
+    <circle cx="96" cy="90" r="44" fill="#ffffff" stroke="#07090e" stroke-width="3"/>
+    <!-- Pentagon in center -->
+    <polygon points="96,72 108,82 104,96 88,96 84,82" fill="#07090e"/>
+    <!-- Radiating seams -->
+    <line x1="96" y1="72" x2="96" y2="50" stroke="#07090e" stroke-width="3"/>
+    <line x1="108" y1="82" x2="128" y2="76" stroke="#07090e" stroke-width="3"/>
+    <line x1="104" y1="96" x2="120" y2="114" stroke="#07090e" stroke-width="3"/>
+    <line x1="88" y1="96" x2="72" y2="114" stroke="#07090e" stroke-width="3"/>
+    <line x1="84" y1="82" x2="64" y2="76" stroke="#07090e" stroke-width="3"/>
+  </g>
+  <!-- LIGAPRO banner -->
+  <rect x="26" y="142" width="140" height="24" rx="6" fill="#00ff85"/>
+  <text x="96" y="159" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="900" fill="#07090e" text-anchor="middle" letter-spacing="2">LIGAPRO</text>
+</svg>

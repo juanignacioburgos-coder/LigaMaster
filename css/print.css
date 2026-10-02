@@ -1,0 +1,102 @@
+/* ==========================================================================
+   LigaPro Amateur - Estilos de Impresión Oficial (Planilla / Papeleta)
+   Permite imprimir el acta oficial de partido limpia y estructurada
+   ========================================================================== */
+
+@media print {
+  /* Ocultar elementos de navegación y acciones de pantalla */
+  .app-header,
+  .nav-tabs,
+  .header-actions,
+  .match-controller-bar,
+  .modal-backdrop,
+  .toast-container,
+  .no-print,
+  .btn,
+  .players-filter-bar {
+    display: none !important;
+  }
+
+  /* Reset de fondo y textos para impresión limpia en tinta negra sobre blanco */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .main-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+  }
+
+  /* Forzar visibilidad únicamente del contenedor imprimible de la papeleta */
+  .print-only-sheet {
+    display: block !important;
+  }
+
+  .papeleta-header-card,
+  .content-card {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+    margin-bottom: 15px !important;
+    padding: 10px !important;
+    page-break-inside: avoid;
+  }
+
+  .papeleta-header-card::before {
+    display: none !important;
+  }
+
+  .scoreboard-grid {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+  }
+
+  .team-details h3, .score-display {
+    color: #000000 !important;
+  }
+
+  .score-center-col {
+    background: #f0f0f0 !important;
+    border: 1px solid #333 !important;
+  }
+
+  .roster-table th, .roster-table td,
+  .standings-table th, .standings-table td {
+    color: #000000 !important;
+    border-bottom: 1px solid #cccccc !important;
+    padding: 4px 6px !important;
+  }
+
+  .status-badge {
+    border: 1px solid #333 !important;
+    color: #000 !important;
+    background: transparent !important;
+  }
+
+  .signatures-box {
+    margin-top: 25px !important;
+    border: 1px solid #000000 !important;
+    page-break-inside: avoid;
+  }
+
+  .signature-item {
+    border-top: 1px dashed #000000;
+    margin-top: 30px;
+    padding-top: 5px;
+  }
+
+  .official-watermark {
+    text-align: center;
+    font-size: 8pt;
+    color: #666666;
+    margin-top: 20px;
+  }
+}
