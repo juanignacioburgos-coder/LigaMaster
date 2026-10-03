@@ -1072,12 +1072,19 @@ export function openSocialCardsStudio(initialOptions = {}) {
 }
 if (typeof window !== 'undefined') {
   window.ligamasterOpenSocialCardModal = openSocialCardsStudio;
+  window._ligamasterOpenStudio = openSocialCardsStudio;
 }
 
 /**
  * Sincroniza los controles del modal según studioOptions
  */
 function syncStudioControlsUI() {
+  // 0. Sincronizar badge de resolución
+  const resBadge = document.getElementById('studio-preview-res-badge');
+  if (resBadge) {
+    resBadge.textContent = studioOptions.format === 'story' ? '1080 x 1920 px (Story 9:16)' : '1080 x 1080 px (Post 1:1)';
+  }
+
   // 1. Selector de Plantilla
   document.querySelectorAll('.studio-template-pill').forEach(btn => {
     const t = btn.getAttribute('data-template');

@@ -28371,8 +28371,13 @@
   }
   if (typeof window !== "undefined") {
     window.ligamasterOpenSocialCardModal = openSocialCardsStudio;
+    window._ligamasterOpenStudio = openSocialCardsStudio;
   }
   function syncStudioControlsUI() {
+    const resBadge = document.getElementById("studio-preview-res-badge");
+    if (resBadge) {
+      resBadge.textContent = studioOptions.format === "story" ? "1080 x 1920 px (Story 9:16)" : "1080 x 1080 px (Post 1:1)";
+    }
     document.querySelectorAll(".studio-template-pill").forEach((btn) => {
       const t = btn.getAttribute("data-template");
       if (t === studioOptions.template) {
