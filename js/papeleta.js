@@ -1,6 +1,6 @@
 /**
- * LigaPro Amateur - Motor de Papeleta Digital de Turno en Vivo
- * Asociación ANFA Arauco
+ * LigaMaster - Motor de Papeleta Digital de Turno en Vivo
+ * Asociación de Fútbol de Arauco
  * Control de incidencias, cronómetro, validación anti-suplantación y firmas arbitrales
  */
 
@@ -162,7 +162,7 @@ export function renderPapeletaRoster() {
 
     let statusHtml = '';
     if (isSuspended) {
-      statusHtml = `<span class="status-badge suspendido" title="${p.sanctionNotes}">⛔ Inhabilitado ANFA</span>`;
+      statusHtml = `<span class="status-badge suspendido" title="${p.sanctionNotes}">⛔ Inhabilitado</span>`;
     } else if (isWarning) {
       statusHtml = `<span class="status-badge alerta" title="Al borde de suspensión por 4 amarillas">⚠️ 4 Amarillas</span>`;
     } else {
@@ -183,7 +183,7 @@ export function renderPapeletaRoster() {
         </td>
         <td>${statusHtml}</td>
         <td style="text-align: center;">
-          <input type="checkbox" ${!isSuspended ? 'checked' : 'disabled'} ${!canEdit ? 'disabled' : ''} style="cursor: pointer; width: 18px; height: 18px; accent-color: #10b981;" title="${isSuspended ? 'Inhabilitado por Tribunal de Penas ANFA' : 'Ficha de presencia verificada'}">
+          <input type="checkbox" ${!isSuspended ? 'checked' : 'disabled'} ${!canEdit ? 'disabled' : ''} style="cursor: pointer; width: 18px; height: 18px; accent-color: #10b981;" title="${isSuspended ? 'Inhabilitado por Tribunal de Disciplina' : 'Ficha de presencia verificada'}">
         </td>
       </tr>
     `;
@@ -284,7 +284,7 @@ function renderSignatures(match) {
 
     <div class="signature-item">
       <div class="sig-status-icon">${sigs.refereeConfirmed ? '✅' : '⏳'}</div>
-      <div class="sig-role">Árbitro Oficial ANFA</div>
+      <div class="sig-role">Árbitro Oficial de Cancha</div>
       <div class="sig-name">${match.referee || 'Árbitro'}</div>
       <button class="btn btn-sm ${sigs.refereeConfirmed ? 'btn-secondary' : 'btn-warning'}" id="btn-sign-referee" ${!canSign ? 'disabled' : ''}>
         ${sigs.refereeConfirmed ? '✓ Validado' : 'Validar y Cerrar'}
@@ -431,7 +431,7 @@ function openEventModal(type) {
     assistGroup.style.display = 'block';
     reasonGroup.style.display = 'none';
   } else if (type === 'tarjeta') {
-    modalTitle.innerHTML = '🟨 Registrar Tarjeta Disciplinaria ANFA';
+    modalTitle.innerHTML = '🟨 Registrar Tarjeta Disciplinaria Oficial';
     cardTypeGroup.style.display = 'block';
     assistGroup.style.display = 'none';
     reasonGroup.style.display = 'block';
@@ -501,7 +501,7 @@ export function saveEventFromModal() {
       playerName: player ? player.name : 'Jugador',
       assistPlayerId: assistId || null,
       assistPlayerName: assistPlayer ? assistPlayer.name : null,
-      description: 'Gol oficial registrado en planilla de turno ANFA Arauco.'
+      description: 'Gol oficial registrado en planilla de turno oficial.'
     });
 
     window.showToast(`⚽ ¡GOL DE ${player ? player.name.toUpperCase() : 'EQUIPO'}!`);
@@ -511,7 +511,7 @@ export function saveEventFromModal() {
       if (isRed) {
         player.redCards = (player.redCards || 0) + 1;
         player.status = 'suspendido';
-        player.sanctionNotes = `SUSPENSIÓN ANFA: Expulsado con roja directa (${reasonText || 'Falta grave'}). Pasa a Tribunal de Honor.`;
+        player.sanctionNotes = `SUSPENSIÓN DISCIPLINARIA: Expulsado con roja directa (${reasonText || 'Falta grave'}). Pasa a Tribunal de Honor.`;
         
         db.sanctionsLedger.push({
           id: `sanc-${Date.now()}`,
@@ -523,7 +523,7 @@ export function saveEventFromModal() {
           datesServed: 0,
           datesRemaining: 2,
           status: 'vigente',
-          meetingDate: 'Sesión Tribunal de Honor ANFA Arauco'
+          meetingDate: 'Sesión Tribunal de Honor de la Asociación'
         });
 
         window.showToast(`🟥 TARJETA ROJA: ${player.name} expulsado y suspendido.`);
@@ -531,8 +531,8 @@ export function saveEventFromModal() {
         player.yellowCards = (player.yellowCards || 0) + 1;
         if (player.yellowCards >= 5) {
           player.status = 'suspendido';
-          player.sanctionNotes = `SUSPENSIÓN ANFA (Art. 42): Acumulación de 5 tarjetas amarillas. Inhabilitado para el próximo partido.`;
-          window.showToast(`⚠️ ALERTA DISCIPLINARIA ANFA: ${player.name} acumuló su 5ta amarilla y queda inhabilitado.`);
+          player.sanctionNotes = `SUSPENSIÓN DISCIPLINARIA (Art. 42): Acumulación de 5 tarjetas amarillas. Inhabilitado para el próximo partido.`;
+          window.showToast(`⚠️ ALERTA DISCIPLINARIA: ${player.name} acumuló su 5ta amarilla y queda inhabilitado.`);
         } else {
           window.showToast(`🟨 Tarjeta Amarilla registrada para ${player.name}.`);
         }
@@ -577,7 +577,7 @@ function finalizeMatchOfficial() {
     return;
   }
 
-  if (confirm("¿Estás seguro de FINALIZAR Y SELLAR la papeleta oficial de ANFA Arauco? El resultado quedará homologado y se cerrará el acta.")) {
+  if (confirm("¿Estás seguro de FINALIZAR Y SELLAR la papeleta oficial de la Asociación? El resultado quedará homologado y se cerrará el acta.")) {
     match.status = 'finalizado';
     match.signatures.refereeConfirmed = true;
     match.currentMinute = 90;
@@ -591,12 +591,12 @@ function finalizeMatchOfficial() {
     renderPapeletaHeader();
     renderStandingsView();
     window.dispatchEvent(new CustomEvent('ligapro:match-updated'));
-    window.showToast('🏆 ACTA ARBITRAL SELLADA Y HOMOLOGADA POR ANFA ARAUCO.');
+    window.showToast('🏆 ACTA ARBITRAL SELLADA Y HOMOLOGADA OFICIALMENTE.');
   }
 }
 
 /**
- * Módulo de Digitalización Rápida (Foto-Papeleta ANFA Arauco)
+ * Módulo de Digitalización Rápida (Foto-Papeleta Oficial)
  * Soluciona el flujo real: los turnos llenan en papel el domingo,
  * y luego suben la foto y digitan el resultado en 2 minutos.
  */
@@ -607,7 +607,7 @@ const SAMPLE_ACTA_SVG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent
   <rect width="100%" height="100%" fill="#fafafa"/>
   <rect x="15" y="15" width="570" height="350" fill="none" stroke="#475569" stroke-width="2"/>
   <text x="300" y="45" font-size="14" font-weight="900" fill="#0f172a" text-anchor="middle">ASOCIACIÓN DE FÚTBOL AMATEUR DE ARAUCO</text>
-  <text x="300" y="62" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">ACTA ARBITRAL OFICIAL FIRMADA EN CANCHA • ANFA BIOBÍO</text>
+  <text x="300" y="62" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">ACTA ARBITRAL OFICIAL FIRMADA EN CANCHA • LIGAMASTER</text>
   <line x1="25" y1="72" x2="575" y2="72" stroke="#0f172a" stroke-width="1.5"/>
   
   <text x="35" y="95" font-size="11" fill="#1e293b">Partido: C.D. Jorge Robledo (2) vs C.D. Brisas del Mar (1)</text>
@@ -635,7 +635,7 @@ const SAMPLE_ACTA_SVG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent
   <text x="410" y="328" font-size="9" font-weight="bold" fill="#1e293b">Firma Árbitro CAPA</text>
 
   <circle cx="510" cy="110" r="28" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="4,2"/>
-  <text x="510" y="108" font-size="7" font-weight="bold" fill="#dc2626" text-anchor="middle">ANFA ARAUCO</text>
+  <text x="510" y="108" font-size="7" font-weight="bold" fill="#dc2626" text-anchor="middle">LIGAMASTER</text>
   <text x="510" y="118" font-size="6" fill="#dc2626" text-anchor="middle">OFICIALIZADO</text>
 </svg>
 `);
@@ -705,7 +705,7 @@ function setupQuickDigitizeModule() {
     currentUploadedPhoto = SAMPLE_ACTA_SVG;
     if (previewImg) previewImg.src = SAMPLE_ACTA_SVG;
     if (previewContainer) previewContainer.style.display = 'block';
-    if (photoName) photoName.textContent = '✓ Acta_Fisica_Firmada_Fecha8_Arauco.jpg (Muestra Oficial con Timbre ANFA)';
+    if (photoName) photoName.textContent = '✓ Acta_Fisica_Firmada_Fecha8_Arauco.jpg (Muestra Oficial con Timbre de la Asociación)';
     if (window.showToast) window.showToast("Foto de acta física oficial cargada.");
   });
 
@@ -782,7 +782,7 @@ function setupQuickDigitizeModule() {
       type: "egreso",
       category: "Honorarios Arbitrales",
       clubId: "asociacion",
-      clubName: "ANFA Arauco",
+      clubName: "Asociación de Fútbol de Arauco",
       concept: `Pago honorarios terna CAPA por acta física digitalizada: ${match.round}`,
       amount: 45000,
       receiptFolio: `EGR-2026-${folioNum}`,
@@ -799,7 +799,7 @@ function setupQuickDigitizeModule() {
     window.dispatchEvent(new CustomEvent('ligapro:match-updated'));
     modal.classList.remove('active');
     if (window.showToast) {
-      window.showToast("✓ ACTA FÍSICA DIGITALIZADA Y HOMOLOGADA EN ANFA ARAUCO.");
+      window.showToast("✓ ACTA FÍSICA DIGITALIZADA Y HOMOLOGADA EN LA ASOCIACIÓN.");
     }
   });
 }
@@ -877,13 +877,13 @@ export function setupSignedSheetModal() {
         <div style="background: rgba(0,0,0,0.5); padding: 0.85rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 1rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
             <span class="status-badge ${match.ratificationStatus === 'ratificado_directorio' ? 'habilitado' : 'alerta'}">
-              ${match.ratificationStatus === 'ratificado_directorio' ? '✓ Ratificado por Directorio ANFA' : '⏳ Marcador de Cancha (Firmado)'}
+              ${match.ratificationStatus === 'ratificado_directorio' ? '✓ Ratificado por Directorio de la Asociación' : '⏳ Marcador de Cancha (Firmado)'}
             </span>
             <span style="font-size: 0.75rem; color: #94a3b8;">Fecha: ${match.date} • Recinto: ${match.venue}</span>
           </div>
           <div style="font-size: 0.8rem; color: #e2e8f0; line-height: 1.5;">
             <div>✍️ <strong>Firmas en el papel:</strong> ${match.paperSheetSignedBy || 'Capitanes de ambos clubes y Árbitro CAPA'}</div>
-            <div>👔 <strong>Director de Mesa / Turno:</strong> ${match.shiftOperator?.name || match.turnOfficial || 'Turno Oficial ANFA'} (${match.shiftOperator?.clubId ? 'Club Neutral Designado' : 'Mesa ANFA'})</div>
+            <div>👔 <strong>Director de Mesa / Turno:</strong> ${match.shiftOperator?.name || match.turnOfficial || 'Turno Oficial de Cancha'} (${match.shiftOperator?.clubId ? 'Club Neutral Designado' : 'Mesa de Turno'})</div>
             <div style="margin-top: 0.4rem; color: var(--accent-pitch); font-size: 0.74rem;">
               🛡️ <em>Esta fotografía constituye fe pública comunal. Cualquier diferencia entre el marcador digital y esta planilla física firmada tiene validez legal la planilla física.</em>
             </div>

@@ -1,6 +1,6 @@
 /**
- * LigaPro Amateur - Módulo de Canchas y Estadios Oficiales
- * Asociación de Fútbol Amateur de Arauco (ANFA Biobío)
+ * LigaMaster - Módulo de Canchas y Estadios Oficiales
+ * Asociación de Fútbol de Arauco
  * 
  * Recintos Oficiales:
  * 1. Estadio Municipal Ramón Burgos (Pasto Sintético, Iluminación LED, Principal)
@@ -36,7 +36,7 @@ export function renderVenuesView() {
             <h3 style="margin: 0; font-size: 1.25rem; color: #fff;">Recintos Deportivos Oficiales de la Comuna de Arauco</h3>
           </div>
           <p style="font-size: 0.88rem; color: #cbd5e1; max-width: 820px; line-height: 1.55; margin: 0;">
-            El Campeonato Oficial ANFA Arauco 2026 se concentra en <strong>2 recintos sintéticos principales</strong>: el 
+            El Campeonato Oficial de la Asociación de Fútbol de Arauco 2026 se concentra en <strong>2 recintos sintéticos principales</strong>: el 
             <strong>Estadio Municipal Ramón Burgos</strong> (sede principal de Honor y clásicos comunales) y el 
             <strong>Estadio Sebastián Gaete</strong> (recinto céntrico de alto tráfico). La histórica <strong>Cancha El Sausalito</strong> 
             (pasto natural) fue reincorporada este año, pero <em>ha podido utilizarse solo 3 veces</em> debido a las condiciones climáticas costeras y drenaje del terreno.

@@ -1,6 +1,6 @@
 /**
- * LigaPro Amateur - Módulo de Tesorería y Finanzas Oficial ANFA Arauco
- * Asociación de Fútbol Amateur de Arauco (Biobío, Chile)
+ * LigaMaster - Módulo de Tesorería y Finanzas Oficial
+ * Asociación de Fútbol de Arauco
  * 
  * Reemplaza y supera con creces el software arcaico de SUYMI ($70.000/año)
  * permitiendo a la directiva y tesorero de la asociación llevar:
@@ -140,7 +140,7 @@ export function addTreasuryMovement(movementData) {
     type: movementData.type,
     category: movementData.category,
     clubId: movementData.clubId || 'asociacion',
-    clubName: movementData.clubName || 'Asociación ANFA Arauco',
+    clubName: movementData.clubName || 'Asociación de Fútbol de Arauco',
     concept: movementData.concept,
     amount: parseInt(movementData.amount, 10) || 0,
     receiptFolio: prefix + nextFolioNum,
@@ -174,7 +174,7 @@ export function exportTreasuryToCsv() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.setAttribute("href", url);
-  link.setAttribute("download", `Balance_Tesoreria_ANFA_Arauco_${new Date().toISOString().slice(0,10)}.csv`);
+  link.setAttribute("download", `Balance_Tesoreria_Arauco_${new Date().toISOString().slice(0,10)}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -192,7 +192,7 @@ export function printReceiptModal(folioId) {
   const modal = document.getElementById('modal-receipt-backdrop');
   const content = document.getElementById('modal-receipt-content');
   if (!modal || !content) {
-    const msg = `Comprobante ANFA Arauco • Folio: ${item.receiptFolio} • ${item.concept} • Monto: ${formatCurrency(item.amount)}`;
+    const msg = `Comprobante Oficial • Folio: ${item.receiptFolio} • ${item.concept} • Monto: ${formatCurrency(item.amount)}`;
     if (typeof window !== 'undefined' && window.showToast) {
       window.showToast(msg, 'info');
     } else {
@@ -209,10 +209,10 @@ export function printReceiptModal(folioId) {
       <!-- Encabezado Oficial -->
       <div style="text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 1rem; margin-bottom: 1.25rem;">
         <div style="font-size: 1.1rem; font-weight: 900; text-transform: uppercase; color: #0f172a; letter-spacing: 0.05em;">
-          ASOCIACIÓN DE FÚTBOL AMATEUR DE ARAUCO
+          ASOCIACIÓN DE FÚTBOL DE ARAUCO
         </div>
         <div style="font-size: 0.8rem; color: #64748b; font-weight: 700;">
-          AFILIADA A ANFA REGIÓN DEL BIOBÍO • RUT: 70.892.400-K
+          LIGAMASTER • SISTEMA DE GESTIÓN Y ESTADÍSTICAS DEL FÚTBOL
         </div>
         <div style="font-size: 0.75rem; color: #64748b;">
           Sede Oficial: Julio Montt Nº 386, Población 10 de Julio, Arauco
@@ -239,7 +239,7 @@ export function printReceiptModal(folioId) {
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px dashed #cbd5e1;">
         <div>
           <div style="border-bottom: 1px solid #94a3b8; height: 35px; margin-bottom: 0.3rem;"></div>
-          <div style="font-size: 0.75rem; font-weight: 800; color: #334155;">Tesorero General ANFA Arauco</div>
+          <div style="font-size: 0.75rem; font-weight: 800; color: #334155;">Tesorero General</div>
           <div style="font-size: 0.65rem; color: #64748b;">Directorio Oficial</div>
         </div>
         <div>
@@ -291,7 +291,7 @@ function setupTreasuryEventListeners() {
     const type = document.getElementById('mov-type')?.value;
     const category = document.getElementById('mov-category')?.value;
     const clubId = document.getElementById('mov-club')?.value;
-    const clubName = document.getElementById('mov-club')?.selectedOptions[0]?.text || 'ANFA Arauco';
+    const clubName = document.getElementById('mov-club')?.selectedOptions[0]?.text || 'Asociación de Fútbol de Arauco';
     const amount = document.getElementById('mov-amount')?.value;
     const concept = document.getElementById('mov-concept')?.value;
 

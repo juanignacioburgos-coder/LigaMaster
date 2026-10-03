@@ -1,6 +1,6 @@
 /**
  * LigaMaster - Catálogo Oficial de Escudos Vectoriales (SVG)
- * Asociación de Fútbol Amateur de Arauco (ANFA Arauco / ANFA Biobío)
+ * Asociación de Fútbol de Arauco y Asociaciones Afiliadas
  * 
  * Diseños heráldicos vectoriales fieles a los escudos oficiales de los 10 clubes
  * y de la Asociación de Fútbol de Arauco (AFA).
@@ -417,7 +417,7 @@ export const CLUB_BADGES_SVG = {
       <circle cx="60" cy="60" r="46" fill="#1e3a8a" />
       <path d="M 60 26 L 60 76 M 42 42 L 78 42 M 36 64 C 42 82 78 82 84 64" stroke="#f59e0b" stroke-width="5" fill="none" stroke-linecap="round" />
       <circle cx="60" cy="68" r="8" fill="#ffffff" />
-      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" letter-spacing="1">ANFA LEBU</text>
+      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" letter-spacing="1">ASOC. LEBU</text>
     </svg>
   `,
 

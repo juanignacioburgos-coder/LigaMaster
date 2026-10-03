@@ -337,20 +337,20 @@ function setupNewsEventListeners() {
         excerpt,
         content,
         image: imageUrl,
-        author: 'Mesa Directiva ANFA Arauco',
+        author: 'Mesa Directiva de la Asociación',
         tags: [category]
       });
 
       broadcastSyncEvent('NEWS_PUBLISHED', {
         title,
         category,
-        author: 'Mesa Directiva ANFA Arauco'
+        author: 'Mesa Directiva de la Asociación'
       });
 
       if (window.showToast) window.showToast("✅ Noticia publicada exitosamente con foto.");
     } else if (type === 'photo') {
       const title = document.getElementById('pub-photo-title').value.trim();
-      const match = document.getElementById('pub-photo-match').value.trim() || 'Fecha Oficial ANFA';
+      const match = document.getElementById('pub-photo-match').value.trim() || 'Fecha Oficial';
       const venue = document.getElementById('pub-photo-venue').value.trim() || 'Estadio Municipal Ramón Burgos';
       const url = uploadedPhotoImgData || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80';
 

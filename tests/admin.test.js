@@ -16,7 +16,7 @@ const refereeLogin = login('1234', 'Turno Cancha 1');
 if (!refereeLogin.success || refereeLogin.role !== ROLES.REFEREE) throw new Error('PIN 1234 should grant referee role');
 console.log('   ✓ Referee login OK (1234)');
 
-const adminLogin = login('9999', 'Directiva ANFA');
+const adminLogin = login('9999', 'Directiva General');
 if (!adminLogin.success || adminLogin.role !== ROLES.ADMIN) throw new Error('PIN 9999 should grant admin role');
 console.log('   ✓ Admin login OK (9999)');
 
@@ -35,7 +35,7 @@ const testMatch = {
   venue: 'Estadio Municipal Ramón Burgos',
   date: 'Próximo Domingo • 17:00 hrs',
   referee: 'Terna CAPA',
-  turnOfficial: 'Directorio ANFA',
+  turnOfficial: 'Directorio Oficial',
   status: 'programado',
   homeScore: 0,
   awayScore: 0,

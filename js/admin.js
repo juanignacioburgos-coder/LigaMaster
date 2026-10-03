@@ -1,5 +1,5 @@
 /**
- * LIGAMASTER - PANEL DE GESTIÓN Y ADMINISTRACIÓN INSTITUCIONAL (BACKOFFICE ANFA)
+ * LIGAMASTER - PANEL DE GESTIÓN Y ADMINISTRACIÓN INSTITUCIONAL (BACKOFFICE INSTITUCIONAL)
  * Módulo de Control de Competiciones, Turnos, Padrón de Jugadores, Tribunal y Tesorería
  */
 
@@ -71,13 +71,13 @@ export function renderAdminView() {
           <form id="admin-gate-login-form">
             <div style="margin-bottom: 1rem; text-align: left;">
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Dirigente o Usuario</label>
-              <input type="text" id="gate-input-user" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="ej: Claudio Pampaloni (Presidente ANFA)" required>
+              <input type="text" id="gate-input-user" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="ej: Claudio Pampaloni (Presidente de la Asociación)" required>
             </div>
             <div style="margin-bottom: 1.25rem; text-align: left;">
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN de Seguridad</label>
               <input type="password" id="gate-input-pin" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="••••" maxlength="6" required autofocus>
               <small style="display: block; margin-top: 0.4rem; font-size: 0.75rem; color: var(--color-text-muted);">
-                Demostración: Directiva ANFA = <code>9999</code> • Turno de Cancha = <code>1234</code>
+                Demostración: Directiva General = <code>9999</code> • Turno de Cancha = <code>1234</code>
               </small>
               <div id="gate-error-msg" style="display: none; color: var(--color-primary); font-size: 0.8rem; font-weight: 700; margin-top: 0.5rem;"></div>
             </div>
@@ -116,7 +116,7 @@ export function renderAdminView() {
 
   // Usuario autenticado (Directiva o Turno)
   const isDirectiva = role === ROLES.ADMIN;
-  const roleTitle = isDirectiva ? 'Directiva ANFA' : 'Turno de Cancha';
+  const roleTitle = isDirectiva ? 'Directiva General' : 'Turno de Cancha';
   const roleEmoji = isDirectiva ? '🏛️' : '⏱️';
   const regions = getRegionsAndLeagues();
 
@@ -336,7 +336,7 @@ function renderAdminDashboard(container, db, league) {
       <div class="admin-alert-box danger">
         <div style="font-size: 1.25rem;">⚠️</div>
         <div>
-          <strong>Alerta Disciplinaria ANFA:</strong> Hay <strong>${playersSuspended.length} jugador(es) suspendido(s)</strong> inhabilitados para jugar la próxima fecha por acumulación de 5 tarjetas amarillas o sanción del Tribunal.
+          <strong>Alerta Disciplinaria Oficial:</strong> Hay <strong>${playersSuspended.length} jugador(es) suspendido(s)</strong> inhabilitados para jugar la próxima fecha por acumulación de 5 tarjetas amarillas o sanción del Tribunal.
           <div style="margin-top: 0.35rem; font-size: 0.78rem;">
             ${playersSuspended.map(p => `• <strong>${p.name}</strong> (${p.clubId})`).join(' ')}
           </div>
@@ -416,7 +416,7 @@ function renderAdminDashboard(container, db, league) {
           </td>
           <td>
             ${m.ratificationStatus === 'ratificado_directorio' 
-              ? '<span class="admin-badge admin-badge-success">✓ Ratificado ANFA</span>' 
+              ? '<span class="admin-badge admin-badge-success">✓ Ratificado Oficial</span>' 
               : '<span class="admin-badge admin-badge-warning">Planilla Cancha</span>'}
           </td>
           <td>
@@ -516,7 +516,7 @@ function renderAdminMatches(container, db, league) {
           <td>
             <div style="font-size: 0.78rem;">
               <span>👨‍⚖️ ${m.referee || 'CAPA Oficial'}</span><br>
-              <span style="color: var(--color-text-muted);">📋 Turno: ${m.turnOfficial || 'Designado ANFA'}</span>
+              <span style="color: var(--color-text-muted);">📋 Turno: ${m.turnOfficial || 'Designado por Turno'}</span>
             </div>
           </td>
           <td>
@@ -536,7 +536,7 @@ function renderAdminMatches(container, db, league) {
           <td>
             ${m.ratificationStatus === 'ratificado_directorio' 
               ? '<span class="admin-badge admin-badge-success">✓ Ratificado Directorio</span>' 
-              : `<button class="btn-admin-action success" onclick="window.ligamasterRatifyMatch('${m.id}')" title="Ratificar formalmente por Directorio ANFA">Ratificar Acta</button>`}
+              : `<button class="btn-admin-action success" onclick="window.ligamasterRatifyMatch('${m.id}')" title="Ratificar formalmente por Directorio">Ratificar Acta</button>`}
           </td>
           <td>
             <div style="display: flex; gap: 0.35rem;">
@@ -647,7 +647,7 @@ function renderAdminClubs(container, db, league) {
               <strong style="font-family: var(--font-display); font-size: 1.1rem; color: var(--color-primary); width: 24px;">#${p.number || '-'}</strong>
               <div>
                 <strong>${p.name}</strong>
-                <small style="display: block; color: var(--color-text-muted);">${p.birthDate || 'Ficha ANFA'}</small>
+                <small style="display: block; color: var(--color-text-muted);">${p.birthDate || 'Ficha Registrada'}</small>
               </div>
             </div>
           </td>
@@ -697,7 +697,7 @@ function renderAdminClubs(container, db, league) {
 
 /**
  * ==========================================================================
- * MÓDULO 4: TRIBUNAL DE PENAS & DISCIPLINA ANFA
+ * MÓDULO 4: TRIBUNAL DE DISCIPLINA & PENALIDADES
  * ==========================================================================
  */
 function renderAdminSanctions(container, db, league) {
@@ -710,7 +710,7 @@ function renderAdminSanctions(container, db, league) {
     <div class="admin-alert-box info">
       <div style="font-size: 1.25rem;">⚖️</div>
       <div>
-        <strong>Tribunal de Honor & Disciplina ANFA:</strong> Registro de penalidades según Código de Procedimientos y Penalidades de ANFA Chile. Las suspensiones por 5 amarillas se aplican en forma automática e indelegable.
+        <strong>Tribunal de Disciplina & Penalidades:</strong> Registro de penalidades según Código de Procedimientos y Penalidades Oficial. Las suspensiones por 5 amarillas se aplican en forma automática e indelegable.
       </div>
     </div>
 
@@ -731,7 +731,7 @@ function renderAdminSanctions(container, db, league) {
                 <th>Futbolista Sancionado</th>
                 <th>Club</th>
                 <th>Serie</th>
-                <th>Causa y Artículo ANFA</th>
+                <th>Causa y Artículo Reglamentario</th>
                 <th>Fechas</th>
                 <th>Restantes</th>
                 <th>Resolución / Acta</th>
@@ -757,7 +757,7 @@ function renderAdminSanctions(container, db, league) {
               ${s.datesRemaining} fecha(s)
             </strong>
           </td>
-          <td><small style="color: var(--color-text-muted);">${s.meetingDate || 'Tribunal ANFA'}</small></td>
+          <td><small style="color: var(--color-text-muted);">${s.meetingDate || 'Tribunal de Disciplina'}</small></td>
           <td>
             ${s.datesRemaining > 0 ? `
               <button class="btn-admin-action success" onclick="window.ligamasterServeSanctionDate('${s.id}')" title="Marcar fecha cumplida">
@@ -780,7 +780,7 @@ function renderAdminSanctions(container, db, league) {
     <!-- Detección Automática de Tarjetas Amarillas (Capilla y Suspensión) -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h3><span>🟨</span> Control Reglamentario de Tarjetas Amarillas (Art. 42 ANFA)</h3>
+        <h3><span>🟨</span> Control Reglamentario de Tarjetas Amarillas (Art. 42)</h3>
       </div>
       <div class="admin-card-body" style="padding: 0;">
         <div class="admin-table-wrapper">
@@ -835,7 +835,7 @@ function renderAdminSanctions(container, db, league) {
 
 /**
  * ==========================================================================
- * MÓDULO 5: TESORERÍA & CAJA CHICA ANFA
+ * MÓDULO 5: TESORERÍA & BALANCE INSTITUCIONAL
  * ==========================================================================
  */
 function renderAdminTreasury(container, db, league) {
@@ -877,14 +877,14 @@ function renderAdminTreasury(container, db, league) {
         <div class="admin-kpi-value">
           $${saldoLiquido.toLocaleString('es-CL')}
         </div>
-        <div class="admin-kpi-sub">Caja chica y cuenta bancaria ANFA</div>
+        <div class="admin-kpi-sub">Caja chica y cuenta bancaria de la Asociación</div>
       </div>
     </div>
 
     <!-- Libro Diario de Movimientos -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h3><span>💰</span> Libro Diario de Caja Chica & Tesorería ANFA</h3>
+        <h3><span>💰</span> Libro Diario de Caja Chica & Tesorería</h3>
         <div style="display: flex; gap: 0.5rem;">
           <button class="btn-admin-action" onclick="window.print()">
             🖨️ Imprimir Balance
@@ -1140,7 +1140,7 @@ window.ligamasterSaveFullMatchScore = (matchId) => {
   renderAdminView();
 };
 
-// Ratificar partido formalmente por Directorio ANFA
+// Ratificar partido formalmente por Directorio
 window.ligamasterRatifyMatch = (matchId) => {
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
@@ -1148,7 +1148,7 @@ window.ligamasterRatifyMatch = (matchId) => {
   if (!m) return;
 
   m.ratificationStatus = 'ratificado_directorio';
-  m.ratificationLabel = 'Oficializado y Ratificado por Directorio ANFA';
+  m.ratificationLabel = 'Oficializado y Ratificado por Directorio';
 
   saveDb(db, activeId);
   showToast('Planilla del partido oficializada y ratificada por la Directiva.', 'success');
@@ -1390,7 +1390,7 @@ function setupAdminModals() {
           venue: document.getElementById('new-match-venue')?.value || 'Estadio Municipal',
           date: document.getElementById('new-match-date')?.value || 'Fin de semana',
           referee: document.getElementById('new-match-referee')?.value || 'Terna Oficial',
-          turnOfficial: 'Designado por Directorio ANFA',
+          turnOfficial: 'Designado por Directorio',
           status: 'programado',
           homeScore: 0,
           awayScore: 0,
@@ -1528,8 +1528,8 @@ function setupAdminModals() {
           </div>
 
           <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Causa Reglamentaria / Fallo ANFA</label>
-            <textarea id="sanc-cause" class="series-select" style="width: 100%; height: 70px; resize: vertical;" placeholder="ej: Expulsión con Roja Directa: Agresión verbal a juez de línea (Art. 54 Reglamento ANFA)" required></textarea>
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Causa Reglamentaria / Fallo Disciplinario</label>
+            <textarea id="sanc-cause" class="series-select" style="width: 100%; height: 70px; resize: vertical;" placeholder="ej: Expulsión con Roja Directa: Agresión verbal a juez de línea (Art. 54 Reglamento de Competición)" required></textarea>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
@@ -1539,7 +1539,7 @@ function setupAdminModals() {
             </div>
             <div>
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Nº de Acta del Tribunal</label>
-              <input type="text" id="sanc-acta" class="series-select" style="width: 100%;" value="Sesión Tribunal ANFA (Acta Nº 15)">
+              <input type="text" id="sanc-acta" class="series-select" style="width: 100%;" value="Sesión Tribunal de Disciplina (Acta Nº 15)">
             </div>
           </div>
 

@@ -1,10 +1,9 @@
 /**
- * LigaMaster - Base de Datos Oficial ANFA Arauco
- * Asociación de Fútbol Amateur de Arauco (Región del Biobío, Chile)
+ * LigaMaster - Base de Datos Oficial
+ * Asociación de Fútbol de Arauco (Región del Biobío, Chile)
  * Sede Oficial: Calle Julio Montt Nº 386, Población 10 de Julio, Arauco
- * Afiliada a ANFA Región del Biobío y ANFA Nacional de Chile
  * 
- * 10 Clubes Oficiales, 4 Series Reglamentarias, 800 Futbolistas Inscritos con Carnet ANFA
+ * 10 Clubes Oficiales, 4 Series Reglamentarias, 800 Futbolistas Inscritos en Padrón Oficial
  */
 
 import { LIGA_DEMO_DATA } from './data_liga_demo.js';
@@ -14,8 +13,8 @@ export const STORAGE_KEY = 'LIGAMASTER_ARAUCO_DB_V15';
 export const INITIAL_DATA = {
   ...LIGA_DEMO_DATA,
   regulations: {
-    code: "REGLAMENTO-OFICIAL-ANFA-BIOBIO-2026",
-    disciplinaryCode: "Código de Procedimientos y Penalidades ANFA Nacional",
+    code: "REGLAMENTO-OFICIAL-COMPETICION-2026",
+    disciplinaryCode: "Código de Procedimientos y Penalidades Oficial",
     substitutionRule: "Máximo 5 sustituciones en un máximo de 3 ventanas de interrupción por equipo (excluyendo entretiempo).",
     cardRules: {
       yellowAccumulation: 5,
@@ -24,15 +23,15 @@ export const INITIAL_DATA = {
       directRed: "2 a 4 fechas según tipificación en informe del árbitro central (CAPA)"
     },
     cupQualification: {
-      regional: "Copa de Campeones ANFA Biobío (Clasifican el Campeón y Subcampeón comunal de Primera Adulta, Senior 35 y Súper Senior 45)",
-      national: "Campeonato Nacional de Clubes Campeones ANFA (Clasifica el Campeón Regional de ANFA Biobío)"
+      regional: "Torneo Regional de Campeones (Clasifican el Campeón y Subcampeón comunal de Primera Adulta, Senior 35 y Súper Senior 45)",
+      national: "Torneo Nacional de Clubes Campeones (Clasifica el Campeón Regional)"
     }
   },
   selectionInfo: {
     name: "Selección Oficial de Fútbol de Arauco",
     shortName: "Selección de Arauco",
-    association: "Asociación de Fútbol Amateur de Arauco",
-    regionalBody: "ANFA Región del Biobío",
+    association: "Asociación de Fútbol de Arauco",
+    regionalBody: "Comité Regional de Fútbol",
     season: "Torneo Regional de Selecciones 2026",
     colors: "Camiseta Roja Tricolor, Pantalón Blanco, Medias Rojas",
     nickname: "La Roja de Arauco / Los Costinos",
@@ -88,8 +87,7 @@ export const INITIAL_DATA = {
 };
 
 export const MULTI_LEAGUE_STORE = {
-  arauco: INITIAL_DATA,
-  'liga-demo': INITIAL_DATA
+  arauco: INITIAL_DATA
 };
 
 export const REGIONS_AND_LEAGUES = [
@@ -107,8 +105,47 @@ export const REGIONS_AND_LEAGUES = [
         president: "Claudio Pampaloni Altamirano",
         totalClubs: 10,
         status: "oficial",
-        statusLabel: "Asociación Oficial ANFA",
+        statusLabel: "Asociación Oficial",
         isDemo: false
+      },
+      {
+        id: "curanilahue",
+        name: "Asociación de Fútbol de Curanilahue",
+        shortName: "AF Curanilahue",
+        badgeId: "asociacion-curanilahue",
+        commune: "Curanilahue",
+        founded: "15 de mayo de 1952",
+        president: "Directiva Asociación Curanilahue",
+        totalClubs: 8,
+        status: "asociacion_disponible",
+        statusLabel: "Plataforma Habilitada",
+        isDemo: true
+      },
+      {
+        id: "lebu",
+        name: "Asociación de Fútbol de Lebu",
+        shortName: "AF Lebu",
+        badgeId: "asociacion-lebu",
+        commune: "Lebu (Capital Provincial)",
+        founded: "22 de agosto de 1948",
+        president: "Directiva Asociación Lebu",
+        totalClubs: 8,
+        status: "asociacion_disponible",
+        statusLabel: "Plataforma Habilitada",
+        isDemo: true
+      },
+      {
+        id: "canete",
+        name: "Asociación de Fútbol de Cañete",
+        shortName: "AF Cañete",
+        badgeId: "asociacion-canete",
+        commune: "Cañete",
+        founded: "12 de noviembre de 1955",
+        president: "Directiva Asociación Cañete",
+        totalClubs: 8,
+        status: "asociacion_disponible",
+        statusLabel: "Plataforma Habilitada",
+        isDemo: true
       }
     ]
   }
@@ -136,17 +173,27 @@ function safeStorageSet(key, value) {
 }
 
 export function getActiveLeagueId() {
+  const saved = safeStorageGet('LIGAMASTER_ACTIVE_LEAGUE_ID');
+  if (saved && REGIONS_AND_LEAGUES[0].leagues.some(l => l.id === saved)) {
+    return saved;
+  }
   return 'arauco';
 }
 
 export function setActiveLeagueId(leagueId) {
-  safeStorageSet('LIGAMASTER_ACTIVE_LEAGUE_ID', 'arauco');
+  const valid = REGIONS_AND_LEAGUES[0].leagues.some(l => l.id === leagueId) ? leagueId : 'arauco';
+  safeStorageSet('LIGAMASTER_ACTIVE_LEAGUE_ID', valid);
   if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
-    window.dispatchEvent(new CustomEvent('ligamaster:league-changed', { detail: 'arauco' }));
+    window.dispatchEvent(new CustomEvent('ligamaster:league-changed', { detail: valid }));
   }
 }
 
 export function getLeagueById(leagueId) {
+  const target = leagueId || getActiveLeagueId();
+  for (const reg of REGIONS_AND_LEAGUES) {
+    const found = reg.leagues.find(l => l.id === target);
+    if (found) return found;
+  }
   return REGIONS_AND_LEAGUES[0].leagues[0];
 }
 
@@ -160,46 +207,283 @@ export function getLeagueSeries(leagueId = null) {
 }
 
 /**
- * Retorna la base de datos oficial de Arauco
+ * Generador modular de datos para asociaciones de la plataforma LigaMaster
  */
-export function getDb(leagueId = null) {
-  const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+function generateModularAssociationDb(leagueId, leagueName, commune) {
+  const clubCatalog = {
+    curanilahue: [
+      { name: "Club Deportivo Curanilahue", color: "#16a34a", stadium: "Estadio Municipal Raúl Erazo" },
+      { name: "Club Minero Colico", color: "#0f172a", stadium: "Cancha Colico Norte" },
+      { name: "Club Deportivo Miraflores", color: "#2563eb", stadium: "Estadio Municipal Raúl Erazo" },
+      { name: "Club Deportivo Arturo Prat", color: "#dc2626", stadium: "Cancha Prat Curanilahue" },
+      { name: "Club Deportivo Estrella Verde", color: "#059669", stadium: "Estadio Municipal Raúl Erazo" },
+      { name: "Club Huracán de Curanilahue", color: "#d97706", stadium: "Cancha Huracán" },
+      { name: "Club Unión Central Minera", color: "#7c3aed", stadium: "Estadio Municipal Raúl Erazo" },
+      { name: "Club Juventud de Curanilahue", color: "#ea580c", stadium: "Cancha Juventud" }
+    ],
+    lebu: [
+      { name: "Club Deportivo Boca Lebu", color: "#2563eb", stadium: "Estadio Municipal de Lebu" },
+      { name: "Club Social y Deportivo Lebu", color: "#dc2626", stadium: "Estadio Municipal de Lebu" },
+      { name: "Club Deportivo Victoria", color: "#16a34a", stadium: "Cancha Victoria" },
+      { name: "Club Deportivo Costanera", color: "#0284c7", stadium: "Estadio Municipal de Lebu" },
+      { name: "Club Estrella del Mar", color: "#0d9488", stadium: "Cancha Costanera Sur" },
+      { name: "Club Deportivo Laja Lebu", color: "#d97706", stadium: "Estadio Municipal de Lebu" },
+      { name: "Club Juventud Lebu", color: "#7c3aed", stadium: "Cancha El Carbón" },
+      { name: "Club Defensor Santa Fe", color: "#b91c1c", stadium: "Estadio Municipal de Lebu" }
+    ],
+    canete: [
+      { name: "Club Deportivo Alianza Cañete", color: "#2563eb", stadium: "Estadio Fiscal de Cañete" },
+      { name: "Club Deportivo Cañete", color: "#dc2626", stadium: "Estadio Fiscal de Cañete" },
+      { name: "Club Barrio Norte Cañete", color: "#16a34a", stadium: "Cancha Barrio Norte" },
+      { name: "Club Deportivo Lautaro", color: "#d97706", stadium: "Estadio Fiscal de Cañete" },
+      { name: "Club Huracán de Cañete", color: "#059669", stadium: "Cancha Huracán Cañete" },
+      { name: "Club Deportivo Pangue", color: "#0284c7", stadium: "Estadio Fiscal de Cañete" },
+      { name: "Club Juvenil Cayucupil", color: "#7c3aed", stadium: "Cancha Cayucupil" },
+      { name: "Club Real Victoria", color: "#b91c1c", stadium: "Estadio Fiscal de Cañete" }
+    ]
+  };
 
-  try {
-    const raw = safeStorageGet(storageKey);
-    if (raw) {
-      return JSON.parse(raw);
+  const clubsInfo = clubCatalog[leagueId] || clubCatalog.curanilahue;
+  const seriesList = [
+    { id: 'primera_adulta', name: 'Primera Adulta (Honor)', shortName: '1ª Adulta', order: 1 },
+    { id: 'senior', name: 'Serie Senior (35+)', shortName: 'Senior', order: 2 },
+    { id: 'super_senior', name: 'Serie Súper Senior (45+)', shortName: 'Súper Senior', order: 3 },
+    { id: 'juvenil', name: 'Serie Juvenil (Sub-18)', shortName: 'Juvenil', order: 4 }
+  ];
+
+  const clubs = clubsInfo.map((ci, idx) => ({
+    id: `club-${leagueId}-${idx + 1}`,
+    name: ci.name,
+    shortName: ci.name.replace("Club Deportivo ", "").replace("Club ", ""),
+    badgeId: `club-${leagueId}-${idx + 1}`,
+    primaryColor: ci.color,
+    secondaryColor: "#ffffff",
+    founded: "1960",
+    stadium: ci.stadium,
+    president: `Directiva ${ci.name}`,
+    statusLegal: "Personalidad Jurídica Vigente",
+    series: ['primera_adulta', 'senior', 'super_senior', 'juvenil'],
+    titles: `${(idx % 4) + 1} Títulos Comunales`,
+    description: `Institución deportiva oficial afiliada a la ${leagueName}.`
+  }));
+
+  const standings = {};
+  seriesList.forEach(s => {
+    standings[s.id] = clubs.map((c, i) => ({
+      position: i + 1,
+      clubId: c.id,
+      clubName: c.name,
+      pj: 3,
+      pg: i < 3 ? 3 - i : (i < 6 ? 1 : 0),
+      pe: i === 3 || i === 4 ? 1 : 0,
+      pp: i >= 5 ? 2 : 0,
+      gf: 7 - i > 0 ? 7 - i : 1,
+      gc: i + 1,
+      dg: (7 - i > 0 ? 7 - i : 1) - (i + 1),
+      pts: i === 0 ? 9 : (i === 1 ? 6 : (i === 2 ? 4 : (i === 3 ? 4 : (i === 4 ? 2 : 0)))),
+      form: ["W", "W", i % 2 === 0 ? "W" : "D"]
+    }));
+  });
+
+  const players = [];
+  const positions = ["Portero", "Defensa Central", "Lateral", "Mediocampista", "Delantero"];
+  clubs.forEach((c, cIdx) => {
+    seriesList.forEach((s) => {
+      positions.forEach((pos, pIdx) => {
+        const num = (pIdx * 2) + 1;
+        players.push({
+          id: `p-${leagueId}-${c.id}-${s.id}-${num}`,
+          name: `Jugador ${c.shortName} #${num}`,
+          rut: `1${cIdx + 2}.${pIdx + 1}00.${s.order}00-K`,
+          clubId: c.id,
+          clubName: c.name,
+          series: s.id,
+          number: num,
+          position: pos,
+          specificPosition: pos,
+          birthDate: "1994-05-12",
+          photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+          status: "Activo",
+          regAnfa: `REG-${leagueId.toUpperCase()}-${cIdx+1}${num}`,
+          matchesPlayed: 3,
+          goals: pos === "Delantero" ? (3 - (cIdx % 3)) : 0,
+          yellowCards: cIdx % 2,
+          redCards: 0,
+          stats: {
+            goals: pos === "Delantero" ? (3 - (cIdx % 3)) : 0,
+            assists: 1,
+            matches: 3,
+            yellowCards: cIdx % 2,
+            redCards: 0
+          }
+        });
+      });
+    });
+  });
+
+  const matches = [
+    {
+      id: `m-${leagueId}-f1-1`,
+      round: 1,
+      roundName: "Jornada 1",
+      series: "primera_adulta",
+      date: "2026-09-06",
+      time: "15:30",
+      homeClubId: clubs[0].id,
+      awayClubId: clubs[1].id,
+      homeScore: 3,
+      awayScore: 1,
+      status: "finalizado",
+      venue: clubs[0].stadium,
+      referee: "Colegio de Árbitros Oficial"
+    },
+    {
+      id: `m-${leagueId}-f2-1`,
+      round: 2,
+      roundName: "Jornada 2",
+      series: "primera_adulta",
+      date: "2026-09-13",
+      time: "15:30",
+      homeClubId: clubs[2].id,
+      awayClubId: clubs[0].id,
+      homeScore: 0,
+      awayScore: 2,
+      status: "finalizado",
+      venue: clubs[2].stadium,
+      referee: "Colegio de Árbitros Oficial"
+    },
+    {
+      id: `m-${leagueId}-f3-1`,
+      round: 3,
+      roundName: "Jornada 3",
+      series: "primera_adulta",
+      date: "2026-09-20",
+      time: "15:30",
+      homeClubId: clubs[0].id,
+      awayClubId: clubs[3].id,
+      homeScore: 2,
+      awayScore: 1,
+      status: "finalizado",
+      venue: clubs[0].stadium,
+      referee: "Colegio de Árbitros Oficial"
+    },
+    {
+      id: `m-${leagueId}-f4-1`,
+      round: 4,
+      roundName: "Jornada 4",
+      series: "primera_adulta",
+      date: "2026-10-04",
+      time: "15:30",
+      homeClubId: clubs[1].id,
+      awayClubId: clubs[2].id,
+      homeScore: null,
+      awayScore: null,
+      status: "programado",
+      venue: clubs[1].stadium,
+      referee: "Por Designar"
     }
-  } catch (e) {
-    console.error("Error leyendo base de datos de Arauco", e);
-  }
+  ];
 
-  const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
-  saveDb(cloned, 'arauco');
-  return cloned;
+  return {
+    league: {
+      id: leagueId,
+      name: leagueName,
+      commune: commune,
+      season: "Temporada 2026",
+      totalClubs: clubs.length,
+      currentRound: 4
+    },
+    seriesList: seriesList,
+    clubs: clubs,
+    standings: standings,
+    players: players,
+    matches: matches,
+    scorers: standings['primera_adulta'].map((st, i) => ({
+      playerId: `p-${leagueId}-${st.clubId}-primera_adulta-9`,
+      name: `Goleador ${st.clubName}`,
+      clubId: st.clubId,
+      clubName: st.clubName,
+      goals: 4 - (i % 3),
+      matches: 3
+    })),
+    news: [
+      {
+        id: `news-${leagueId}-1`,
+        title: `Fixture y programación oficial en ${leagueName}`,
+        date: "02 de Octubre, 2026",
+        category: "Oficial",
+        summary: `La ${leagueName} inicia su fase regular en la plataforma LigaMaster con seguimiento en tiempo real.`,
+        content: `Todos los clubes afiliados a la ${leagueName} ya cuentan con sus planteles y fixture homologados en LigaMaster.`,
+        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+        author: `Directiva ${leagueName}`
+      }
+    ]
+  };
 }
 
 /**
- * Guarda el estado de la base de datos de Arauco
+ * Retorna la base de datos oficial de la liga activa o solicitada
+ */
+export function getDb(leagueId = null) {
+  const currentId = leagueId || getActiveLeagueId() || 'arauco';
+
+  if (currentId === 'arauco') {
+    const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+    try {
+      const raw = safeStorageGet(storageKey);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {
+      console.error("Error leyendo base de datos de Arauco", e);
+    }
+    const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
+    saveDb(cloned, 'arauco');
+    return cloned;
+  }
+
+  // Multi-Asociación dinámica (Curanilahue, Lebu, Cañete)
+  const storageKey = `LIGAMASTER_LEAGUE_${currentId.toUpperCase()}_V1`;
+  try {
+    const raw = safeStorageGet(storageKey);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+
+  const leagueInfo = getLeagueById(currentId);
+  const modularDb = generateModularAssociationDb(currentId, leagueInfo.name, leagueInfo.commune);
+  saveDb(modularDb, currentId);
+  return modularDb;
+}
+
+/**
+ * Guarda el estado de la base de datos
  */
 export function saveDb(data, leagueId = null) {
-  const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+  const currentId = leagueId || getActiveLeagueId() || 'arauco';
+  const storageKey = currentId === 'arauco' ? `LIGAMASTER_LEAGUE_ARAUCO_V15` : `LIGAMASTER_LEAGUE_${currentId.toUpperCase()}_V1`;
 
   try {
     safeStorageSet(storageKey, JSON.stringify(data));
-    safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+    if (currentId === 'arauco') {
+      safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+    }
   } catch (e) {
-    console.error("Error guardando base de datos de Arauco", e);
+    console.error("Error guardando base de datos", e);
   }
 }
 
 /**
- * Restaura la base de datos de Arauco a sus valores oficiales
+ * Restaura la base de datos a sus valores oficiales
  */
 export function resetDb(leagueId = null) {
-  const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
-  saveDb(cloned, 'arauco');
-  return cloned;
+  const currentId = leagueId || getActiveLeagueId() || 'arauco';
+  if (currentId === 'arauco') {
+    const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
+    saveDb(cloned, 'arauco');
+    return cloned;
+  }
+  const leagueInfo = getLeagueById(currentId);
+  const modularDb = generateModularAssociationDb(currentId, leagueInfo.name, leagueInfo.commune);
+  saveDb(modularDb, currentId);
+  return modularDb;
 }
 
 // Métodos de conveniencia para la aplicación

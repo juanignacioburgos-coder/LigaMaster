@@ -243,8 +243,8 @@ export function triggerNewsNotification({ title, category, author }) {
   if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
     sendPushAlert({
       title: `📰 ${category || 'OFICIAL'}: ${title}`,
-      body: `Publicado por ${author || 'Prensa ANFA Arauco'}. Toca para leer la crónica completa.`,
-      tag: 'ligapro-news-' + Date.now(),
+      body: `Publicado por ${author || 'Prensa Oficial'}. Toca para leer la crónica completa.`,
+      tag: 'ligamaster-news-' + Date.now(),
       playSound: false,
       vibrate: false
     });

@@ -17,8 +17,8 @@ export const LIGA_DEMO_DATA = {
     "foundationDate": "01 de octubre de 1940",
     "anniversary": "Fundada el 1 de Octubre de 1940 (86 años de historia). 10ª agrupación más antigua de la Región del Biobío (de 33 asociaciones).",
     "governingBodies": {
-      "regional": "ANFA Región del Biobío",
-      "national": "Asociación Nacional de Fútbol Amateur (ANFA Chile)",
+      "regional": "Federación Regional de Fútbol",
+      "national": "Comisión Nacional de Fútbol Amateur",
       "referees": "Colegio de Árbitros de la Provincia de Arauco (CAPA)",
       "broadcast": "Voz Deportiva"
     }
@@ -24745,8 +24745,8 @@ export const LIGA_DEMO_DATA = {
   "news": [
     {
       "id": "news-arauco-1",
-      "title": "Campeonato Oficial 2026/27 de ANFA Arauco arranca con récord de 800 futbolistas inscritos",
-      "summary": "10 instituciones deportivas compiten en 4 series oficiales con padrón digital y carnet ANFA.",
+      "title": "Campeonato Oficial 2026/27 de la Asociación de Fútbol de Arauco arranca con récord de 800 futbolistas inscritos",
+      "summary": "10 instituciones deportivas compiten en 4 series oficiales con padrón digital y fichas oficiales.",
       "category": "Institucional",
       "date": "02 Octubre 2026",
       "author": "Prensa AFA Arauco",
@@ -24755,13 +24755,13 @@ export const LIGA_DEMO_DATA = {
     },
     {
       "id": "news-arauco-2",
-      "title": "Tribunal de Penas ratifica fallos y computa tabla de posiciones tras la Fecha 3",
+      "title": "Tribunal de Disciplina ratifica fallos y computa tabla de posiciones tras la Fecha 3",
       "summary": "Sesión oficial semanal confirma resultados y estado de suspensiones reglamentarias.",
       "category": "Tribunal",
       "date": "01 Octubre 2026",
       "author": "Secretaría General AFA",
       "featured": false,
-      "content": "El Honorable Tribunal de Penas de ANFA Arauco sesionó para ratificar las planillas de los 180 encuentros disputados en las primeras tres fechas del torneo en los recintos comunales de la comuna."
+      "content": "El Honorable Tribunal de Disciplina de la Asociación de Fútbol de Arauco sesionó para ratificar las planillas de los 180 encuentros disputados en las primeras tres fechas del torneo en los recintos comunales de la comuna."
     }
   ]
 };

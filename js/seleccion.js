@@ -1,11 +1,10 @@
 /**
- * LigaPro Amateur - Módulo Oficial de la Selección de Fútbol de Arauco
- * Asociación de Fútbol Amateur de Arauco (ANFA Arauco)
- * Afiliada a ANFA Región del Biobío
+ * LigaMaster - Módulo Oficial de la Selección de Fútbol de Arauco
+ * Asociación de Fútbol de Arauco
  * 
  * Cobertura del Campeonato Regional de Selecciones 2026:
  * - Serie de Honor: ¡Clasificada a Cuartos de Final tras vencer a Cavecur (Global 11-5)!
- * - Sorteo de Cuartos de Final: Martes 22 de Septiembre de 2026 (Sede ANFA Biobío)
+ * - Sorteo de Cuartos de Final: Martes 22 de Septiembre de 2026 (Sede Regional)
  * - Serie Juvenil Sub-17: Campaña formativa con triunfo 2-1 en Curanilahue
  * - Nómina Oficial: 29 futbolistas convocados (20 del C.D. Real José María + 9 de clubes tradicionales)
  * - Cuerpo Técnico: Liderado por el DT Cristián Gómez (exfutbolista profesional y DT Real José María)
@@ -121,7 +120,7 @@ export function renderSeleccionView() {
         </div>
         <div style="display: flex; align-items: center; gap: 0.4rem;">
           <span style="color: #38bdf8; font-size: 0.72rem; font-weight: 600;">${p.pos}</span>
-          <span style="font-size: 0.65rem; color: #64748b; background: rgba(255,255,255,0.05); padding: 0.1rem 0.35rem; border-radius: 4px;">ANFA Arauco</span>
+          <span style="font-size: 0.65rem; color: #64748b; background: rgba(255,255,255,0.05); padding: 0.1rem 0.35rem; border-radius: 4px;">Asoc. Arauco</span>
         </div>
       </div>
     `;
@@ -135,7 +134,7 @@ export function renderSeleccionView() {
       <div class="selection-hero-topline">
         <div class="selection-hero-badge">
           <span>🇨🇱</span>
-          <span>SELECCIÓN OFICIAL DE LA COMUNA • ASOCIACIÓN ANFA ARAUCO</span>
+          <span>SELECCIÓN OFICIAL DE LA COMUNA • ASOCIACIÓN DE FÚTBOL DE ARAUCO</span>
         </div>
         <div class="media-partner-tag" title="Canal deportivo de la Provincia de Arauco">
           <span>📹 Cobertura Oficial: <strong>${sel.officialMedia.name}</strong> (${sel.officialMedia.channels})</span>
@@ -203,7 +202,7 @@ export function renderSeleccionView() {
       <!-- HISTORIAL OFICIAL DE LA SERIE 1ª RONDA (IDA Y VUELTA VS CAVECUR) -->
       <div class="previous-round-history-box" style="background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
         <h5 style="margin: 0 0 0.75rem 0; font-size: 0.82rem; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem;">
-          <span>📋 Registro Oficial de Octavos de Final (Grupo 2 ANFA Biobío)</span>
+          <span>📋 Registro Oficial de Octavos de Final (Grupo 2 Regional)</span>
         </h5>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
@@ -276,7 +275,7 @@ export function renderSeleccionView() {
       <!-- Cuerpo Técnico Oficial con DT Cristián Gómez -->
       <div style="margin: 1.5rem 0 1rem 0;">
         <h5 style="font-size: 0.82rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem;">
-          <span>👔 Cuerpo Técnico Oficial de la Selección (Staff Real José María / ANFA Arauco)</span>
+          <span>👔 Cuerpo Técnico Oficial de la Selección (Staff Real José María / Asoc. Arauco)</span>
         </h5>
         <div class="sel-staff-grid">
           ${staffHtml}
@@ -323,7 +322,7 @@ export function renderSeleccionView() {
           <span style="font-size: 1.3rem;">🌱</span>
           <div>
             <h3 style="margin: 0; font-size: 1.15rem; color: #fff;">${juvenil.seriesName}</h3>
-            <span style="font-size: 0.72rem; color: #94a3b8;">Primera Fase • Torneo Regional ANFA Biobío</span>
+            <span style="font-size: 0.72rem; color: #94a3b8;">Primera Fase • Torneo Regional de Selecciones</span>
           </div>
         </div>
         <span class="status-badge" style="background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3);">
@@ -370,7 +369,7 @@ export function renderSeleccionView() {
               <span>📋 Nómina Oficial: 30 Nominados Selección Juvenil Sub-17 Arauco 2026</span>
             </h5>
             <span style="font-size: 0.72rem; color: #94a3b8;">
-              Nómina comunal oficial de ANFA Arauco para el Torneo Regional de Selecciones Biobío 2026
+              Nómina comunal oficial de la Selección de Arauco para el Torneo Regional de Selecciones 2026
             </span>
           </div>
           <span class="badge badge-info" style="font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3);">
@@ -411,7 +410,7 @@ export function renderSeleccionView() {
 
   // Botón de WhatsApp para alentar a la Selección
   document.getElementById('btn-share-selection-wa')?.addEventListener('click', () => {
-    const text = `¡Todos a apoyar a la Selección de Fútbol de Arauco en el Torneo Regional ANFA Biobío 2026! 🇨🇱⚽ La Serie de Honor avanzó a Cuartos de Final tras superar a Cavecur (Global 11-5). El DT Cristián Gómez y los 29 seleccionados esperan rival en el sorteo de este martes 22 de septiembre. ¡Vamos Arauco! Revisa la nómina completa y cobertura de TV Sports Laraquete aquí: http://localhost:8080`;
+    const text = `¡Todos a apoyar a la Selección de Fútbol de Arauco en el Torneo Regional de Selecciones 2026! 🇨🇱⚽ La Serie de Honor avanzó a Cuartos de Final tras superar a Cavecur (Global 11-5). El DT Cristián Gómez y los 29 seleccionados esperan rival en el sorteo de este martes 22 de septiembre. ¡Vamos Arauco! Revisa la nómina completa y cobertura de TV Sports Laraquete aquí: http://localhost:8080`;
     const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(waUrl, '_blank');
   });

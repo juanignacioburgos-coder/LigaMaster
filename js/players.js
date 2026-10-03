@@ -1,6 +1,6 @@
 /**
- * LigaPro Amateur - Fichas de Jugadores, Carnets Oficiales y Registro Histórico de Clubes
- * Asociación ANFA Arauco (Biobío, Chile)
+ * LigaMaster - Fichas de Jugadores, Registros Oficiales y Padrón de Clubes
+ * Asociación de Fútbol de Arauco
  */
 
 import { getDb, saveDb } from './data.js';
@@ -87,7 +87,7 @@ export function renderPlayersView() {
             <span style="font-size: 0.68rem; background: rgba(59,130,246,0.15); color: #93c5fd; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: 700; margin-left: 0.3rem;">${seriesLabel}</span>
           </div>
           <span class="status-badge ${isSuspended ? 'suspendido' : 'habilitado'}">
-            ${isSuspended ? '⛔ Inhabilitado' : '✓ Habilitado ANFA'}
+            ${isSuspended ? '⛔ Inhabilitado' : '✓ Ficha Habilitada'}
           </span>
         </div>
 
@@ -101,7 +101,7 @@ export function renderPlayersView() {
             <div class="club-name">${p.position}</div>
             <div class="rut-text">RUT: ${p.rut}</div>
             <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem;">Nacimiento: ${p.birthDate}</div>
-            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; margin-top: 0.2rem;">N° ANFA: ${p.regAnfa || `REG-ANFA-AR-${p.number || '01'}`}</div>
+            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; margin-top: 0.2rem;">N° Registro: ${p.regAnfa || `REG-AR-${p.number || '01'}`}</div>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export function renderPlayersView() {
         <div style="margin: 0.6rem 0.75rem 0.75rem; padding: 0.45rem 0.7rem; background: rgba(0, 255, 133,0.06); border: 1px solid rgba(0, 255, 133,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-size: 0.74rem;">
           <div style="display: flex; align-items: center; gap: 0.4rem;">
             <span>🪪</span>
-            <span style="color: #cbd5e1;">Registro ANFA: <strong style="color: #fff; font-family: monospace;">AR-${p.id.slice(-4).toUpperCase()}</strong></span>
+            <span style="color: #cbd5e1;">Registro Oficial: <strong style="color: #fff; font-family: monospace;">AR-${p.id.slice(-4).toUpperCase()}</strong></span>
           </div>
           <span class="status-badge ${p.status === 'suspendido' ? 'suspendido' : 'habilitado'}" style="font-size: 0.65rem; padding: 0.15rem 0.45rem;">
             ${p.status === 'suspendido' ? '⛔ Sancionado' : '✓ Plastificado al Día'}
@@ -185,7 +185,7 @@ export function renderSanctionsView() {
 }
 
 /**
- * Renderiza la sección de Clubes Oficiales de ANFA Arauco con datos puros y documentados
+ * Renderiza la sección de Clubes Oficiales de la Asociación con datos puros y documentados
  */
 export function renderClubsHistoryView() {
   const container = document.getElementById('clubs-history-grid');
@@ -231,7 +231,7 @@ export function renderClubsHistoryView() {
 
         <div style="background: rgba(0,0,0,0.3); padding: 0.55rem 0.75rem; border-radius: 6px; font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); margin-top: 0.5rem;">
           📍 <strong>Sede:</strong> ${c.neighborhood}<br>
-          🏟️ <strong>Estadio:</strong> ${c.stadium} • <span style="color: #93c5fd;">${c.statusLegal || 'Afiliado ANFA'}</span>
+          🏟️ <strong>Estadio:</strong> ${c.stadium} • <span style="color: #93c5fd;">${c.statusLegal || 'Afiliado Oficial'}</span>
         </div>
       </div>
     `;
@@ -241,7 +241,7 @@ export function renderClubsHistoryView() {
 }
 
 /**
- * Renderiza la sección del Reglamento Oficial de Competición ANFA Arauco
+ * Renderiza la sección del Reglamento Oficial de Competición
  */
 export function renderRegulationsView() {
   const container = document.getElementById('regulations-content-box');
@@ -291,7 +291,7 @@ export function renderRegulationsView() {
     <table class="roster-table" style="margin-top: 1rem;">
       <thead>
         <tr>
-          <th>Serie Oficial ANFA</th>
+          <th>Serie Oficial</th>
           <th>Límite de Edad Reglamentario</th>
           <th>Tiempo de Juego Oficial</th>
           <th>Copa Regional Clasificatoria</th>
@@ -337,19 +337,19 @@ function setupPlayerEventListeners() {
 }
 
 /**
- * Exporta el padrón oficial de jugadores de ANFA Arauco a CSV descargable
+ * Exporta el padrón oficial de jugadores de la Asociación a CSV descargable
  */
 export function exportPlayersToCsv() {
   const db = getDb();
   const clubsMap = {};
   db.clubs.forEach(c => { clubsMap[c.id] = c; });
 
-  const headers = ["N° Registro ANFA", "Nombre Completo", "RUT", "Club", "Serie Oficial", "Posición", "Fecha Nacimiento", "Partidos Jugados", "Goles", "Tarjetas Amarillas", "Tarjetas Rojas", "Estado Federado"];
+  const headers = ["N° Registro Oficial", "Nombre Completo", "RUT", "Club", "Serie Oficial", "Posición", "Fecha Nacimiento", "Partidos Jugados", "Goles", "Tarjetas Amarillas", "Tarjetas Rojas", "Estado Federado"];
   const rows = db.players.map(p => {
     const club = clubsMap[p.clubId]?.name || 'Club Comunal';
     const series = SERIES_LABELS[p.series] || p.series;
     return [
-      `"${p.regAnfa || ('REG-ANFA-AR-' + (p.number || '01'))}"`,
+      `"${p.regAnfa || ('REG-AR-' + (p.number || '01'))}"`,
       `"${p.name}"`,
       `"${p.rut}"`,
       `"${club}"`,
@@ -360,7 +360,7 @@ export function exportPlayersToCsv() {
       p.goals || 0,
       p.yellowCards || 0,
       p.redCards || 0,
-      `"${p.status === 'habilitado' ? 'Habilitado (Carnet Plastificado Vigente)' : 'Inhabilitado'}"`
+      `"${p.status === 'habilitado' ? 'Habilitado (Ficha Vigente)' : 'Inhabilitado'}"`
     ].join(';');
   });
 
@@ -369,7 +369,7 @@ export function exportPlayersToCsv() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ANFA_Arauco_Padron_Oficial_Jugadores_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download = `LigaMaster_Arauco_Padron_Oficial_Jugadores_${new Date().toISOString().slice(0,10)}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

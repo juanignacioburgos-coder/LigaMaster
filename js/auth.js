@@ -5,7 +5,7 @@
  * Roles:
  * 1. 'public'  : Aficionado / Espectador (Solo Lectura)
  * 2. 'referee' : Turno de Cancha / Árbitro Oficial (PIN: 1234 ó 2026) - Marcador en vivo y actas
- * 3. 'admin'   : Directiva ANFA / Tribunal de Penas / Tesorería (PIN: 9999) - Control Total
+ * 3. 'admin'   : Directiva General / Tribunal de Disciplina / Tesorería (PIN: 9999) - Control Total
  */
 
 const ROLE_STORAGE_KEY = 'LIGAMASTER_CURRENT_ROLE_V1';
@@ -65,7 +65,7 @@ export function isReadOnly() {
  */
 export function login(pin, user = '') {
   const cleanPin = String(pin).trim();
-  const userName = user.trim() || 'Dirigente ANFA';
+  const userName = user.trim() || 'Dirigente Oficial';
 
   if (PINS.ADMIN.includes(cleanPin)) {
     try {
@@ -85,7 +85,7 @@ export function login(pin, user = '') {
     return {
       success: true,
       role: ROLES.ADMIN,
-      roleLabel: 'Directiva ANFA',
+      roleLabel: 'Directiva General',
       message: '¡Bienvenido! Sesión habilitada con Control Total Directivo.'
     };
   }
@@ -115,7 +115,7 @@ export function login(pin, user = '') {
 
   return {
     success: false,
-    message: 'PIN incorrecto. Ingrese 9999 para Directiva ANFA o 1234 para Turno de Cancha.'
+    message: 'PIN incorrecto. Ingrese 9999 para Directiva General o 1234 para Turno de Cancha.'
   };
 }
 
@@ -152,9 +152,9 @@ export function updateAuthUI(role = null) {
     if (currentRole === ROLES.ADMIN) {
       loginBtn.innerHTML = `
         <span>🏛️</span>
-        <span>Directiva ANFA</span>
+        <span>Directiva General</span>
       `;
-      loginBtn.title = "Sesión Activa: Directiva ANFA (Clic para abrir panel o cerrar sesión)";
+      loginBtn.title = "Sesión Activa: Directiva General (Clic para abrir panel o cerrar sesión)";
       loginBtn.classList.add('active');
     } else if (currentRole === ROLES.REFEREE) {
       loginBtn.innerHTML = `

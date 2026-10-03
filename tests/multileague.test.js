@@ -12,8 +12,15 @@ if (defaultLeague !== 'arauco') throw new Error('Default league should be arauco
 const regions = getRegionsAndLeagues();
 console.log('2. Regions Count:', regions.length);
 const totalLeagues = regions.reduce((acc, r) => acc + r.leagues.length, 0);
-console.log('   Total Leagues registered:', totalLeagues);
-if (totalLeagues !== 1) throw new Error('Platform should have exactly 1 consolidated official league');
+if (totalLeagues < 1) throw new Error('Platform should have registered official leagues');
+
+// Verificar que las asociaciones de la plataforma están registradas
+const leaguesList = regions.flatMap(r => r.leagues);
+['arauco', 'curanilahue', 'lebu', 'canete'].forEach(expectedId => {
+  const found = leaguesList.find(l => l.id === expectedId);
+  if (!found) throw new Error(`Association ${expectedId} should be registered in LigaMaster`);
+  console.log(`   ✓ Association [${expectedId}] registered: "${found.name}"`);
+});
 
 // 3. Check Arauco League Data
 const lInfo = getLeagueById('arauco');

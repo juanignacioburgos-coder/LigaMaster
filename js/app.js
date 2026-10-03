@@ -296,21 +296,55 @@ function updateSeriesSelectDropdowns(seriesList) {
   }
 }
 
+function getActiveSeriesName(seriesId) {
+  if (seriesId === 'all') return 'Todas las Series';
+  const db = getDb();
+  const list = db.seriesList || [];
+  const found = list.find(s => s.id === (seriesId || currentActiveSeries));
+  if (found) {
+    if (found.id === 'primera_adulta') return 'Serie de Honor';
+    return found.name || found.shortName || 'Serie de Honor';
+  }
+  return 'Serie de Honor';
+}
+
 function renderActiveLeagueContext() {
   const activeId = getActiveLeagueId();
   const league = getLeagueById(activeId);
   const crestEl = document.getElementById('context-league-crest');
+  const leagueSelect = document.getElementById('context-league-select');
+  const seasonEl = document.getElementById('context-hierarchy-season');
+  const seriesEl = document.getElementById('context-hierarchy-series');
   const nameEl = document.getElementById('context-league-name');
   const regionEl = document.getElementById('context-league-region');
 
   if (crestEl) {
-    crestEl.innerHTML = getClubBadgeSvg(league.badgeId || 'asociacion-arauco', 28);
+    crestEl.innerHTML = getClubBadgeSvg(league.badgeId || (activeId === 'arauco' ? 'asociacion-arauco' : activeId), 28);
+  }
+  if (leagueSelect) {
+    leagueSelect.value = league.id;
+  }
+  if (seasonEl) {
+    seasonEl.textContent = 'Temporada 2026';
+  }
+  if (seriesEl) {
+    seriesEl.textContent = getActiveSeriesName(currentActiveSeries);
   }
   if (nameEl) {
     nameEl.textContent = league.name;
   }
   if (regionEl) {
-    regionEl.textContent = 'Región del Biobío • ANFA Chile • Temporada 2026/27';
+    regionEl.textContent = `Región del Biobío • Temporada 2026`;
+  }
+
+  // Actualizar nombres de la asociación en los breadcrumbs de todas las vistas
+  document.querySelectorAll('.breadcrumb-league-name').forEach(el => {
+    el.textContent = league.name;
+  });
+
+  const heroTitle = document.getElementById('league-page-title');
+  if (heroTitle) {
+    heroTitle.textContent = league.name;
   }
 }
 
@@ -1525,7 +1559,7 @@ function renderTeamTabContent(club) {
               <li><strong>Estadio:</strong> ${club.stadium || 'Estadio Municipal'}</li>
               <li><strong>Presidente:</strong> ${club.president || 'Directorio Oficial'}</li>
               <li><strong>Fundación:</strong> ${club.exactFoundationDate || club.founded || 'Oficial'}</li>
-              <li><strong>Estado ANFA:</strong> <span style="color: var(--color-success); font-weight: 800;">Vigente / Federado</span></li>
+              <li><strong>Estado Oficial:</strong> <span style="color: var(--color-success); font-weight: 800;">Ficha Vigente / Habilitada</span></li>
             </ul>
           </div>
         </div>
@@ -1650,7 +1684,7 @@ function renderPlayerView() {
     const statusEl = document.getElementById('player-profile-status');
     if (statusEl) {
       const isSuspended = activePlayer.status === 'Suspendido';
-      statusEl.textContent = isSuspended ? 'SUSPENDIDO ANFA' : 'CARNET ANFA VIGENTE';
+      statusEl.textContent = isSuspended ? 'SUSPENDIDO' : 'FICHA HABILITADA';
       statusEl.style.backgroundColor = isSuspended ? 'var(--color-danger-bg)' : 'var(--color-success-bg)';
       statusEl.style.color = isSuspended ? 'var(--color-danger)' : 'var(--color-success)';
     }
@@ -2042,7 +2076,7 @@ window.ligamasterOpenMatchDetail = (matchId) => {
       <div style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.6;">
         <p><strong>Recinto:</strong> ${match.venue}</p>
         <p><strong>Árbitro Central:</strong> ${match.referee}</p>
-        <p><strong>Turno Oficial ANFA:</strong> Don Sergio Viveros</p>
+        <p><strong>Turno Oficial de Cancha:</strong> Don Sergio Viveros</p>
         <p><strong>Estado del Acta:</strong> Acta de Cancha Oficializada con firma digital de capitanes.</p>
       </div>
     `;
@@ -2165,6 +2199,7 @@ function setupSeriesFilters() {
     currentActiveSeries = val;
     const db = getDb();
     updateSeriesSelectDropdowns(db.seriesList || []);
+    renderActiveLeagueContext();
     renderHomeView();
     renderLeagueView();
     renderStandingsView();
@@ -2350,12 +2385,12 @@ function renderLeaguePickerModal() {
 function setupFooterLinks() {
   const docs = {
     reglamento: {
-      title: 'Reglamento Oficial de Competiciones ANFA 2026',
+      title: 'Reglamento Oficial de Competiciones 2026',
       badge: '📜 BASES OFICIALES',
       html: `
         <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
           <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
-            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Asociación de Fútbol de Arauco • Afiliada a ANFA Biobío</strong>
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Asociación de Fútbol de Arauco • Competencia Oficial</strong>
             <span>Estatutos vigentes aprobados en Asamblea General de Clubes 2026.</span>
           </div>
           <div>
@@ -2415,7 +2450,7 @@ function setupFooterLinks() {
     },
     contacto: {
       title: 'Contacto Institucional • Mesa de Ayuda',
-      badge: '📞 DIRECTORIO ANFA',
+      badge: '📞 COMITÉ DIRECTIVO',
       html: `
         <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
           <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
@@ -2465,7 +2500,7 @@ function setupFooterLinks() {
             <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Lleva tu liga al estándar profesional de LaLiga</strong>
             <span>Tablas en vivo, padrón de jugadores, control financiero y diseño broadcast.</span>
           </div>
-          <p>Si eres presidente de una Asociación ANFA o liga independiente en cualquier región de Chile, puedes habilitar tu propia plataforma deportiva con tu escudo, tus clubes y tus canchas.</p>
+          <p>Si eres presidente de una Asociación de Fútbol o liga deportiva en cualquier región de Chile, puedes habilitar tu propia plataforma deportiva con tu escudo, tus clubes y tus canchas.</p>
           <div style="background: #fff; border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
             <p style="margin-bottom: 0.5rem; font-weight: 700; color: var(--color-text-main);">Escríbenos directamente para solicitar demostración personalizada:</p>
             <a href="mailto:alianzas@ligamaster.cl" class="btn-primary-coral" style="display: inline-flex; text-decoration: none; padding: 0.5rem 1.25rem; font-size: 0.85rem; margin-top: 0.25rem;">

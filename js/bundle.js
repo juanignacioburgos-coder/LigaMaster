@@ -16,8 +16,8 @@
       "foundationDate": "01 de octubre de 1940",
       "anniversary": "Fundada el 1 de Octubre de 1940 (86 a\xF1os de historia). 10\xAA agrupaci\xF3n m\xE1s antigua de la Regi\xF3n del Biob\xEDo (de 33 asociaciones).",
       "governingBodies": {
-        "regional": "ANFA Regi\xF3n del Biob\xEDo",
-        "national": "Asociaci\xF3n Nacional de F\xFAtbol Amateur (ANFA Chile)",
+        "regional": "Federaci\xF3n Regional de F\xFAtbol",
+        "national": "Comisi\xF3n Nacional de F\xFAtbol Amateur",
         "referees": "Colegio de \xC1rbitros de la Provincia de Arauco (CAPA)",
         "broadcast": "Voz Deportiva"
       }
@@ -24744,8 +24744,8 @@
     "news": [
       {
         "id": "news-arauco-1",
-        "title": "Campeonato Oficial 2026/27 de ANFA Arauco arranca con r\xE9cord de 800 futbolistas inscritos",
-        "summary": "10 instituciones deportivas compiten en 4 series oficiales con padr\xF3n digital y carnet ANFA.",
+        "title": "Campeonato Oficial 2026/27 de la Asociaci\xF3n de F\xFAtbol de Arauco arranca con r\xE9cord de 800 futbolistas inscritos",
+        "summary": "10 instituciones deportivas compiten en 4 series oficiales con padr\xF3n digital y fichas oficiales.",
         "category": "Institucional",
         "date": "02 Octubre 2026",
         "author": "Prensa AFA Arauco",
@@ -24754,13 +24754,13 @@
       },
       {
         "id": "news-arauco-2",
-        "title": "Tribunal de Penas ratifica fallos y computa tabla de posiciones tras la Fecha 3",
+        "title": "Tribunal de Disciplina ratifica fallos y computa tabla de posiciones tras la Fecha 3",
         "summary": "Sesi\xF3n oficial semanal confirma resultados y estado de suspensiones reglamentarias.",
         "category": "Tribunal",
         "date": "01 Octubre 2026",
         "author": "Secretar\xEDa General AFA",
         "featured": false,
-        "content": "El Honorable Tribunal de Penas de ANFA Arauco sesion\xF3 para ratificar las planillas de los 180 encuentros disputados en las primeras tres fechas del torneo en los recintos comunales de la comuna."
+        "content": "El Honorable Tribunal de Disciplina de la Asociaci\xF3n de F\xFAtbol de Arauco sesion\xF3 para ratificar las planillas de los 180 encuentros disputados en las primeras tres fechas del torneo en los recintos comunales de la comuna."
       }
     ]
   };
@@ -24770,8 +24770,8 @@
   var INITIAL_DATA = {
     ...LIGA_DEMO_DATA,
     regulations: {
-      code: "REGLAMENTO-OFICIAL-ANFA-BIOBIO-2026",
-      disciplinaryCode: "C\xF3digo de Procedimientos y Penalidades ANFA Nacional",
+      code: "REGLAMENTO-OFICIAL-COMPETICION-2026",
+      disciplinaryCode: "C\xF3digo de Procedimientos y Penalidades Oficial",
       substitutionRule: "M\xE1ximo 5 sustituciones en un m\xE1ximo de 3 ventanas de interrupci\xF3n por equipo (excluyendo entretiempo).",
       cardRules: {
         yellowAccumulation: 5,
@@ -24780,15 +24780,15 @@
         directRed: "2 a 4 fechas seg\xFAn tipificaci\xF3n en informe del \xE1rbitro central (CAPA)"
       },
       cupQualification: {
-        regional: "Copa de Campeones ANFA Biob\xEDo (Clasifican el Campe\xF3n y Subcampe\xF3n comunal de Primera Adulta, Senior 35 y S\xFAper Senior 45)",
-        national: "Campeonato Nacional de Clubes Campeones ANFA (Clasifica el Campe\xF3n Regional de ANFA Biob\xEDo)"
+        regional: "Torneo Regional de Campeones (Clasifican el Campe\xF3n y Subcampe\xF3n comunal de Primera Adulta, Senior 35 y S\xFAper Senior 45)",
+        national: "Torneo Nacional de Clubes Campeones (Clasifica el Campe\xF3n Regional)"
       }
     },
     selectionInfo: {
       name: "Selecci\xF3n Oficial de F\xFAtbol de Arauco",
       shortName: "Selecci\xF3n de Arauco",
-      association: "Asociaci\xF3n de F\xFAtbol Amateur de Arauco",
-      regionalBody: "ANFA Regi\xF3n del Biob\xEDo",
+      association: "Asociaci\xF3n de F\xFAtbol de Arauco",
+      regionalBody: "Comit\xE9 Regional de F\xFAtbol",
       season: "Torneo Regional de Selecciones 2026",
       colors: "Camiseta Roja Tricolor, Pantal\xF3n Blanco, Medias Rojas",
       nickname: "La Roja de Arauco / Los Costinos",
@@ -24857,8 +24857,47 @@
           president: "Claudio Pampaloni Altamirano",
           totalClubs: 10,
           status: "oficial",
-          statusLabel: "Asociaci\xF3n Oficial ANFA",
+          statusLabel: "Asociaci\xF3n Oficial",
           isDemo: false
+        },
+        {
+          id: "curanilahue",
+          name: "Asociaci\xF3n de F\xFAtbol de Curanilahue",
+          shortName: "AF Curanilahue",
+          badgeId: "asociacion-curanilahue",
+          commune: "Curanilahue",
+          founded: "15 de mayo de 1952",
+          president: "Directiva Asociaci\xF3n Curanilahue",
+          totalClubs: 8,
+          status: "asociacion_disponible",
+          statusLabel: "Plataforma Habilitada",
+          isDemo: true
+        },
+        {
+          id: "lebu",
+          name: "Asociaci\xF3n de F\xFAtbol de Lebu",
+          shortName: "AF Lebu",
+          badgeId: "asociacion-lebu",
+          commune: "Lebu (Capital Provincial)",
+          founded: "22 de agosto de 1948",
+          president: "Directiva Asociaci\xF3n Lebu",
+          totalClubs: 8,
+          status: "asociacion_disponible",
+          statusLabel: "Plataforma Habilitada",
+          isDemo: true
+        },
+        {
+          id: "canete",
+          name: "Asociaci\xF3n de F\xFAtbol de Ca\xF1ete",
+          shortName: "AF Ca\xF1ete",
+          badgeId: "asociacion-canete",
+          commune: "Ca\xF1ete",
+          founded: "12 de noviembre de 1955",
+          president: "Directiva Asociaci\xF3n Ca\xF1ete",
+          totalClubs: 8,
+          status: "asociacion_disponible",
+          statusLabel: "Plataforma Habilitada",
+          isDemo: true
         }
       ]
     }
@@ -24884,15 +24923,25 @@
     memStorage.set(key, String(value));
   }
   function getActiveLeagueId() {
+    const saved = safeStorageGet("LIGAMASTER_ACTIVE_LEAGUE_ID");
+    if (saved && REGIONS_AND_LEAGUES[0].leagues.some((l) => l.id === saved)) {
+      return saved;
+    }
     return "arauco";
   }
   function setActiveLeagueId(leagueId) {
-    safeStorageSet("LIGAMASTER_ACTIVE_LEAGUE_ID", "arauco");
+    const valid = REGIONS_AND_LEAGUES[0].leagues.some((l) => l.id === leagueId) ? leagueId : "arauco";
+    safeStorageSet("LIGAMASTER_ACTIVE_LEAGUE_ID", valid);
     if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") {
-      window.dispatchEvent(new CustomEvent("ligamaster:league-changed", { detail: "arauco" }));
+      window.dispatchEvent(new CustomEvent("ligamaster:league-changed", { detail: valid }));
     }
   }
   function getLeagueById(leagueId) {
+    const target = leagueId || getActiveLeagueId();
+    for (const reg of REGIONS_AND_LEAGUES) {
+      const found = reg.leagues.find((l) => l.id === target);
+      if (found) return found;
+    }
     return REGIONS_AND_LEAGUES[0].leagues[0];
   }
   function getRegionsAndLeagues() {
@@ -24902,33 +24951,259 @@
     const db = getDb(leagueId);
     return db.seriesList || INITIAL_DATA.seriesList;
   }
+  function generateModularAssociationDb(leagueId, leagueName, commune) {
+    const clubCatalog = {
+      curanilahue: [
+        { name: "Club Deportivo Curanilahue", color: "#16a34a", stadium: "Estadio Municipal Ra\xFAl Erazo" },
+        { name: "Club Minero Colico", color: "#0f172a", stadium: "Cancha Colico Norte" },
+        { name: "Club Deportivo Miraflores", color: "#2563eb", stadium: "Estadio Municipal Ra\xFAl Erazo" },
+        { name: "Club Deportivo Arturo Prat", color: "#dc2626", stadium: "Cancha Prat Curanilahue" },
+        { name: "Club Deportivo Estrella Verde", color: "#059669", stadium: "Estadio Municipal Ra\xFAl Erazo" },
+        { name: "Club Hurac\xE1n de Curanilahue", color: "#d97706", stadium: "Cancha Hurac\xE1n" },
+        { name: "Club Uni\xF3n Central Minera", color: "#7c3aed", stadium: "Estadio Municipal Ra\xFAl Erazo" },
+        { name: "Club Juventud de Curanilahue", color: "#ea580c", stadium: "Cancha Juventud" }
+      ],
+      lebu: [
+        { name: "Club Deportivo Boca Lebu", color: "#2563eb", stadium: "Estadio Municipal de Lebu" },
+        { name: "Club Social y Deportivo Lebu", color: "#dc2626", stadium: "Estadio Municipal de Lebu" },
+        { name: "Club Deportivo Victoria", color: "#16a34a", stadium: "Cancha Victoria" },
+        { name: "Club Deportivo Costanera", color: "#0284c7", stadium: "Estadio Municipal de Lebu" },
+        { name: "Club Estrella del Mar", color: "#0d9488", stadium: "Cancha Costanera Sur" },
+        { name: "Club Deportivo Laja Lebu", color: "#d97706", stadium: "Estadio Municipal de Lebu" },
+        { name: "Club Juventud Lebu", color: "#7c3aed", stadium: "Cancha El Carb\xF3n" },
+        { name: "Club Defensor Santa Fe", color: "#b91c1c", stadium: "Estadio Municipal de Lebu" }
+      ],
+      canete: [
+        { name: "Club Deportivo Alianza Ca\xF1ete", color: "#2563eb", stadium: "Estadio Fiscal de Ca\xF1ete" },
+        { name: "Club Deportivo Ca\xF1ete", color: "#dc2626", stadium: "Estadio Fiscal de Ca\xF1ete" },
+        { name: "Club Barrio Norte Ca\xF1ete", color: "#16a34a", stadium: "Cancha Barrio Norte" },
+        { name: "Club Deportivo Lautaro", color: "#d97706", stadium: "Estadio Fiscal de Ca\xF1ete" },
+        { name: "Club Hurac\xE1n de Ca\xF1ete", color: "#059669", stadium: "Cancha Hurac\xE1n Ca\xF1ete" },
+        { name: "Club Deportivo Pangue", color: "#0284c7", stadium: "Estadio Fiscal de Ca\xF1ete" },
+        { name: "Club Juvenil Cayucupil", color: "#7c3aed", stadium: "Cancha Cayucupil" },
+        { name: "Club Real Victoria", color: "#b91c1c", stadium: "Estadio Fiscal de Ca\xF1ete" }
+      ]
+    };
+    const clubsInfo = clubCatalog[leagueId] || clubCatalog.curanilahue;
+    const seriesList = [
+      { id: "primera_adulta", name: "Primera Adulta (Honor)", shortName: "1\xAA Adulta", order: 1 },
+      { id: "senior", name: "Serie Senior (35+)", shortName: "Senior", order: 2 },
+      { id: "super_senior", name: "Serie S\xFAper Senior (45+)", shortName: "S\xFAper Senior", order: 3 },
+      { id: "juvenil", name: "Serie Juvenil (Sub-18)", shortName: "Juvenil", order: 4 }
+    ];
+    const clubs = clubsInfo.map((ci, idx) => ({
+      id: `club-${leagueId}-${idx + 1}`,
+      name: ci.name,
+      shortName: ci.name.replace("Club Deportivo ", "").replace("Club ", ""),
+      badgeId: `club-${leagueId}-${idx + 1}`,
+      primaryColor: ci.color,
+      secondaryColor: "#ffffff",
+      founded: "1960",
+      stadium: ci.stadium,
+      president: `Directiva ${ci.name}`,
+      statusLegal: "Personalidad Jur\xEDdica Vigente",
+      series: ["primera_adulta", "senior", "super_senior", "juvenil"],
+      titles: `${idx % 4 + 1} T\xEDtulos Comunales`,
+      description: `Instituci\xF3n deportiva oficial afiliada a la ${leagueName}.`
+    }));
+    const standings = {};
+    seriesList.forEach((s) => {
+      standings[s.id] = clubs.map((c, i) => ({
+        position: i + 1,
+        clubId: c.id,
+        clubName: c.name,
+        pj: 3,
+        pg: i < 3 ? 3 - i : i < 6 ? 1 : 0,
+        pe: i === 3 || i === 4 ? 1 : 0,
+        pp: i >= 5 ? 2 : 0,
+        gf: 7 - i > 0 ? 7 - i : 1,
+        gc: i + 1,
+        dg: (7 - i > 0 ? 7 - i : 1) - (i + 1),
+        pts: i === 0 ? 9 : i === 1 ? 6 : i === 2 ? 4 : i === 3 ? 4 : i === 4 ? 2 : 0,
+        form: ["W", "W", i % 2 === 0 ? "W" : "D"]
+      }));
+    });
+    const players = [];
+    const positions = ["Portero", "Defensa Central", "Lateral", "Mediocampista", "Delantero"];
+    clubs.forEach((c, cIdx) => {
+      seriesList.forEach((s) => {
+        positions.forEach((pos, pIdx) => {
+          const num = pIdx * 2 + 1;
+          players.push({
+            id: `p-${leagueId}-${c.id}-${s.id}-${num}`,
+            name: `Jugador ${c.shortName} #${num}`,
+            rut: `1${cIdx + 2}.${pIdx + 1}00.${s.order}00-K`,
+            clubId: c.id,
+            clubName: c.name,
+            series: s.id,
+            number: num,
+            position: pos,
+            specificPosition: pos,
+            birthDate: "1994-05-12",
+            photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+            status: "Activo",
+            regAnfa: `REG-${leagueId.toUpperCase()}-${cIdx + 1}${num}`,
+            matchesPlayed: 3,
+            goals: pos === "Delantero" ? 3 - cIdx % 3 : 0,
+            yellowCards: cIdx % 2,
+            redCards: 0,
+            stats: {
+              goals: pos === "Delantero" ? 3 - cIdx % 3 : 0,
+              assists: 1,
+              matches: 3,
+              yellowCards: cIdx % 2,
+              redCards: 0
+            }
+          });
+        });
+      });
+    });
+    const matches = [
+      {
+        id: `m-${leagueId}-f1-1`,
+        round: 1,
+        roundName: "Jornada 1",
+        series: "primera_adulta",
+        date: "2026-09-06",
+        time: "15:30",
+        homeClubId: clubs[0].id,
+        awayClubId: clubs[1].id,
+        homeScore: 3,
+        awayScore: 1,
+        status: "finalizado",
+        venue: clubs[0].stadium,
+        referee: "Colegio de \xC1rbitros Oficial"
+      },
+      {
+        id: `m-${leagueId}-f2-1`,
+        round: 2,
+        roundName: "Jornada 2",
+        series: "primera_adulta",
+        date: "2026-09-13",
+        time: "15:30",
+        homeClubId: clubs[2].id,
+        awayClubId: clubs[0].id,
+        homeScore: 0,
+        awayScore: 2,
+        status: "finalizado",
+        venue: clubs[2].stadium,
+        referee: "Colegio de \xC1rbitros Oficial"
+      },
+      {
+        id: `m-${leagueId}-f3-1`,
+        round: 3,
+        roundName: "Jornada 3",
+        series: "primera_adulta",
+        date: "2026-09-20",
+        time: "15:30",
+        homeClubId: clubs[0].id,
+        awayClubId: clubs[3].id,
+        homeScore: 2,
+        awayScore: 1,
+        status: "finalizado",
+        venue: clubs[0].stadium,
+        referee: "Colegio de \xC1rbitros Oficial"
+      },
+      {
+        id: `m-${leagueId}-f4-1`,
+        round: 4,
+        roundName: "Jornada 4",
+        series: "primera_adulta",
+        date: "2026-10-04",
+        time: "15:30",
+        homeClubId: clubs[1].id,
+        awayClubId: clubs[2].id,
+        homeScore: null,
+        awayScore: null,
+        status: "programado",
+        venue: clubs[1].stadium,
+        referee: "Por Designar"
+      }
+    ];
+    return {
+      league: {
+        id: leagueId,
+        name: leagueName,
+        commune,
+        season: "Temporada 2026",
+        totalClubs: clubs.length,
+        currentRound: 4
+      },
+      seriesList,
+      clubs,
+      standings,
+      players,
+      matches,
+      scorers: standings["primera_adulta"].map((st, i) => ({
+        playerId: `p-${leagueId}-${st.clubId}-primera_adulta-9`,
+        name: `Goleador ${st.clubName}`,
+        clubId: st.clubId,
+        clubName: st.clubName,
+        goals: 4 - i % 3,
+        matches: 3
+      })),
+      news: [
+        {
+          id: `news-${leagueId}-1`,
+          title: `Fixture y programaci\xF3n oficial en ${leagueName}`,
+          date: "02 de Octubre, 2026",
+          category: "Oficial",
+          summary: `La ${leagueName} inicia su fase regular en la plataforma LigaMaster con seguimiento en tiempo real.`,
+          content: `Todos los clubes afiliados a la ${leagueName} ya cuentan con sus planteles y fixture homologados en LigaMaster.`,
+          image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+          author: `Directiva ${leagueName}`
+        }
+      ]
+    };
+  }
   function getDb(leagueId = null) {
-    const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+    const currentId = leagueId || getActiveLeagueId() || "arauco";
+    if (currentId === "arauco") {
+      const storageKey2 = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+      try {
+        const raw = safeStorageGet(storageKey2);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {
+        console.error("Error leyendo base de datos de Arauco", e);
+      }
+      const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
+      saveDb(cloned, "arauco");
+      return cloned;
+    }
+    const storageKey = `LIGAMASTER_LEAGUE_${currentId.toUpperCase()}_V1`;
     try {
       const raw = safeStorageGet(storageKey);
-      if (raw) {
-        return JSON.parse(raw);
-      }
+      if (raw) return JSON.parse(raw);
     } catch (e) {
-      console.error("Error leyendo base de datos de Arauco", e);
     }
-    const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
-    saveDb(cloned, "arauco");
-    return cloned;
+    const leagueInfo = getLeagueById(currentId);
+    const modularDb = generateModularAssociationDb(currentId, leagueInfo.name, leagueInfo.commune);
+    saveDb(modularDb, currentId);
+    return modularDb;
   }
   function saveDb(data, leagueId = null) {
-    const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
+    const currentId = leagueId || getActiveLeagueId() || "arauco";
+    const storageKey = currentId === "arauco" ? `LIGAMASTER_LEAGUE_ARAUCO_V15` : `LIGAMASTER_LEAGUE_${currentId.toUpperCase()}_V1`;
     try {
       safeStorageSet(storageKey, JSON.stringify(data));
-      safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+      if (currentId === "arauco") {
+        safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+      }
     } catch (e) {
-      console.error("Error guardando base de datos de Arauco", e);
+      console.error("Error guardando base de datos", e);
     }
   }
   function resetDb(leagueId = null) {
-    const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
-    saveDb(cloned, "arauco");
-    return cloned;
+    const currentId = leagueId || getActiveLeagueId() || "arauco";
+    if (currentId === "arauco") {
+      const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
+      saveDb(cloned, "arauco");
+      return cloned;
+    }
+    const leagueInfo = getLeagueById(currentId);
+    const modularDb = generateModularAssociationDb(currentId, leagueInfo.name, leagueInfo.commune);
+    saveDb(modularDb, currentId);
+    return modularDb;
   }
 
   // js/badges.js
@@ -25330,7 +25605,7 @@
       <circle cx="60" cy="60" r="46" fill="#1e3a8a" />
       <path d="M 60 26 L 60 76 M 42 42 L 78 42 M 36 64 C 42 82 78 82 84 64" stroke="#f59e0b" stroke-width="5" fill="none" stroke-linecap="round" />
       <circle cx="60" cy="68" r="8" fill="#ffffff" />
-      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" letter-spacing="1">ANFA LEBU</text>
+      <text x="60" y="100" font-family="'Outfit', sans-serif" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" letter-spacing="1">ASOC. LEBU</text>
     </svg>
   `,
     "asociacion-canete": (size = 36) => `
@@ -25563,7 +25838,7 @@
   }
   function login(pin, user = "") {
     const cleanPin = String(pin).trim();
-    const userName = user.trim() || "Dirigente ANFA";
+    const userName = user.trim() || "Dirigente Oficial";
     if (PINS.ADMIN.includes(cleanPin)) {
       try {
         if (typeof localStorage !== "undefined") {
@@ -25581,7 +25856,7 @@
       return {
         success: true,
         role: ROLES.ADMIN,
-        roleLabel: "Directiva ANFA",
+        roleLabel: "Directiva General",
         message: "\xA1Bienvenido! Sesi\xF3n habilitada con Control Total Directivo."
       };
     }
@@ -25608,7 +25883,7 @@
     }
     return {
       success: false,
-      message: "PIN incorrecto. Ingrese 9999 para Directiva ANFA o 1234 para Turno de Cancha."
+      message: "PIN incorrecto. Ingrese 9999 para Directiva General o 1234 para Turno de Cancha."
     };
   }
   function logout() {
@@ -25636,9 +25911,9 @@
       if (currentRole === ROLES.ADMIN) {
         loginBtn.innerHTML = `
         <span>\u{1F3DB}\uFE0F</span>
-        <span>Directiva ANFA</span>
+        <span>Directiva General</span>
       `;
-        loginBtn.title = "Sesi\xF3n Activa: Directiva ANFA (Clic para abrir panel o cerrar sesi\xF3n)";
+        loginBtn.title = "Sesi\xF3n Activa: Directiva General (Clic para abrir panel o cerrar sesi\xF3n)";
         loginBtn.classList.add("active");
       } else if (currentRole === ROLES.REFEREE) {
         loginBtn.innerHTML = `
@@ -25782,13 +26057,13 @@
           <form id="admin-gate-login-form">
             <div style="margin-bottom: 1rem; text-align: left;">
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Dirigente o Usuario</label>
-              <input type="text" id="gate-input-user" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="ej: Claudio Pampaloni (Presidente ANFA)" required>
+              <input type="text" id="gate-input-user" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="ej: Claudio Pampaloni (Presidente de la Asociaci\xF3n)" required>
             </div>
             <div style="margin-bottom: 1.25rem; text-align: left;">
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN de Seguridad</label>
               <input type="password" id="gate-input-pin" class="series-select" style="width: 100%; padding: 0.75rem 1rem;" placeholder="\u2022\u2022\u2022\u2022" maxlength="6" required autofocus>
               <small style="display: block; margin-top: 0.4rem; font-size: 0.75rem; color: var(--color-text-muted);">
-                Demostraci\xF3n: Directiva ANFA = <code>9999</code> \u2022 Turno de Cancha = <code>1234</code>
+                Demostraci\xF3n: Directiva General = <code>9999</code> \u2022 Turno de Cancha = <code>1234</code>
               </small>
               <div id="gate-error-msg" style="display: none; color: var(--color-primary); font-size: 0.8rem; font-weight: 700; margin-top: 0.5rem;"></div>
             </div>
@@ -25821,7 +26096,7 @@
       return;
     }
     const isDirectiva = role === ROLES.ADMIN;
-    const roleTitle = isDirectiva ? "Directiva ANFA" : "Turno de Cancha";
+    const roleTitle = isDirectiva ? "Directiva General" : "Turno de Cancha";
     const roleEmoji = isDirectiva ? "\u{1F3DB}\uFE0F" : "\u23F1\uFE0F";
     const regions = getRegionsAndLeagues();
     if (!currentAdminClubId && db.clubs && db.clubs.length > 0) {
@@ -26011,7 +26286,7 @@
       <div class="admin-alert-box danger">
         <div style="font-size: 1.25rem;">\u26A0\uFE0F</div>
         <div>
-          <strong>Alerta Disciplinaria ANFA:</strong> Hay <strong>${playersSuspended.length} jugador(es) suspendido(s)</strong> inhabilitados para jugar la pr\xF3xima fecha por acumulaci\xF3n de 5 tarjetas amarillas o sanci\xF3n del Tribunal.
+          <strong>Alerta Disciplinaria Oficial:</strong> Hay <strong>${playersSuspended.length} jugador(es) suspendido(s)</strong> inhabilitados para jugar la pr\xF3xima fecha por acumulaci\xF3n de 5 tarjetas amarillas o sanci\xF3n del Tribunal.
           <div style="margin-top: 0.35rem; font-size: 0.78rem;">
             ${playersSuspended.map((p) => `\u2022 <strong>${p.name}</strong> (${p.clubId})`).join(" ")}
           </div>
@@ -26088,7 +26363,7 @@
             </select>
           </td>
           <td>
-            ${m.ratificationStatus === "ratificado_directorio" ? '<span class="admin-badge admin-badge-success">\u2713 Ratificado ANFA</span>' : '<span class="admin-badge admin-badge-warning">Planilla Cancha</span>'}
+            ${m.ratificationStatus === "ratificado_directorio" ? '<span class="admin-badge admin-badge-success">\u2713 Ratificado Oficial</span>' : '<span class="admin-badge admin-badge-warning">Planilla Cancha</span>'}
           </td>
           <td>
             <button class="btn-admin-action primary" onclick="window.ligamasterSaveMatchScore('${m.id}')" title="Guardar marcador y actualizar tabla">
@@ -26174,7 +26449,7 @@
           <td>
             <div style="font-size: 0.78rem;">
               <span>\u{1F468}\u200D\u2696\uFE0F ${m.referee || "CAPA Oficial"}</span><br>
-              <span style="color: var(--color-text-muted);">\u{1F4CB} Turno: ${m.turnOfficial || "Designado ANFA"}</span>
+              <span style="color: var(--color-text-muted);">\u{1F4CB} Turno: ${m.turnOfficial || "Designado por Turno"}</span>
             </div>
           </td>
           <td>
@@ -26192,7 +26467,7 @@
             </select>
           </td>
           <td>
-            ${m.ratificationStatus === "ratificado_directorio" ? '<span class="admin-badge admin-badge-success">\u2713 Ratificado Directorio</span>' : `<button class="btn-admin-action success" onclick="window.ligamasterRatifyMatch('${m.id}')" title="Ratificar formalmente por Directorio ANFA">Ratificar Acta</button>`}
+            ${m.ratificationStatus === "ratificado_directorio" ? '<span class="admin-badge admin-badge-success">\u2713 Ratificado Directorio</span>' : `<button class="btn-admin-action success" onclick="window.ligamasterRatifyMatch('${m.id}')" title="Ratificar formalmente por Directorio">Ratificar Acta</button>`}
           </td>
           <td>
             <div style="display: flex; gap: 0.35rem;">
@@ -26289,7 +26564,7 @@
               <strong style="font-family: var(--font-display); font-size: 1.1rem; color: var(--color-primary); width: 24px;">#${p.number || "-"}</strong>
               <div>
                 <strong>${p.name}</strong>
-                <small style="display: block; color: var(--color-text-muted);">${p.birthDate || "Ficha ANFA"}</small>
+                <small style="display: block; color: var(--color-text-muted);">${p.birthDate || "Ficha Registrada"}</small>
               </div>
             </div>
           </td>
@@ -26340,7 +26615,7 @@
     <div class="admin-alert-box info">
       <div style="font-size: 1.25rem;">\u2696\uFE0F</div>
       <div>
-        <strong>Tribunal de Honor & Disciplina ANFA:</strong> Registro de penalidades seg\xFAn C\xF3digo de Procedimientos y Penalidades de ANFA Chile. Las suspensiones por 5 amarillas se aplican en forma autom\xE1tica e indelegable.
+        <strong>Tribunal de Disciplina & Penalidades:</strong> Registro de penalidades seg\xFAn C\xF3digo de Procedimientos y Penalidades Oficial. Las suspensiones por 5 amarillas se aplican en forma autom\xE1tica e indelegable.
       </div>
     </div>
 
@@ -26361,7 +26636,7 @@
                 <th>Futbolista Sancionado</th>
                 <th>Club</th>
                 <th>Serie</th>
-                <th>Causa y Art\xEDculo ANFA</th>
+                <th>Causa y Art\xEDculo Reglamentario</th>
                 <th>Fechas</th>
                 <th>Restantes</th>
                 <th>Resoluci\xF3n / Acta</th>
@@ -26386,7 +26661,7 @@
               ${s.datesRemaining} fecha(s)
             </strong>
           </td>
-          <td><small style="color: var(--color-text-muted);">${s.meetingDate || "Tribunal ANFA"}</small></td>
+          <td><small style="color: var(--color-text-muted);">${s.meetingDate || "Tribunal de Disciplina"}</small></td>
           <td>
             ${s.datesRemaining > 0 ? `
               <button class="btn-admin-action success" onclick="window.ligamasterServeSanctionDate('${s.id}')" title="Marcar fecha cumplida">
@@ -26408,7 +26683,7 @@
     <!-- Detecci\xF3n Autom\xE1tica de Tarjetas Amarillas (Capilla y Suspensi\xF3n) -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h3><span>\u{1F7E8}</span> Control Reglamentario de Tarjetas Amarillas (Art. 42 ANFA)</h3>
+        <h3><span>\u{1F7E8}</span> Control Reglamentario de Tarjetas Amarillas (Art. 42)</h3>
       </div>
       <div class="admin-card-body" style="padding: 0;">
         <div class="admin-table-wrapper">
@@ -26493,14 +26768,14 @@
         <div class="admin-kpi-value">
           $${saldoLiquido.toLocaleString("es-CL")}
         </div>
-        <div class="admin-kpi-sub">Caja chica y cuenta bancaria ANFA</div>
+        <div class="admin-kpi-sub">Caja chica y cuenta bancaria de la Asociaci\xF3n</div>
       </div>
     </div>
 
     <!-- Libro Diario de Movimientos -->
     <div class="admin-card">
       <div class="admin-card-header">
-        <h3><span>\u{1F4B0}</span> Libro Diario de Caja Chica & Tesorer\xEDa ANFA</h3>
+        <h3><span>\u{1F4B0}</span> Libro Diario de Caja Chica & Tesorer\xEDa</h3>
         <div style="display: flex; gap: 0.5rem;">
           <button class="btn-admin-action" onclick="window.print()">
             \u{1F5A8}\uFE0F Imprimir Balance
@@ -26727,7 +27002,7 @@
     const m = (db.matches || []).find((item) => item.id === matchId);
     if (!m) return;
     m.ratificationStatus = "ratificado_directorio";
-    m.ratificationLabel = "Oficializado y Ratificado por Directorio ANFA";
+    m.ratificationLabel = "Oficializado y Ratificado por Directorio";
     saveDb(db, activeId);
     showToast("Planilla del partido oficializada y ratificada por la Directiva.", "success");
     renderAdminView();
@@ -26929,7 +27204,7 @@
             venue: document.getElementById("new-match-venue")?.value || "Estadio Municipal",
             date: document.getElementById("new-match-date")?.value || "Fin de semana",
             referee: document.getElementById("new-match-referee")?.value || "Terna Oficial",
-            turnOfficial: "Designado por Directorio ANFA",
+            turnOfficial: "Designado por Directorio",
             status: "programado",
             homeScore: 0,
             awayScore: 0,
@@ -27052,8 +27327,8 @@
           </div>
 
           <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Causa Reglamentaria / Fallo ANFA</label>
-            <textarea id="sanc-cause" class="series-select" style="width: 100%; height: 70px; resize: vertical;" placeholder="ej: Expulsi\xF3n con Roja Directa: Agresi\xF3n verbal a juez de l\xEDnea (Art. 54 Reglamento ANFA)" required></textarea>
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Causa Reglamentaria / Fallo Disciplinario</label>
+            <textarea id="sanc-cause" class="series-select" style="width: 100%; height: 70px; resize: vertical;" placeholder="ej: Expulsi\xF3n con Roja Directa: Agresi\xF3n verbal a juez de l\xEDnea (Art. 54 Reglamento de Competici\xF3n)" required></textarea>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
@@ -27063,7 +27338,7 @@
             </div>
             <div>
               <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">N\xBA de Acta del Tribunal</label>
-              <input type="text" id="sanc-acta" class="series-select" style="width: 100%;" value="Sesi\xF3n Tribunal ANFA (Acta N\xBA 15)">
+              <input type="text" id="sanc-acta" class="series-select" style="width: 100%;" value="Sesi\xF3n Tribunal de Disciplina (Acta N\xBA 15)">
             </div>
           </div>
 
@@ -27534,20 +27809,50 @@
       standingsSelect.value = currentActiveSeries === "all" ? list[0] ? list[0].id : "" : currentActiveSeries;
     }
   }
+  function getActiveSeriesName(seriesId) {
+    if (seriesId === "all") return "Todas las Series";
+    const db = getDb();
+    const list = db.seriesList || [];
+    const found = list.find((s) => s.id === (seriesId || currentActiveSeries));
+    if (found) {
+      if (found.id === "primera_adulta") return "Serie de Honor";
+      return found.name || found.shortName || "Serie de Honor";
+    }
+    return "Serie de Honor";
+  }
   function renderActiveLeagueContext() {
     const activeId = getActiveLeagueId();
     const league = getLeagueById(activeId);
     const crestEl = document.getElementById("context-league-crest");
+    const leagueSelect = document.getElementById("context-league-select");
+    const seasonEl = document.getElementById("context-hierarchy-season");
+    const seriesEl = document.getElementById("context-hierarchy-series");
     const nameEl = document.getElementById("context-league-name");
     const regionEl = document.getElementById("context-league-region");
     if (crestEl) {
-      crestEl.innerHTML = getClubBadgeSvg(league.badgeId || "asociacion-arauco", 28);
+      crestEl.innerHTML = getClubBadgeSvg(league.badgeId || (activeId === "arauco" ? "asociacion-arauco" : activeId), 28);
+    }
+    if (leagueSelect) {
+      leagueSelect.value = league.id;
+    }
+    if (seasonEl) {
+      seasonEl.textContent = "Temporada 2026";
+    }
+    if (seriesEl) {
+      seriesEl.textContent = getActiveSeriesName(currentActiveSeries);
     }
     if (nameEl) {
       nameEl.textContent = league.name;
     }
     if (regionEl) {
-      regionEl.textContent = "Regi\xF3n del Biob\xEDo \u2022 ANFA Chile \u2022 Temporada 2026/27";
+      regionEl.textContent = `Regi\xF3n del Biob\xEDo \u2022 Temporada 2026`;
+    }
+    document.querySelectorAll(".breadcrumb-league-name").forEach((el) => {
+      el.textContent = league.name;
+    });
+    const heroTitle = document.getElementById("league-page-title");
+    if (heroTitle) {
+      heroTitle.textContent = league.name;
     }
   }
   function renderHomeView() {
@@ -28644,7 +28949,7 @@
               <li><strong>Estadio:</strong> ${club.stadium || "Estadio Municipal"}</li>
               <li><strong>Presidente:</strong> ${club.president || "Directorio Oficial"}</li>
               <li><strong>Fundaci\xF3n:</strong> ${club.exactFoundationDate || club.founded || "Oficial"}</li>
-              <li><strong>Estado ANFA:</strong> <span style="color: var(--color-success); font-weight: 800;">Vigente / Federado</span></li>
+              <li><strong>Estado Oficial:</strong> <span style="color: var(--color-success); font-weight: 800;">Ficha Vigente / Habilitada</span></li>
             </ul>
           </div>
         </div>
@@ -28737,7 +29042,7 @@
       const statusEl = document.getElementById("player-profile-status");
       if (statusEl) {
         const isSuspended = activePlayer.status === "Suspendido";
-        statusEl.textContent = isSuspended ? "SUSPENDIDO ANFA" : "CARNET ANFA VIGENTE";
+        statusEl.textContent = isSuspended ? "SUSPENDIDO" : "FICHA HABILITADA";
         statusEl.style.backgroundColor = isSuspended ? "var(--color-danger-bg)" : "var(--color-success-bg)";
         statusEl.style.color = isSuspended ? "var(--color-danger)" : "var(--color-success)";
       }
@@ -29082,7 +29387,7 @@
       <div style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.6;">
         <p><strong>Recinto:</strong> ${match.venue}</p>
         <p><strong>\xC1rbitro Central:</strong> ${match.referee}</p>
-        <p><strong>Turno Oficial ANFA:</strong> Don Sergio Viveros</p>
+        <p><strong>Turno Oficial de Cancha:</strong> Don Sergio Viveros</p>
         <p><strong>Estado del Acta:</strong> Acta de Cancha Oficializada con firma digital de capitanes.</p>
       </div>
     `;
@@ -29177,6 +29482,7 @@
       currentActiveSeries = val;
       const db = getDb();
       updateSeriesSelectDropdowns(db.seriesList || []);
+      renderActiveLeagueContext();
       renderHomeView();
       renderLeagueView();
       renderStandingsView();
@@ -29320,12 +29626,12 @@
   function setupFooterLinks() {
     const docs = {
       reglamento: {
-        title: "Reglamento Oficial de Competiciones ANFA 2026",
+        title: "Reglamento Oficial de Competiciones 2026",
         badge: "\u{1F4DC} BASES OFICIALES",
         html: `
         <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
           <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
-            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Asociaci\xF3n de F\xFAtbol de Arauco \u2022 Afiliada a ANFA Biob\xEDo</strong>
+            <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Asociaci\xF3n de F\xFAtbol de Arauco \u2022 Competencia Oficial</strong>
             <span>Estatutos vigentes aprobados en Asamblea General de Clubes 2026.</span>
           </div>
           <div>
@@ -29385,7 +29691,7 @@
       },
       contacto: {
         title: "Contacto Institucional \u2022 Mesa de Ayuda",
-        badge: "\u{1F4DE} DIRECTORIO ANFA",
+        badge: "\u{1F4DE} COMIT\xC9 DIRECTIVO",
         html: `
         <div style="font-size: 0.9rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 1rem;">
           <div style="background: var(--color-bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-primary);">
@@ -29435,7 +29741,7 @@
             <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Lleva tu liga al est\xE1ndar profesional de LaLiga</strong>
             <span>Tablas en vivo, padr\xF3n de jugadores, control financiero y dise\xF1o broadcast.</span>
           </div>
-          <p>Si eres presidente de una Asociaci\xF3n ANFA o liga independiente en cualquier regi\xF3n de Chile, puedes habilitar tu propia plataforma deportiva con tu escudo, tus clubes y tus canchas.</p>
+          <p>Si eres presidente de una Asociaci\xF3n de F\xFAtbol o liga deportiva en cualquier regi\xF3n de Chile, puedes habilitar tu propia plataforma deportiva con tu escudo, tus clubes y tus canchas.</p>
           <div style="background: #fff; border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
             <p style="margin-bottom: 0.5rem; font-weight: 700; color: var(--color-text-main);">Escr\xEDbenos directamente para solicitar demostraci\xF3n personalizada:</p>
             <a href="mailto:alianzas@ligamaster.cl" class="btn-primary-coral" style="display: inline-flex; text-decoration: none; padding: 0.5rem 1.25rem; font-size: 0.85rem; margin-top: 0.25rem;">

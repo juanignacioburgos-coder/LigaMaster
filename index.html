@@ -26,7 +26,7 @@
       <div class="platform-header-inner">
         
         <!-- Logo LigaMaster -->
-        <a href="#home" class="platform-brand" id="brand-home-link" title="LigaMaster • Fútbol Amateur de Chile">
+        <a href="#home" class="platform-brand" id="brand-home-link" title="LigaMaster • Plataforma de gestión y estadísticas del fútbol">
           <div class="platform-brand-badge">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -34,7 +34,7 @@
           </div>
           <div class="platform-brand-text">
             <div class="platform-brand-title">LIGA<span>MASTER</span></div>
-            <div class="platform-brand-sub">Fútbol Amateur de Chile</div>
+            <div class="platform-brand-sub">Plataforma de gestión y estadísticas del fútbol</div>
           </div>
         </a>
 
@@ -91,14 +91,45 @@
     <div class="platform-container">
       <div class="league-context-inner">
         
-        <!-- Identidad Oficial de la Asociación -->
-        <div class="league-active-badge" style="cursor: default;">
+        <!-- Identidad y Jerarquía de Plataforma LigaMaster -->
+        <div class="league-brand-hierarchy-container">
           <div class="league-active-crest" id="context-league-crest">
             <!-- Escudo vectorial inyectado dinámicamente -->
           </div>
-          <div class="league-active-meta">
-            <div class="league-active-name" id="context-league-name">Asociación de Fútbol de Arauco</div>
-            <div class="league-active-region" id="context-league-region">Región del Biobío • ANFA Chile • Temporada 2026/27</div>
+          
+          <div class="brand-hierarchy-nav" aria-label="Jerarquía de Competición">
+            <!-- Nivel 1: Plataforma Maestra -->
+            <button type="button" class="hierarchy-item hierarchy-root" onclick="window.ligamasterNavigate('home-view')" title="Volver al Portal Central de LigaMaster">
+              <span class="hierarchy-root-badge">LM</span>
+              <span>LIGAMASTER</span>
+            </button>
+
+            <span class="hierarchy-arrow">→</span>
+
+            <!-- Nivel 2: Asociación / Liga Deportiva (Selector dinámico de Asociación) -->
+            <div class="hierarchy-league-wrapper">
+              <span id="context-league-name" style="display: none;">Asociación de Fútbol de Arauco</span>
+              <select id="context-league-select" class="hierarchy-league-select" onchange="window.ligamasterSwitchLeague(this.value)" aria-label="Seleccionar Asociación Deportiva">
+                <option value="arauco" selected>Asociación de Fútbol de Arauco</option>
+                <option value="curanilahue">Asociación de Fútbol de Curanilahue</option>
+                <option value="lebu">Asociación de Fútbol de Lebu</option>
+                <option value="canete">Asociación de Fútbol de Cañete</option>
+              </select>
+            </div>
+
+            <span class="hierarchy-arrow">→</span>
+
+            <!-- Nivel 3: Temporada -->
+            <span class="hierarchy-item hierarchy-season" id="context-hierarchy-season">
+              Temporada 2026
+            </span>
+
+            <span class="hierarchy-arrow">→</span>
+
+            <!-- Nivel 4: Serie Oficial (Honor, Senior, etc.) -->
+            <span class="hierarchy-item hierarchy-series" id="context-hierarchy-series">
+              Serie de Honor
+            </span>
           </div>
         </div>
 
@@ -142,7 +173,7 @@
       <div class="home-hero-card">
         <div class="home-hero-tag">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <span>La Plataforma del Fútbol Amateur Chileno</span>
+          <span>Plataforma de gestión y estadísticas del fútbol</span>
         </div>
         <h1 class="home-hero-title">
           FÚTBOL AMATEUR<br>
@@ -153,7 +184,7 @@
         </p>
         <div class="home-hero-actions">
           <button class="btn-primary-coral" id="hero-btn-ver-ligas" style="padding: 0.8rem 1.75rem; font-size: 0.9rem;">
-            <span>Ver Ligas de Chile</span>
+            <span>Ver Asociaciones Deportivas</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
           <button class="btn-outline-coral" data-nav="calendar-view" style="padding: 0.8rem 1.75rem; font-size: 0.9rem;">
@@ -169,7 +200,7 @@
           <div class="view-title-row">
             <div>
               <div class="view-breadcrumb">
-                <span>Competición Oficial</span> <span class="separator">/</span> <span id="home-featured-league-name">Asociación de Fútbol de Arauco</span>
+                <span>LigaMaster</span> <span class="separator">→</span> <span id="home-featured-league-name" class="breadcrumb-league-name">Asociación de Fútbol de Arauco</span> <span class="separator">→</span> <span>Temporada 2026</span>
               </div>
               <h2 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; color: var(--color-text-main);">
                 Partidos Destacados • Fecha 8
@@ -201,7 +232,7 @@
             </div>
           </div>
           <div style="font-size: 0.72rem; color: var(--color-text-muted); margin-top: 1rem; border-top: 1px solid var(--color-border-subtle); padding-top: 0.5rem;">
-            * Los 2 primeros clasifican a la Copa de Campeones ANFA Biobío.
+            * Los 2 primeros clasifican al Torneo Regional de Campeones.
           </div>
         </div>
 
@@ -253,13 +284,13 @@
         </div>
         <div class="league-hero-info">
           <div class="view-breadcrumb">
-            <span>Chile</span> <span class="separator">/</span> <span id="league-breadcrumb-region">Región del Biobío</span> <span class="separator">/</span> <span>Asociación Federada</span>
+            <span>LigaMaster</span> <span class="separator">→</span> <span id="league-breadcrumb-region" class="breadcrumb-league-name">Asociación de Fútbol de Arauco</span> <span class="separator">→</span> <span>Temporada 2026</span>
           </div>
           <h1 class="league-hero-title" id="league-page-title">Asociación de Fútbol de Arauco</h1>
           <div class="league-hero-meta-row">
             <div class="league-hero-meta-item">
               <span style="color: var(--color-primary); font-weight: 800;">📅</span>
-              <span>Temporada: <strong>2026/27</strong></span>
+              <span>Temporada: <strong>2026</strong></span>
             </div>
             <div class="league-hero-meta-item">
               <span style="color: var(--color-primary); font-weight: 800;">🛡️</span>
@@ -312,7 +343,7 @@
           <div>
             <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800;">Clubes Afiliados a la Asociación</h3>
             <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 0.2rem;">
-              Instituciones oficiales con personalidad jurídica vigente y derechos federativos ANFA.
+              Instituciones oficiales con personalidad jurídica vigente y afiliación deportiva activa.
             </p>
           </div>
         </div>
@@ -331,13 +362,13 @@
       
       <div class="view-header">
         <div class="view-breadcrumb">
-          <span>Competición</span> <span class="separator">/</span> <span>Clasificación Oficial</span>
+          <span>LigaMaster</span> <span class="separator">→</span> <span class="breadcrumb-league-name">Asociación de Fútbol de Arauco</span> <span class="separator">→</span> <span>Temporada 2026</span> <span class="separator">→</span> <span id="standings-breadcrumb-series">Serie de Honor</span>
         </div>
         <div class="view-title-row">
           <div>
             <h1 class="view-title">Tabla de Posiciones</h1>
             <p class="view-subtitle" id="standings-series-label">
-              Campeonato Oficial 2026/27 • Asociación de Fútbol de Arauco • Serie de Honor
+              Campeonato Oficial 2026 • Asociación de Fútbol de Arauco • Serie de Honor
             </p>
           </div>
           <div class="series-filter-box">
@@ -358,7 +389,7 @@
         <div class="table-header-bar">
           <div class="table-legend-pills">
             <span style="display: flex; align-items: center; gap: 0.4rem;">
-              <span class="legend-dot champion"></span> 1º y 2º: Clasificación Copa de Campeones ANFA Biobío
+              <span class="legend-dot champion"></span> 1º y 2º: Clasificación Torneo Regional de Campeones
             </span>
             <span style="display: flex; align-items: center; gap: 0.4rem;">
               <span class="legend-dot relegation"></span> 9º y 10º: Liguilla de Promoción / Relegación
@@ -402,7 +433,7 @@
       
       <div class="view-header">
         <div class="view-breadcrumb">
-          <span>Competición</span> <span class="separator">/</span> <span>Fixture & Programación</span>
+          <span>LigaMaster</span> <span class="separator">→</span> <span class="breadcrumb-league-name">Asociación de Fútbol de Arauco</span> <span class="separator">→</span> <span>Temporada 2026</span> <span class="separator">→</span> <span>Fixture & Programación</span>
         </div>
         <div class="view-title-row">
           <div>
@@ -438,7 +469,7 @@
       
       <div class="view-header">
         <div class="view-breadcrumb">
-          <span>Competición</span> <span class="separator">/</span> <span>Marcadores Oficiales</span>
+          <span>LigaMaster</span> <span class="separator">→</span> <span class="breadcrumb-league-name">Asociación de Fútbol de Arauco</span> <span class="separator">→</span> <span>Temporada 2026</span> <span class="separator">→</span> <span>Marcadores Oficiales</span>
         </div>
         <div class="view-title-row">
           <div>
@@ -485,7 +516,7 @@
             <div class="team-meta-pill">Fundado: <strong id="team-meta-founded">01 de enero de 1939</strong></div>
             <div class="team-meta-pill">Estadio Habitual: <strong id="team-meta-stadium">Estadio Municipal de Arauco</strong></div>
             <div class="team-meta-pill">Palmarés: <strong id="team-meta-titles">11 Títulos de Honor</strong></div>
-            <div class="team-meta-pill">Estado ANFA: <strong style="color: var(--color-success);">Vigente / Federado</strong></div>
+            <div class="team-meta-pill">Estado Oficial: <strong style="color: var(--color-success);">Ficha Vigente / Habilitada</strong></div>
           </div>
         </div>
       </div>
@@ -564,7 +595,7 @@
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted);" id="player-profile-pos">Delantero Centro</span>
             <span style="color: var(--color-text-muted);">•</span>
             <span style="font-size: 0.75rem; background: var(--color-success-bg); color: var(--color-success); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); font-weight: 800;" id="player-profile-status">
-              CARNET ANFA VIGENTE
+              FICHA HABILITADA
             </span>
           </div>
 
@@ -726,14 +757,14 @@
           </ul>
         </div>
 
-        <!-- Columna 2: Ligas de Chile -->
+        <!-- Columna 2: Asociaciones Deportivas -->
         <div class="footer-nav-col">
-          <h5>Ligas de Chile</h5>
+          <h5>Asociaciones</h5>
           <ul>
-            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('arauco')">Liga de Arauco (Activa)</a></li>
-            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('lebu')">Liga de Lebu (Demo)</a></li>
-            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('canete')">Liga de Cañete (Demo)</a></li>
-            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('cordillera')">Liga Cordillera Santiago (Demo)</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('arauco')">Asociación de Fútbol de Arauco</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('curanilahue')">Asociación de Fútbol de Curanilahue</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('lebu')">Asociación de Fútbol de Lebu</a></li>
+            <li><a href="javascript:void(0)" onclick="window.ligamasterSwitchLeague('canete')">Asociación de Fútbol de Cañete</a></li>
             <li><a href="javascript:void(0)" id="footer-btn-postular">Postular mi Asociación</a></li>
           </ul>
         </div>
@@ -746,7 +777,7 @@
             <li><a href="#player-view" data-nav="player-view">Padrón de Jugadores</a></li>
             <li><a href="#stats-view" data-nav="stats-view">Goleadores Oficiales</a></li>
             <li><a href="#stats-view" data-nav="stats-view">Valla Menos Batida</a></li>
-            <li><a href="#news-view" data-nav="news-view">Tribunal de Penas</a></li>
+            <li><a href="#news-view" data-nav="news-view">Tribunal de Disciplina</a></li>
           </ul>
         </div>
 
@@ -754,7 +785,7 @@
         <div class="footer-nav-col">
           <h5>Recursos & Soporte</h5>
           <ul>
-            <li><a href="javascript:void(0)" id="footer-btn-reglamento">Reglamento ANFA 2026</a></li>
+            <li><a href="javascript:void(0)" id="footer-btn-reglamento">Reglamento Oficial de Competición 2026</a></li>
             <li><a href="javascript:void(0)" id="footer-btn-arbitros">Colegio de Árbitros (CAPA)</a></li>
             <li><a href="javascript:void(0)" id="footer-btn-actas">Planillas Oficiales de Cancha</a></li>
             <li><a href="javascript:void(0)" id="footer-btn-contacto">Contacto para Directivas</a></li>
@@ -767,7 +798,7 @@
       <!-- Barra Legal Inferior -->
       <div class="footer-legal-bar">
         <div>
-          © 2026-2027 <strong>LigaMaster</strong> • Plataforma Deportiva del Fútbol Amateur Chileno. Todos los derechos reservados.
+          © 2026-2027 <strong>LigaMaster</strong> • Plataforma de gestión y estadísticas del fútbol. Todos los derechos reservados.
         </div>
         <div style="display: flex; gap: 1rem;">
           <span>Tecnología Deportiva Independiente</span>
@@ -848,13 +879,13 @@
         <form id="form-platform-login">
           <div style="margin-bottom: 1rem;">
             <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Dirigente o RUT</label>
-            <input type="text" id="login-input-user" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="ej: Presidente ANFA" required>
+            <input type="text" id="login-input-user" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="ej: Presidente de la Asociación" required>
           </div>
           <div style="margin-bottom: 1.5rem;">
             <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">PIN de Seguridad</label>
             <input type="password" id="login-input-pin" class="series-select" style="width: 100%; padding: 0.65rem 0.85rem;" placeholder="••••" maxlength="6" required>
             <small style="display: block; margin-top: 0.35rem; font-size: 0.72rem; color: var(--color-text-muted);">
-              Demostración: Turno de Cancha = <code>1234</code> • Directiva ANFA = <code>9999</code>
+              Demostración: Turno de Cancha = <code>1234</code> • Comité Directivo = <code>9999</code>
             </small>
             <div id="login-error-msg" style="display: none; color: var(--color-primary); font-size: 0.78rem; font-weight: 700; margin-top: 0.5rem;"></div>
           </div>
@@ -896,7 +927,7 @@
   <div class="modal-overlay" id="modal-admin-add-sanction">
     <div class="modal-window" style="max-width: 560px;">
       <div class="modal-header-bar">
-        <h3>Fallo Tribunal de Penas ANFA</h3>
+        <h3>Fallo Tribunal de Disciplina</h3>
         <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
       <div class="modal-body">
@@ -918,7 +949,7 @@
     </div>
   </div>
 
-  <!-- Modal Institucional / Documentación Oficial ANFA & LigaMaster -->
+  <!-- Modal Institucional / Documentación Oficial LigaMaster -->
   <div class="modal-overlay" id="modal-institutional-info">
     <div class="modal-window" style="max-width: 620px;">
       <div class="modal-header-bar">

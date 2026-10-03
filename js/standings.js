@@ -1,6 +1,6 @@
 /**
- * LigaPro Amateur - Cálculo de Tablas de Posiciones por Serie y Tabla General
- * Asociación ANFA Arauco
+ * LigaMaster - Cálculo de Tablas de Posiciones por Serie y Tabla General
+ * Sistema Oficial de Competición
  */
 
 import { getDb } from './data.js';
@@ -98,7 +98,7 @@ export function calculateStandings(seriesId = selectedSeries) {
 
 /**
  * Calcula la Tabla General Acumulada de Clubes (Suma de Series)
- * Determina el Campeón General Institucional de ANFA Arauco
+ * Determina el Campeón General Institucional de la Asociación
  */
 function calculateGeneralClubStandings() {
   const db = getDb();
@@ -178,7 +178,7 @@ export function renderStandingsView(containerId = 'standings-table-body') {
 
     // Badge clasificatorio a Copa de Campeones para el 1º y 2º
     const isCupZone = (pos === 1 || pos === 2) && selectedSeries !== 'general';
-    const cupLabel = isCupZone ? `<span title="Clasifica a Copa de Campeones ANFA Biobío" style="font-size: 0.65rem; background: rgba(37,99,235,0.25); color: #93c5fd; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(37,99,235,0.4); margin-left: 5px;">COPA REGIONAL</span>` : '';
+    const cupLabel = isCupZone ? `<span title="Clasifica al Torneo Regional de Campeones" style="font-size: 0.65rem; background: rgba(37,99,235,0.25); color: #93c5fd; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(37,99,235,0.4); margin-left: 5px;">COPA REGIONAL</span>` : '';
 
     html += `
       <tr>

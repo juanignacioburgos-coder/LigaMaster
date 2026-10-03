@@ -1,9 +1,9 @@
 /**
- * LigaPro Amateur - Centro de Control Multi-Agente QA/QC
- * Sistema de Auditoría y Certificación en Tiempo Real para ANFA Arauco
+ * LigaMaster - Centro de Control Multi-Agente QA/QC
+ * Sistema de Auditoría y Certificación en Tiempo Real para Asociaciones Deportivas
  * 
  * Agentes Autónomos Especializados:
- * 1. Agente de Reglamento ANFA y Elegibilidad
+ * 1. Agente de Reglamento de Competición y Elegibilidad
  * 2. Agente de Integridad Matemática y Datos
  * 3. Agente de Seguridad, Trazabilidad y Anti-Fraude
  * 4. Agente de Calidad del Software y Operabilidad en Cancha
@@ -18,9 +18,9 @@ export function initAgentsAudit() {
 }
 
 /**
- * Agente 1: Auditor de Reglamento ANFA y Elegibilidad
+ * Agente 1: Auditor de Reglamento de Competición y Elegibilidad
  */
-export function auditAnfaRules() {
+export function auditCompetitionRules() {
   const db = getDb();
   const issues = [];
   const warnings = [];
@@ -46,7 +46,7 @@ export function auditAnfaRules() {
     }
   });
 
-  // 2. Verificar acumulación de 5 tarjetas amarillas (Regla Art. 42 ANFA)
+  // 2. Verificar acumulación de 5 tarjetas amarillas (Regla Art. 42 de Competición)
   db.players.forEach(p => {
     if (p.yellowCards >= 5 && p.status !== 'suspendido') {
       warnings.push({
@@ -64,19 +64,22 @@ export function auditAnfaRules() {
   });
 
   return {
-    agentName: "Agente de Reglamento ANFA y Elegibilidad",
-    code: "AGENT-ANFA-RULES",
-    version: "v2.6-Biobio",
+    agentName: "Agente de Reglamento de Competición y Elegibilidad",
+    code: "AGENT-COMPETITION-RULES",
+    version: "v2.6-Oficial",
     status: issues.length > 0 ? "CRITICO" : warnings.length > 0 ? "ADVERTENCIA" : "CERTIFICADO",
     score: issues.length > 0 ? 60 : warnings.length > 0 ? 92 : 100,
     itemsChecked: checkedCount + db.players.length,
     issues,
     warnings,
     summary: issues.length === 0 
-      ? "Todos los clubes de Arauco cumplen rigurosamente el reglamento de inscripción y sanciones de ANFA Biobío."
+      ? "Todos los clubes de la Asociación cumplen rigurosamente el reglamento de inscripción y sanciones oficial."
       : `Se detectaron ${issues.length} posibles infracciones reglamentarias graves.`
   };
 }
+
+// Alias de compatibilidad hacia atrás
+export const auditAnfaRules = auditCompetitionRules;
 
 /**
  * Agente 2: Auditor de Integridad Matemática y Coherencia de Datos
@@ -232,7 +235,7 @@ export function auditSystemHealth() {
  * Ejecuta la auditoría integral multi-agente
  */
 export function runAllAgentsAudit() {
-  const r1 = auditAnfaRules();
+  const r1 = auditCompetitionRules();
   const r2 = auditDataIntegrity();
   const r3 = auditSecurityAndSignatures();
   const r4 = auditSystemHealth();
@@ -243,10 +246,10 @@ export function runAllAgentsAudit() {
 
   return {
     timestamp: new Date().toLocaleString('es-CL'),
-    league: "Asociación de Fútbol Amateur de Arauco (ANFA Biobío)",
-    certificateId: `ANFA-ARA-${Date.now().toString(36).toUpperCase()}`,
+    league: "Asociación de Fútbol de Arauco",
+    certificateId: `LM-ARA-${Date.now().toString(36).toUpperCase()}`,
     overallScore: totalScore,
-    overallStatus: totalScore >= 90 ? "CERTIFICADO_ANFA" : totalScore >= 70 ? "ADVERTENCIA" : "CRITICO",
+    overallStatus: totalScore >= 90 ? "CERTIFICADO_LIGAMASTER" : totalScore >= 70 ? "ADVERTENCIA" : "CRITICO",
     agents: [r1, r2, r3, r4],
     totalIssues,
     totalWarnings
@@ -311,7 +314,7 @@ export function renderAuditDashboard() {
   });
 
   container.innerHTML = `
-    <!-- Banner de Certificación General ANFA -->
+    <!-- Banner de Certificación General LigaMaster -->
     <div style="background: linear-gradient(135deg, #092e20 0%, #0d1e2e 100%); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; box-shadow: var(--shadow-lg);">
       <div style="display: flex; align-items: center; gap: 1.25rem;">
         <div style="width: 60px; height: 60px; border-radius: 12px; background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
@@ -319,7 +322,7 @@ export function renderAuditDashboard() {
         </div>
         <div>
           <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-gold); font-weight: 800;">
-            SISTEMA AUTÓNOMO DE AUDITORÍA QA/QC • ANFA ARAUCO
+            SISTEMA AUTÓNOMO DE AUDITORÍA QA/QC • LIGAMASTER
           </div>
           <h2 style="font-size: 1.4rem; font-weight: 900; margin: 0.2rem 0; color: #fff;">
             Certificado de Calidad y Transparencia del Campeonato
