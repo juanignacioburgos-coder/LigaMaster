@@ -2091,6 +2091,206 @@ a {
 }
 
 /* ==========================================================================
+   ZONA DE PATROCINADORES Y AUSPICIADORES OFICIALES (ESTÉTICA LIGA PROFESIONAL)
+   ========================================================================== */
+.sponsors-showcase-section {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 3.5rem 0 3rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.sponsors-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sponsors-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sponsors-header-tag {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+}
+
+.sponsors-header-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.btn-sponsor-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.5rem 1.15rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sponsor-contact:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+/* Grillas de Patrocinadores por Fila */
+.sponsors-grid {
+  display: grid;
+  align-items: end;
+  justify-items: center;
+}
+
+.sponsors-grid-tier-1 {
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2.25rem 1rem;
+  margin-bottom: 2.75rem;
+}
+
+.sponsors-grid-tier-2 {
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2.25rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.sponsors-tier-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #f1f5f9;
+  margin: 2.25rem 0 2rem 0;
+}
+
+.sponsors-grid-tier-3 {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+}
+
+/* Tarjeta individual de Patrocinador */
+.sponsor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 145px;
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0.25rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sponsor-card:hover {
+  transform: translateY(-3px);
+}
+
+.sponsor-logo-box {
+  height: 48px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.65rem;
+  transition: all 0.25s ease;
+}
+
+.sponsor-logo-box svg {
+  max-height: 40px;
+  max-width: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: all 0.25s ease;
+}
+
+.sponsor-card:hover .sponsor-logo-box svg {
+  transform: scale(1.08);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+}
+
+.sponsor-role-caption {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #64748b;
+  line-height: 1.25;
+  margin: 0;
+  max-width: 135px;
+  transition: color 0.2s ease;
+}
+
+.sponsor-card:hover .sponsor-role-caption {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Adaptación responsive */
+@media (max-width: 1200px) {
+  .sponsors-grid-tier-1,
+  .sponsors-grid-tier-2 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.25rem 1.5rem;
+  }
+  .sponsors-grid-tier-3 {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sponsors-showcase-section {
+    padding: 2.5rem 0 2rem 0;
+  }
+  .sponsors-grid-tier-1,
+  .sponsors-grid-tier-2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 1rem;
+  }
+  .sponsors-grid-tier-3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 1rem;
+    justify-items: center;
+  }
+  .sponsor-logo-box {
+    height: 40px;
+  }
+  .sponsor-role-caption {
+    font-size: 0.68rem;
+  }
+}
+
+/* ==========================================================================
    FOOTER INSTITUCIONAL DE LIGAMASTER
    ========================================================================== */
 .platform-footer {

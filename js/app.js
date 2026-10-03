@@ -2534,4 +2534,257 @@ function setupFooterLinks() {
   bindBtn('footer-btn-contacto', 'contacto');
   bindBtn('footer-btn-terminos', 'terminos');
   bindBtn('footer-btn-postular', 'postular');
+
+  // Inicializar controlador de patrocinadores
+  setupSponsorsModalController();
 }
+
+/**
+ * ==========================================================================
+ * CONTROLADOR DE PATROCINADORES Y AUSPICIADORES OFICIALES
+ * ==========================================================================
+ */
+function setupSponsorsModalController() {
+  const SPONSORS_DIRECTORY = {
+    puma: {
+      name: "Puma",
+      role: "Balón Oficial de Competición",
+      category: "Equipamiento Deportivo Oficial",
+      summary: "Puma provee los balones oficiales térmicamente sellados de alta tecnología con certificación FIFA Quality Pro para todas las series del campeonato (Honor, Senior, Súper Senior y Juvenil)."
+    },
+    microsoft: {
+      name: "Microsoft",
+      role: "Partner Tecnológico Oficial",
+      category: "Infraestructura & Cloud",
+      summary: "Microsoft potencia la arquitectura en la nube, el almacenamiento seguro de padrones de jugadores y el procesamiento en tiempo real de estadísticas de LigaMaster."
+    },
+    mahou: {
+      name: "Mahou",
+      role: "Cerveza Oficial",
+      category: "Patrocinio & Tercer Tiempo",
+      summary: "Marca oficial del tradicional Tercer Tiempo deportivo, promoviendo la camaradería sana, la celebración institucional y el encuentro de familias en los clubes comunales."
+    },
+    riyadh: {
+      name: "Riyadh Season",
+      role: "Patrocinador Oficial",
+      category: "Entretenimiento & Alianzas Globales",
+      summary: "Alianza global de patrocinio que apoya el financiamiento de actividades deportivas comunitarias, clínicas de formación y torneos regionales de fútbol amateur."
+    },
+    duracell: {
+      name: "Duracell",
+      role: "Patrocinador Oficial del Tiempo Añadido",
+      category: "Cronometraje & Energía",
+      summary: "Patrocinador exclusivo del tablero electrónico de descuentos y minutos adicionales en todos los estadios municipales y transmisiones en vivo."
+    },
+    bkt: {
+      name: "BKT Tires",
+      role: "Neumático Oficial",
+      category: "Automotriz & Logística",
+      summary: "Líder global en neumáticos off-highway, apoyando el transporte de delegaciones, buses de clubes y la logística intercomunal de los campeonatos de fútbol amateur."
+    },
+    moeve: {
+      name: "Moeve",
+      role: "Patrocinador Oficial",
+      category: "Energía & Sostenibilidad",
+      summary: "Compañía energética comprometida con la transición ecológica y el apoyo al deporte base, financiando la iluminación LED y sustentabilidad en recintos deportivos."
+    },
+    volkswagen: {
+      name: "Volkswagen",
+      role: "Coche Oficial",
+      category: "Movilidad Oficial",
+      summary: "Vehículo oficial de la terna arbitral y autoridades de la asociación, garantizando desplazamientos seguros hacia todas las canchas de la provincia."
+    },
+    ubereats: {
+      name: "Uber Eats",
+      role: "Delivery Oficial",
+      category: "Gastronomía & Servicios",
+      summary: "Plataforma oficial de entrega a domicilio para las hinchadas durante las jornadas de fin de semana, con promociones exclusivas en días de clásico."
+    },
+    mondelez: {
+      name: "Mondelēz International",
+      role: "Sabor Oficial",
+      category: "Alimentos & Snacks",
+      summary: "Aporte nutricional y colaciones oficiales para las series formativas y juveniles en los entretiempos de cada fecha del campeonato."
+    },
+    airbnb: {
+      name: "Airbnb",
+      role: "Plataforma Oficial de Reserva de Alojamientos",
+      category: "Turismo & Hospedaje",
+      summary: "Hospedaje oficial para delegaciones visitantes, hinchadas foráneas y cobertura de prensa durante los torneos regionales y provinciales."
+    },
+    luckia: {
+      name: "Luckia",
+      role: "Partner Oficial",
+      category: "Pronósticos & Entretenimiento",
+      summary: "Plataforma de entretenimiento deportivo con foco en el juego responsable y auspicios a la difusión del fútbol regional."
+    },
+    elcorteingles: {
+      name: "El Corte Inglés",
+      role: "Partner de Gran Consumo",
+      category: "Retail & Beneficios",
+      summary: "Beneficios y descuentos en indumentaria, tecnología y artículos deportivos para socios y deportistas inscritos en LigaMaster."
+    },
+    haier: {
+      name: "Haier",
+      role: "Patrocinador Oficial",
+      category: "Electrodomésticos & Climatización",
+      summary: "Equipamiento de vestuarios y sedes sociales con sistemas de climatización eficiente y refrigeración para hidratación de deportistas."
+    },
+    solandecabras: {
+      name: "Solán de Cabras",
+      role: "Agua Oficial",
+      category: "Hidratación & Bienestar",
+      summary: "Agua mineral oficial en banca y zonas de descanso, asegurando la hidratación óptima de los 800 futbolistas inscritos durante los 90 minutos."
+    },
+    oshee: {
+      name: "Oshee Hydration",
+      role: "Patrocinador Oficial de Hidratación",
+      category: "Bebidas Isotónicas",
+      summary: "Bebidas isotónicas y sales minerales para el rendimiento físico y recuperación muscular de los planteles de Honor y Senior."
+    },
+    legends: {
+      name: "Legends",
+      role: "Legends Experience",
+      category: "Museo & Patrimonio Histórico",
+      summary: "Preservación digital del archivo histórico de copas, clásicos comunales y glorias del fútbol amateur de la comuna."
+    },
+    store: {
+      name: "LigaMaster Store",
+      role: "Tienda Oficial de la Competición",
+      category: "Merchandising & Camisetas",
+      summary: "Tienda digital oficial donde las hinchadas pueden adquirir las camisetas originales, banderines y merchandising de los 10 clubes de la liga."
+    },
+    panini: {
+      name: "Panini",
+      role: "Licencia Global de Coleccionables",
+      category: "Álbum & Láminas Oficiales",
+      summary: "Desarrollo del álbum digital y físico oficial con las figuras, escudos y planteles de todas las series de la temporada 2026."
+    },
+    avery: {
+      name: "Avery Dennison",
+      role: "Licencia Global de Parches & Emblemas",
+      category: "Identificación Textil",
+      summary: "Confección de los parches oficiales de manga con el logo de LigaMaster y las insignias termoselladas en las camisetas de los clubes."
+    },
+    sorare: {
+      name: "Sorare",
+      role: "Licencia Global Digital Fantasy",
+      category: "Fútbol Fantasy & Cromos Digitales",
+      summary: "Plataforma de fútbol fantasy donde los hinchas arman sus alineaciones semanales sumando puntos con las estadísticas oficiales de LigaMaster."
+    }
+  };
+
+  window.ligamasterOpenSponsorModal = (brandKey = 'general') => {
+    const modal = document.getElementById('modal-sponsor-partnership');
+    const titleEl = document.getElementById('sponsor-modal-title');
+    const bodyEl = document.getElementById('sponsor-modal-body');
+    if (!modal || !titleEl || !bodyEl) return;
+
+    if (brandKey === 'general') {
+      titleEl.innerHTML = `<span>🤝</span> Programa Oficial de Patrocinio & Marcas`;
+      bodyEl.innerHTML = `
+        <div style="margin-bottom: 1.25rem;">
+          <p style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+            Asocia tu marca al deporte más apasionante y convocante de la comunidad. <strong>LigaMaster</strong> conecta a empresas líderes con miles de hinchas, familias y deportistas cada fin de semana.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; text-align: center;">
+            <div style="background: var(--color-bg-secondary); padding: 0.85rem 0.5rem; border-radius: 8px; border: 1px solid var(--color-border);">
+              <div style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; color: var(--color-primary);">10</div>
+              <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600;">Clubes Afiliados</div>
+            </div>
+            <div style="background: var(--color-bg-secondary); padding: 0.85rem 0.5rem; border-radius: 8px; border: 1px solid var(--color-border);">
+              <div style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; color: var(--color-primary);">800+</div>
+              <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600;">Futbolistas Inscritos</div>
+            </div>
+            <div style="background: var(--color-bg-secondary); padding: 0.85rem 0.5rem; border-radius: 8px; border: 1px solid var(--color-border);">
+              <div style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; color: var(--color-primary);">180</div>
+              <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600;">Partidos al Año</div>
+            </div>
+            <div style="background: var(--color-bg-secondary); padding: 0.85rem 0.5rem; border-radius: 8px; border: 1px solid var(--color-border);">
+              <div style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 900; color: var(--color-primary);">100%</div>
+              <div style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600;">Cobertura Digital</div>
+            </div>
+          </div>
+
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.75rem;">
+            Planes de Patrocinio Disponibles:
+          </h4>
+          <ul style="font-size: 0.84rem; color: var(--color-text-secondary); line-height: 1.6; margin-left: 1.25rem; margin-bottom: 1.5rem;">
+            <li><strong>Patrocinador Principal (Tier 1):</strong> Naming de torneo, presencia en balones, vallas en canchas y cabecera digital oficial.</li>
+            <li><strong>Partner de Rubro Exclusivo (Tier 2):</strong> Delivery, gastronomía, salud deportiva, movilidad o retail oficial con promociones en cancha.</li>
+            <li><strong>Licencia Oficial & Colaborador (Tier 3):</strong> Productos oficiales, indumentaria comunal y presencia en la app.</li>
+          </ul>
+
+          <div style="background: #f8fafc; border: 1px solid var(--color-border); border-radius: 8px; padding: 1.25rem;">
+            <h5 style="margin-top: 0; margin-bottom: 0.75rem; font-size: 0.88rem; font-weight: 800; color: #0f172a;">
+              Solicitar Kit Comercial y Tarifario 2026:
+            </h5>
+            <form id="form-sponsor-inquiry" onsubmit="event.preventDefault(); window.ligamasterSubmitSponsorInquiry();">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <input type="text" id="sponsor-empresa" class="series-select" style="width: 100%; padding: 0.55rem 0.75rem;" placeholder="Nombre de la Empresa" required>
+                <input type="text" id="sponsor-contacto" class="series-select" style="width: 100%; padding: 0.55rem 0.75rem;" placeholder="Persona de Contacto" required>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <input type="email" id="sponsor-email" class="series-select" style="width: 100%; padding: 0.55rem 0.75rem;" placeholder="correo@empresa.cl" required>
+                <input type="tel" id="sponsor-tel" class="series-select" style="width: 100%; padding: 0.55rem 0.75rem;" placeholder="+56 9 1234 5678" required>
+              </div>
+              <button type="submit" class="btn-primary-coral" style="width: 100%; justify-content: center; padding: 0.65rem;">
+                Enviar Solicitud Comercial
+              </button>
+            </form>
+          </div>
+        </div>
+      `;
+    } else {
+      const sp = SPONSORS_DIRECTORY[brandKey] || {
+        name: brandKey.toUpperCase(),
+        role: "Patrocinador Oficial",
+        category: "Partner Deportivo",
+        summary: "Empresa y aliado estratégico que colabora activamente con el desarrollo del fútbol amateur en la región."
+      };
+
+      titleEl.innerHTML = `<span>🏅</span> ${sp.name} • ${sp.role}`;
+      bodyEl.innerHTML = `
+        <div style="text-align: center; padding: 1rem 0 1.5rem 0; border-bottom: 1px solid var(--color-border); margin-bottom: 1.25rem;">
+          <div style="display: inline-block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); margin-bottom: 0.5rem;">
+            ${sp.category}
+          </div>
+          <h3 style="font-size: 1.4rem; font-weight: 900; margin: 0 0 0.4rem 0; color: var(--color-text-main);">
+            ${sp.name}
+          </h3>
+          <span style="display: inline-block; background: #e2e8f0; color: #334155; font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px;">
+            ${sp.role}
+          </span>
+        </div>
+
+        <p style="font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: 1.5rem;">
+          ${sp.summary}
+        </p>
+
+        <div style="background: var(--color-bg-secondary); border-radius: 8px; padding: 1rem; border: 1px solid var(--color-border); margin-bottom: 1.25rem; font-size: 0.82rem; color: var(--color-text-muted);">
+          ℹ️ Esta marca forma parte del catálogo comercial de <strong>LigaMaster</strong>. Los acuerdos de patrocinio benefician directamente la mantención de recintos, arbitrajes y desarrollo formativo de los clubes.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-primary-coral" onclick="window.closeModal('modal-sponsor-partnership')" style="font-size: 0.82rem; padding: 0.45rem 1rem;">
+            Cerrar
+          </button>
+        </div>
+      `;
+    }
+
+    modal.classList.add('active');
+  };
+
+  window.ligamasterSubmitSponsorInquiry = () => {
+    const empresa = document.getElementById('sponsor-empresa')?.value || 'Empresa';
+    if (window.showToast) {
+      window.showToast(`¡Solicitud de ${empresa} recibida! El equipo comercial se pondrá en contacto a la brevedad.`, 'success');
+    } else {
+      alert(`¡Solicitud de ${empresa} recibida con éxito!`);
+    }
+    window.closeModal('modal-sponsor-partnership');
+  };
+}
+
