@@ -49,11 +49,17 @@
           <button class="platform-nav-link" data-nav="standings-view" onclick="window.ligamasterNavigate('standings-view')">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view" onclick="window.ligamasterNavigate('stats-view')">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view" onclick="window.ligamasterNavigate('news-view')">Noticias</button>
+          <button class="platform-nav-link" id="nav-btn-social-cards" onclick="window.ligamasterOpenSocialCardModal()" style="color: #f59e0b; font-weight: 800;" title="Generador de Placas para Redes Sociales">📱 Placas Redes</button>
           <button class="platform-nav-link" data-nav="admin-view" id="nav-btn-admin" onclick="window.ligamasterNavigate('admin-view')" style="color: var(--color-primary); font-weight: 800;">⚙️ Admin</button>
         </nav>
 
         <!-- Acciones Derecha -->
         <div class="platform-header-actions">
+          <button class="btn-outline-coral" id="btn-header-social-cards" onclick="window.ligamasterOpenSocialCardModal()" title="Generador de Placas para Redes Sociales" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem; border-color: #f59e0b; color: #b45309; background: #fffbeb;">
+            <span style="font-size: 0.95rem;">📸</span>
+            <span class="desktop-only">Placas</span>
+          </button>
+
           <button class="btn-header-search" id="btn-open-search" onclick="window.openModal('modal-global-search')" title="Buscar en LigaMaster (Ctrl + K)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
@@ -371,13 +377,18 @@
               Campeonato Oficial 2026 • Asociación de Fútbol de Arauco • Serie de Honor
             </p>
           </div>
-          <div class="series-filter-box">
-            <label for="standings-series-select" style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted);">Serie:</label>
-            <select id="standings-series-select" class="series-select">
-              <option value="honor">Serie de Honor (Primera)</option>
-              <option value="senior_35">Serie Senior (35+ Años)</option>
-              <option value="juvenil">Serie Juvenil (Sub-17)</option>
-            </select>
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('tabla')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de la tabla para Instagram / WhatsApp">
+              <span style="font-size: 1rem;">📸</span> Placa de Tabla
+            </button>
+            <div class="series-filter-box">
+              <label for="standings-series-select" style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted);">Serie:</label>
+              <select id="standings-series-select" class="series-select">
+                <option value="honor">Serie de Honor (Primera)</option>
+                <option value="senior_35">Serie Senior (35+ Años)</option>
+                <option value="juvenil">Serie Juvenil (Sub-17)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -478,12 +489,17 @@
               Marcadores y actas oficiales validadas por los capitanes y el Colegio de Árbitros de Arauco (CAPA).
             </p>
           </div>
-          <div class="series-filter-box">
-            <select id="results-round-select" class="series-select" aria-label="Filtrar por Jornada">
-              <option value="round-7">Jornada 7 (Reciente)</option>
-              <option value="round-6">Jornada 6</option>
-              <option value="round-5">Jornada 5</option>
-            </select>
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('resultados')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de resultados para Instagram / WhatsApp">
+              <span style="font-size: 1rem;">📸</span> Placa de Resultados
+            </button>
+            <div class="series-filter-box">
+              <select id="results-round-select" class="series-select" aria-label="Filtrar por Jornada">
+                <option value="round-7">Jornada 7 (Reciente)</option>
+                <option value="round-6">Jornada 6</option>
+                <option value="round-5">Jornada 5</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -656,6 +672,9 @@
               Rankings de goleadores, asistencias, tarjetas y porteros con menos goles concedidos.
             </p>
           </div>
+          <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('goleadores')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de goleadores para Instagram / WhatsApp">
+            <span style="font-size: 1rem;">📸</span> Placa de Goleadores
+          </button>
         </div>
       </div>
 
@@ -1277,6 +1296,182 @@
     </div>
   </div>
 
+  <!-- Modal 7: Generador de Placas Gráficas para Redes Sociales (Studio) -->
+  <div class="modal-overlay" id="modal-social-cards">
+    <div class="modal-window social-studio-window" style="max-width: 1040px; max-height: 92vh; width: 95vw; display: flex; flex-direction: column;">
+      
+      <!-- Barra Superior del Modal -->
+      <div class="modal-header-bar" style="background: #0b0f19; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fff;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="width: 32px; height: 32px; background: rgba(229, 27, 36, 0.2); border: 1px solid #e51b24; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+            📱
+          </div>
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; margin: 0; color: #ffffff;">
+              Estudio de Placas Gráficas • Redes Sociales
+            </h3>
+            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0;">
+              Genera imágenes oficiales en Ultra-HD (1080p) listas para publicar en Instagram, WhatsApp y Prensa
+            </p>
+          </div>
+        </div>
+        <button class="modal-close-btn" data-close-modal style="color: #94a3b8;">&times;</button>
+      </div>
+
+      <!-- Contenedor Principal Split (Controles a la izquierda, Preview a la derecha) -->
+      <div class="social-studio-body" style="display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; padding: 1.5rem; background: #0f172a; flex: 1; overflow-y: auto;">
+        
+        <!-- Panel Izquierdo: Controles -->
+        <div class="social-studio-controls" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          
+          <!-- 1. Selector de Plantilla -->
+          <div class="studio-control-group">
+            <label class="studio-control-label">1. TIPO DE PLACA</label>
+            <div class="studio-template-grid">
+              <button type="button" class="studio-template-pill active" data-template="resultados">
+                <span class="pill-icon">⚽</span>
+                <span class="pill-title">Resultados</span>
+                <span class="pill-sub">Marcadores de la Fecha</span>
+              </button>
+              <button type="button" class="studio-template-pill" data-template="tabla">
+                <span class="pill-icon">🏆</span>
+                <span class="pill-title">Tabla</span>
+                <span class="pill-sub">Posiciones y Puntos</span>
+              </button>
+              <button type="button" class="studio-template-pill" data-template="partido">
+                <span class="pill-icon">🔥</span>
+                <span class="pill-title">Partido</span>
+                <span class="pill-sub">Duelo Destacado VS</span>
+              </button>
+              <button type="button" class="studio-template-pill" data-template="goleadores">
+                <span class="pill-icon">🎯</span>
+                <span class="pill-title">Goleadores</span>
+                <span class="pill-sub">Top 5 Anotadores</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Selector de Formato -->
+          <div class="studio-control-group">
+            <label class="studio-control-label">2. FORMATO & RESOLUCIÓN</label>
+            <div class="studio-format-grid">
+              <button type="button" class="studio-format-pill active" data-format="square">
+                <span class="format-icon">⏹️</span>
+                <div class="format-text">
+                  <strong>Cuadrado 1:1</strong>
+                  <small>1080 x 1080 px • Feed / WhatsApp</small>
+                </div>
+              </button>
+              <button type="button" class="studio-format-pill" data-format="story">
+                <span class="format-icon">📱</span>
+                <div class="format-text">
+                  <strong>Historia 9:16</strong>
+                  <small>1080 x 1920 px • Stories / Estados</small>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Parámetros Deportivos (Serie, Jornada) -->
+          <div class="studio-control-group">
+            <label class="studio-control-label">3. COMPETICIÓN & SERIE</label>
+            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+              <div>
+                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 0.25rem;">Serie Deportiva:</span>
+                <select id="studio-select-series" class="studio-select-dark">
+                  <option value="primera_adulta">Primera Adulta (Serie de Honor)</option>
+                  <option value="senior">Serie Senior (35+ Años)</option>
+                  <option value="super_senior">Serie Súper Senior (45+ Años)</option>
+                  <option value="juvenil">Serie Juvenil (Sub-18)</option>
+                </select>
+              </div>
+
+              <div>
+                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 0.25rem;">Fecha / Jornada:</span>
+                <select id="studio-select-round" class="studio-select-dark">
+                  <option value="3">Fecha 3 (Jornada Reciente)</option>
+                  <option value="2">Fecha 2</option>
+                  <option value="1">Fecha 1</option>
+                </select>
+              </div>
+
+              <!-- Selector de Partido específico para plantilla Partido -->
+              <div id="studio-match-picker-row" style="display: none;">
+                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 0.25rem;">Partido a Destacar:</span>
+                <select id="studio-select-match" class="studio-select-dark">
+                  <!-- Llenado dinámico -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Estilo / Tono Visual -->
+          <div class="studio-control-group">
+            <label class="studio-control-label">4. ESTILO & PALETA BROADCAST</label>
+            <div class="studio-theme-grid">
+              <button type="button" class="studio-theme-swatch active" data-theme="dark-coral" title="LigaMaster Clásico (Rojo / Carbón)">
+                <span class="swatch-color" style="background: linear-gradient(135deg, #090d16, #e51b24);"></span>
+                <span class="swatch-label">Oficial</span>
+              </button>
+              <button type="button" class="studio-theme-swatch" data-theme="dark-gold" title="Oro Champions (Dorado / Carbón)">
+                <span class="swatch-color" style="background: linear-gradient(135deg, #0f0e0b, #f59e0b);"></span>
+                <span class="swatch-label">Oro Élite</span>
+              </button>
+              <button type="button" class="studio-theme-swatch" data-theme="dark-emerald" title="Cancha Esmeralda (Verde Pitch / Carbón)">
+                <span class="swatch-color" style="background: linear-gradient(135deg, #05130e, #10b981);"></span>
+                <span class="swatch-label">Cancha</span>
+              </button>
+              <button type="button" class="studio-theme-swatch" data-theme="dark-blue" title="Azul Continental (Azul TV / Marino)">
+                <span class="swatch-color" style="background: linear-gradient(135deg, #070f23, #0284c7);"></span>
+                <span class="swatch-label">Continental</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Acciones Principales -->
+          <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 0.65rem;">
+            <button type="button" id="btn-studio-download" class="btn-primary-coral" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.92rem; font-weight: 800; gap: 0.5rem; box-shadow: 0 4px 15px rgba(229, 27, 36, 0.4);">
+              <span>📥</span> Descargar Imagen PNG (Ultra-HD)
+            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+              <button type="button" id="btn-studio-share" class="btn-outline-studio" style="justify-content: center; padding: 0.65rem; font-size: 0.82rem; gap: 0.4rem;">
+                <span>📲</span> Compartir / WhatsApp
+              </button>
+              <button type="button" id="btn-studio-copy" class="btn-outline-studio" style="justify-content: center; padding: 0.65rem; font-size: 0.82rem; gap: 0.4rem;">
+                <span>📋</span> Copiar Imagen
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Panel Derecho: Vista Previa en Vivo -->
+        <div class="social-studio-preview" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: #070a12; border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.06); position: relative; min-height: 480px;">
+          
+          <div style="position: absolute; top: 1rem; left: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e;"></span>
+            <span style="font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Vista Previa en Tiempo Real</span>
+          </div>
+
+          <div class="canvas-viewport" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 1rem 0;">
+            <canvas id="social-card-canvas" width="1080" height="1080" style="max-width: 100%; max-height: 520px; object-fit: contain; border-radius: 10px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255,255,255,0.1);"></canvas>
+          </div>
+
+          <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 1rem; font-size: 0.75rem; color: #64748b; flex-wrap: wrap; justify-content: center;">
+            <span>📐 Resolución: <strong style="color: #cbd5e1;">1080p Broadcast</strong></span>
+            <span>•</span>
+            <span>⚡ Renderizado: <strong style="color: #4ade80;">100% Instantáneo</strong></span>
+            <span>•</span>
+            <span>📱 Formatos: <strong style="color: #cbd5e1;">IG Post, Stories & WhatsApp</strong></span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <!-- Modal 6: Menú Móvil Lateral (Drawer) -->
   <div class="modal-overlay" id="modal-mobile-menu">
     <div class="modal-window" style="max-width: 320px; height: 100vh; max-height: 100vh; border-radius: 0; margin-left: auto; margin-right: 0;">
@@ -1295,6 +1490,7 @@
           <button class="platform-nav-link" data-nav="standings-view" onclick="window.ligamasterNavigate('standings-view')" style="width: 100%; text-align: left;">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view" onclick="window.ligamasterNavigate('stats-view')" style="width: 100%; text-align: left;">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view" onclick="window.ligamasterNavigate('news-view')" style="width: 100%; text-align: left;">Noticias</button>
+          <button class="platform-nav-link" onclick="window.closeModal('modal-mobile-menu'); window.ligamasterOpenSocialCardModal();" style="width: 100%; text-align: left; color: #f59e0b; font-weight: 800;">📱 Placas Redes Sociales</button>
           <button class="platform-nav-link" data-nav="admin-view" id="mobile-btn-admin" onclick="window.ligamasterNavigate('admin-view')" style="width: 100%; text-align: left; color: var(--color-primary); font-weight: 800;">⚙️ Panel Administrativo</button>
         </nav>
       </div>

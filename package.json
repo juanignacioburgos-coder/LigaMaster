@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "build": "npx esbuild js/app.js --bundle --outfile=js/bundle.js --format=iife",
-    "test": "node tests/multileague.test.js && node tests/admin.test.js && node tests/test-init.js && node tests/test-demo-league.js && node tests/test-sponsors.js"
+    "test": "node tests/multileague.test.js && node tests/admin.test.js && node tests/test-init.js && node tests/test-demo-league.js && node tests/test-sponsors.js && node tests/test-social-cards.js"
   }
 }

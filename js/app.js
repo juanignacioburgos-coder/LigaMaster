@@ -16,6 +16,7 @@ import { getClubBadgeSvg, getSelectionBadgeSvg } from './badges.js';
 import { initAdmin, renderAdminView } from './admin.js';
 import { initAuth, updateAuthUI, getCurrentRole, ROLES } from './auth.js';
 import { showToast } from './toast.js';
+import { initSocialCards, openSocialCardsStudio, renderSocialCard } from './social-cards.js';
 
 // Fallback de imágenes SVG seguras y offline
 const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
@@ -109,6 +110,7 @@ function initLigaMaster() {
 
   initAuth();
   initAdmin();
+  initSocialCards();
 
   // Renderizar vistas con los datos iniciales
   renderActiveLeagueContext();
@@ -973,15 +975,32 @@ function renderCalendarView() {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             <span>${m.venue}</span>
           </div>
-          <button class="btn-outline-coral" style="padding: 0.25rem 0.65rem; font-size: 0.72rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">
-            Detalle
-          </button>
+          <div style="display: flex; align-items: center; gap: 0.35rem;">
+            <button class="btn-outline-coral" style="padding: 0.25rem 0.55rem; font-size: 0.72rem; border-color: #f59e0b; color: #b45309; background: #fffbeb;" onclick="event.stopPropagation(); window.ligamasterOpenSocialCardModal('partido', '${m.series || currentActiveSeries}', ${currentActiveRound}, '${m.id}')" title="Generar placa para redes de este partido">
+              📸 Placa
+            </button>
+            <button class="btn-outline-coral" style="padding: 0.25rem 0.65rem; font-size: 0.72rem;" onclick="window.ligamasterOpenMatchDetail('${m.id}')">
+              Detalle
+            </button>
+          </div>
         </div>
       </div>
     `;
   });
 
   matchesContainer.innerHTML = html;
+
+  // Sincronizar selector de partidos del Studio de Placas
+  const studioMatchSelect = document.getElementById('studio-select-match');
+  if (studioMatchSelect) {
+    let matchOpts = '';
+    matches.forEach(m => {
+      const hC = (db.clubs || []).find(c => c.id === m.homeClubId) || { shortName: "Local" };
+      const aC = (db.clubs || []).find(c => c.id === m.awayClubId) || { shortName: "Visita" };
+      matchOpts += `<option value="${m.id}">${hC.shortName || hC.name} vs ${aC.shortName || aC.name}</option>`;
+    });
+    studioMatchSelect.innerHTML = matchOpts;
+  }
 }
 
 window.ligamasterSelectRound = (round) => {
