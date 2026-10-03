@@ -3,17 +3,25 @@
  */
 export const LIGA_DEMO_DATA = {
   "leagueInfo": {
-    "id": "liga-demo",
-    "name": "Liga Demo",
-    "shortName": "LIGA DEMO",
-    "commune": "Comuna Modelo, Región del Biobío",
-    "president": "Patricio Morales Vega",
+    "id": "arauco",
+    "name": "Asociación de Fútbol de Arauco",
+    "shortName": "AFA Arauco",
+    "commune": "Arauco, Región del Biobío, Chile",
+    "president": "Claudio Pampaloni Altamirano",
     "season": "Campeonato Oficial 2026/27 (3 Fechas Disputadas)",
-    "headquarters": "Av. Prat 450, Sede Social Oficial",
-    "mediaPartner": "Transmisiones Deportivas Comunales",
+    "headquarters": "Calle Julio Montt Nº 386, Población 10 de Julio, Arauco",
+    "mediaPartner": "Voz Deportiva (Transmisión oficial lunes, miércoles y viernes 20:00 hrs)",
     "badgeId": "asociacion-arauco",
-    "isDemo": true,
-    "totalClubs": 10
+    "isDemo": false,
+    "totalClubs": 10,
+    "foundationDate": "01 de octubre de 1940",
+    "anniversary": "Fundada el 1 de Octubre de 1940 (86 años de historia). 10ª agrupación más antigua de la Región del Biobío (de 33 asociaciones).",
+    "governingBodies": {
+      "regional": "ANFA Región del Biobío",
+      "national": "Asociación Nacional de Fútbol Amateur (ANFA Chile)",
+      "referees": "Colegio de Árbitros de la Provincia de Arauco (CAPA)",
+      "broadcast": "Voz Deportiva"
+    }
   },
   "seriesList": [
     {
@@ -24716,56 +24724,44 @@ export const LIGA_DEMO_DATA = {
   ],
   "venues": [
     {
-      "id": "ven-1",
-      "name": "Estadio Municipal",
-      "address": "Av. Prat 450",
-      "surface": "Pasto Sintético FIFA Quality"
+      "id": "estadio-ramon-burgos",
+      "name": "Estadio Municipal Ramón Burgos",
+      "address": "Avenida Prat s/n, Arauco",
+      "surface": "Pasto Sintético Certificado"
     },
     {
-      "id": "ven-2",
-      "name": "Cancha Deportivo Ferroviario",
-      "address": "Calle Estación s/n",
-      "surface": "Pasto Natural"
+      "id": "estadio-sebastian-gaete",
+      "name": "Estadio Sebastián Gaete",
+      "address": "Sector Céntrico, Arauco",
+      "surface": "Pasto Sintético de Alto Tráfico"
     },
     {
-      "id": "ven-3",
-      "name": "Estadio El Roble",
-      "address": "Camino Vecinal Km 2",
-      "surface": "Pasto Sintético"
-    },
-    {
-      "id": "ven-4",
-      "name": "Estadio Costanera Playa Brava",
-      "address": "Av. Costanera s/n",
-      "surface": "Pasto Sintético"
-    },
-    {
-      "id": "ven-5",
-      "name": "Cancha El Morro",
-      "address": "Sector El Morro",
-      "surface": "Tierra Compactada Oficial"
+      "id": "cancha-sausalito",
+      "name": "Cancha El Sausalito",
+      "address": "Camino El Sausalito, Arauco",
+      "surface": "Pasto Natural Tradicional"
     }
   ],
   "news": [
     {
-      "id": "news-demo-1",
-      "title": "Liga Demo arranca con récord de 800 jugadores inscritos",
-      "summary": "10 clubes compiten en 4 series oficiales en una temporada histórica para el fútbol amateur.",
+      "id": "news-arauco-1",
+      "title": "Campeonato Oficial 2026/27 de ANFA Arauco arranca con récord de 800 futbolistas inscritos",
+      "summary": "10 instituciones deportivas compiten en 4 series oficiales con padrón digital y carnet ANFA.",
       "category": "Institucional",
       "date": "02 Octubre 2026",
-      "author": "Prensa Liga Demo",
+      "author": "Prensa AFA Arauco",
       "featured": true,
-      "content": "Con la participación de 10 prestigiosas instituciones deportivas y 800 deportistas habilitados en el padrón digital oficial, la Liga Demo dio el vamos a la temporada 2026/27. La competencia contempla series Juvenil, Primera Adulta, Senior y Súper Senior con fixture completo."
+      "content": "Con la participación de 10 clubes comunales y 800 futbolistas habilitados en el padrón digital oficial, la Asociación de Fútbol de Arauco vive una temporada histórica. La competencia contempla series Primera Adulta, Senior (35+), Súper Senior (45+) y Juvenil (Sub-18)."
     },
     {
-      "id": "news-demo-2",
-      "title": "Tribunal de Disciplina emite primer informe oficial de sanciones",
-      "summary": "Se recuerdan los plazos de apelación para dirigentes de clubes con jugadores sancionados.",
+      "id": "news-arauco-2",
+      "title": "Tribunal de Penas ratifica fallos y computa tabla de posiciones tras la Fecha 3",
+      "summary": "Sesión oficial semanal confirma resultados y estado de suspensiones reglamentarias.",
       "category": "Tribunal",
       "date": "01 Octubre 2026",
-      "author": "Secretaría General",
+      "author": "Secretaría General AFA",
       "featured": false,
-      "content": "El Honorable Tribunal de Penas de la Liga Demo sesionó este jueves para ratificar los informes de turno de cancha. Las sanciones ya se encuentran publicadas en la plataforma oficial LigaMaster."
+      "content": "El Honorable Tribunal de Penas de ANFA Arauco sesionó para ratificar las planillas de los 180 encuentros disputados en las primeras tres fechas del torneo en los recintos comunales de la comuna."
     }
   ]
 };

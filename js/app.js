@@ -31,13 +31,13 @@ if (typeof window !== 'undefined') {
 
 // Estado Global de Navegación y Filtros
 let currentActiveView = 'home-view';
-let currentActiveSeries = 'honor';
-let currentActiveClubId = 'club-arauco';
+let currentActiveSeries = 'primera_adulta';
+let currentActiveClubId = 'demo-arauco';
 let currentActivePlayerId = null;
 let currentPlayerFilterClubId = 'all';
 let currentPlayerSearchQuery = '';
 let playerRosterLimit = 48;
-let currentActiveRound = 8;
+let currentActiveRound = 3;
 let currentStatCategory = 'goleadores';
 let currentTeamTab = 'resumen';
 
@@ -302,8 +302,6 @@ function renderActiveLeagueContext() {
   const crestEl = document.getElementById('context-league-crest');
   const nameEl = document.getElementById('context-league-name');
   const regionEl = document.getElementById('context-league-region');
-  const demoBanner = document.getElementById('league-demo-banner');
-  const demoNoticeText = document.getElementById('league-demo-notice-text');
 
   if (crestEl) {
     crestEl.innerHTML = getClubBadgeSvg(league.badgeId || 'asociacion-arauco', 28);
@@ -312,18 +310,7 @@ function renderActiveLeagueContext() {
     nameEl.textContent = league.name;
   }
   if (regionEl) {
-    regionEl.textContent = `${league.commune} • ${league.statusLabel}`;
-  }
-
-  if (demoBanner) {
-    if (league.isDemo) {
-      demoBanner.style.display = 'block';
-      if (demoNoticeText) {
-        demoNoticeText.textContent = `Entorno de Demostración: Estructura de liga preconfigurada (${league.name}) para presentación e integración a LigaMaster.`;
-      }
-    } else {
-      demoBanner.style.display = 'none';
-    }
+    regionEl.textContent = 'Región del Biobío • ANFA Chile • Temporada 2026/27';
   }
 }
 
@@ -390,11 +377,12 @@ function renderHomeFeaturedMatches() {
   const container = document.getElementById('home-featured-matches-grid');
   if (!container) return;
   const db = getDb();
-  const matches = (db.matches || []).filter(m => m.series === currentActiveSeries).slice(0, 3);
-
+  let matches = (db.matches || []).filter(m => (currentActiveSeries === 'all' || m.series === currentActiveSeries) && (m.round === 3 || m.round === 4 || m.status === 'en_vivo')).slice(0, 3);
   if (matches.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 2rem;">Actualmente no hay partidos programados para esta serie.</div>`;
-    return;
+    matches = (db.matches || []).filter(m => currentActiveSeries === 'all' || m.series === currentActiveSeries).slice(0, 3);
+  }
+  if (matches.length === 0) {
+    matches = (db.matches || []).slice(0, 3);
   }
 
   let html = '';

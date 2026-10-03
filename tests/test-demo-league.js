@@ -36,8 +36,8 @@ http.get('http://127.0.0.1:9224/json', (res) => {
 
           // Validations
           let passed = true;
-          if (report.activeLeagueName !== 'Liga Demo') {
-            console.error('FAIL: Expected activeLeagueName to be "Liga Demo", got:', report.activeLeagueName);
+          if (report.activeLeagueName !== 'Asociación de Fútbol de Arauco') {
+            console.error('FAIL: Expected activeLeagueName to be "Asociación de Fútbol de Arauco", got:', report.activeLeagueName);
             passed = false;
           }
           if (report.standingsSeriesCount !== 4) {
@@ -119,8 +119,7 @@ http.get('http://127.0.0.1:9224/json', (res) => {
       setTimeout(() => {
         const script = `
           (() => {
-            // 1. Switch to Liga Demo
-            window.ligamasterSwitchLeague('liga-demo');
+            // 1. Official Arauco League
             const activeLeagueName = document.getElementById('context-league-name')?.textContent;
 
             // 2. Standings for Primera Adulta
