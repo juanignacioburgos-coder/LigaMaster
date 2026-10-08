@@ -1,17 +1,18 @@
 import { spawn } from 'child_process';
 import http from 'http';
 
-const targetUrl = 'http://localhost:8080/index.html';
+const targetUrl = 'file:///c:/Users/juani/.gemini/antigravity-ide/scratch/ligapro-amateur/index.html';
 
 const chrome = spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', [
   '--headless=new',
   '--remote-debugging-port=9224',
   '--disable-gpu',
   '--no-sandbox',
+  '--allow-file-access-from-files',
   targetUrl
 ]);
 
-await new Promise(r => setTimeout(r, 2000));
+await new Promise(r => setTimeout(r, 2500));
 
 http.get('http://127.0.0.1:9224/json', (res) => {
   let body = '';

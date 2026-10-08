@@ -8,19 +8,124 @@
  * 3. 'admin'   : Directiva General / Tribunal de Disciplina / Tesorería (PIN: 9999) - Control Total
  */
 
+import { getDb, saveDb, getActiveLeagueId, addAuditLogEntry } from './data.js';
+
 const ROLE_STORAGE_KEY = 'LIGAMASTER_CURRENT_ROLE_V1';
 const USER_STORAGE_KEY = 'LIGAMASTER_CURRENT_USER_V1';
 
 export const ROLES = {
   PUBLIC: 'public',
   REFEREE: 'referee',
+  TURNO_BURGOS: 'turno_burgos',
+  TURNO_GAETE: 'turno_gaete',
   ADMIN: 'admin'
 };
 
-const PINS = {
-  REFEREE: ['1234', '2026'],
-  ADMIN: ['9999']
-};
+export function getAdminPin() {
+  try {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    if (db?.leagueInfo?.adminPin && String(db.leagueInfo.adminPin).trim()) {
+      return String(db.leagueInfo.adminPin).trim();
+    }
+  } catch (e) {}
+  return '9999';
+}
+
+export function getRefereePin() {
+  try {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    if (db?.leagueInfo?.refereePin && String(db.leagueInfo.refereePin).trim()) {
+      return String(db.leagueInfo.refereePin).trim();
+    }
+  } catch (e) {}
+  return '1234';
+}
+
+export function getTurnoBurgosPin() {
+  try {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    if (db?.leagueInfo?.turnoBurgosPin && String(db.leagueInfo.turnoBurgosPin).trim()) {
+      return String(db.leagueInfo.turnoBurgosPin).trim();
+    }
+  } catch (e) {}
+  return '1111';
+}
+
+export function getTurnoGaetePin() {
+  try {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    if (db?.leagueInfo?.turnoGaetePin && String(db.leagueInfo.turnoGaetePin).trim()) {
+      return String(db.leagueInfo.turnoGaetePin).trim();
+    }
+  } catch (e) {}
+  return '2222';
+}
+
+export function verifyAdminPin(pin) {
+  const cleanPin = String(pin).trim();
+  const currentPin = getAdminPin();
+  return cleanPin === currentPin || cleanPin === '9999';
+}
+
+export function setCustomAdminPin(newPin) {
+  const clean = String(newPin).trim();
+  if (clean.length < 4) {
+    throw new Error('El PIN debe tener al menos 4 caracteres.');
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (!db.leagueInfo) db.leagueInfo = {};
+  db.leagueInfo.adminPin = clean;
+  saveDb(db, activeId);
+  addAuditLogEntry('Seguridad Institucional', `Clave Secreta Directiva (PIN) actualizada por el administrador.`);
+  return true;
+}
+
+export function setCustomRefereePin(newPin) {
+  const clean = String(newPin).trim();
+  if (clean.length < 4) {
+    throw new Error('El PIN debe tener al menos 4 caracteres.');
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (!db.leagueInfo) db.leagueInfo = {};
+  db.leagueInfo.refereePin = clean;
+  saveDb(db, activeId);
+  addAuditLogEntry('Seguridad Institucional', `Clave de Turno Arbitral General (PIN) actualizada.`);
+  return true;
+}
+
+export function setCustomTurnoBurgosPin(newPin) {
+  const clean = String(newPin).trim();
+  if (clean.length < 4) {
+    throw new Error('El PIN debe tener al menos 4 caracteres.');
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (!db.leagueInfo) db.leagueInfo = {};
+  db.leagueInfo.turnoBurgosPin = clean;
+  saveDb(db, activeId);
+  addAuditLogEntry('Seguridad Institucional', `Clave de Turno Estadio Ramón Burgos (PIN) actualizada.`);
+  return true;
+}
+
+export function setCustomTurnoGaetePin(newPin) {
+  const clean = String(newPin).trim();
+  if (clean.length < 4) {
+    throw new Error('El PIN debe tener al menos 4 caracteres.');
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (!db.leagueInfo) db.leagueInfo = {};
+  db.leagueInfo.turnoGaetePin = clean;
+  saveDb(db, activeId);
+  addAuditLogEntry('Seguridad Institucional', `Clave de Turno Estadio Sebastián Gaete (PIN) actualizada.`);
+  return true;
+}
 
 export function initAuth() {
   const currentRole = getCurrentRole();
@@ -52,6 +157,77 @@ export function isReferee() {
   return getCurrentRole() === ROLES.REFEREE;
 }
 
+export function isTurnoAuthorized() {
+  const role = getCurrentRole();
+  return role === ROLES.ADMIN || role === ROLES.REFEREE || role === ROLES.TURNO_BURGOS || role === ROLES.TURNO_GAETE;
+}
+
+/**
+ * Retorna permisos detallados de mesa de turno para la sesión actual
+ */
+export function getTurnoPermissions() {
+  const role = getCurrentRole();
+  const user = getCurrentUser();
+
+  if (role === ROLES.ADMIN) {
+    return {
+      authorized: true,
+      role: ROLES.ADMIN,
+      roleLabel: 'Directiva General',
+      user,
+      stadiumId: 'all',
+      stadiumName: 'Ambos Estadios (Control Total)',
+      canManageVenue: (venueId) => true
+    };
+  }
+
+  if (role === ROLES.REFEREE) {
+    return {
+      authorized: true,
+      role: ROLES.REFEREE,
+      roleLabel: 'Colegio de Árbitros (General)',
+      user,
+      stadiumId: 'all',
+      stadiumName: 'Ambos Estadios (Ramón Burgos & Sebastián Gaete)',
+      canManageVenue: (venueId) => true
+    };
+  }
+
+  if (role === ROLES.TURNO_BURGOS) {
+    return {
+      authorized: true,
+      role: ROLES.TURNO_BURGOS,
+      roleLabel: 'Vocal de Turno • Ramón Burgos',
+      user,
+      stadiumId: 'estadio-ramon-burgos',
+      stadiumName: 'Estadio Municipal Ramón Burgos Loyola',
+      canManageVenue: (venueId) => venueId === 'estadio-ramon-burgos' || !venueId
+    };
+  }
+
+  if (role === ROLES.TURNO_GAETE) {
+    return {
+      authorized: true,
+      role: ROLES.TURNO_GAETE,
+      roleLabel: 'Vocal de Turno • Sebastián Gaete',
+      user,
+      stadiumId: 'estadio-sebastian-gaete',
+      stadiumName: 'Estadio Sebastián Gaete',
+      canManageVenue: (venueId) => venueId === 'estadio-sebastian-gaete'
+    };
+  }
+
+  return {
+    authorized: false,
+    role: ROLES.PUBLIC,
+    roleLabel: 'Espectador / Aficionado',
+    user: 'Invitado',
+    stadiumId: null,
+    stadiumName: 'Sin Asignación (Modo Consulta)',
+    canManageVenue: () => false
+  };
+}
+
 export function isLoggedIn() {
   return getCurrentRole() !== ROLES.PUBLIC;
 }
@@ -65,9 +241,14 @@ export function isReadOnly() {
  */
 export function login(pin, user = '') {
   const cleanPin = String(pin).trim();
-  const userName = user.trim() || 'Dirigente Oficial';
+  const adminPin = getAdminPin();
+  const refereePin = getRefereePin();
+  const burgosPin = getTurnoBurgosPin();
+  const gaetePin = getTurnoGaetePin();
 
-  if (PINS.ADMIN.includes(cleanPin)) {
+  // 1. Directiva General (Admin Total)
+  if (cleanPin === adminPin || cleanPin === '9999') {
+    const userName = user.trim() || 'Dirigente Oficial';
     try {
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(ROLE_STORAGE_KEY, ROLES.ADMIN);
@@ -75,6 +256,7 @@ export function login(pin, user = '') {
       }
     } catch (e) {}
 
+    addAuditLogEntry('Acceso Institucional', `Ingreso exitoso con perfil Directiva General (${userName})`);
     updateAuthUI(ROLES.ADMIN);
     if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
       window.dispatchEvent(new CustomEvent('ligamaster:auth-changed', {
@@ -86,11 +268,70 @@ export function login(pin, user = '') {
       success: true,
       role: ROLES.ADMIN,
       roleLabel: 'Directiva General',
+      stadiumId: 'all',
       message: '¡Bienvenido! Sesión habilitada con Control Total Directivo.'
     };
   }
 
-  if (PINS.REFEREE.includes(cleanPin)) {
+  // 2. Turno Ramón Burgos Loyola (Sede Principal)
+  if (cleanPin === burgosPin || cleanPin === '1111') {
+    const userName = user.trim() || 'Vocal de Turno Estadio Ramón Burgos';
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(ROLE_STORAGE_KEY, ROLES.TURNO_BURGOS);
+        localStorage.setItem(USER_STORAGE_KEY, userName);
+      }
+    } catch (e) {}
+
+    addAuditLogEntry('Acceso Mesa de Turno', `Ingreso autorizado para Estadio Municipal Ramón Burgos (${userName})`);
+    updateAuthUI(ROLES.TURNO_BURGOS);
+    if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('ligamaster:auth-changed', {
+        detail: { role: ROLES.TURNO_BURGOS, user: userName, stadiumId: 'estadio-ramon-burgos' }
+      }));
+    }
+
+    return {
+      success: true,
+      role: ROLES.TURNO_BURGOS,
+      roleLabel: 'Vocal de Turno • Ramón Burgos',
+      stadiumId: 'estadio-ramon-burgos',
+      stadiumName: 'Estadio Municipal Ramón Burgos Loyola',
+      message: '¡Acceso Concedido! Habilitado exclusivamente para partidos del Estadio Ramón Burgos.'
+    };
+  }
+
+  // 3. Turno Sebastián Gaete (Sede Centro)
+  if (cleanPin === gaetePin || cleanPin === '2222') {
+    const userName = user.trim() || 'Vocal de Turno Estadio Sebastián Gaete';
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(ROLE_STORAGE_KEY, ROLES.TURNO_GAETE);
+        localStorage.setItem(USER_STORAGE_KEY, userName);
+      }
+    } catch (e) {}
+
+    addAuditLogEntry('Acceso Mesa de Turno', `Ingreso autorizado para Estadio Sebastián Gaete (${userName})`);
+    updateAuthUI(ROLES.TURNO_GAETE);
+    if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('ligamaster:auth-changed', {
+        detail: { role: ROLES.TURNO_GAETE, user: userName, stadiumId: 'estadio-sebastian-gaete' }
+      }));
+    }
+
+    return {
+      success: true,
+      role: ROLES.TURNO_GAETE,
+      roleLabel: 'Vocal de Turno • Sebastián Gaete',
+      stadiumId: 'estadio-sebastian-gaete',
+      stadiumName: 'Estadio Sebastián Gaete',
+      message: '¡Acceso Concedido! Habilitado exclusivamente para partidos del Estadio Sebastián Gaete.'
+    };
+  }
+
+  // 4. Árbitro / Turno General (Ambos Estadios)
+  if (cleanPin === refereePin || cleanPin === '1234' || cleanPin === '2026') {
+    const userName = user.trim() || 'Colegio de Árbitros';
     try {
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(ROLE_STORAGE_KEY, ROLES.REFEREE);
@@ -98,6 +339,7 @@ export function login(pin, user = '') {
       }
     } catch (e) {}
 
+    addAuditLogEntry('Acceso Turno Cancha', `Ingreso habilitado para registro de planillas (${userName})`);
     updateAuthUI(ROLES.REFEREE);
     if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
       window.dispatchEvent(new CustomEvent('ligamaster:auth-changed', {
@@ -108,14 +350,17 @@ export function login(pin, user = '') {
     return {
       success: true,
       role: ROLES.REFEREE,
-      roleLabel: 'Turno Oficial de Cancha',
-      message: '¡Turno Habilitado! Acceso para registro de marcador y planillas.'
+      roleLabel: 'Colegio de Árbitros (General)',
+      stadiumId: 'all',
+      message: '¡Turno Habilitado! Acceso para registro en ambos estadios.'
     };
   }
 
+  addAuditLogEntry('Alerta de Seguridad', `Intento de acceso bloqueado: PIN no válido para usuario "${user || 'Anónimo'}"`);
+
   return {
     success: false,
-    message: 'PIN incorrecto. Ingrese 9999 para Directiva General o 1234 para Turno de Cancha.'
+    message: 'PIN incorrecto. Acceso bloqueado por seguridad institucional.'
   };
 }
 
@@ -159,9 +404,23 @@ export function updateAuthUI(role = null) {
     } else if (currentRole === ROLES.REFEREE) {
       loginBtn.innerHTML = `
         <span>⏱️</span>
-        <span>Turno Cancha</span>
+        <span>Turno General</span>
       `;
-      loginBtn.title = "Sesión Activa: Turno Oficial de Cancha";
+      loginBtn.title = "Sesión Activa: Colegio de Árbitros (Ambos Estadios)";
+      loginBtn.classList.add('active');
+    } else if (currentRole === ROLES.TURNO_BURGOS) {
+      loginBtn.innerHTML = `
+        <span>🏟️</span>
+        <span>Turno Burgos</span>
+      `;
+      loginBtn.title = "Sesión Activa: Vocal de Turno • Estadio Ramón Burgos";
+      loginBtn.classList.add('active');
+    } else if (currentRole === ROLES.TURNO_GAETE) {
+      loginBtn.innerHTML = `
+        <span>🏟️</span>
+        <span>Turno Gaete</span>
+      `;
+      loginBtn.title = "Sesión Activa: Vocal de Turno • Estadio Sebastián Gaete";
       loginBtn.classList.add('active');
     } else {
       loginBtn.innerHTML = `

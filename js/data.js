@@ -7,6 +7,7 @@
  */
 
 import { LIGA_DEMO_DATA } from './data_liga_demo.js';
+import { OFFICIAL_SPONSORS_INIT, resolveBrandLogo } from './sponsors-data.js';
 
 export const STORAGE_KEY = 'LIGAMASTER_ARAUCO_DB_V15';
 
@@ -83,8 +84,49 @@ export const INITIAL_DATA = {
         description: "Impresionante remate al ángulo en el clásico comunal."
       }
     ]
-  }
+  },
+  venues: [
+    {
+      id: "estadio-ramon-burgos",
+      name: "Estadio Municipal Ramón Burgos Loyola",
+      shortName: "Estadio Ramón Burgos",
+      address: "Avenida Prat s/n, Arauco",
+      surfaceType: "sintetico",
+      surface: "Pasto Sintético Certificado FIFA",
+      capacity: "2.500 personas",
+      lighting: "Iluminación Artificial LED (Habilitado Turno Nocturno)",
+      coordinates: "-37.2472, -73.3168",
+      status: "habilitada",
+      statusLabel: "🟢 Habilitada (Cancha Principal)",
+      usageNotes: "Sede principal comunal de la Serie Primera Adulta (Honor), clásicos y selecciones.",
+      features: ["⚡ Pasto Sintético", "💡 Torres LED", "🚿 Camarines Nuevos", "📻 Cabina de Transmisión"],
+      mapsUrl: "https://maps.google.com/?q=Estadio+Municipal+Ramon+Burgos+Arauco",
+      photo: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+      isMain: true
+    },
+    {
+      id: "estadio-sebastian-gaete",
+      name: "Estadio Sebastián Gaete",
+      shortName: "Estadio Sebastián Gaete",
+      address: "Sector Céntrico, Arauco",
+      surfaceType: "sintetico",
+      surface: "Pasto Sintético de Alto Tráfico",
+      capacity: "1.200 personas",
+      lighting: "Iluminación Artificial",
+      coordinates: "-37.2435, -73.3195",
+      status: "habilitada",
+      statusLabel: "🟢 Habilitada (Cancha Oficial)",
+      usageNotes: "Recinto céntrico de alto tráfico comunal, sede de series Senior, Súper Senior y Juvenil.",
+      features: ["⚡ Pasto Sintético", "💡 Iluminación", "🚿 Camarines", "🏟️ Graderías Techadas"],
+      mapsUrl: "https://maps.google.com/?q=Estadio+Sebastian+Gaete+Arauco",
+      photo: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80",
+      isMain: false
+    }
+  ],
+  sponsors: JSON.parse(JSON.stringify(OFFICIAL_SPONSORS_INIT))
 };
+
+export const OFFICIAL_ARAUCO_VENUES = INITIAL_DATA.venues;
 
 export const MULTI_LEAGUE_STORE = {
   arauco: INITIAL_DATA
@@ -417,7 +459,8 @@ function generateModularAssociationDb(leagueId, leagueName, commune) {
         image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
         author: `Directiva ${leagueName}`
       }
-    ]
+    ],
+    sponsors: JSON.parse(JSON.stringify(OFFICIAL_SPONSORS_INIT))
   };
 }
 
@@ -431,11 +474,102 @@ export function getDb(leagueId = null) {
     const storageKey = `LIGAMASTER_LEAGUE_ARAUCO_V15`;
     try {
       const raw = safeStorageGet(storageKey);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        let updated = false;
+
+        // Autocorrección: Garantizar que todos los sponsors tengan logo oficial
+        if (parsed.sponsors && Array.isArray(parsed.sponsors)) {
+          parsed.sponsors.forEach(s => {
+            if (!s.logoBase64) {
+              s.logoBase64 = resolveBrandLogo(s.name);
+              updated = true;
+            }
+          });
+        }
+
+        // Autocorrección: Garantizar registro de auditoría institucional
+        if (!parsed.auditLog || !Array.isArray(parsed.auditLog)) {
+          parsed.auditLog = [
+            {
+              id: 'audit-init',
+              timestamp: new Date().toISOString(),
+              formattedTime: 'Temporada Oficial',
+              user: 'Sistema LigaMaster',
+              role: '🏛️ Directiva',
+              action: 'Apertura de Libro Digital',
+              details: 'Libro oficial de actas y trazabilidad institucional habilitado para protección de datos.'
+            }
+          ];
+          updated = true;
+        }
+
+        // Autocorrección: Garantizar recintos oficiales de Arauco (Ramón Burgos y Sebastián Gaete)
+        if (!parsed.venues || !Array.isArray(parsed.venues) || parsed.venues.length < 2) {
+          parsed.venues = JSON.parse(JSON.stringify(OFFICIAL_ARAUCO_VENUES));
+          updated = true;
+        }
+
+        // Normalizar recintos de partidos de Arauco entre Ramón Burgos y Sebastián Gaete
+        if (parsed.matches && Array.isArray(parsed.matches)) {
+          parsed.matches.forEach((m, idx) => {
+            if (!m.venueId || (!m.venueId.includes('ramon-burgos') && !m.venueId.includes('sebastian-gaete'))) {
+              if (m.series === 'primera_adulta' || m.series === 'honor' || idx % 2 === 0) {
+                m.venueId = 'estadio-ramon-burgos';
+                m.venue = 'Estadio Municipal Ramón Burgos';
+              } else {
+                m.venueId = 'estadio-sebastian-gaete';
+                m.venue = 'Estadio Sebastián Gaete';
+              }
+              updated = true;
+            }
+            if (!Array.isArray(m.scorers)) {
+              m.scorers = [];
+              updated = true;
+            }
+            if (!Array.isArray(m.timeline)) {
+              m.timeline = [];
+              updated = true;
+            }
+          });
+        }
+
+        if (updated) saveDb(parsed, 'arauco');
+        return parsed;
+      }
     } catch (e) {
       console.error("Error leyendo base de datos de Arauco", e);
     }
     const cloned = JSON.parse(JSON.stringify(INITIAL_DATA));
+    cloned.venues = JSON.parse(JSON.stringify(OFFICIAL_ARAUCO_VENUES));
+    if (cloned.matches && Array.isArray(cloned.matches)) {
+      cloned.matches.forEach((m, idx) => {
+        if (!m.venueId || (!m.venueId.includes('ramon-burgos') && !m.venueId.includes('sebastian-gaete'))) {
+          if (m.series === 'primera_adulta' || m.series === 'honor' || idx % 2 === 0) {
+            m.venueId = 'estadio-ramon-burgos';
+            m.venue = 'Estadio Municipal Ramón Burgos';
+          } else {
+            m.venueId = 'estadio-sebastian-gaete';
+            m.venue = 'Estadio Sebastián Gaete';
+          }
+        }
+        if (!Array.isArray(m.scorers)) m.scorers = [];
+        if (!Array.isArray(m.timeline)) m.timeline = [];
+      });
+    }
+    if (!cloned.auditLog) {
+      cloned.auditLog = [
+        {
+          id: 'audit-init',
+          timestamp: new Date().toISOString(),
+          formattedTime: 'Temporada Oficial',
+          user: 'Sistema LigaMaster',
+          role: '🏛️ Directiva',
+          action: 'Apertura de Libro Digital',
+          details: 'Libro oficial de actas y trazabilidad institucional habilitado.'
+        }
+      ];
+    }
     saveDb(cloned, 'arauco');
     return cloned;
   }
@@ -444,11 +578,54 @@ export function getDb(leagueId = null) {
   const storageKey = `LIGAMASTER_LEAGUE_${currentId.toUpperCase()}_V1`;
   try {
     const raw = safeStorageGet(storageKey);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      let updated = false;
+
+      if (parsed.sponsors && Array.isArray(parsed.sponsors)) {
+        parsed.sponsors.forEach(s => {
+          if (!s.logoBase64) {
+            s.logoBase64 = resolveBrandLogo(s.name);
+            updated = true;
+          }
+        });
+      }
+
+      if (!parsed.auditLog || !Array.isArray(parsed.auditLog)) {
+        parsed.auditLog = [
+          {
+            id: 'audit-init',
+            timestamp: new Date().toISOString(),
+            formattedTime: 'Temporada Oficial',
+            user: 'Sistema LigaMaster',
+            role: '🏛️ Directiva',
+            action: 'Apertura de Libro Digital',
+            details: 'Libro oficial de actas y trazabilidad institucional habilitado.'
+          }
+        ];
+        updated = true;
+      }
+
+      if (updated) saveDb(parsed, currentId);
+      return parsed;
+    }
   } catch (e) {}
 
   const leagueInfo = getLeagueById(currentId);
   const modularDb = generateModularAssociationDb(currentId, leagueInfo.name, leagueInfo.commune);
+  if (!modularDb.auditLog) {
+    modularDb.auditLog = [
+      {
+        id: 'audit-init',
+        timestamp: new Date().toISOString(),
+        formattedTime: 'Temporada Oficial',
+        user: 'Sistema LigaMaster',
+        role: '🏛️ Directiva',
+        action: 'Apertura de Libro Digital',
+        details: 'Libro oficial de actas y trazabilidad institucional habilitado.'
+      }
+    ];
+  }
   saveDb(modularDb, currentId);
   return modularDb;
 }
@@ -542,6 +719,97 @@ export function getMatchesByVenue(venueId, leagueId = null) {
   return (db.matches || []).filter(m => m.venueId === venueId);
 }
 
+export function getVenues(leagueId = null) {
+  const db = getDb(leagueId);
+  if (db.venues && Array.isArray(db.venues) && db.venues.length > 0) {
+    return db.venues;
+  }
+  return OFFICIAL_ARAUCO_VENUES;
+}
+
+export function updateVenueStatus(venueId, status, statusLabel, leagueId = null) {
+  const currentId = leagueId || getActiveLeagueId() || 'arauco';
+  const db = getDb(currentId);
+  if (!db.venues) db.venues = JSON.parse(JSON.stringify(OFFICIAL_ARAUCO_VENUES));
+  const v = db.venues.find(item => item.id === venueId);
+  if (v) {
+    v.status = status;
+    v.statusLabel = statusLabel;
+    saveDb(db, currentId);
+  }
+}
+
+/**
+ * Recalcula la tabla de posiciones oficial para la serie indicada
+ */
+export function recalculateStandings(db, series = 'primera_adulta') {
+  if (!db.clubs || !db.matches) return [];
+
+  const targetSeries = (series === 'honor') ? 'primera_adulta' : series;
+  const seriesMatches = db.matches.filter(m => (m.series === targetSeries || (targetSeries === 'primera_adulta' && m.series === 'honor')) && (m.status === 'finalizado' || m.status === 'en_vivo'));
+
+  if (!db.standings) db.standings = {};
+
+  const statsMap = {};
+  db.clubs.forEach(c => {
+    statsMap[c.id] = {
+      clubId: c.id,
+      clubName: c.name,
+      played: 0, won: 0, drawn: 0, lost: 0,
+      gf: 0, ga: 0, gd: 0, points: 0,
+      pj: 0, pg: 0, pe: 0, pp: 0, pts: 0
+    };
+  });
+
+  seriesMatches.forEach(m => {
+    const h = statsMap[m.homeClubId];
+    const a = statsMap[m.awayClubId];
+    if (!h || !a) return;
+
+    const hs = parseInt(m.homeScore ?? 0, 10);
+    const as = parseInt(m.awayScore ?? 0, 10);
+
+    h.played += 1; h.pj += 1;
+    a.played += 1; a.pj += 1;
+    h.gf += hs;
+    h.ga += as;
+    a.gf += as;
+    a.ga += hs;
+
+    if (hs > as) {
+      h.won += 1; h.pg += 1;
+      h.points += 3; h.pts += 3;
+      a.lost += 1; a.pp += 1;
+    } else if (hs < as) {
+      a.won += 1; a.pg += 1;
+      a.points += 3; a.pts += 3;
+      h.lost += 1; h.pp += 1;
+    } else {
+      h.drawn += 1; h.pe += 1;
+      h.points += 1; h.pts += 1;
+      a.drawn += 1; a.pe += 1;
+      a.points += 1; a.pts += 1;
+    }
+
+    h.gd = h.gf - h.ga;
+    a.gd = a.gf - a.ga;
+  });
+
+  const sorted = Object.values(statsMap).sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.gd !== a.gd) return b.gd - a.gd;
+    return b.gf - a.gf;
+  });
+
+  sorted.forEach((item, idx) => {
+    item.position = idx + 1;
+  });
+
+  db.standings[targetSeries] = sorted;
+  return sorted;
+}
+
+
 export function getSelectionInfo(leagueId = null) {
   const db = getDb(leagueId);
   return db.selectionInfo || INITIAL_DATA.selectionInfo;
@@ -622,4 +890,59 @@ export function addMediaVideo(videoItem, leagueId = null) {
   saveDb(db, leagueId);
   window.dispatchEvent(new CustomEvent('ligapro:media-updated', { detail: { type: 'video', item: newVideo } }));
   return newVideo;
+}
+
+/**
+ * Registra una acción oficial en el Libro Digital de Auditoría y Trazabilidad
+ */
+export function addAuditLogEntry(action, details, leagueId = null) {
+  try {
+    const currentId = leagueId || getActiveLeagueId() || 'arauco';
+    const db = getDb(currentId);
+    if (!db.auditLog || !Array.isArray(db.auditLog)) db.auditLog = [];
+
+    let user = 'Dirigente Oficial';
+    let role = 'admin';
+    try {
+      if (typeof localStorage !== 'undefined') {
+        user = localStorage.getItem('LIGAMASTER_CURRENT_USER_V1') || 'Directiva General';
+        role = localStorage.getItem('LIGAMASTER_CURRENT_ROLE_V1') || 'admin';
+      }
+    } catch (e) {}
+
+    const now = new Date();
+    const formattedTime = now.toLocaleString('es-CL', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    const entry = {
+      id: `audit-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      timestamp: now.toISOString(),
+      formattedTime,
+      user,
+      role: role === 'admin' ? '🏛️ Directiva' : (role === 'referee' ? '⏱️ Turno' : 'Visitante'),
+      action,
+      details
+    };
+
+    db.auditLog.unshift(entry);
+    if (db.auditLog.length > 80) {
+      db.auditLog = db.auditLog.slice(0, 80);
+    }
+    saveDb(db, currentId);
+    return entry;
+  } catch (err) {
+    console.error('Error en addAuditLogEntry:', err);
+    return null;
+  }
+}
+
+/**
+ * Retorna el libro de auditoría de la liga activa
+ */
+export function getAuditLog(leagueId = null) {
+  const currentId = leagueId || getActiveLeagueId() || 'arauco';
+  const db = getDb(currentId);
+  return db.auditLog || [];
 }

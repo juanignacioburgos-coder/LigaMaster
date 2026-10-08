@@ -17,6 +17,19 @@ import { initAdmin, renderAdminView } from './admin.js';
 import { initAuth, updateAuthUI, getCurrentRole, ROLES } from './auth.js';
 import { showToast } from './toast.js';
 import { initSocialCards, openSocialCardsStudio, renderSocialCard } from './social-cards.js';
+import {
+  renderPlayoffsBracket,
+  renderFairPlayView,
+  renderVallaMenosBatidaView,
+  openEditPlayoffModal,
+  saveEditPlayoffModal,
+  calculateFairPlayRanking,
+  calculateVallaMenosBatida
+} from './playoffs.js';
+
+import { initTurnoModule, renderTurnoView } from './turno.js';
+import { initNotificationsModule } from './notifications.js';
+import { initRealtimeSync } from './realtime.js';
 
 // Fallback de imágenes SVG seguras y offline
 const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
@@ -41,6 +54,7 @@ let playerRosterLimit = 48;
 let currentActiveRound = 3;
 let currentStatCategory = 'goleadores';
 let currentTeamTab = 'resumen';
+let currentCompTab = 'regular'; // 'regular' | 'playoffs' | 'fairplay' | 'valla'
 
 // Mapeo de Vistas para Hash y Navegación
 const VIEW_MAP = {
@@ -71,7 +85,11 @@ const VIEW_MAP = {
   'admin': 'admin-view',
   'admin-view': 'admin-view',
   'panel': 'admin-view',
-  'gestion': 'admin-view'
+  'gestion': 'admin-view',
+  'turno': 'turno-view',
+  'turno-view': 'turno-view',
+  'partido': 'turno-view',
+  'modo-partido': 'turno-view'
 };
 
 if (typeof document !== 'undefined') {
@@ -111,6 +129,9 @@ function initLigaMaster() {
   initAuth();
   initAdmin();
   initSocialCards();
+  initNotificationsModule();
+  initRealtimeSync();
+  initTurnoModule();
 
   // Renderizar vistas con los datos iniciales
   renderActiveLeagueContext();
@@ -123,6 +144,7 @@ function initLigaMaster() {
   renderPlayerView();
   renderStatsView();
   renderNewsView();
+  renderTurnoView();
 
   // Escuchar cambio de hash en URL
   window.addEventListener('hashchange', handleHashChange);
@@ -165,6 +187,16 @@ function navigateTo(targetViewId, scroll = true) {
     }
   });
 
+  // Actualizar links activos en barra de navegación inferior móvil
+  document.querySelectorAll('.mobile-bottom-nav-item').forEach(link => {
+    const target = link.getAttribute('data-nav');
+    if (target === mappedId) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+
   // Cerrar menú móvil si está abierto
   closeModal('modal-mobile-menu');
 
@@ -178,6 +210,7 @@ function navigateTo(targetViewId, scroll = true) {
   if (mappedId === 'standings-view') renderStandingsView();
   if (mappedId === 'stats-view') renderStatsView();
   if (mappedId === 'admin-view') renderAdminView();
+  if (mappedId === 'turno-view') renderTurnoView();
 }
 window.ligamasterNavigate = navigateTo;
 
@@ -337,6 +370,18 @@ function renderActiveLeagueContext() {
   }
   if (regionEl) {
     regionEl.textContent = `Región del Biobío • Temporada 2026`;
+  }
+
+  // Actualizar logo de la liga en el header
+  const headerCrestEl = document.getElementById('header-league-crest');
+  if (headerCrestEl) {
+    const db = getDb(activeId);
+    if (db && db.leagueInfo && db.leagueInfo.logoBase64) {
+      headerCrestEl.src = db.leagueInfo.logoBase64;
+      headerCrestEl.style.display = 'block';
+    } else {
+      headerCrestEl.style.display = 'none';
+    }
   }
 
   // Actualizar nombres de la asociación en los breadcrumbs de todas las vistas
@@ -892,7 +937,53 @@ function renderStandingsView() {
   });
 
   tbody.innerHTML = html;
+
+  // Actualizar también panel de Liguilla, Fair Play o Valla si están seleccionados
+  const playoffsPanel = document.getElementById('standings-playoffs-panel');
+  const fairplayPanel = document.getElementById('standings-fairplay-panel');
+  const vallaPanel = document.getElementById('standings-valla-panel');
+
+  if (currentCompTab === 'playoffs' && playoffsPanel) {
+    renderPlayoffsBracket(playoffsPanel, activeStandingsSeries);
+  } else if (currentCompTab === 'fairplay' && fairplayPanel) {
+    renderFairPlayView(fairplayPanel, activeStandingsSeries);
+  } else if (currentCompTab === 'valla' && vallaPanel) {
+    renderVallaMenosBatidaView(vallaPanel, activeStandingsSeries);
+  }
 }
+
+/**
+ * Cambia la pestaña activa de competición (Fase Regular, Liguilla, Fair Play, Valla)
+ */
+window.ligamasterSetCompTab = function(tab) {
+  currentCompTab = tab || 'regular';
+
+  // Sincronizar botones de la barra de tabs
+  document.querySelectorAll('#standings-comp-tabs-bar .competition-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-comp-tab') === currentCompTab);
+  });
+
+  // Ocultar/mostrar paneles
+  const regularPanel = document.getElementById('standings-regular-panel');
+  const playoffsPanel = document.getElementById('standings-playoffs-panel');
+  const fairplayPanel = document.getElementById('standings-fairplay-panel');
+  const vallaPanel = document.getElementById('standings-valla-panel');
+
+  if (regularPanel) regularPanel.style.display = currentCompTab === 'regular' ? 'block' : 'none';
+  if (playoffsPanel) playoffsPanel.style.display = currentCompTab === 'playoffs' ? 'block' : 'none';
+  if (fairplayPanel) fairplayPanel.style.display = currentCompTab === 'fairplay' ? 'block' : 'none';
+  if (vallaPanel) vallaPanel.style.display = currentCompTab === 'valla' ? 'block' : 'none';
+
+  if (currentCompTab === 'playoffs' && playoffsPanel) {
+    renderPlayoffsBracket(playoffsPanel, currentActiveSeries);
+  } else if (currentCompTab === 'fairplay' && fairplayPanel) {
+    renderFairPlayView(fairplayPanel, currentActiveSeries);
+  } else if (currentCompTab === 'valla' && vallaPanel) {
+    renderVallaMenosBatidaView(vallaPanel, currentActiveSeries);
+  } else if (currentCompTab === 'regular') {
+    renderStandingsView();
+  }
+};
 
 /**
  * ==========================================================================
@@ -1894,6 +1985,79 @@ function renderStatsView() {
   const metricHeader = document.getElementById('stats-metric-header');
   if (!tbody || !metricHeader) return;
 
+  // Categoría especial 1: Fair Play Clubes
+  if (currentStatCategory === 'fairplay') {
+    metricHeader.textContent = 'PTS PENALIZACIÓN (🟨 1PT / 🟥 3PTS)';
+    const ranking = calculateFairPlayRanking(null, currentActiveSeries);
+    let html = '';
+    ranking.forEach((r, idx) => {
+      html += `
+        <tr onclick="window.ligamasterSelectTeam('${r.club.id}')" style="cursor: pointer;">
+          <td class="text-center">
+            <span class="table-pos-badge ${idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''))}">
+              ${idx + 1}
+            </span>
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="width: 30px; height: 30px; display: inline-flex;">${getClubBadgeSvg(r.club.id, 30)}</span>
+              <div>
+                <strong style="font-family: var(--font-display); font-size: 0.95rem; color: var(--color-text-main); display: block;">${r.club.name}</strong>
+                <small style="color: var(--color-text-muted); font-size: 0.75rem;">${r.conductStatus} • 🟨 ${r.yellowCards} | 🟥 ${r.redCards}</small>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="conduct-pill ${r.statusClass}">${r.conductStatus}</span>
+          </td>
+          <td class="pts-cell" style="font-size: 1.15rem; color: ${idx === 0 ? '#10b981' : '#e51b24'};">${r.penaltyPoints}</td>
+          <td class="text-center">${r.pj}</td>
+          <td class="text-center" style="font-weight: 700; color: var(--color-text-muted);">${r.average}</td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = html;
+    return;
+  }
+
+  // Categoría especial 2: Porteros (Valla Menos Batida)
+  if (currentStatCategory === 'porteros') {
+    metricHeader.textContent = 'PROMEDIO / PJ (GC)';
+    const goalkeepers = calculateVallaMenosBatida(null, currentActiveSeries);
+    let html = '';
+    goalkeepers.forEach((item, idx) => {
+      html += `
+        <tr onclick="window.ligamasterSelectPlayer('${item.gk.id}')" style="cursor: pointer;">
+          <td class="text-center">
+            <span class="table-pos-badge ${idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''))}">
+              ${idx + 1}
+            </span>
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <img src="${item.gk.avatar || item.gk.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'}" alt="${item.gk.name}" onerror="window.ligamasterImageFallback(this, 'avatar')" style="width: 38px; height: 38px; border-radius: var(--radius-xs); object-fit: cover;">
+              <div>
+                <strong style="font-family: var(--font-display); font-size: 0.95rem; color: var(--color-text-main); display: block;">${item.gk.name}</strong>
+                <small style="color: var(--color-text-muted); font-size: 0.75rem;">#${item.gk.dorsal || 1} • 🛡️ ${item.cleanSheets} Vallas Invictas</small>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="width: 24px; height: 24px; display: inline-flex;">${getClubBadgeSvg(item.club.id, 24)}</span>
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-secondary);">${item.club.name}</span>
+            </div>
+          </td>
+          <td class="pts-cell" style="font-size: 1.15rem; color: ${idx === 0 ? '#f59e0b' : 'inherit'};">${item.avgConceded} <small style="font-size:0.7rem; color:var(--color-text-muted);">(${item.gc} GC)</small></td>
+          <td class="text-center">${item.pj}</td>
+          <td class="text-center" style="font-weight: 700; color: #10b981;">🛡️ ${item.cleanSheets} invictas</td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = html;
+    return;
+  }
+
   let metricKey = 'goals';
   let metricTitle = 'GOLES';
 
@@ -1906,9 +2070,6 @@ function renderStatsView() {
   } else if (currentStatCategory === 'rojas') {
     metricKey = 'redCards';
     metricTitle = 'TARJETAS ROJAS';
-  } else if (currentStatCategory === 'porteros') {
-    metricKey = 'minutesPlayed';
-    metricTitle = 'MINUTOS JUGADOS';
   }
 
   metricHeader.textContent = metricTitle;
@@ -2805,5 +2966,10 @@ function setupSponsorsModalController() {
     }
     window.closeModal('modal-sponsor-partnership');
   };
+
+  // Exponer métodos globales del sistema de Liguilla y Playoffs
+  window.ligamasterOpenEditPlayoff = openEditPlayoffModal;
+  window.ligamasterSaveEditPlayoff = saveEditPlayoffModal;
 }
+
 

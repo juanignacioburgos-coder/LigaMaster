@@ -32,9 +32,12 @@
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
           </div>
-          <div class="platform-brand-text">
-            <div class="platform-brand-title">LIGA<span>MASTER</span></div>
-            <div class="platform-brand-sub">Plataforma de gestión y estadísticas del fútbol</div>
+          <div class="platform-brand-text" style="display: flex; align-items: center; gap: 1rem;">
+            <div>
+              <div class="platform-brand-title">LIGA<span>MASTER</span></div>
+              <div class="platform-brand-sub">Plataforma de gestión y estadísticas del fútbol</div>
+            </div>
+            <img id="header-league-crest" src="" alt="Escudo Asociación" style="height: 42px; width: 42px; object-fit: contain; display: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
           </div>
         </a>
 
@@ -49,14 +52,23 @@
           <button class="platform-nav-link" data-nav="standings-view" onclick="window.ligamasterNavigate('standings-view')">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view" onclick="window.ligamasterNavigate('stats-view')">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view" onclick="window.ligamasterNavigate('news-view')">Noticias</button>
+          <button class="platform-nav-link" data-nav="turno-view" onclick="window.ligamasterNavigate('turno-view')" style="color: #22c55e; font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;" title="Modo Turno de Canchas y Registro en Vivo">
+            <span style="display:inline-block; width:7px; height:7px; background:#22c55e; border-radius:50%; box-shadow:0 0 6px #22c55e;"></span>
+            <span>⏱️ Turno</span>
+          </button>
           <button class="platform-nav-link" data-nav="admin-view" id="nav-btn-admin" onclick="window.ligamasterNavigate('admin-view')" style="color: var(--color-primary); font-weight: 800;">⚙️ Admin</button>
         </nav>
 
         <!-- Acciones Derecha -->
         <div class="platform-header-actions">
-          <button class="btn-primary-coral" id="btn-header-social-cards" onclick="window.ligamasterOpenSocialCardModal()" title="Generar Placas Gráficas Oficiales para Instagram y WhatsApp" style="padding: 0.42rem 0.85rem; font-size: 0.8rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #e51b24, #b91c1c); box-shadow: 0 2px 10px rgba(229, 27, 36, 0.35); border: none;">
+          <button class="btn-primary-coral" id="btn-header-social-cards" onclick="window.ligamasterOpenSocialCardModal()" title="Generar Publicaciones Oficiales para Instagram y WhatsApp" style="padding: 0.42rem 0.85rem; font-size: 0.8rem; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #e51b24, #b91c1c); box-shadow: 0 2px 10px rgba(229, 27, 36, 0.35); border: none;">
             <span style="font-size: 0.95rem;">📸</span>
-            <span>Placas Redes</span>
+            <span>Publicar</span>
+          </button>
+
+          <button class="btn-header-notifs" id="btn-header-notifs" onclick="window.ligamasterOpenNotifsModal()" title="Alertas de Partidos y Goles (Estilo OneFootball)" style="position: relative; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #ffffff; padding: 0.42rem 0.75rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+            <span>🔔</span>
+            <span id="header-notif-badge" class="header-notif-counter" style="display: none; background: #eab308; color: #000; font-size: 0.68rem; font-weight: 900; padding: 0.1rem 0.4rem; border-radius: 10px;">0</span>
           </button>
 
           <button class="btn-header-search" id="btn-open-search" onclick="window.openModal('modal-global-search')" title="Buscar en LigaMaster (Ctrl + K)">
@@ -377,8 +389,8 @@
             </p>
           </div>
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('tabla')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de la tabla para Instagram / WhatsApp">
-              <span style="font-size: 1rem;">📸</span> Placa de Tabla
+            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('tabla')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar publicación de la tabla para Instagram / WhatsApp">
+              <span style="font-size: 1rem;">📸</span> Publicar Tabla
             </button>
             <div class="series-filter-box">
               <label for="standings-series-select" style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted);">Serie:</label>
@@ -392,46 +404,80 @@
         </div>
       </div>
 
-      <div class="table-wrapper-card">
-        <!-- Selector Rápido de Serie en Pastillas -->
-        <div id="standings-series-pills-container" style="padding: 1.25rem 1.25rem 0.5rem;"></div>
+      <!-- Barra de Navegación de Competición & Fases del Campeonato -->
+      <div class="competition-tabs-bar" id="standings-comp-tabs-bar" style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; flex-wrap: wrap;">
+        <button type="button" class="competition-tab-btn active" data-comp-tab="regular" onclick="window.ligamasterSetCompTab('regular')">
+          <span>📊</span> Fase Regular (Tabla)
+        </button>
+        <button type="button" class="competition-tab-btn" data-comp-tab="playoffs" onclick="window.ligamasterSetCompTab('playoffs')">
+          <span>🏆</span> Liguilla & Cuadro de Llaves (Playoffs)
+        </button>
+        <button type="button" class="competition-tab-btn" data-comp-tab="fairplay" onclick="window.ligamasterSetCompTab('fairplay')">
+          <span>🛡️</span> Trofeo Fair Play
+        </button>
+        <button type="button" class="competition-tab-btn" data-comp-tab="valla" onclick="window.ligamasterSetCompTab('valla')">
+          <span>🧤</span> Valla Menos Batida
+        </button>
+      </div>
 
-        <div class="table-header-bar">
-          <div class="table-legend-pills">
-            <span style="display: flex; align-items: center; gap: 0.4rem;">
-              <span class="legend-dot champion"></span> 1º y 2º: Clasificación Torneo Regional de Campeones
-            </span>
-            <span style="display: flex; align-items: center; gap: 0.4rem;">
-              <span class="legend-dot relegation"></span> 9º y 10º: Liguilla de Promoción / Relegación
+      <!-- Panel 1: Fase Regular (Tabla de Posiciones Oficial) -->
+      <div id="standings-regular-panel">
+        <div class="table-wrapper-card">
+          <!-- Selector Rápido de Serie en Pastillas -->
+          <div id="standings-series-pills-container" style="padding: 1.25rem 1.25rem 0.5rem;"></div>
+
+          <div class="table-header-bar">
+            <div class="table-legend-pills">
+              <span style="display: flex; align-items: center; gap: 0.4rem;">
+                <span class="legend-dot champion"></span> 1º a 8º: Clasificación a Liguilla y Copa de Campeones
+              </span>
+              <span style="display: flex; align-items: center; gap: 0.4rem;">
+                <span class="legend-dot relegation"></span> 9º y 10º: Liguilla de Promoción / Relegación
+              </span>
+            </div>
+            <span style="font-size: 0.75rem; background: var(--color-bg-subtle); color: var(--color-text-muted); padding: 0.25rem 0.65rem; border-radius: var(--radius-xs); font-weight: 700;">
+              Desliza horizontalmente en móvil ↔
             </span>
           </div>
-          <span style="font-size: 0.75rem; background: var(--color-bg-subtle); color: var(--color-text-muted); padding: 0.25rem 0.65rem; border-radius: var(--radius-xs); font-weight: 700;">
-            Desliza horizontalmente en móvil ↔
-          </span>
-        </div>
 
-        <div class="sports-table-responsive">
-          <table class="sports-table" id="official-standings-table">
-            <thead>
-              <tr>
-                <th style="width: 50px;" class="text-center">POS</th>
-                <th>EQUIPO</th>
-                <th class="text-center" title="Partidos Jugados">PJ</th>
-                <th class="text-center" title="Partidos Ganados">PG</th>
-                <th class="text-center" title="Partidos Empatados">PE</th>
-                <th class="text-center" title="Partidos Perdidos">PP</th>
-                <th class="text-center" title="Goles a Favor">GF</th>
-                <th class="text-center" title="Goles en Contra">GC</th>
-                <th class="text-center" title="Diferencia de Goles">DG</th>
-                <th class="text-center" title="Puntos Oficiales" style="color: var(--color-primary);">PTS</th>
-                <th class="text-center" title="Rendimiento últimos 5 partidos">FORMA</th>
-              </tr>
-            </thead>
-            <tbody id="standings-table-body">
-              <!-- Renderizado dinámico desde app.js -->
-            </tbody>
-          </table>
+          <div class="sports-table-responsive">
+            <table class="sports-table" id="official-standings-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;" class="text-center">POS</th>
+                  <th>EQUIPO</th>
+                  <th class="text-center" title="Partidos Jugados">PJ</th>
+                  <th class="text-center" title="Partidos Ganados">PG</th>
+                  <th class="text-center" title="Partidos Empatados">PE</th>
+                  <th class="text-center" title="Partidos Perdidos">PP</th>
+                  <th class="text-center" title="Goles a Favor">GF</th>
+                  <th class="text-center" title="Goles en Contra">GC</th>
+                  <th class="text-center" title="Diferencia de Goles">DG</th>
+                  <th class="text-center" title="Puntos Oficiales" style="color: var(--color-primary);">PTS</th>
+                  <th class="text-center" title="Rendimiento últimos 5 partidos">FORMA</th>
+                </tr>
+              </thead>
+              <tbody id="standings-table-body">
+                <!-- Renderizado dinámico desde app.js -->
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
+
+      <!-- Panel 2: Liguilla & Cuadro de Llaves (Playoffs) -->
+      <div id="standings-playoffs-panel" style="display: none;">
+        <!-- Renderizado dinámico desde playoffs.js -->
+      </div>
+
+      <!-- Panel 3: Trofeo Fair Play (Juego Limpio ANFA) -->
+      <div id="standings-fairplay-panel" style="display: none;">
+        <!-- Renderizado dinámico desde playoffs.js -->
+      </div>
+
+      <!-- Panel 4: Valla Menos Batida (Guante de Oro) -->
+      <div id="standings-valla-panel" style="display: none;">
+        <!-- Renderizado dinámico desde playoffs.js -->
       </div>
 
     </section>
@@ -489,8 +535,8 @@
             </p>
           </div>
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('resultados')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de resultados para Instagram / WhatsApp">
-              <span style="font-size: 1rem;">📸</span> Placa de Resultados
+            <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('resultados')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar publicación de resultados para Instagram / WhatsApp">
+              <span style="font-size: 1rem;">📸</span> Publicar Resultados
             </button>
             <div class="series-filter-box">
               <select id="results-round-select" class="series-select" aria-label="Filtrar por Jornada">
@@ -671,8 +717,8 @@
               Rankings de goleadores, asistencias, tarjetas y porteros con menos goles concedidos.
             </p>
           </div>
-          <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('goleadores')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar placa gráfica de goleadores para Instagram / WhatsApp">
-            <span style="font-size: 1rem;">📸</span> Placa de Goleadores
+          <button type="button" class="btn-primary-coral" onclick="window.ligamasterOpenSocialCardModal('goleadores')" style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; border-radius: var(--radius-sm); white-space: nowrap; box-shadow: 0 2px 8px rgba(229, 27, 36, 0.25);" title="Generar publicación de goleadores para Instagram / WhatsApp">
+            <span style="font-size: 1rem;">📸</span> Publicar Goleadores
           </button>
         </div>
       </div>
@@ -683,7 +729,8 @@
         <button class="stats-pill-btn" data-stat-category="asistencias">Asistencias</button>
         <button class="stats-pill-btn" data-stat-category="amarillas">Tarjetas Amarillas</button>
         <button class="stats-pill-btn" data-stat-category="rojas">Tarjetas Rojas</button>
-        <button class="stats-pill-btn" data-stat-category="porteros">Porteros</button>
+        <button class="stats-pill-btn" data-stat-category="porteros">Porteros (Valla Menos Batida)</button>
+        <button class="stats-pill-btn" data-stat-category="fairplay">Fair Play Clubes</button>
       </div>
 
       <!-- Tabla Estadística de Alto Rendimiento -->
@@ -737,6 +784,38 @@
     <!-- Vista 10: Panel Administrativo & Backoffice Institucional -->
     <section class="platform-view" id="admin-view" role="tabpanel" aria-labelledby="nav-btn-admin">
       <!-- Renderizado dinámico desde admin.js -->
+    </section>
+
+    <!-- Vista 11: Modo Turno de Cancha & Marcadores en Vivo -->
+    <section class="platform-view" id="turno-view" role="tabpanel" aria-label="Modo Turno de Cancha">
+      <div class="content-header" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div class="official-venue-selector-btn" title="Sedes y Recintos Deportivos Oficiales de la Asociación">
+            <span class="official-venue-tag">ANFA ARAUCO</span>
+            <div style="display: flex; flex-direction: column;">
+              <span class="official-venue-title">Mesa Arbitral & Recintos Oficiales</span>
+              <span class="official-venue-subtitle">Estadio Municipal Ramón Burgos • Estadio Sebastián Gaete</span>
+            </div>
+          </div>
+          <h1 class="view-title" style="margin: 0; color: #0f172a;">
+            Modo Turno de Cancha
+          </h1>
+          <p class="view-subtitle" style="margin: 0.35rem 0 0 0; max-width: 780px;">
+            Mesa de control y registro oficial en terreno para los estadios de Arauco. Seguimiento en vivo minuto a minuto y notificaciones instantáneas al celular.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-primary-coral" onclick="window.ligamasterTestTurnoNudge()" style="padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800; background: linear-gradient(135deg, #0284c7, #0369a1); border: none; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">
+            <span>⚽ Probar Notificación de Gol</span>
+          </button>
+          <button type="button" class="btn-outline-coral" onclick="window.ligamasterOpenNotifsModal()" style="padding: 0.5rem 0.95rem; font-size: 0.82rem; font-weight: 800;">
+            <span>⚙️ Ajustes Notificaciones</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Contenedor dinámico poblado por renderTurnoView() -->
+      <div id="turno-view-content"></div>
     </section>
 
   </main>
@@ -1307,7 +1386,7 @@
           </div>
           <div>
             <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; margin: 0; color: #ffffff; letter-spacing: 0.2px;">
-              Estudio de Placas Gráficas • Redes Sociales
+              Estudio de Publicaciones • Redes Sociales
             </h3>
             <p style="font-size: 0.74rem; color: #94a3b8; margin: 0.15rem 0 0;">
               Genera imágenes oficiales en Ultra-HD (1080p) listas para publicar en Instagram, WhatsApp y Prensa
@@ -1325,7 +1404,7 @@
           
           <!-- 1. Selector de Plantilla -->
           <div class="studio-control-group">
-            <label class="studio-control-label">1. TIPO DE PLACA</label>
+            <label class="studio-control-label">1. TIPO DE PUBLICACIÓN</label>
             <div class="studio-template-grid">
               <button type="button" class="studio-template-pill active" data-template="resultados">
                 <span class="pill-icon">⚽</span>
@@ -1346,6 +1425,11 @@
                 <span class="pill-icon">🎯</span>
                 <span class="pill-title">Goleadores</span>
                 <span class="pill-sub">Top 5 Anotadores</span>
+              </button>
+              <button type="button" class="studio-template-pill" data-template="programacion" style="grid-column: span 2;">
+                <span class="pill-icon">📅</span>
+                <span class="pill-title">Programación Oficial</span>
+                <span class="pill-sub">Cartelera y Horarios de la Fecha</span>
               </button>
             </div>
           </div>
@@ -1427,6 +1511,66 @@
             </div>
           </div>
 
+          <!-- 5. Fotografía & Fondo de Placa -->
+          <div class="studio-control-group">
+            <label class="studio-control-label">5. FOTOGRAFÍA & FONDO DE PLACA</label>
+            
+            <!-- Selector de Modo de Color (Paleta vs Color Original) -->
+            <div style="margin-bottom: 0.65rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700;">TRATAMIENTO DE COLOR:</span>
+                <span id="studio-colormode-hint" style="font-size: 0.68rem; color: #ff6b72; font-weight: 700;">🎨 Teñido de la Placa</span>
+              </div>
+              <div class="studio-colormode-grid">
+                <button type="button" class="studio-colormode-btn active" data-colormode="theme" id="btn-colormode-theme" title="Aplica la paleta y tonos del tema broadcast a la fotografía">
+                  <span class="colormode-icon">🎨</span>
+                  <div class="colormode-text">
+                    <strong>Paleta de la Placa</strong>
+                    <small>Teñido monocromático</small>
+                  </div>
+                </button>
+                <button type="button" class="studio-colormode-btn" data-colormode="original" id="btn-colormode-original" title="Mantiene los colores vivos reales de la foto con filtro de contraste inteligente">
+                  <span class="colormode-icon">📸</span>
+                  <div class="colormode-text">
+                    <strong>Color Original</strong>
+                    <small>Foto natural + contraste</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Galería de Fondos Disponibles -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700;">SELECCIONAR FOTO DE FONDO:</span>
+              <label for="studio-upload-bg-input" class="studio-upload-label" style="cursor: pointer; font-size: 0.72rem; color: #38bdf8; font-weight: 700; display: inline-flex; align-items: center; gap: 0.25rem;">
+                <span>📁 Subir propia</span>
+                <input type="file" id="studio-upload-bg-input" accept="image/*" style="display: none;">
+              </label>
+            </div>
+            
+            <div class="studio-bg-grid" id="studio-bg-grid">
+              <!-- Se puebla dinámicamente con las fotos oficiales y opciones -->
+            </div>
+          </div>
+
+          <!-- 6. Auspiciadores en esta publicación -->
+          <div class="studio-control-group">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+              <label class="studio-control-label" style="margin-bottom: 0;">6. AUSPICIADORES EN ESTA PUBLICACIÓN</label>
+              <div style="display: flex; gap: 0.5rem; font-size: 0.72rem;">
+                <button type="button" id="studio-sponsors-select-all" style="background: none; border: none; color: #4ade80; cursor: pointer; font-weight: 700;">✓ Todos</button>
+                <span style="color: #475569;">|</span>
+                <button type="button" id="studio-sponsors-select-none" style="background: none; border: none; color: #f87171; cursor: pointer; font-weight: 700;">✗ Ninguno</button>
+              </div>
+            </div>
+            <p style="font-size: 0.72rem; color: #94a3b8; margin: 0 0 0.5rem 0;">
+              Elige qué marcas patrocinadoras incluir al pie de esta placa:
+            </p>
+            <div id="studio-sponsors-checklist" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 160px; overflow-y: auto; padding-right: 0.25rem;">
+              <!-- Se puebla dinámicamente con los auspiciadores vigentes -->
+            </div>
+          </div>
+
         </div>
 
         <!-- Panel Derecho: Vista Previa en Vivo -->
@@ -1479,6 +1623,92 @@
     </div>
   </div>
 
+  <!-- Modal 7: Administrador - Edición de Marcadores de Liguilla -->
+  <div class="modal-overlay" id="modal-edit-playoff">
+    <div class="modal-card" style="max-width: 500px; padding: 1.5rem; background: var(--color-bg-elevated); border-radius: var(--radius-md); box-shadow: var(--shadow-modal);">
+      <div class="modal-header-bar" style="border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="edit-playoff-title" style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; color: var(--color-text-main);">
+          Editar Marcador de Liguilla
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-edit-playoff').classList.remove('active')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+        Modifica los resultados oficiales de la llave. El ganador avanzará automáticamente a la siguiente ronda del cuadro eliminatorio.
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; background: var(--color-bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm);">
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary); margin-bottom: 0.25rem;">Club Local</label>
+          <strong id="edit-playoff-home-name" style="font-size: 0.85rem; color: var(--color-text-main); display: block;">Local</strong>
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary); margin-bottom: 0.25rem;">Club Visita</label>
+          <strong id="edit-playoff-away-name" style="font-size: 0.85rem; color: var(--color-text-main); display: block;">Visita</strong>
+        </div>
+      </div>
+
+      <!-- Partido de Ida -->
+      <div style="margin-bottom: 0.85rem;">
+        <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.35rem;">Marcador Partido de Ida (o Partido Único)</label>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <input type="number" id="edit-playoff-home-leg1" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 800;" placeholder="Goles">
+          <span style="font-weight: 800; color: var(--color-text-muted);">-</span>
+          <input type="number" id="edit-playoff-away-leg1" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 800;" placeholder="Goles">
+          <small style="font-size: 0.72rem; color: var(--color-text-muted); margin-left: 0.5rem;">(Dejar vacío si no se ha jugado)</small>
+        </div>
+      </div>
+
+      <!-- Partido de Vuelta -->
+      <div style="margin-bottom: 0.85rem;">
+        <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.35rem;">Marcador Partido de Vuelta (Revancha)</label>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <input type="number" id="edit-playoff-home-leg2" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 800;" placeholder="Goles">
+          <span style="font-weight: 800; color: var(--color-text-muted);">-</span>
+          <input type="number" id="edit-playoff-away-leg2" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 800;" placeholder="Goles">
+          <small style="font-size: 0.72rem; color: var(--color-text-muted); margin-left: 0.5rem;">(Solo llaves ida/vuelta)</small>
+        </div>
+      </div>
+
+      <!-- Penales si aplica -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.35rem;">Definición por Penales (Opcional en caso de empate global)</label>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <input type="number" id="edit-playoff-pen-home" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-weight: 700;" placeholder="Penales">
+          <span style="font-weight: 800; color: var(--color-text-muted);">-</span>
+          <input type="number" id="edit-playoff-pen-away" min="0" max="99" class="series-select" style="width: 80px; text-align: center; font-weight: 700;" placeholder="Penales">
+        </div>
+      </div>
+
+      <!-- Estado y Ganador Forzado -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.3rem;">Estado de la Llave</label>
+          <select id="edit-playoff-status" class="series-select" style="width: 100%;">
+            <option value="finalizado">Finalizado</option>
+            <option value="en_disputa">En Disputa</option>
+            <option value="programado">Programado</option>
+          </select>
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.3rem;">Ganador / Clasificado</label>
+          <select id="edit-playoff-winner" class="series-select" style="width: 100%;">
+            <!-- Opciones inyectadas dinámicamente -->
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.65rem;">
+        <button type="button" class="btn-outline-coral" onclick="document.getElementById('modal-edit-playoff').classList.remove('active')">
+          Cancelar
+        </button>
+        <button type="button" class="btn-primary-coral" onclick="window.ligamasterSaveEditPlayoff()">
+          Guardar Cambios Oficiales
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal 6: Menú Móvil Lateral (Drawer) -->
   <div class="modal-overlay" id="modal-mobile-menu">
     <div class="modal-window" style="max-width: 320px; height: 100vh; max-height: 100vh; border-radius: 0; margin-left: auto; margin-right: 0;">
@@ -1497,12 +1727,154 @@
           <button class="platform-nav-link" data-nav="standings-view" onclick="window.ligamasterNavigate('standings-view')" style="width: 100%; text-align: left;">Tabla</button>
           <button class="platform-nav-link" data-nav="stats-view" onclick="window.ligamasterNavigate('stats-view')" style="width: 100%; text-align: left;">Estadísticas</button>
           <button class="platform-nav-link" data-nav="news-view" onclick="window.ligamasterNavigate('news-view')" style="width: 100%; text-align: left;">Noticias</button>
-          <button class="platform-nav-link" onclick="window.closeModal('modal-mobile-menu'); window.ligamasterOpenSocialCardModal();" style="width: 100%; text-align: left; color: #f59e0b; font-weight: 800;">📱 Placas Redes Sociales</button>
+          <button class="platform-nav-link" data-nav="turno-view" onclick="window.closeModal('modal-mobile-menu'); window.ligamasterNavigate('turno-view')" style="width: 100%; text-align: left; color: #22c55e; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <span>⏱️ Mesa de Turno (Canchas en Vivo)</span>
+          </button>
+          <button class="platform-nav-link" onclick="window.closeModal('modal-mobile-menu'); window.ligamasterOpenNotifsModal();" style="width: 100%; text-align: left; color: #38bdf8; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🔔 Mis Alertas (Estilo OneFootball)</span>
+          </button>
+          <button class="platform-nav-link" onclick="window.closeModal('modal-mobile-menu'); window.ligamasterOpenSocialCardModal();" style="width: 100%; text-align: left; color: #f59e0b; font-weight: 800;">📱 Publicar en Redes</button>
           <button class="platform-nav-link" data-nav="admin-view" id="mobile-btn-admin" onclick="window.ligamasterNavigate('admin-view')" style="width: 100%; text-align: left; color: var(--color-primary); font-weight: 800;">⚙️ Panel Administrativo</button>
         </nav>
       </div>
     </div>
   </div>
+
+  <!-- Modal: Centro de Ajustes de Notificaciones (Estilo OneFootball) -->
+  <div class="modal-overlay" id="modal-notification-settings" style="z-index: 100025;">
+    <div class="modal-window" style="max-width: 520px; width: 92%; max-height: 90vh; overflow-y: auto; padding: 1.25rem 1.5rem; background: #0f172a; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 25px 60px rgba(0,0,0,0.95);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">🔔</span>
+          <h3 style="margin: 0; font-size: 1.1rem; font-weight: 900; color: #ffffff;">Centro de Alertas de Gol</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="window.ligamasterCloseNotifsModal()" style="background: none; border: none; font-size: 1.6rem; line-height: 1; color: #94a3b8; cursor: pointer;">&times;</button>
+      </div>
+      <div id="notification-settings-modal-body">
+        <!-- Renderizado dinámico desde js/notifications.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8: Consola Táctil de Turno (Mesa de Cancha en Pantalla Completa) -->
+  <div class="modal-overlay" id="modal-turno-console" style="z-index: 100030;">
+    <div class="modal-window turno-console-window" style="max-width: 760px; width: 95%; max-height: 92vh; overflow-y: auto; padding: 1.25rem 1.5rem; background: #0b1120; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 25px 60px rgba(0,0,0,0.9);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.3rem;">⏱️</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 900; color: #ffffff;">Mesa de Turno • Control en Cancha</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="window.ligamasterCloseTurnoConsole()" style="background: none; border: none; font-size: 1.8rem; line-height: 1; color: #94a3b8; cursor: pointer;">&times;</button>
+      </div>
+      <div id="turno-console-modal-body">
+        <!-- Contenido dinámico inyectado por renderTurnoConsoleModal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9: Selector Rápido de Goleador -->
+  <div class="modal-overlay" id="modal-turno-goal-picker" style="z-index: 100050;">
+    <div class="modal-window" style="max-width: 480px; width: 92%; padding: 1.25rem 1.35rem; background: #0f172a; border-radius: 14px; border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.95); color: #ffffff;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <h4 id="goal-picker-title" style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">
+          ⚽ Registrar Gol
+        </h4>
+        <button type="button" onclick="window.ligamasterCloseGoalModal()" style="background: none; border: none; font-size: 1.5rem; line-height: 1; color: #94a3b8; cursor: pointer;">&times;</button>
+      </div>
+
+      
+      <div style="margin-bottom: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.5rem 0.75rem; border-radius: 8px;">
+        <strong id="goal-picker-club-name" style="color: #38bdf8; font-size: 0.95rem;">Club</strong>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <label style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Minuto:</label>
+          <input type="number" id="goal-picker-minute-input" min="1" max="130" value="1" style="width: 58px; text-align: center; font-weight: 800; background: #1e293b; color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 0.25rem;">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 0.85rem;">
+        <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.3rem;">Tipo de Jugada:</label>
+        <select id="goal-picker-type-select" class="series-select" style="width: 100%; font-size: 0.85rem;">
+          <option value="jugada" selected>⚽ Jugada Normal</option>
+          <option value="penal">🎯 Tiro Penal</option>
+          <option value="tiro_libre">🚀 Tiro Libre Directo</option>
+          <option value="cabeza">👤 Cabezazo</option>
+          <option value="autogol">⚠️ Autogol</option>
+        </select>
+      </div>
+
+      <div id="goal-picker-players-list">
+        <!-- Lista de futbolistas con dorsal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       BARRA DE NAVEGACIÓN INFERIOR MÓVIL (MOBILE BOTTOM NAVIGATION BAR)
+       Diseñada según ergonomía del pulgar (Thumb Zone) estilo OneFootball / Sofascore
+       ==================================================================== -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Navegación Móvil Principal">
+    <div class="mobile-bottom-nav-inner">
+      
+      <!-- 1. Inicio -->
+      <button type="button" class="mobile-bottom-nav-item active" data-nav="home-view" title="Inicio">
+        <div class="nav-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+        <span class="nav-label">Inicio</span>
+      </button>
+
+      <!-- 2. Partidos (Resultados & Calendario) -->
+      <button type="button" class="mobile-bottom-nav-item" data-nav="results-view" title="Partidos">
+        <div class="nav-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+            <path d="M2 12h20"></path>
+          </svg>
+        </div>
+        <span class="nav-label">Partidos</span>
+      </button>
+
+      <!-- 3. Turno Cancha (Destacado central con punto verde de En Vivo) -->
+      <button type="button" class="mobile-bottom-nav-item item-turno-spotlight" data-nav="turno-view" title="Modo Turno de Cancha">
+        <div class="nav-icon-box spotlight-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span class="spotlight-live-dot"></span>
+        </div>
+        <span class="nav-label">Turno</span>
+      </button>
+
+      <!-- 4. Tablas (Posiciones) -->
+      <button type="button" class="mobile-bottom-nav-item" data-nav="standings-view" title="Tabla de Posiciones">
+        <div class="nav-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <span class="nav-label">Tablas</span>
+      </button>
+
+      <!-- 5. Alertas (Estilo OneFootball) -->
+      <button type="button" class="mobile-bottom-nav-item" onclick="window.ligamasterOpenNotifsModal()" title="Alertas de Goles">
+        <div class="nav-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </div>
+        <span class="nav-label">Alertas</span>
+      </button>
+
+    </div>
+  </nav>
 
   <script>
     // Inicializador seguro global para el Estudio de Placas
@@ -1515,7 +1887,8 @@
     };
   </script>
   <!-- JavaScript de Alto Rendimiento y Universal (Compatible con file://, HTTP y GitHub Pages) -->
-  <script src="js/bundle.js?v=20261003_v5"></script>
+  <script src="js/bundle.js?v=20261007_v5"></script>
 
 </body>
 </html>
+

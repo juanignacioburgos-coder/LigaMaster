@@ -21,3 +21,4 @@ query_api2.py
 search_mevt.py
 test_copa_endpoints.py
 analyze_dart.py
+tests/*.png

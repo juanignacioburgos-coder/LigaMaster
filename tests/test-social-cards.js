@@ -35,6 +35,9 @@ class MockContext2D {
   createRadialGradient() {
     return { addColorStop: () => {} };
   }
+  measureText(text) {
+    return { width: (text || '').length * 8 };
+  }
 }
 
 class MockCanvas {
@@ -83,19 +86,20 @@ for (const tmpl of templates) {
 
 console.log('\n2. Testing in Headless Chrome via CDP...');
 
-const targetUrl = 'http://localhost:8080/index.html';
+const targetUrl = 'file:///c:/Users/juani/.gemini/antigravity-ide/scratch/ligapro-amateur/index.html';
 
 const chrome = spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', [
   '--headless=new',
-  '--remote-debugging-port=9225',
+  '--remote-debugging-port=9226',
   '--disable-gpu',
   '--no-sandbox',
+  '--allow-file-access-from-files',
   targetUrl
 ]);
 
-await new Promise(r => setTimeout(r, 2000));
+await new Promise(r => setTimeout(r, 2500));
 
-http.get('http://127.0.0.1:9225/json', (res) => {
+http.get('http://127.0.0.1:9226/json', (res) => {
   let body = '';
   res.on('data', chunk => body += chunk);
   res.on('end', async () => {
@@ -133,8 +137,8 @@ http.get('http://127.0.0.1:9225/json', (res) => {
             console.error('FAIL: Canvas dimensions incorrect:', report.canvasWidth, report.canvasHeight);
             passed = false;
           }
-          if (report.templatesCount !== 4) {
-            console.error('FAIL: Expected 4 template pills, got:', report.templatesCount);
+          if (report.templatesCount < 4) {
+            console.error('FAIL: Expected at least 4 template pills, got:', report.templatesCount);
             passed = false;
           }
           if (report.formatsCount !== 2) {

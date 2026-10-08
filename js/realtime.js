@@ -106,7 +106,7 @@ function handleIncomingSyncMessage(event) {
 function handleRealtimeGoal(payload) {
   const { playerName, playerNumber, matchTitle, score } = payload;
 
-  // 1. Disparar celebración visual (Zumbido MSN + Overlay de Golazo)
+  // 1. Disparar celebración visual de Golazo (Balón entrando al arco)
   document.dispatchEvent(new CustomEvent('ligapro:goal-scored', {
     detail: {
       playerName: playerName || 'Jugador',

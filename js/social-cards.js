@@ -12,9 +12,33 @@
 import { getDb, getActiveLeagueId, getLeagueById } from './data.js';
 import { getClubBadgeSvg } from './badges.js';
 import { showToast } from './toast.js';
+import { resolveBrandLogo } from './sponsors-data.js';
+import { OFFICIAL_BACKGROUNDS, getBackgroundById } from './backgrounds-data.js';
 
 // Cache de imágenes SVG de escudos para evitar recreación innecesaria
 const badgeImageCache = new Map();
+// Cache de fotos de fondo (Data URLs) para acelerar dibujo instantáneo en Canvas
+const bgImageCache = new Map();
+
+/**
+ * Carga una imagen desde Data URL con soporte de memoria cache
+ */
+export function loadDataUrlImage(dataUrl) {
+  if (!dataUrl) return Promise.resolve(null);
+  if (bgImageCache.has(dataUrl)) {
+    return Promise.resolve(bgImageCache.get(dataUrl));
+  }
+  return new Promise((resolve) => {
+    if (typeof Image === 'undefined') return resolve(null);
+    const img = new Image();
+    img.onload = () => {
+      bgImageCache.set(dataUrl, img);
+      resolve(img);
+    };
+    img.onerror = () => resolve(null);
+    img.src = dataUrl;
+  });
+}
 
 /**
  * Convierte un SVG string a Image object para dibujar en Canvas
@@ -117,12 +141,16 @@ export const CARD_THEMES = {
  * Estado del Generador de Placas
  */
 let studioOptions = {
-  template: 'resultados', // 'resultados' | 'tabla' | 'partido' | 'goleadores'
+  template: 'resultados', // 'resultados' | 'tabla' | 'partido' | 'goleadores' | 'programacion'
   format: 'square',       // 'square' (1080x1080) | 'story' (1080x1920)
   seriesId: 'primera_adulta',
   round: 3,
   matchId: null,
-  theme: 'dark-coral'
+  theme: 'dark-coral',
+  selectedSponsorIds: null, // null (todos) o array de IDs seleccionados
+  bgPhoto: 'noche',         // 'noche' | 'dia-panoramica' | 'dia-cielo' | 'fachada' | 'inauguracion' | 'escudo-afa' | 'clasico' | 'custom'
+  bgPhotoMode: 'theme',     // 'theme' (Paleta de la Placa) | 'original' (Color Original / Natural)
+  customBgDataUrl: null     // Si el usuario subió una imagen local
 };
 
 /**
@@ -148,16 +176,142 @@ function roundRect(ctx, x, y, width, height, radius) {
 }
 
 /**
- * Dibuja el fondo broadcast con degradados, luces cinemáticas y textura
+ * Dibuja el fondo broadcast con degradados, fotografías de estadios, tratamiento de color y textura
  */
-function drawBroadcastBackground(ctx, w, h, theme) {
-  // 1. Degradado base vertical
-  const bgGrad = ctx.createLinearGradient(0, 0, w * 0.4, h);
-  bgGrad.addColorStop(0, theme.bgStart);
-  bgGrad.addColorStop(0.5, theme.bgMid);
-  bgGrad.addColorStop(1, theme.bgEnd);
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, w, h);
+async function drawBroadcastBackground(ctx, w, h, theme, db, options = {}) {
+  const mergedOpts = { ...studioOptions, ...options };
+  const bgPhotoId = mergedOpts.bgPhoto || 'noche';
+  const colorMode = mergedOpts.bgPhotoMode || 'theme'; // 'theme' | 'original'
+
+  // Resolver foto
+  let bgItem = null;
+  if (bgPhotoId === 'custom' && mergedOpts.customBgDataUrl) {
+    bgItem = { id: 'custom', name: 'Foto Personalizada', category: 'stadium', dataUrl: mergedOpts.customBgDataUrl };
+  } else if (bgPhotoId !== 'clasico') {
+    bgItem = getBackgroundById(bgPhotoId);
+  }
+
+  // Fallback si no hay foto seleccionada pero la liga tiene stadiumBase64
+  let photoDataUrl = bgItem?.dataUrl || (bgPhotoId !== 'clasico' ? db?.leagueInfo?.stadiumBase64 : null);
+  let isCrestOnly = bgItem?.category === 'crest';
+
+  let bgDrawn = false;
+
+  if (photoDataUrl && typeof Image !== 'undefined') {
+    try {
+      const img = await loadDataUrlImage(photoDataUrl);
+      if (img && img.width > 0) {
+        if (isCrestOnly) {
+          // Si el fondo seleccionado es el Escudo Oficial AFA
+          // 1. Base sólida broadcast degradada
+          const baseGrad = ctx.createLinearGradient(0, 0, w * 0.4, h);
+          baseGrad.addColorStop(0, theme.bgStart);
+          baseGrad.addColorStop(0.5, theme.bgMid);
+          baseGrad.addColorStop(1, theme.bgEnd);
+          ctx.fillStyle = baseGrad;
+          ctx.fillRect(0, 0, w, h);
+
+          // 2. Escudo centrado en el fondo
+          const crestW = Math.min(w * 0.70, 720);
+          const scale = crestW / img.width;
+          const drawW = img.width * scale;
+          const drawH = img.height * scale;
+          const drawX = (w - drawW) / 2;
+          const drawY = (h - drawH) / 2 + 15;
+
+          ctx.save();
+          if (colorMode === 'original') {
+            // MODO B: Color Original vivo del Escudo Oficial AFA
+            ctx.globalAlpha = 0.35;
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+          } else {
+            // MODO A: Paleta de la Placa (Teñido monocromático con el tema)
+            ctx.globalAlpha = 0.22;
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+            ctx.globalCompositeOperation = 'source-atop';
+            ctx.fillStyle = theme.accent;
+            ctx.globalAlpha = 0.50;
+            ctx.fillRect(drawX, drawY, drawW, drawH);
+          }
+          ctx.restore();
+          bgDrawn = true;
+        } else {
+          // Fondo de Estadio (Foto real de canchas, tribunas, público o fachada)
+          const scale = Math.max(w / img.width, h / img.height);
+          const drawW = img.width * scale;
+          const drawH = img.height * scale;
+          const drawX = (w - drawW) / 2;
+          const drawY = (h - drawH) / 2;
+
+          ctx.save();
+          if (colorMode === 'original') {
+            // MODO B: COLOR ORIGINAL / NATURAL (Cielo azul, césped verde, tribunas auténticas)
+            // 1. Dibujar fotografía nítida
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+
+            // 2. Scrim cinematográfico multicapa para garantizar contraste perfecto y legibilidad total
+            ctx.fillStyle = 'rgba(5, 10, 20, 0.52)';
+            ctx.fillRect(0, 0, w, h);
+
+            // Gradiente superior para cabecera oficial
+            const topGrad = ctx.createLinearGradient(0, 0, 0, 320);
+            topGrad.addColorStop(0, 'rgba(5, 9, 17, 0.88)');
+            topGrad.addColorStop(1, 'rgba(5, 9, 17, 0.0)');
+            ctx.fillStyle = topGrad;
+            ctx.fillRect(0, 0, w, 320);
+
+            // Scrim central detrás de las tarjetas y tabla
+            const midGrad = ctx.createRadialGradient(w / 2, h * 0.50, 80, w / 2, h * 0.50, w * 0.65);
+            midGrad.addColorStop(0, 'rgba(7, 12, 24, 0.68)');
+            midGrad.addColorStop(1, 'rgba(5, 9, 17, 0.38)');
+            ctx.fillStyle = midGrad;
+            ctx.fillRect(0, 160, w, h - 320);
+
+            // Gradiente inferior para auspiciadores
+            const botGrad = ctx.createLinearGradient(0, h - 230, 0, h);
+            botGrad.addColorStop(0, 'rgba(5, 9, 17, 0.0)');
+            botGrad.addColorStop(1, 'rgba(5, 9, 17, 0.94)');
+            ctx.fillStyle = botGrad;
+            ctx.fillRect(0, h - 230, w, 230);
+          } else {
+            // MODO A: PALETA DE LA PLACA (TEÑIDO BROADCAST SEGÚN EL TEMA ELEGIDO)
+            // 1. Foto base con opacidad controlada
+            ctx.globalAlpha = 0.44;
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+
+            // 2. Capa base de tinte para asimilar el estadio a la paleta del tema
+            ctx.globalAlpha = 0.78;
+            ctx.fillStyle = theme.bgStart;
+            ctx.fillRect(0, 0, w, h);
+
+            // 3. Gradiente direccional con el tono medio y final del tema
+            ctx.globalAlpha = 0.55;
+            const themeGrad = ctx.createLinearGradient(0, 0, w * 0.5, h);
+            themeGrad.addColorStop(0, theme.bgStart);
+            themeGrad.addColorStop(0.5, theme.bgMid);
+            themeGrad.addColorStop(1, theme.bgEnd);
+            ctx.fillStyle = themeGrad;
+            ctx.fillRect(0, 0, w, h);
+          }
+          ctx.restore();
+          bgDrawn = true;
+        }
+      }
+    } catch (e) {
+      bgDrawn = false;
+    }
+  }
+
+  // Si no se dibujó foto (ej: Fondo Clásico o error de carga)
+  if (!bgDrawn) {
+    const bgGrad = ctx.createLinearGradient(0, 0, w * 0.4, h);
+    bgGrad.addColorStop(0, theme.bgStart);
+    bgGrad.addColorStop(0.5, theme.bgMid);
+    bgGrad.addColorStop(1, theme.bgEnd);
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, w, h);
+  }
 
   // 2. Halo radial superior
   const radialGrad = ctx.createRadialGradient(w / 2, 80, 20, w / 2, 80, w * 0.7);
@@ -168,7 +322,7 @@ function drawBroadcastBackground(ctx, w, h, theme) {
 
   // 3. Luces angulares de estadio / TV broadcast (speed stripes)
   ctx.save();
-  ctx.globalAlpha = 0.035;
+  ctx.globalAlpha = colorMode === 'original' ? 0.02 : 0.035;
   ctx.strokeStyle = '#ffffff';
   ctx.lineWidth = 14;
   for (let i = -w; i < w * 2; i += 70) {
@@ -181,7 +335,7 @@ function drawBroadcastBackground(ctx, w, h, theme) {
 
   // 4. Marco exterior sutil
   ctx.save();
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
   ctx.lineWidth = 2;
   ctx.strokeRect(20, 20, w - 40, h - 40);
 
@@ -269,7 +423,7 @@ async function drawClubBadge(ctx, clubId, club, x, y, size) {
 /**
  * Dibuja el Header oficial de la placa
  */
-function drawCardHeader(ctx, w, league, seriesName, categoryTitle, subtitle, theme) {
+async function drawCardHeader(ctx, w, league, seriesName, categoryTitle, subtitle, theme) {
   ctx.save();
 
   // 1. Barra superior de Plataforma
@@ -293,6 +447,21 @@ function drawCardHeader(ctx, w, league, seriesName, categoryTitle, subtitle, the
   ctx.fillText('LIGA', pillX + pillW / 2 - 28, pillY + pillH / 2);
   ctx.fillStyle = theme.accent;
   ctx.fillText('MASTER', pillX + pillW / 2 + 14, pillY + pillH / 2);
+
+  // Escudo Liga
+  if (league.logoBase64 && typeof Image !== 'undefined') {
+    try {
+      const crestImg = await new Promise((res, rej) => {
+        const img = new Image();
+        img.onload = () => res(img);
+        img.onerror = rej;
+        img.src = league.logoBase64;
+      });
+      if (crestImg.width > 0) {
+        ctx.drawImage(crestImg, pillX + pillW + 15, pillY - 4, 42, 42);
+      }
+    } catch {}
+  }
 
   // 2. Asociación Oficial
   ctx.font = "800 20px 'Outfit', -apple-system, sans-serif";
@@ -341,13 +510,25 @@ function drawCardHeader(ctx, w, league, seriesName, categoryTitle, subtitle, the
 /**
  * Dibuja el Footer con Patrocinadores Oficiales y Marca
  */
-function drawCardFooter(ctx, w, h, theme) {
+async function drawCardFooter(ctx, w, h, theme, db, contentEndY = null, options = null) {
   ctx.save();
 
-  const footerY = h - 90;
+  const isStory = h > w;
+  const minFooterH = isStory ? 220 : 140;
+  const idealFooterH = isStory ? 260 : 165;
 
+  let footerY = h - idealFooterH;
+  if (contentEndY) {
+    // Si el contenido termina más abajo que el ideal, empujamos el footer hacia abajo,
+    // pero asegurando que conserve al menos minFooterH para no aplastarse ni cortarse
+    footerY = Math.max(footerY, contentEndY + 15);
+    footerY = Math.min(footerY, h - minFooterH);
+  }
+
+  const bottomPadding = isStory ? 45 : 25; // Espacio inferior para marca de agua
+  
   // Línea separadora
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(40, footerY);
@@ -355,22 +536,132 @@ function drawCardFooter(ctx, w, h, theme) {
   ctx.stroke();
 
   // Tira de Auspiciadores Oficiales
-  ctx.font = "800 11px 'Inter', sans-serif";
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+  const titleY = footerY + (isStory ? 18 : 10);
+  ctx.font = `800 ${isStory ? 18 : 13}px 'Inter', sans-serif`;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
-  ctx.fillText('PATROCINADORES OFICIALES', w / 2, footerY + 10);
+  ctx.fillText('PATROCINADORES OFICIALES', w / 2, titleY);
 
-  // Logos de Patrocinadores (Texto estilizado broadcast)
-  ctx.font = "900 13px 'Outfit', sans-serif";
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-  const sponsorsStr = "PUMA   •   ENTEL   •   BETSSON   •   BANCOESTADO   •   CRISTAL   •   POWERADE";
-  ctx.fillText(sponsorsStr, w / 2, footerY + 28);
+  // Logos o Nombres de Patrocinadores (Filtrados si el usuario seleccionó sponsors específicos)
+  let sponsors = db?.sponsors || [];
+  if (options?.selectedSponsorIds && Array.isArray(options.selectedSponsorIds)) {
+    sponsors = sponsors.filter(sp => options.selectedSponsorIds.includes(sp.id));
+  }
+  
+  if (sponsors.length === 0) {
+    const noticeY = titleY + (isStory ? 28 : 18);
+    ctx.font = `600 ${isStory ? 14 : 11}px 'Inter', sans-serif`;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText('Espacio Publicitario Reservado • Asociación Oficial', w / 2, noticeY);
+  } else {
+    const logoBoxY = titleY + (isStory ? 28 : 18);
+    let maxBlockH = (h - bottomPadding) - logoBoxY - 18; // Espacio vertical total disponible
+    maxBlockH = Math.max(35, maxBlockH);
+
+    // Altura base del bloque: darles tamaño destacado y visible
+    let blockH = Math.min(maxBlockH, isStory ? 160 : 95);
+
+    // Precargar todas las imágenes garantizando que CADA marca tenga su logo vectorial oficial
+    const loadedImages = await Promise.all(sponsors.map(async (sp) => {
+      const src = sp.logoBase64 || resolveBrandLogo(sp.name);
+      if (!src || typeof Image === 'undefined') return null;
+      try {
+        return await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => resolve(null);
+          img.src = src;
+        });
+      } catch (e) {
+        return null;
+      }
+    }));
+
+    // Función que calcula el layout con texto debajo del logo
+    const computeLayout = (bH) => {
+      let tW = 0;
+      const gapLogoText = 6; // Espacio vertical entre el logo y el nombre de la marca
+      const fSz = Math.max(11, Math.min(14, Math.floor(bH * 0.17))); // Tamaño de fuente del nombre
+      const gapSpons = Math.max(22, Math.min(50, Math.floor(bH * 0.45))); // Separación horizontal entre marcas
+      
+      const imgH = Math.max(24, bH - gapLogoText - fSz); // El alto del logo es lo que sobra del bloque
+      ctx.font = `900 ${fSz}px 'Outfit', sans-serif`;
+      
+      const blocks = [];
+      for (let i = 0; i < sponsors.length; i++) {
+        const sp = sponsors[i];
+        const img = loadedImages[i];
+        
+        let imgW = 0;
+        if (img && img.height > 0) {
+          imgW = imgH * (img.width / img.height);
+        } else {
+          imgW = imgH * 2.2;
+        }
+        
+        let textW = 0;
+        if (sp.name && sp.name.trim()) {
+          textW = typeof ctx.measureText === 'function' ? ctx.measureText(sp.name.trim()).width : (sp.name.trim().length * 7);
+        }
+        
+        const blockW = Math.max(imgW, textW, 40);
+        tW += blockW;
+        blocks.push({ imgW, textW, blockW });
+      }
+      tW += (sponsors.length - 1) * gapSpons;
+      
+      return { tW, imgH, fSz, gapLogoText, gapSpons, blocks };
+    };
+
+    const maxW = w - 80;
+    let layout = computeLayout(blockH);
+
+    // Si nos pasamos del ancho disponible, escalamos proporcionalmente
+    if (layout.tW > maxW) {
+      const scale = maxW / layout.tW;
+      blockH = Math.max(30, blockH * scale);
+      layout = computeLayout(blockH);
+    }
+
+    // Centramos verticalmente todo el bloque de sponsors
+    const actualBlockY = logoBoxY + Math.max(0, (maxBlockH - blockH) / 2);
+    let startX = (w - layout.tW) / 2;
+
+    for (let i = 0; i < sponsors.length; i++) {
+      const sp = sponsors[i];
+      const img = loadedImages[i];
+      const blk = layout.blocks[i];
+      
+      const centerX = startX + blk.blockW / 2;
+      
+      // Dibujar logo centrado en su bloque
+      if (img && blk.imgW > 0) {
+        const imgX = centerX - blk.imgW / 2;
+        ctx.drawImage(img, imgX, actualBlockY, blk.imgW, layout.imgH);
+      }
+      
+      // Dibujar texto de la marca centrado DEBAJO del logo
+      if (sp.name && sp.name.trim()) {
+        ctx.font = `900 ${layout.fSz}px 'Outfit', sans-serif`;
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        const textY = actualBlockY + layout.imgH + layout.gapLogoText;
+        ctx.fillText(sp.name.trim(), centerX, textY);
+      }
+      
+      startX += blk.blockW + layout.gapSpons;
+    }
+  }
 
   // Marca y Sitio
-  ctx.font = "700 12px 'Inter', sans-serif";
+  ctx.font = `700 ${isStory ? 16 : 12}px 'Inter', sans-serif`;
   ctx.fillStyle = theme.accentLight;
-  ctx.fillText('Generado con LigaMaster • ligamaster.cl • Plataforma Oficial del Fútbol Amateur', w / 2, footerY + 54);
+  ctx.textAlign = 'center';
+  ctx.fillText('Generado con LigaMaster • ligamaster.cl • Plataforma Oficial del Fútbol Amateur', w / 2, h - (isStory ? 35 : 20));
 
   ctx.restore();
 }
@@ -402,7 +693,7 @@ async function renderResultadosTemplate(ctx, w, h, db, options, theme) {
   const seriesName = resolveSeriesName(db, seriesId);
   const league = db.leagueInfo || { name: 'Asociación de Fútbol de Arauco' };
 
-  drawCardHeader(
+  await drawCardHeader(
     ctx,
     w,
     league,
@@ -429,10 +720,10 @@ async function renderResultadosTemplate(ctx, w, h, db, options, theme) {
 
   const startY = 225;
   const isStory = options.format === 'story';
-  const availableH = h - 90 - startY - 20;
   const rowCount = Math.max(matches.length, 1);
-  const rowH = Math.min(isStory ? 190 : 124, Math.floor(availableH / rowCount - 16));
-  const rowGap = isStory ? 24 : 14;
+  const rowGap = isStory ? 20 : 12;
+  const maxContentH = isStory ? (1920 - 280 - startY) : (1080 - 175 - startY);
+  const rowH = Math.min(isStory ? 175 : 116, Math.floor((maxContentH - (rowCount - 1) * rowGap) / rowCount));
 
   for (let i = 0; i < matches.length; i++) {
     const m = matches[i];
@@ -519,7 +810,9 @@ async function renderResultadosTemplate(ctx, w, h, db, options, theme) {
     ctx.restore();
   }
 
-  drawCardFooter(ctx, w, h, theme);
+  const contentEndY = startY + matches.length * rowH + Math.max(0, matches.length - 1) * rowGap;
+
+  await drawCardFooter(ctx, w, h, theme, db, contentEndY, options);
 }
 
 /**
@@ -532,7 +825,7 @@ async function renderTablaTemplate(ctx, w, h, db, options, theme) {
   const seriesName = resolveSeriesName(db, seriesId);
   const league = db.leagueInfo || { name: 'Asociación de Fútbol de Arauco' };
 
-  drawCardHeader(
+  await drawCardHeader(
     ctx,
     w,
     league,
@@ -646,16 +939,18 @@ async function renderTablaTemplate(ctx, w, h, db, options, theme) {
     ctx.restore();
   }
 
+  const lastRowBottom = startY + headerH + 10 + rowsToShow.length * rowH + Math.max(0, rowsToShow.length - 1) * rowGap;
+
   // Leyenda de Clasificación
   ctx.save();
-  const legendY = h - 120;
+  const legendY = lastRowBottom + (isStory ? 28 : 16);
   ctx.font = "700 12px 'Inter', sans-serif";
   ctx.fillStyle = '#f59e0b';
   ctx.textAlign = 'center';
   ctx.fillText('● 1º y 2º Clasifican al Torneo Regional de Campeones', w / 2, legendY);
   ctx.restore();
 
-  drawCardFooter(ctx, w, h, theme);
+  await drawCardFooter(ctx, w, h, theme, db, legendY + 20, options);
 }
 
 /**
@@ -682,7 +977,7 @@ async function renderPartidoTemplate(ctx, w, h, db, options, theme) {
   const homeClub = (db.clubs || []).find(c => c.id === match?.homeClubId) || (db.clubs && db.clubs[0]) || { name: 'Local' };
   const awayClub = (db.clubs || []).find(c => c.id === match?.awayClubId) || (db.clubs && db.clubs[1]) || { name: 'Visita' };
 
-  drawCardHeader(
+  await drawCardHeader(
     ctx,
     w,
     league,
@@ -786,7 +1081,8 @@ async function renderPartidoTemplate(ctx, w, h, db, options, theme) {
   });
   ctx.restore();
 
-  drawCardFooter(ctx, w, h, theme);
+  const contentEndY = detailsY + detailsH + 30;
+  await drawCardFooter(ctx, w, h, theme, db, contentEndY, options);
 }
 
 /**
@@ -800,7 +1096,7 @@ async function renderGoleadoresTemplate(ctx, w, h, db, options, theme) {
   const league = db.leagueInfo || { name: 'Asociación de Fútbol de Arauco' };
   const isStory = options.format === 'story';
 
-  drawCardHeader(
+  await drawCardHeader(
     ctx,
     w,
     league,
@@ -877,10 +1173,12 @@ async function renderGoleadoresTemplate(ctx, w, h, db, options, theme) {
     const rowH = Math.min(isStory ? 110 : 78, Math.floor(availableH / rest.length - 12));
     const gap = isStory ? 16 : 10;
 
+    let lastY = startY + card1H; // fallback if no rest
     for (let i = 0; i < rest.length; i++) {
       const p = rest[i];
       const rank = i + 2;
       const y = subStartY + i * (rowH + gap);
+      lastY = y + rowH;
 
       ctx.save();
       roundRect(ctx, 45, y, w - 90, rowH, 12);
@@ -924,9 +1222,171 @@ async function renderGoleadoresTemplate(ctx, w, h, db, options, theme) {
 
       ctx.restore();
     }
+    const contentEndY = lastY + 30;
+    await drawCardFooter(ctx, w, h, theme, db, contentEndY, options);
+  } else {
+    // Fallback if no top scorers
+    await drawCardFooter(ctx, w, h, theme, db, startY + 50, options);
+  }
+}
+
+/**
+ * Formatea fechas para la programación de la fecha (ej: Sáb 12 Oct)
+ */
+function formatScheduleMatchDate(dateStr) {
+  if (!dateStr) return 'Fin de Semana';
+  try {
+    const parts = String(dateStr).split('-');
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const d = new Date(year, month, day);
+      const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const dayName = days[d.getDay()] || 'Dom';
+      const monthName = months[month] || 'Oct';
+      return `${dayName} ${day} ${monthName}`;
+    }
+  } catch (e) {}
+  return String(dateStr);
+}
+
+/**
+ * ============================================================================
+ * PLANTILLA 5: PROGRAMACIÓN DE LA FECHA (Cartelera / Fixture Oficial)
+ * ============================================================================
+ */
+async function renderProgramacionTemplate(ctx, w, h, db, options, theme) {
+  const roundNum = Number(options.round) || 3;
+  const seriesId = options.seriesId || 'primera_adulta';
+  const seriesName = resolveSeriesName(db, seriesId);
+  const league = db.leagueInfo || { name: 'Asociación de Fútbol de Arauco' };
+
+  await drawCardHeader(
+    ctx,
+    w,
+    league,
+    seriesName,
+    `Programación Fecha ${roundNum}`,
+    `Cartelera Oficial • Temporada 2026/27`,
+    theme
+  );
+
+  // Obtener los partidos de la fecha
+  let matches = (db.matches || []).filter(m => {
+    const isRound = String(m.round).includes(String(roundNum));
+    const isSeries = (!m.series && seriesId === 'primera_adulta') || (m.series === seriesId);
+    return isRound && isSeries;
+  });
+
+  // Si no hay partidos de la serie específica, tomar los que haya en la fecha
+  if (matches.length === 0) {
+    matches = (db.matches || []).filter(m => String(m.round).includes(String(roundNum)));
   }
 
-  drawCardFooter(ctx, w, h, theme);
+  // Fallback si no hay partidos cargados: armar emparejamientos representativos con los clubes
+  if (matches.length === 0 && db.clubs && db.clubs.length >= 2) {
+    const clubs = db.clubs;
+    matches = [
+      { id: 'prog-demo-1', homeClubId: clubs[0].id, awayClubId: clubs[1].id, time: '14:30', date: '2026-10-10', venue: clubs[0].stadium || 'Estadio Municipal' },
+      { id: 'prog-demo-2', homeClubId: clubs[2]?.id || clubs[0].id, awayClubId: clubs[3]?.id || clubs[1].id, time: '16:00', date: '2026-10-10', venue: clubs[2]?.stadium || 'Complejo Arauco' },
+      { id: 'prog-demo-3', homeClubId: clubs[4]?.id || clubs[0].id, awayClubId: clubs[5]?.id || clubs[1].id, time: '17:30', date: '2026-10-11', venue: 'Cancha 1 Municipal' }
+    ];
+  }
+
+  // Máximo 5 partidos en la tarjeta
+  matches = matches.slice(0, 5);
+
+  const startY = 225;
+  const isStory = options.format === 'story';
+  const rowCount = Math.max(matches.length, 1);
+  const rowGap = isStory ? 20 : 12;
+  const maxContentH = isStory ? (1920 - 280 - startY) : (1080 - 175 - startY);
+  const rowH = Math.min(isStory ? 175 : 116, Math.floor((maxContentH - (rowCount - 1) * rowGap) / rowCount));
+
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    const y = startY + i * (rowH + rowGap);
+    const homeClub = (db.clubs || []).find(c => c.id === m.homeClubId) || { name: 'Local', shortName: 'Local' };
+    const awayClub = (db.clubs || []).find(c => c.id === m.awayClubId) || { name: 'Visita', shortName: 'Visita' };
+
+    // Tarjeta del Partido
+    ctx.save();
+    roundRect(ctx, 45, y, w - 90, rowH, 14);
+    ctx.fillStyle = theme.cardBg;
+    ctx.fill();
+    ctx.strokeStyle = theme.cardBorder;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Acento lateral izquierdo
+    ctx.fillStyle = theme.accent;
+    ctx.fillRect(45, y + 10, 4, rowH - 20);
+
+    // 1. Equipo Local (Izquierda)
+    const crestSize = isStory ? 80 : 60;
+    await drawClubBadge(ctx, m.homeClubId, homeClub, 115, y + rowH / 2 - (isStory ? 10 : 0), crestSize);
+
+    ctx.font = `800 ${isStory ? 24 : 18}px 'Outfit', sans-serif`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    const homeDisplayName = homeClub.name.replace('Club Deportivo ', '');
+    ctx.fillText(homeDisplayName, 175, y + rowH / 2 - (isStory ? 10 : 0));
+
+    // 2. Bloque Central: Horario & VS
+    const timeBoxW = isStory ? 180 : 150;
+    const timeBoxH = isStory ? 54 : 44;
+    const timeBoxX = (w - timeBoxW) / 2;
+    const timeBoxY = y + (rowH - timeBoxH) / 2 - (isStory ? 8 : 0);
+
+    roundRect(ctx, timeBoxX, timeBoxY, timeBoxW, timeBoxH, 8);
+    ctx.fillStyle = '#060911';
+    ctx.fill();
+    ctx.strokeStyle = theme.accent;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    const timeStr = m.time ? `${m.time} HRS` : '15:30 HRS';
+    ctx.font = `900 ${isStory ? 24 : 19}px 'JetBrains Mono', 'Outfit', monospace`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(timeStr, w / 2, timeBoxY + timeBoxH / 2);
+
+    // Fecha del Partido (Pill superior al horario)
+    const dateFormatted = formatScheduleMatchDate(m.date);
+    ctx.font = `800 ${isStory ? 12 : 10}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.gold || '#f59e0b';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(`📅 ${dateFormatted.toUpperCase()}`, w / 2, timeBoxY - 4);
+
+    // 3. Equipo Visita (Derecha)
+    await drawClubBadge(ctx, m.awayClubId, awayClub, w - 115, y + rowH / 2 - (isStory ? 10 : 0), crestSize);
+
+    ctx.font = `800 ${isStory ? 24 : 18}px 'Outfit', sans-serif`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    const awayDisplayName = awayClub.name.replace('Club Deportivo ', '');
+    ctx.fillText(awayDisplayName, w - 175, y + rowH / 2 - (isStory ? 10 : 0));
+
+    // 4. Cancha / Recinto Deportivo (Subtexto inferior)
+    ctx.font = `600 ${isStory ? 13 : 11}px 'Inter', sans-serif`;
+    ctx.fillStyle = theme.textMuted;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    const stadium = m.venue || m.stadium || homeClub.stadium || 'Estadio Municipal';
+    ctx.fillText(`📍 ${stadium}`, w / 2, timeBoxY + timeBoxH + 4);
+
+    ctx.restore();
+  }
+
+  const contentEndY = startY + matches.length * rowH + Math.max(0, matches.length - 1) * rowGap;
+
+  await drawCardFooter(ctx, w, h, theme, db, contentEndY, options);
 }
 
 /**
@@ -954,7 +1414,7 @@ export async function renderSocialCard(canvas, options = {}) {
   const theme = CARD_THEMES[merged.theme] || CARD_THEMES['dark-coral'];
 
   // 1. Dibujar Fondo Broadcast
-  drawBroadcastBackground(ctx, width, height, theme);
+  await drawBroadcastBackground(ctx, width, height, theme, db, merged);
 
   // 2. Renderizar Plantilla Elegida
   if (merged.template === 'resultados') {
@@ -965,6 +1425,8 @@ export async function renderSocialCard(canvas, options = {}) {
     await renderPartidoTemplate(ctx, width, height, db, merged, theme);
   } else if (merged.template === 'goleadores') {
     await renderGoleadoresTemplate(ctx, width, height, db, merged, theme);
+  } else if (merged.template === 'programacion') {
+    await renderProgramacionTemplate(ctx, width, height, db, merged, theme);
   }
 
   return canvas;
@@ -1132,6 +1594,121 @@ function syncStudioControlsUI() {
   if (matchRow) {
     matchRow.style.display = studioOptions.template === 'partido' ? 'block' : 'none';
   }
+
+  // 5.5 Tratamiento de Color (Paleta vs Color Original)
+  const btnColTheme = document.getElementById('btn-colormode-theme');
+  const btnColOriginal = document.getElementById('btn-colormode-original');
+  const colHint = document.getElementById('studio-colormode-hint');
+  if (btnColTheme && btnColOriginal) {
+    if (studioOptions.bgPhotoMode === 'original') {
+      btnColOriginal.classList.add('active');
+      btnColTheme.classList.remove('active');
+      if (colHint) {
+        colHint.textContent = '📸 Foto Natural + Contraste';
+        colHint.style.color = '#38bdf8';
+      }
+    } else {
+      btnColTheme.classList.add('active');
+      btnColOriginal.classList.remove('active');
+      if (colHint) {
+        colHint.textContent = '🎨 Teñido de la Placa';
+        colHint.style.color = '#ff6b72';
+      }
+    }
+  }
+
+  // 5.6 Galería de Fondos Disponibles
+  const bgGrid = document.getElementById('studio-bg-grid');
+  if (bgGrid) {
+    let cardsHtml = '';
+
+    // Fondos oficiales registrados (estadios y escudo)
+    OFFICIAL_BACKGROUNDS.forEach(bg => {
+      const isAct = studioOptions.bgPhoto === bg.id;
+      cardsHtml += `
+        <div class="studio-bg-card ${isAct ? 'active' : ''}" data-bg-id="${bg.id}" title="${bg.name} - ${bg.subtitle}">
+          <img class="studio-bg-thumb" src="${bg.dataUrl}" alt="${bg.name}">
+          <div class="studio-bg-info">
+            <span class="studio-bg-title">${bg.name}</span>
+            <span class="studio-bg-sub">${bg.subtitle}</span>
+          </div>
+        </div>
+      `;
+    });
+
+    // Fondo Clásico (Degradado puro broadcast sin foto)
+    const isClasico = studioOptions.bgPhoto === 'clasico';
+    cardsHtml += `
+      <div class="studio-bg-card ${isClasico ? 'active' : ''}" data-bg-id="clasico" title="Degradado broadcast de televisión sin foto">
+        <div class="studio-bg-thumb" style="background: linear-gradient(135deg, #090d16 0%, #1e293b 50%, #0f172a 100%); display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:1.2rem;">🎨</div>
+        <div class="studio-bg-info">
+          <span class="studio-bg-title">Fondo Clásico</span>
+          <span class="studio-bg-sub">Degradado TV puro</span>
+        </div>
+      </div>
+    `;
+
+    // Si el usuario subió foto propia
+    if (studioOptions.customBgDataUrl) {
+      const isCustom = studioOptions.bgPhoto === 'custom';
+      cardsHtml += `
+        <div class="studio-bg-card ${isCustom ? 'active' : ''}" data-bg-id="custom" title="Foto personalizada subida por el usuario">
+          <img class="studio-bg-thumb" src="${studioOptions.customBgDataUrl}" alt="Foto Subida">
+          <div class="studio-bg-info">
+            <span class="studio-bg-title">Mi Foto Subida</span>
+            <span class="studio-bg-sub">Personalizada</span>
+          </div>
+        </div>
+      `;
+    }
+
+    bgGrid.innerHTML = cardsHtml;
+  }
+
+  // 6. Auspiciadores Checklist
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  const sponsors = db?.sponsors || [];
+  const checklistContainer = document.getElementById('studio-sponsors-checklist');
+
+  if (checklistContainer) {
+    if (studioOptions.selectedSponsorIds === null) {
+      studioOptions.selectedSponsorIds = sponsors.map(s => s.id);
+    }
+
+    if (sponsors.length === 0) {
+      checklistContainer.innerHTML = '<span style="font-size:0.75rem; color:#64748b; padding:0.4rem;">No hay auspiciadores registrados en la asociación.</span>';
+    } else {
+      checklistContainer.innerHTML = sponsors.map(sp => {
+        const isChecked = studioOptions.selectedSponsorIds.includes(sp.id);
+        return `
+          <label class="studio-sponsor-chip" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.04); border: 1px solid ${isChecked ? 'rgba(229,27,36,0.35)' : 'rgba(255,255,255,0.08)'}; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; transition: all 0.15s;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" class="studio-sponsor-cb" data-sp-id="${sp.id}" ${isChecked ? 'checked' : ''} style="cursor: pointer; accent-color: var(--color-primary, #e51b24);">
+              <span style="font-size: 0.8rem; font-weight: 700; color: #ffffff;">${sp.name}</span>
+            </div>
+            ${sp.logoBase64 ? `<img src="${sp.logoBase64}" style="height: 18px; max-width: 65px; object-fit: contain; filter: brightness(1.2);">` : `<span style="font-size: 0.68rem; color: #94a3b8;">Oficial</span>`}
+          </label>
+        `;
+      }).join('');
+
+      // Listeners para checkboxes
+      checklistContainer.querySelectorAll('.studio-sponsor-cb').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const spId = cb.getAttribute('data-sp-id');
+          if (cb.checked) {
+            if (!studioOptions.selectedSponsorIds.includes(spId)) {
+              studioOptions.selectedSponsorIds.push(spId);
+            }
+          } else {
+            studioOptions.selectedSponsorIds = studioOptions.selectedSponsorIds.filter(id => id !== spId);
+          }
+          const canvas = document.getElementById('social-card-canvas');
+          if (canvas) renderSocialCard(canvas, studioOptions);
+        });
+      });
+    }
+  }
 }
 
 /**
@@ -1183,6 +1760,57 @@ export function initSocialCards() {
       syncStudioControlsUI();
       if (canvas) renderSocialCard(canvas, studioOptions);
     });
+  });
+
+  // Selector de Tratamiento de Color (Paleta vs Color Original)
+  document.querySelectorAll('.studio-colormode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      studioOptions.bgPhotoMode = btn.getAttribute('data-colormode') || 'theme';
+      syncStudioControlsUI();
+      if (canvas) renderSocialCard(canvas, studioOptions);
+    });
+  });
+
+  // Delegación de clic en las tarjetas de foto de fondo
+  document.getElementById('studio-bg-grid')?.addEventListener('click', (e) => {
+    const card = e.target.closest('.studio-bg-card');
+    if (!card) return;
+    const bgId = card.getAttribute('data-bg-id');
+    if (bgId) {
+      studioOptions.bgPhoto = bgId;
+      syncStudioControlsUI();
+      if (canvas) renderSocialCard(canvas, studioOptions);
+    }
+  });
+
+  // Subir foto propia desde el dispositivo
+  document.getElementById('studio-upload-bg-input')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      studioOptions.bgPhoto = 'custom';
+      studioOptions.customBgDataUrl = ev.target.result;
+      syncStudioControlsUI();
+      if (canvas) renderSocialCard(canvas, studioOptions);
+      showToast('📸 Foto de fondo personalizada cargada', 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Botones de selección rápida de sponsors
+  document.getElementById('studio-sponsors-select-all')?.addEventListener('click', () => {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    studioOptions.selectedSponsorIds = (db?.sponsors || []).map(s => s.id);
+    syncStudioControlsUI();
+    if (canvas) renderSocialCard(canvas, studioOptions);
+  });
+
+  document.getElementById('studio-sponsors-select-none')?.addEventListener('click', () => {
+    studioOptions.selectedSponsorIds = [];
+    syncStudioControlsUI();
+    if (canvas) renderSocialCard(canvas, studioOptions);
   });
 
   // Botón Descargar PNG

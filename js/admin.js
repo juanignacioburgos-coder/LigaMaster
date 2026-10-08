@@ -11,12 +11,28 @@ import {
   setActiveLeagueId,
   getLeagueById,
   getRegionsAndLeagues,
-  getLeagueSeries
+  getLeagueSeries,
+  addAuditLogEntry,
+  getAuditLog
 } from './data.js';
 
 import { getClubBadgeSvg } from './badges.js';
-import { getCurrentRole, getCurrentUser, logout, login, ROLES } from './auth.js';
+import {
+  getCurrentRole,
+  getCurrentUser,
+  logout,
+  login,
+  ROLES,
+  isAdmin,
+  isReferee,
+  getAdminPin,
+  getRefereePin,
+  verifyAdminPin,
+  setCustomAdminPin,
+  setCustomRefereePin
+} from './auth.js';
 import { showToast } from './toast.js';
+import { resolveBrandLogo } from './sponsors-data.js';
 
 // Estado Interno del Panel Administrativo
 let currentAdminTab = 'dashboard'; // 'dashboard' | 'matches' | 'clubs' | 'sanctions' | 'treasury' | 'settings'
@@ -120,6 +136,11 @@ export function renderAdminView() {
   const roleEmoji = isDirectiva ? '🏛️' : '⏱️';
   const regions = getRegionsAndLeagues();
 
+  // Si es Turno de Cancha, su único módulo habilitado es Matches (Planillas y Marcadores)
+  if (!isDirectiva) {
+    currentAdminTab = 'matches';
+  }
+
   // Asegurar club activo inicial
   if (!currentAdminClubId && db.clubs && db.clubs.length > 0) {
     currentAdminClubId = db.clubs[0].id;
@@ -174,26 +195,35 @@ export function renderAdminView() {
         </div>
       </div>
 
-      <!-- Barra de Navegación del Panel (Tabs) -->
+      <!-- Barra de Navegación del Panel (Tabs protegidos por RBAC) -->
       <div class="admin-subnav-bar">
-        <button class="admin-subnav-btn ${currentAdminTab === 'dashboard' ? 'active' : ''}" data-admin-tab="dashboard">
-          📊 Resumen
-        </button>
+        ${isDirectiva ? `
+          <button class="admin-subnav-btn ${currentAdminTab === 'dashboard' ? 'active' : ''}" data-admin-tab="dashboard">
+            📊 Resumen
+          </button>
+        ` : ''}
         <button class="admin-subnav-btn ${currentAdminTab === 'matches' ? 'active' : ''}" data-admin-tab="matches">
-          ⚽ Partidos y Marcadores
+          ⚽ Partidos y Marcadores ${!isDirectiva ? '(Planilla Oficial)' : ''}
         </button>
-        <button class="admin-subnav-btn ${currentAdminTab === 'clubs' ? 'active' : ''}" data-admin-tab="clubs">
-          🛡️ Clubes y Padrón
-        </button>
-        <button class="admin-subnav-btn ${currentAdminTab === 'sanctions' ? 'active' : ''}" data-admin-tab="sanctions">
-          ⚖️ Tribunal de Penas
-        </button>
-        <button class="admin-subnav-btn ${currentAdminTab === 'treasury' ? 'active' : ''}" data-admin-tab="treasury">
-          💰 Tesorería y Caja
-        </button>
-        <button class="admin-subnav-btn ${currentAdminTab === 'settings' ? 'active' : ''}" data-admin-tab="settings">
-          ⚙️ Configuración
-        </button>
+        ${isDirectiva ? `
+          <button class="admin-subnav-btn ${currentAdminTab === 'clubs' ? 'active' : ''}" data-admin-tab="clubs">
+            🛡️ Clubes y Padrón
+          </button>
+          <button class="admin-subnav-btn ${currentAdminTab === 'sanctions' ? 'active' : ''}" data-admin-tab="sanctions">
+            ⚖️ Tribunal de Penas
+          </button>
+          <button class="admin-subnav-btn ${currentAdminTab === 'treasury' ? 'active' : ''}" data-admin-tab="treasury">
+            💰 Tesorería y Caja
+          </button>
+          <button class="admin-subnav-btn ${currentAdminTab === 'settings' ? 'active' : ''}" data-admin-tab="settings">
+            ⚙️ Configuración y Seguridad
+          </button>
+        ` : `
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #f59e0b; padding: 0.35rem 0.65rem; background: rgba(245, 158, 11, 0.1); border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.2);">
+            <span>🔒</span>
+            <span>Turno Arbitral: Acceso exclusivo a planillas y marcadores</span>
+          </div>
+        `}
       </div>
 
       <!-- Contenedor del Módulo Activo -->
@@ -242,6 +272,14 @@ export function renderAdminView() {
 function renderAdminActiveTab(db, league) {
   const container = document.getElementById('admin-tab-container');
   if (!container) return;
+
+  const role = getCurrentRole();
+  const isDirectiva = role === ROLES.ADMIN;
+
+  if (!isDirectiva && currentAdminTab !== 'matches') {
+    currentAdminTab = 'matches';
+    showToast('Acceso Restringido: El rol Turno de Cancha solo tiene autorización para planillas y marcadores.', 'warning');
+  }
 
   switch (currentAdminTab) {
     case 'dashboard':
@@ -989,14 +1027,33 @@ function renderAdminSettings(container, db, league) {
               <input type="text" id="set-president" class="series-select" style="width: 100%;" value="${lInfo.president || league.president || ''}" required>
             </div>
             <div>
-              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Comuna y Región</label>
-              <input type="text" id="set-commune" class="series-select" style="width: 100%;" value="${lInfo.commune || league.commune || ''}">
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Escudo Oficial de la Asociación</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                ${lInfo.logoBase64 ? `<img src="${lInfo.logoBase64}" style="height:32px; width:32px; object-fit:contain;">` : `<div style="height:32px; width:32px; background:#ddd; border-radius:4px;"></div>`}
+                <label class="btn-admin-action" style="cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.75rem;">
+                  Subir Escudo
+                  <input type="file" id="set-league-logo" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                </label>
+              </div>
             </div>
           </div>
 
-          <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Sede Social Oficial / Dirección</label>
-            <input type="text" id="set-headquarters" class="series-select" style="width: 100%;" value="${lInfo.headquarters || 'Calle Principal s/n'}">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Sede Social Oficial / Dirección</label>
+              <input type="text" id="set-headquarters" class="series-select" style="width: 100%;" value="${lInfo.headquarters || 'Calle Principal s/n'}">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">Imagen de Estadio (Fondo Placas)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                ${lInfo.stadiumBase64 ? `<img src="${lInfo.stadiumBase64}" style="height:32px; width:48px; object-fit:cover; border-radius:4px;">` : `<div style="height:32px; width:48px; background:#ddd; border-radius:4px;"></div>`}
+                <label class="btn-admin-action" style="cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.75rem;">
+                  Subir Foto
+                  <input type="file" id="set-league-stadium" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                </label>
+                ${lInfo.stadiumBase64 ? `<button type="button" class="btn-admin-action danger" onclick="window.ligamasterRemoveStadium()" style="padding: 0.3rem 0.5rem; font-size: 0.75rem;">X</button>` : ''}
+              </div>
+            </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
@@ -1019,6 +1076,71 @@ function renderAdminSettings(container, db, league) {
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Módulo de Gestión de Auspiciadores (Placas) -->
+    <div class="admin-card" style="max-width: 800px; margin: 1.5rem auto 0;">
+      <div class="admin-card-header">
+        <h3><span>📢</span> Auspiciadores y Patrocinadores (Placas)</h3>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <select id="new-sponsor-select" class="series-select" style="padding: 0.3rem 0.5rem; font-size: 0.8rem;">
+            <option value="Personalizado...">Personalizado...</option>
+            <option value="PUMA">Puma</option>
+            <option value="ENTEL">Entel</option>
+            <option value="BETSSON">Betsson</option>
+            <option value="BANCOESTADO">BancoEstado</option>
+            <option value="CRISTAL">Cristal</option>
+            <option value="POWERADE">Powerade</option>
+            <option value="Microsoft">Microsoft</option>
+            <option value="Mahou">Mahou</option>
+            <option value="Riyadh Season">Riyadh Season</option>
+            <option value="Duracell">Duracell</option>
+            <option value="BKT">BKT Tires</option>
+            <option value="Moeve">Moeve</option>
+            <option value="Volkswagen">Volkswagen</option>
+            <option value="Uber Eats">Uber Eats</option>
+            <option value="Airbnb">Airbnb</option>
+            <option value="Luckia">Luckia</option>
+          </select>
+          <button class="btn-primary-coral" onclick="window.ligamasterAddSponsor(document.getElementById('new-sponsor-select').value)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Añadir</button>
+        </div>
+      </div>
+      <div class="admin-card-body" style="padding: 0;">
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nombre del Sponsor</th>
+                <th>Logo (Imagen)</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(db.sponsors || []).length === 0 ? `<tr><td colspan="3" style="text-align: center; padding: 2rem;">No hay patrocinadores configurados.</td></tr>` : 
+                (db.sponsors || []).map(sp => `
+                <tr>
+                  <td>
+                    <input type="text" value="${sp.name}" onchange="window.ligamasterUpdateSponsorName('${sp.id}', this.value)" class="series-select" style="width: 100%; max-width: 200px;">
+                  </td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      ${sp.logoBase64 ? `<img src="${sp.logoBase64}" style="height: 30px; object-fit: contain; background: #fff; padding: 2px; border-radius: 4px;">` : `<span style="font-size: 0.8rem; color: #64748b;">(Solo texto)</span>`}
+                      <label class="btn-admin-action" style="cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.75rem;">
+                        Subir Logo
+                        <input type="file" accept="image/png, image/jpeg" style="display: none;" onchange="window.ligamasterUploadSponsorLogo('${sp.id}', this)">
+                      </label>
+                      ${sp.logoBase64 ? `<button class="btn-admin-action danger" onclick="window.ligamasterRemoveSponsorLogo('${sp.id}')" style="padding: 0.3rem 0.5rem; font-size: 0.75rem;">🗑️ Logo</button>` : ''}
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn-admin-action danger" onclick="window.ligamasterDeleteSponsor('${sp.id}')">🗑️ Eliminar</button>
+                  </td>
+                </tr>
+                `).join('')}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -1067,26 +1189,233 @@ function renderAdminSettings(container, db, league) {
         </div>
       </div>
     </div>
+
+    <!-- Módulo de Seguridad Institucional y Control de Acceso (PIN) -->
+    <div class="admin-card" style="max-width: 800px; margin: 1.5rem auto 0;">
+      <div class="admin-card-header">
+        <h3><span>🔐</span> Seguridad Institucional y Claves de Acceso (PIN)</h3>
+        <span class="admin-badge admin-badge-warning">Protección Anti-Fraude</span>
+      </div>
+      <div class="admin-card-body">
+        <p style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+          Para evitar que dirigentes de clubes o personas no autorizadas manipulen marcadores, sanciones, finanzas o auspiciadores, configure aquí los PINs privados de su asociación.
+        </p>
+
+        <form id="admin-security-pins-form">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <label style="font-size: 0.85rem; font-weight: 800; color: #ffffff;">🏛️ PIN Directiva General (Admin)</label>
+                <span style="font-size: 0.7rem; color: #4ade80; font-weight: 700;">Control Total</span>
+              </div>
+              <p style="font-size: 0.73rem; color: var(--color-text-muted); margin-bottom: 0.65rem;">
+                Permite editar auspiciadores, finanzas, sanciones y parámetros de la asociación.
+              </p>
+              <input type="password" id="input-new-admin-pin" class="series-select" style="width: 100%; font-size: 0.9rem;" placeholder="Nuevo PIN (mínimo 4 dígitos)" maxlength="8">
+              <small style="display: block; margin-top: 0.35rem; font-size: 0.7rem; color: var(--color-text-muted);">
+                PIN actual: <code>${getAdminPin() === '9999' ? '9999 (Por Defecto - Se sugiere cambiar)' : '•••• (Personalizado y Seguro)'}</code>
+              </small>
+            </div>
+
+            <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <label style="font-size: 0.85rem; font-weight: 800; color: #ffffff;">⏱️ PIN Turno de Cancha (Árbitros)</label>
+                <span style="font-size: 0.7rem; color: #38bdf8; font-weight: 700;">Solo Planilla</span>
+              </div>
+              <p style="font-size: 0.73rem; color: var(--color-text-muted); margin-bottom: 0.65rem;">
+                Habilita a los turnos arbitrales para ingresar marcadores en vivo sin acceso a finanzas ni configuración.
+              </p>
+              <input type="password" id="input-new-referee-pin" class="series-select" style="width: 100%; font-size: 0.9rem;" placeholder="Nuevo PIN Turno" maxlength="8">
+              <small style="display: block; margin-top: 0.35rem; font-size: 0.7rem; color: var(--color-text-muted);">
+                PIN actual: <code>${getRefereePin() === '1234' ? '1234 (Por Defecto)' : '•••• (Personalizado)'}</code>
+              </small>
+            </div>
+          </div>
+
+          <div style="text-align: right;">
+            <button type="submit" class="btn-primary-coral" style="padding: 0.55rem 1.25rem; font-size: 0.85rem;">
+              🔒 Actualizar Claves de Seguridad
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Módulo de Libro Oficial de Auditoría y Control de Cambios -->
+    <div class="admin-card" style="max-width: 800px; margin: 1.5rem auto 0;">
+      <div class="admin-card-header">
+        <h3><span>📜</span> Libro Oficial de Auditoría y Control de Cambios</h3>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" class="btn-admin-action" onclick="window.ligamasterExportAuditLog()" style="font-size: 0.75rem; padding: 0.35rem 0.6rem;">
+            📥 Exportar Bitácora CSV
+          </button>
+        </div>
+      </div>
+      <div class="admin-card-body" style="padding: 0;">
+        <div style="padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--color-border); font-size: 0.8rem; color: var(--color-text-muted);">
+          Trazabilidad de seguridad en tiempo real: Se registran todos los accesos, modificaciones de resultados, sanciones y movimientos de auspiciadores para prevenir fraudes.
+        </div>
+        <div class="admin-table-wrapper" style="max-height: 280px; overflow-y: auto;">
+          <table class="admin-table" style="font-size: 0.78rem;">
+            <thead>
+              <tr>
+                <th style="width: 130px;">Fecha / Hora</th>
+                <th style="width: 150px;">Usuario / Perfil</th>
+                <th style="width: 140px;">Acción Oficial</th>
+                <th>Detalle del Registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(db.auditLog || []).length === 0 ? `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-text-muted);">Sin registros de auditoría recientes.</td></tr>` : 
+                (db.auditLog || []).slice(0, 30).map(log => `
+                <tr>
+                  <td style="white-space: nowrap; font-family: var(--font-mono); color: var(--color-text-muted); font-size: 0.72rem;">${log.formattedTime || log.timestamp || 'Hoy'}</td>
+                  <td>
+                    <strong>${log.user || 'Directiva'}</strong>
+                    <div style="font-size: 0.68rem; color: #94a3b8;">${log.role || '🏛️ Directiva'}</div>
+                  </td>
+                  <td>
+                    <span style="font-weight: 700; color: ${log.action?.includes('Alerta') ? '#f87171' : (log.action?.includes('Auspiciador') ? '#38bdf8' : '#4ade80')}">
+                      ${log.action || 'Operación'}
+                    </span>
+                  </td>
+                  <td style="color: var(--color-text-main); font-size: 0.75rem;">${log.details || ''}</td>
+                </tr>
+                `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   `;
 
   container.innerHTML = html;
 
+  const handleLeagueLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (!db.leagueInfo) db.leagueInfo = {};
+      db.leagueInfo.logoBase64 = ev.target.result;
+      saveDb(db, league.id);
+      renderAdminView();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleLeagueStadiumUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    // Check file size (max 1.5MB)
+    if (file.size > 1.5 * 1024 * 1024) {
+      showToast('La imagen es muy pesada. Intenta con una de menos de 1.5MB.', 'error');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (!db.leagueInfo) db.leagueInfo = {};
+      db.leagueInfo.stadiumBase64 = ev.target.result;
+      saveDb(db, league.id);
+      renderAdminView();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  window.ligamasterRemoveStadium = () => {
+    if (!db.leagueInfo) return;
+    db.leagueInfo.stadiumBase64 = null;
+    saveDb(db, league.id);
+    renderAdminView();
+  };
+
+  document.getElementById('set-league-logo')?.addEventListener('change', handleLeagueLogoUpload);
+  document.getElementById('set-league-stadium')?.addEventListener('change', handleLeagueStadiumUpload);
+
   document.getElementById('admin-settings-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!isAdmin()) {
+      showToast('Acceso Denegado: Solo el Administrador General puede modificar estos parámetros.', 'error');
+      return;
+    }
     if (!db.leagueInfo) db.leagueInfo = {};
     db.leagueInfo.name = document.getElementById('set-name')?.value || db.leagueInfo.name;
     db.leagueInfo.shortName = document.getElementById('set-shortName')?.value || db.leagueInfo.shortName;
     db.leagueInfo.president = document.getElementById('set-president')?.value || db.leagueInfo.president;
-    db.leagueInfo.commune = document.getElementById('set-commune')?.value || db.leagueInfo.commune;
     db.leagueInfo.headquarters = document.getElementById('set-headquarters')?.value || db.leagueInfo.headquarters;
     db.leagueInfo.season = document.getElementById('set-season')?.value || db.leagueInfo.season;
     db.leagueInfo.mediaPartner = document.getElementById('set-media')?.value || db.leagueInfo.mediaPartner;
 
     saveDb(db, league.id);
+    addAuditLogEntry('Configuración Actualizada', 'Parámetros institucionales de la liga guardados con éxito');
     showToast('Configuración guardada exitosamente.', 'success');
     renderAdminView();
   });
+
+  // Listener para el formulario de claves de seguridad
+  document.getElementById('admin-security-pins-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!isAdmin()) {
+      showToast('Acceso Denegado: Solo la Directiva General puede modificar claves de seguridad.', 'error');
+      return;
+    }
+    const newAdminPin = document.getElementById('input-new-admin-pin')?.value.trim();
+    const newRefPin = document.getElementById('input-new-referee-pin')?.value.trim();
+
+    let changes = 0;
+    if (newAdminPin) {
+      if (newAdminPin.length < 4) {
+        showToast('El PIN de Administrador debe tener al menos 4 caracteres.', 'error');
+        return;
+      }
+      setCustomAdminPin(newAdminPin);
+      changes++;
+    }
+    if (newRefPin) {
+      if (newRefPin.length < 4) {
+        showToast('El PIN de Turno debe tener al menos 4 caracteres.', 'error');
+        return;
+      }
+      setCustomRefereePin(newRefPin);
+      changes++;
+    }
+
+    if (changes > 0) {
+      showToast('🔒 Claves de seguridad actualizadas con éxito.', 'success');
+      renderAdminView();
+    } else {
+      showToast('Ingrese un nuevo PIN para actualizar.', 'info');
+    }
+  });
 }
+
+// Exportador del Libro de Auditoría a CSV
+window.ligamasterExportAuditLog = () => {
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  const logs = db.auditLog || [];
+  if (logs.length === 0) {
+    showToast('No hay registros de auditoría para exportar.', 'info');
+    return;
+  }
+  const headers = ['Fecha/Hora', 'Usuario', 'Rol', 'Accion', 'Detalles'];
+  const rows = logs.map(l => [
+    `"${l.formattedTime || ''}"`,
+    `"${l.user || ''}"`,
+    `"${l.role || ''}"`,
+    `"${l.action || ''}"`,
+    `"${(l.details || '').replace(/"/g, '""')}"`
+  ]);
+  const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `bitacora_auditoria_${activeId}_${Date.now()}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast('📥 Bitácora oficial de auditoría descargada en CSV.', 'success');
+};
 
 /**
  * ==========================================================================
@@ -1113,6 +1442,10 @@ window.ligamasterSaveMatchScore = (matchId) => {
   recalculateStandings(db, m.series);
   saveDb(db, activeId);
 
+  const hClub = (db.clubs || []).find(c => c.id === m.homeClubId)?.name || 'Local';
+  const aClub = (db.clubs || []).find(c => c.id === m.awayClubId)?.name || 'Visita';
+  addAuditLogEntry('Marcador Actualizado', `${hClub} ${hScore} - ${aScore} ${aClub} (Estado: ${status})`);
+
   showToast(`Marcador actualizado: ${hScore} - ${aScore} (${status}). Posiciones recalculadas.`, 'success');
   renderAdminView();
 };
@@ -1136,12 +1469,20 @@ window.ligamasterSaveFullMatchScore = (matchId) => {
   recalculateStandings(db, m.series);
   saveDb(db, activeId);
 
+  const hClub = (db.clubs || []).find(c => c.id === m.homeClubId)?.name || 'Local';
+  const aClub = (db.clubs || []).find(c => c.id === m.awayClubId)?.name || 'Visita';
+  addAuditLogEntry('Marcador Oficial', `${hClub} ${hScore} : ${aScore} ${aClub} (${status})`);
+
   showToast(`Partido guardado: ${hScore} : ${aScore} (${status}).`, 'success');
   renderAdminView();
 };
 
 // Ratificar partido formalmente por Directorio
 window.ligamasterRatifyMatch = (matchId) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo el Directorio General puede ratificar actas arbitrales.', 'error');
+    return;
+  }
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
   const m = (db.matches || []).find(item => item.id === matchId);
@@ -1151,22 +1492,38 @@ window.ligamasterRatifyMatch = (matchId) => {
   m.ratificationLabel = 'Oficializado y Ratificado por Directorio';
 
   saveDb(db, activeId);
+  const hClub = (db.clubs || []).find(c => c.id === m.homeClubId)?.name || 'Local';
+  const aClub = (db.clubs || []).find(c => c.id === m.awayClubId)?.name || 'Visita';
+  addAuditLogEntry('Acta Ratificada', `Planilla oficializada por Directorio: ${hClub} vs ${aClub}`);
+
   showToast('Planilla del partido oficializada y ratificada por la Directiva.', 'success');
   renderAdminView();
 };
 
 // Eliminar partido
 window.ligamasterDeleteMatch = (matchId) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General puede eliminar partidos del fixture.', 'error');
+    return;
+  }
   if (!confirm('¿Seguro que deseas eliminar este partido del calendario?')) return;
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
-  db.matches = (db.matches || []).filter(m => m.id !== matchId);
+  const m = (db.matches || []).find(item => item.id === matchId);
+  const hClub = (db.clubs || []).find(c => c.id === m?.homeClubId)?.name || 'Local';
+  const aClub = (db.clubs || []).find(c => c.id === m?.awayClubId)?.name || 'Visita';
+  db.matches = (db.matches || []).filter(item => item.id !== matchId);
   saveDb(db, activeId);
+  addAuditLogEntry('Partido Eliminado', `Se eliminó del fixture el duelo ${hClub} vs ${aClub}`);
   renderAdminView();
 };
 
 // Alternar estado de futbolista (Habilitado / Suspendido)
 window.ligamasterTogglePlayerStatus = (playerId) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo el Tribunal de Penas / Directiva puede alterar sanciones de jugadores.', 'error');
+    return;
+  }
   const activeId = getActiveLeagueId();
   const db = getDb(activeId);
   const p = (db.players || []).find(item => item.id === playerId);
@@ -1175,9 +1532,11 @@ window.ligamasterTogglePlayerStatus = (playerId) => {
   if (p.status === 'suspendido') {
     p.status = 'habilitado';
     p.yellowCards = 0; // Levanta sanción
+    addAuditLogEntry('Tribunal de Penas', `Sanción levantada: Jugador ${p.name} queda HABILITADO`);
     showToast(`Futbolista ${p.name} ha sido HABILITADO.`, 'success');
   } else {
     p.status = 'suspendido';
+    addAuditLogEntry('Tribunal de Penas', `Sanción aplicada: Jugador ${p.name} queda SUSPENDIDO`);
     showToast(`Futbolista ${p.name} ha sido SUSPENDIDO reglamentariamente.`, 'warning');
   }
 
@@ -1231,8 +1590,17 @@ window.ligamasterDeleteTreasuryItem = (itemId) => {
 
 // Restablecer liga a datos de demostración
 window.ligamasterResetActiveLeague = (leagueId) => {
-  if (!confirm('¿Seguro que deseas restablecer esta liga a sus datos originales de fábrica? Se perderán las modificaciones locales.')) return;
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General (Administrador) puede restablecer la liga.', 'error');
+    return;
+  }
+  const enteredPin = prompt('⚠️ ACCIÓN CRÍTICA DE SEGURIDAD:\nPara restablecer toda la base de datos oficial a sus valores de fábrica, ingrese el PIN de Administrador:');
+  if (!enteredPin || !verifyAdminPin(enteredPin)) {
+    showToast('PIN incorrecto o cancelado. Operación cancelada por seguridad institucional.', 'error');
+    return;
+  }
   resetDb(leagueId);
+  addAuditLogEntry('Restablecimiento de Fábrica', 'Base de datos restaurada por el Administrador General');
   showToast('Base de datos restablecida a sus valores originales.', 'info');
   renderAdminView();
 };
@@ -1815,3 +2183,124 @@ window.ligamasterDownloadTemplate = () => {
   showToast('Plantilla de campeonato descargada.', 'success');
 };
 
+/**
+ * ==========================================================================
+ * MÉTODOS DE SPONSORS (PATROCINADORES)
+ * ==========================================================================
+ */
+
+const PREDEFINED_SVGS = {
+  "PUMA": `<svg viewBox="0 0 110 36" width="110" height="36" xmlns="http://www.w3.org/2000/svg"><path d="M42 9c-2.4-2.8-5.6-4.5-9.3-4.5-2.2 0-4.3.6-6 1.8l1.4 2.8c1.3-.8 2.8-1.3 4.4-1.3 2.8 0 5.2 1.3 6.9 3.4l-4.1 3c-1.1-.8-2.6-1.3-4.1-1.3-3.8 0-7 3.2-7 7s3.2 7 7 7c3.8 0 7-3.2 7-7 0-.5-.1-1-.2-1.5l3.8-3.1 2.8 2.3 2.5-2.1-5.1-6zm-17.5 13.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" fill="#ffffff"/><text x="56" y="24" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="18" fill="#ffffff" letter-spacing="1">PUMA</text></svg>`,
+  "Microsoft": `<svg viewBox="0 0 120 30" width="120" height="30" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="4" width="10.5" height="10.5" fill="#f25022"/><rect x="12" y="4" width="10.5" height="10.5" fill="#7fba00"/><rect x="0" y="16" width="10.5" height="10.5" fill="#00a4ef"/><rect x="12" y="16" width="10.5" height="10.5" fill="#ffb900"/><text x="30" y="21" font-family="'Segoe UI', -apple-system, sans-serif" font-weight="600" font-size="15" fill="#ffffff" letter-spacing="-0.3">Microsoft</text></svg>`,
+  "Mahou": `<svg viewBox="0 0 95 34" width="95" height="34" xmlns="http://www.w3.org/2000/svg"><g fill="#ffffff"><polygon points="26,6 27.5,9.5 31,9.8 28.3,12.2 29.1,15.7 26,13.9 22.9,15.7 23.7,12.2 21,9.8 24.5,9.5"/><polygon points="37,4 38.5,7.5 42,7.8 39.3,10.2 40.1,13.7 37,11.9 33.9,13.7 34.7,10.2 32,7.8 35.5,7.5"/><polygon points="48,2 49.8,6 54,6.4 50.8,9.3 51.7,13.5 48,11.3 44.3,13.5 45.2,9.3 42,6.4 46.2,6"/><polygon points="59,4 60.5,7.5 64,7.8 61.3,10.2 62.1,13.7 59,11.9 55.9,13.7 56.7,10.2 54,7.8 57.5,7.5"/><polygon points="70,6 71.5,9.5 75,9.8 72.3,12.2 73.1,15.7 70,13.9 66.9,15.7 67.7,12.2 65,9.8 68.5,9.5"/></g><text x="48" y="28" font-family="'Times New Roman', Georgia, serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">Mahou</text></svg>`,
+  "Riyadh Season": `<svg viewBox="0 0 110 38" width="110" height="38" xmlns="http://www.w3.org/2000/svg"><circle cx="55" cy="11" r="8" fill="none" stroke="#ffffff" stroke-width="1.8"/><path d="M55 1v3M55 17v3M45 11h3M62 11h3M48 4l2.5 2.5M59.5 15.5l2.5 2.5M48 18l2.5-2.5M59.5 6.5l2.5-2.5" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/><text x="55" y="27" font-family="'Outfit', sans-serif" font-weight="900" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="1.2">RIYADH SEASON</text></svg>`,
+  "Duracell": `<svg viewBox="0 0 120 30" width="120" height="30" xmlns="http://www.w3.org/2000/svg"><text x="60" y="22" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="17" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">DURACELL</text></svg>`,
+  "BKT": `<svg viewBox="0 0 95 34" width="95" height="34" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="87" height="26" rx="4" fill="#ffffff"/><text x="47" y="21" font-family="'Arial Black', sans-serif" font-weight="900" font-size="14" fill="#000000" text-anchor="middle" font-style="italic" letter-spacing="0.5">BKT</text><text x="47" y="27" font-family="sans-serif" font-weight="700" font-size="4.5" fill="#333333" text-anchor="middle" letter-spacing="1">TIRES</text></svg>`,
+  "Moeve": `<svg viewBox="0 0 95 32" width="95" height="32" xmlns="http://www.w3.org/2000/svg"><text x="47" y="23" font-family="'Outfit', 'Helvetica Neue', sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="-0.5">moeve</text></svg>`,
+  "Volkswagen": `<svg viewBox="0 0 36 36" width="36" height="36" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16.5" fill="none" stroke="#ffffff" stroke-width="2.2"/><circle cx="18" cy="18" r="14.5" fill="none" stroke="#ffffff" stroke-width="0.8"/><path d="M11 9.5l4 12 3-8.5 3 8.5 4-12M12.5 24l5.5-9 5.5 9" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+};
+
+window.ligamasterAddSponsor = (presetName) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General (Administrador) puede gestionar auspiciadores.', 'error');
+    return;
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (!db.sponsors) db.sponsors = [];
+  
+  let finalName = presetName || 'Nuevo Sponsor';
+  if (finalName === 'Personalizado...') {
+    finalName = 'Nuevo Sponsor';
+  }
+  
+  const logoDataUrl = resolveBrandLogo(finalName);
+
+  const id = `sponsor-${Date.now()}`;
+  db.sponsors.push({ id, name: finalName, logoBase64: logoDataUrl });
+  saveDb(db, activeId);
+  addAuditLogEntry('Auspiciador Añadido', `Se agregó la marca publicitaria "${finalName}"`);
+  showToast(`Auspiciador "${finalName}" añadido con éxito`, 'success');
+  renderAdminView();
+};
+
+window.ligamasterDeleteSponsor = (id) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General (Administrador) puede eliminar auspiciadores.', 'error');
+    return;
+  }
+  if (!confirm('¿Eliminar este auspiciador?')) return;
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  if (db.sponsors) {
+    const sp = db.sponsors.find(s => s.id === id);
+    const spName = sp?.name || id;
+    db.sponsors = db.sponsors.filter(s => s.id !== id);
+    saveDb(db, activeId);
+    addAuditLogEntry('Auspiciador Eliminado', `Se removió la marca publicitaria "${spName}"`);
+    showToast(`Auspiciador "${spName}" eliminado`, 'info');
+    renderAdminView();
+  }
+};
+
+window.ligamasterUpdateSponsorName = (id, newName) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General puede modificar auspiciadores.', 'error');
+    return;
+  }
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  const sp = (db.sponsors || []).find(s => s.id === id);
+  if (sp) {
+    const oldName = sp.name;
+    sp.name = newName;
+    if (!sp.logoBase64) {
+      sp.logoBase64 = resolveBrandLogo(newName);
+    }
+    saveDb(db, activeId);
+    addAuditLogEntry('Auspiciador Modificado', `Marca renombrada de "${oldName}" a "${newName}"`);
+    showToast('Nombre actualizado', 'success');
+  }
+};
+
+window.ligamasterRemoveSponsorLogo = (id) => {
+  if (!isAdmin()) return;
+  const activeId = getActiveLeagueId();
+  const db = getDb(activeId);
+  const sp = (db.sponsors || []).find(s => s.id === id);
+  if (sp) {
+    sp.logoBase64 = null;
+    saveDb(db, activeId);
+    addAuditLogEntry('Logo Auspiciador Removido', `Se quitó el logo de "${sp.name}"`);
+    renderAdminView();
+  }
+};
+
+window.ligamasterUploadSponsorLogo = (id, inputEl) => {
+  if (!isAdmin()) {
+    showToast('Acceso Denegado: Solo la Directiva General puede subir logos.', 'error');
+    return;
+  }
+  if (!inputEl.files || inputEl.files.length === 0) return;
+  
+  const file = inputEl.files[0];
+  if (file.size > 500 * 1024) { // Max 500KB
+    showToast('El logo es muy pesado. Máximo 500KB.', 'error');
+    return;
+  }
+  
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const activeId = getActiveLeagueId();
+    const db = getDb(activeId);
+    const sp = (db.sponsors || []).find(s => s.id === id);
+    if (sp) {
+      sp.logoBase64 = e.target.result;
+      saveDb(db, activeId);
+      addAuditLogEntry('Logo Auspiciador Actualizado', `Se cargó logo personalizado para "${sp.name}"`);
+      renderAdminView();
+      showToast('Logo cargado exitosamente', 'success');
+    }
+  };
+  reader.readAsDataURL(file);
+};
