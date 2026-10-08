@@ -30,6 +30,7 @@ import {
 import { initTurnoModule, renderTurnoView } from './turno.js';
 import { initNotificationsModule } from './notifications.js';
 import { initRealtimeSync } from './realtime.js';
+import { initPwaModule } from './pwa.js';
 
 // Fallback de imágenes SVG seguras y offline
 const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
@@ -132,6 +133,7 @@ function initLigaMaster() {
   initNotificationsModule();
   initRealtimeSync();
   initTurnoModule();
+  initPwaModule();
 
   // Renderizar vistas con los datos iniciales
   renderActiveLeagueContext();

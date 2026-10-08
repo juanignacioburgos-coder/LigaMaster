@@ -54,6 +54,11 @@ let activeConsoleMatch = null;
 let globalClockTicker = null;
 let isSunlightModeActive = false;
 
+// Estado del Teclado Táctil PIN de Turno
+let currentKeypadPin = '';
+let pendingMatchIdToOpen = null;
+let keypadSelectedVenue = 'estadio-ramon-burgos';
+
 /**
  * Respuesta háptica suave para pantallas táctiles de celulares en cancha
  */
@@ -63,6 +68,128 @@ export function triggerHaptic(duration = 35) {
       navigator.vibrate(duration);
     }
   } catch (e) {}
+}
+
+/**
+ * Abre el Teclado Numérico Táctil para Acreditación de Turno Oficial
+ */
+export function openTurnoPinKeypad(targetVenueId = null, matchId = null) {
+  currentKeypadPin = '';
+  pendingMatchIdToOpen = matchId || null;
+  if (targetVenueId && (targetVenueId === 'estadio-ramon-burgos' || targetVenueId === 'estadio-sebastian-gaete')) {
+    keypadSelectedVenue = targetVenueId;
+  } else {
+    keypadSelectedVenue = currentSelectedVenue === 'all' ? 'estadio-ramon-burgos' : currentSelectedVenue;
+  }
+
+  const titleEl = document.getElementById('keypad-venue-title');
+  if (titleEl) {
+    titleEl.textContent = VENUE_NAMES[keypadSelectedVenue] || 'Estadio Municipal';
+  }
+
+  updateKeypadDots();
+
+  const modal = document.getElementById('modal-turno-keypad');
+  if (modal) modal.classList.add('active');
+}
+
+/**
+ * Cierra el Teclado PIN
+ */
+export function closeTurnoPinKeypad() {
+  const modal = document.getElementById('modal-turno-keypad');
+  if (modal) modal.classList.remove('active');
+  currentKeypadPin = '';
+  pendingMatchIdToOpen = null;
+}
+
+/**
+ * Procesa la pulsación de un dígito en el teclado numérico
+ */
+export function handleKeypadPress(digit) {
+  if (currentKeypadPin.length >= 4) return;
+  triggerHaptic(25);
+  currentKeypadPin += String(digit);
+  updateKeypadDots();
+
+  if (currentKeypadPin.length === 4) {
+    setTimeout(() => {
+      submitKeypadPin();
+    }, 120);
+  }
+}
+
+/**
+ * Retrocede 1 dígito en el teclado
+ */
+export function handleKeypadBackspace() {
+  triggerHaptic(20);
+  if (currentKeypadPin.length > 0) {
+    currentKeypadPin = currentKeypadPin.slice(0, -1);
+    updateKeypadDots();
+  }
+}
+
+/**
+ * Borra todo el PIN introducido
+ */
+export function handleKeypadClear() {
+  triggerHaptic(20);
+  currentKeypadPin = '';
+  updateKeypadDots();
+}
+
+/**
+ * Auto-rellena y valida el PIN de un recinto en 1 toque
+ */
+export function handleKeypadAutoFill(pin) {
+  triggerHaptic(35);
+  currentKeypadPin = String(pin);
+  updateKeypadDots();
+  setTimeout(() => {
+    submitKeypadPin();
+  }, 120);
+}
+
+/**
+ * Actualiza los círculos indicadores de dígitos
+ */
+function updateKeypadDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById(`keypad-dot-${i}`);
+    if (dot) {
+      if (i < currentKeypadPin.length) {
+        dot.classList.add('filled');
+      } else {
+        dot.classList.remove('filled');
+      }
+    }
+  }
+}
+
+/**
+ * Valida el PIN ingresado con el sistema de autenticación
+ */
+function submitKeypadPin() {
+  const pin = currentKeypadPin;
+  const res = login(pin);
+  if (res.success) {
+    showToast(`✓ Acreditado con éxito: ${res.message}`, 'success');
+    closeTurnoPinKeypad();
+    renderTurnoView();
+
+    // Si había un partido esperando ser abierto
+    if (pendingMatchIdToOpen) {
+      const mId = pendingMatchIdToOpen;
+      pendingMatchIdToOpen = null;
+      openTurnoConsole(mId);
+    }
+  } else {
+    triggerHaptic(100);
+    showToast('❌ PIN Incorrecto. Verifica el código de tu recinto.', 'error');
+    currentKeypadPin = '';
+    updateKeypadDots();
+  }
 }
 
 /**
@@ -251,6 +378,13 @@ export function initTurnoModule() {
     };
 
     // Autenticación de turno
+    window.ligamasterOpenTurnoKeypad = openTurnoPinKeypad;
+    window.ligamasterCloseTurnoKeypad = closeTurnoPinKeypad;
+    window.ligamasterKeypadPress = handleKeypadPress;
+    window.ligamasterKeypadBackspace = handleKeypadBackspace;
+    window.ligamasterKeypadClear = handleKeypadClear;
+    window.ligamasterKeypadAutoFill = handleKeypadAutoFill;
+
     window.ligamasterQuickTurnoLogin = (pin) => {
       const res = login(pin);
       if (res.success) {
@@ -449,6 +583,16 @@ export function renderTurnoView() {
                 El registro de goles, tiempos y actas en terreno está restringido exclusivamente a las autoridades de turno designadas en cada estadio. Los hinchas pueden consultar los resultados en vivo y activar alertas con la campanita 🔔.
               </p>
             </div>
+          </div>
+
+          <!-- Botón de Acreditación con Teclado Numérico Táctil -->
+          <div style="margin-bottom: 0.85rem;">
+            <button type="button" 
+              class="btn-primary-coral" 
+              onclick="window.ligamasterOpenTurnoKeypad()"
+              style="padding: 0.6rem 1.15rem; font-size: 0.85rem; font-weight: 800; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(229, 27, 36, 0.35);">
+              <span>🔢 Acreditar con Teclado PIN</span>
+            </button>
           </div>
 
           <!-- Selector Rápido de Credencial según Recinto Deportivo -->

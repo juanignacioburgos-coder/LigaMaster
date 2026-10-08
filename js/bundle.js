@@ -31667,12 +31667,99 @@
   var activeConsoleMatch = null;
   var globalClockTicker = null;
   var isSunlightModeActive = false;
+  var currentKeypadPin = "";
+  var pendingMatchIdToOpen = null;
+  var keypadSelectedVenue = "estadio-ramon-burgos";
   function triggerHaptic(duration = 35) {
     try {
       if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
         navigator.vibrate(duration);
       }
     } catch (e) {
+    }
+  }
+  function openTurnoPinKeypad(targetVenueId = null, matchId = null) {
+    currentKeypadPin = "";
+    pendingMatchIdToOpen = matchId || null;
+    if (targetVenueId && (targetVenueId === "estadio-ramon-burgos" || targetVenueId === "estadio-sebastian-gaete")) {
+      keypadSelectedVenue = targetVenueId;
+    } else {
+      keypadSelectedVenue = currentSelectedVenue === "all" ? "estadio-ramon-burgos" : currentSelectedVenue;
+    }
+    const titleEl = document.getElementById("keypad-venue-title");
+    if (titleEl) {
+      titleEl.textContent = VENUE_NAMES[keypadSelectedVenue] || "Estadio Municipal";
+    }
+    updateKeypadDots();
+    const modal = document.getElementById("modal-turno-keypad");
+    if (modal) modal.classList.add("active");
+  }
+  function closeTurnoPinKeypad() {
+    const modal = document.getElementById("modal-turno-keypad");
+    if (modal) modal.classList.remove("active");
+    currentKeypadPin = "";
+    pendingMatchIdToOpen = null;
+  }
+  function handleKeypadPress(digit) {
+    if (currentKeypadPin.length >= 4) return;
+    triggerHaptic(25);
+    currentKeypadPin += String(digit);
+    updateKeypadDots();
+    if (currentKeypadPin.length === 4) {
+      setTimeout(() => {
+        submitKeypadPin();
+      }, 120);
+    }
+  }
+  function handleKeypadBackspace() {
+    triggerHaptic(20);
+    if (currentKeypadPin.length > 0) {
+      currentKeypadPin = currentKeypadPin.slice(0, -1);
+      updateKeypadDots();
+    }
+  }
+  function handleKeypadClear() {
+    triggerHaptic(20);
+    currentKeypadPin = "";
+    updateKeypadDots();
+  }
+  function handleKeypadAutoFill(pin) {
+    triggerHaptic(35);
+    currentKeypadPin = String(pin);
+    updateKeypadDots();
+    setTimeout(() => {
+      submitKeypadPin();
+    }, 120);
+  }
+  function updateKeypadDots() {
+    for (let i = 0; i < 4; i++) {
+      const dot = document.getElementById(`keypad-dot-${i}`);
+      if (dot) {
+        if (i < currentKeypadPin.length) {
+          dot.classList.add("filled");
+        } else {
+          dot.classList.remove("filled");
+        }
+      }
+    }
+  }
+  function submitKeypadPin() {
+    const pin = currentKeypadPin;
+    const res = login(pin);
+    if (res.success) {
+      showToast(`\u2713 Acreditado con \xE9xito: ${res.message}`, "success");
+      closeTurnoPinKeypad();
+      renderTurnoView();
+      if (pendingMatchIdToOpen) {
+        const mId = pendingMatchIdToOpen;
+        pendingMatchIdToOpen = null;
+        openTurnoConsole(mId);
+      }
+    } else {
+      triggerHaptic(100);
+      showToast("\u274C PIN Incorrecto. Verifica el c\xF3digo de tu recinto.", "error");
+      currentKeypadPin = "";
+      updateKeypadDots();
     }
   }
   function toggleSunlightMode() {
@@ -31826,6 +31913,12 @@
         renderTurnoView();
         if (activeConsoleMatch) updateConsoleNotifStatus();
       };
+      window.ligamasterOpenTurnoKeypad = openTurnoPinKeypad;
+      window.ligamasterCloseTurnoKeypad = closeTurnoPinKeypad;
+      window.ligamasterKeypadPress = handleKeypadPress;
+      window.ligamasterKeypadBackspace = handleKeypadBackspace;
+      window.ligamasterKeypadClear = handleKeypadClear;
+      window.ligamasterKeypadAutoFill = handleKeypadAutoFill;
       window.ligamasterQuickTurnoLogin = (pin) => {
         const res = login(pin);
         if (res.success) {
@@ -31981,6 +32074,16 @@
                 El registro de goles, tiempos y actas en terreno est\xE1 restringido exclusivamente a las autoridades de turno designadas en cada estadio. Los hinchas pueden consultar los resultados en vivo y activar alertas con la campanita \u{1F514}.
               </p>
             </div>
+          </div>
+
+          <!-- Bot\xF3n de Acreditaci\xF3n con Teclado Num\xE9rico T\xE1ctil -->
+          <div style="margin-bottom: 0.85rem;">
+            <button type="button" 
+              class="btn-primary-coral" 
+              onclick="window.ligamasterOpenTurnoKeypad()"
+              style="padding: 0.6rem 1.15rem; font-size: 0.85rem; font-weight: 800; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(229, 27, 36, 0.35);">
+              <span>\u{1F522} Acreditar con Teclado PIN</span>
+            </button>
           </div>
 
           <!-- Selector R\xE1pido de Credencial seg\xFAn Recinto Deportivo -->
@@ -33013,6 +33116,119 @@
   `;
   }
 
+  // js/pwa.js
+  var deferredInstallPrompt = null;
+  var isAppInstalled = false;
+  function initPwaModule() {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      if (window.location.protocol.startsWith("http")) {
+        navigator.serviceWorker.register("./sw.js").then((reg) => {
+          console.log("[LigaMaster PWA] Service Worker registrado con \xE9xito:", reg.scope);
+        }).catch((err) => {
+          console.warn("[LigaMaster PWA] No se pudo registrar Service Worker:", err);
+        });
+      }
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        updateInstallButtonsUI(true);
+      });
+      window.addEventListener("appinstalled", () => {
+        deferredInstallPrompt = null;
+        isAppInstalled = true;
+        updateInstallButtonsUI(false);
+        showToast("\u{1F389} \xA1LigaMaster se instal\xF3 correctamente en tu dispositivo!", "success");
+      });
+      if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true) {
+        isAppInstalled = true;
+        updateInstallButtonsUI(false);
+      }
+      window.addEventListener("online", handleOnlineStatus);
+      window.addEventListener("offline", handleOfflineStatus);
+      updateNetworkIndicator(navigator.onLine);
+      window.ligamasterInstallApp = installLigaMasterApp;
+      window.ligamasterShowIosInstallModal = showIosInstallModal;
+      window.ligamasterCloseIosInstallModal = closeIosInstallModal;
+    }
+  }
+  function updateInstallButtonsUI(canInstall) {
+    const installBtns = document.querySelectorAll(".btn-pwa-install");
+    installBtns.forEach((btn) => {
+      if (isAppInstalled) {
+        btn.style.display = "none";
+      } else {
+        btn.style.display = "inline-flex";
+      }
+    });
+  }
+  function isIosDevice() {
+    if (typeof navigator === "undefined") return false;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+  async function installLigaMasterApp() {
+    if (isIosDevice()) {
+      showIosInstallModal();
+      return;
+    }
+    if (!deferredInstallPrompt) {
+      showToast("\u2139\uFE0F LigaMaster ya est\xE1 lista o disponible para agregar a tu pantalla de inicio.", "info");
+      showIosInstallModal();
+      return;
+    }
+    try {
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      if (outcome === "accepted") {
+        showToast("\u26BD Instalando LigaMaster en tu pantalla de inicio...", "success");
+      }
+      deferredInstallPrompt = null;
+    } catch (err) {
+      console.error("Error al solicitar instalaci\xF3n PWA:", err);
+      showIosInstallModal();
+    }
+  }
+  function showIosInstallModal() {
+    const modal = document.getElementById("modal-pwa-ios-install");
+    if (modal) {
+      modal.classList.add("active");
+    }
+  }
+  function closeIosInstallModal() {
+    const modal = document.getElementById("modal-pwa-ios-install");
+    if (modal) {
+      modal.classList.remove("active");
+    }
+  }
+  function handleOnlineStatus() {
+    updateNetworkIndicator(true);
+    showToast("\u{1F7E2} Conexi\xF3n a Internet restablecida. Datos sincronizados con la liga.", "success");
+  }
+  function handleOfflineStatus() {
+    updateNetworkIndicator(false);
+    showToast("\u{1F7E1} Sin conexi\xF3n a Internet. Modo Cancha Aut\xF3nomo activado (Tiempos y goles guardados localmente).", "warning");
+  }
+  function updateNetworkIndicator(isOnline) {
+    const badge = document.getElementById("platform-network-status-badge");
+    if (!badge) return;
+    if (isOnline) {
+      badge.className = "network-status-badge online";
+      badge.innerHTML = `
+      <span class="network-dot online"></span>
+      <span class="network-text">En L\xEDnea</span>
+    `;
+      badge.title = "Conectado a Internet \u2022 Sincronizaci\xF3n en tiempo real activa";
+    } else {
+      badge.className = "network-status-badge offline";
+      badge.innerHTML = `
+      <span class="network-dot offline"></span>
+      <span class="network-text">Modo Cancha (Offline)</span>
+    `;
+      badge.title = "Sin conexi\xF3n a Internet \u2022 Todos los cambios se guardan localmente y se sincronizar\xE1n al recuperar se\xF1al";
+    }
+  }
+
   // js/app.js
   var FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23131b2e'/><circle cx='50' cy='40' r='22' fill='%23334155'/><path d='M20 90c0-18 14-26 30-26s30 8 30 26z' fill='%23334155'/></svg>";
   var FALLBACK_NEWS = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect width='400' height='250' fill='%230f172a'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364748b' font-family='sans-serif' font-weight='800' font-size='18'>LIGAMASTER OFICIAL</text></svg>";
@@ -33101,6 +33317,7 @@
     initNotificationsModule();
     initRealtimeSync();
     initTurnoModule();
+    initPwaModule();
     renderActiveLeagueContext();
     renderHomeView();
     renderLeagueView();
